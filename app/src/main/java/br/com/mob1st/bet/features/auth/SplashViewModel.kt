@@ -1,6 +1,6 @@
 package br.com.mob1st.bet.features.auth
 
-import br.com.mob1st.bet.core.BaseViewModel
+import br.com.mob1st.bet.core.ui.BaseViewModel
 import kotlinx.coroutines.flow.flow
 import org.koin.android.annotation.KoinViewModel
 
