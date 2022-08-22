@@ -1,10 +1,11 @@
 package br.com.mob1st.bet.di
 
+import br.com.mob1st.bet.core.logs.Logger
+import br.com.mob1st.bet.core.logs.TimberLogger
 import org.koin.dsl.module
-import timber.log.Timber
 
 val logModule = module {
-    factory {
-        Timber.asTree()
+    factory<Logger> { param ->
+        TimberLogger(param.get())
     }
 }

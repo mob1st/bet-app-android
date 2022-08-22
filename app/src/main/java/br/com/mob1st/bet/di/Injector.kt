@@ -1,6 +1,5 @@
 package br.com.mob1st.bet.di
 
-import android.app.Application
 import android.content.Context
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -18,6 +17,7 @@ object Injector {
                 // core module
                 firebaseModule,
                 coroutinesModule,
+                logModule,
 
                 AppModule().module
                 // feature modules

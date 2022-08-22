@@ -18,7 +18,7 @@ class TimberInitializer : Initializer<Timber.Tree>, KoinComponent {
             CrashReportingTree(Firebase.crashlytics)
         }
         Timber.plant(tree)
-        return Timber.asTree()
+        return tree
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> {

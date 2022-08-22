@@ -7,5 +7,4 @@ interface Logger {
     fun i(message: String, throwable: Throwable? = null, vararg params: Any?)
     fun w(message: String, throwable: Throwable? = null, vararg params: Any?)
     fun e(message: String, throwable: Throwable, vararg params: Any?)
-    fun child(tag: String): Logger
 }
