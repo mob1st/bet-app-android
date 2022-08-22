@@ -6,7 +6,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import org.koin.core.annotation.Factory
 
+@Factory
 class AuthRepository(
     private val firebaseAuth: FirebaseAuth,
     private val analytics: FirebaseAnalytics,

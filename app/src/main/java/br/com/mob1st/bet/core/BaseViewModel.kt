@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
@@ -32,10 +31,6 @@ abstract class BaseViewModel<T>(initialState: UiState<T>) : ViewModel(){
 
     val currentState get() =  viewModelState.value
 
-    init {
-        run()
-    }
-
     private var fetchJob: Job? = null
 
     fun consumeEvent(event: SingleShotEvent<*>) {
@@ -50,9 +45,9 @@ abstract class BaseViewModel<T>(initialState: UiState<T>) : ViewModel(){
         }
     }
 
-    private fun run() {
+    protected fun fetchData() {
         fetchJob?.cancel()
-        fetchJob = fetch()
+        fetchJob = dataFlow()
             .map { data ->
                 Log.d("ptest", "ERROR HAPENS")
                 viewModelState.updateAndGet { it.data(data) }
@@ -64,7 +59,7 @@ abstract class BaseViewModel<T>(initialState: UiState<T>) : ViewModel(){
             .launchIn(viewModelScope)
     }
 
-    abstract fun fetch(): Flow<T>
+    abstract fun dataFlow(): Flow<T>
 
     companion object {
         private const val STOP_TIMEOUT = 5_000L

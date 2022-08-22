@@ -1,7 +1,9 @@
 package br.com.mob1st.bet.features.auth
 
 import android.util.Log
+import org.koin.core.annotation.Factory
 
+@Factory
 class OpenAppUseCase(
     private val authRepository: AuthRepository
 ) {

@@ -2,14 +2,18 @@ package br.com.mob1st.bet.features.auth
 
 import br.com.mob1st.bet.core.BaseViewModel
 import kotlinx.coroutines.flow.flow
+import org.koin.android.annotation.KoinViewModel
 
+@KoinViewModel
 class SplashViewModel(
     private val openAppUseCase: OpenAppUseCase
 ) : BaseViewModel<SplashData>(SplashData.Waiting) {
 
+    init {
+        fetchData()
+    }
 
-
-    override fun fetch() = flow {
+    override fun dataFlow() = flow {
         openAppUseCase()
         emit(SplashData.SignedIn)
     }
