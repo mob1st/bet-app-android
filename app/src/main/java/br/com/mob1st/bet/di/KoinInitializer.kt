@@ -2,6 +2,8 @@ package br.com.mob1st.bet.di
 
 import android.content.Context
 import androidx.startup.Initializer
+import br.com.mob1st.bet.core.firebase.FirebaseInitializer
+import br.com.mob1st.bet.core.logs.TimberInitializer
 import org.koin.core.KoinApplication
 
 @Suppress("unused")
@@ -11,6 +13,9 @@ class KoinInitializer : Initializer<KoinApplication> {
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> {
-        return emptyList()
+        return listOf(
+            TimberInitializer::class.java,
+            FirebaseInitializer::class.java
+        )
     }
 }
