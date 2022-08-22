@@ -6,6 +6,7 @@ buildscript {
         koin_version= "3.2.0"
         koin_ksp_version= "1.0.1"
         ksp_version = "1.7.10-1.0.6"
+        lifecycle_version = "2.6.0-alpha01"
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.2.2"
