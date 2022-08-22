@@ -1,5 +1,6 @@
 package br.com.mob1st.bet.core
 
+import android.util.Log
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -52,9 +53,13 @@ abstract class BaseViewModel<T>(initialState: UiState<T>) : ViewModel(){
     private fun run() {
         fetchJob?.cancel()
         fetchJob = fetch()
-            .map { emission -> viewModelState.updateAndGet { it.data(emission) } }
+            .map { data ->
+                Log.d("ptest", "ERROR HAPENS")
+                viewModelState.updateAndGet { it.data(data) }
+            }
             .catch { t ->
-                emit(currentState.error(t))
+                Log.d("ptest", "error $t")
+                emit(viewModelState.updateAndGet { it.error(t) })
             }
             .launchIn(viewModelScope)
     }
@@ -110,5 +115,5 @@ data class GeneralErrorMessage(
 ) : SingleShotEvent<String>
 
 fun Throwable.toErrorMessage(): GeneralErrorMessage {
-    return GeneralErrorMessage("")
+    return GeneralErrorMessage("some error happened")
 }
