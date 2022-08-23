@@ -1,5 +1,6 @@
-package br.com.mob1st.bet.core.logs
+package br.com.mob1st.bet.core.timber
 
+import br.com.mob1st.bet.core.logs.Logger
 import timber.log.Timber
 
 class TimberLogger(

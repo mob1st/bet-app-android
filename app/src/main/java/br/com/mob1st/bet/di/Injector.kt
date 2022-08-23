@@ -19,9 +19,8 @@ object Injector {
                 coroutinesModule,
                 logModule,
 
+                // feature module
                 AppModule().module
-                // feature modules
-                //authModule
             )
         }
     }

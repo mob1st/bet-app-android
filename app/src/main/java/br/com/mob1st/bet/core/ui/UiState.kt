@@ -3,7 +3,7 @@ package br.com.mob1st.bet.core.ui
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.bet.R
-import br.com.mob1st.bet.core.logs.DebuggableException
+import br.com.mob1st.bet.core.timber.DebuggableException
 import java.util.UUID
 
 @Immutable
@@ -14,7 +14,7 @@ data class UiState<T>(
 ) {
 
     fun consumeEvent(event: SingleShotEvent<*>): UiState<T> {
-        return copy(singleShotEvents = singleShotEvents.filterNot { it.id == event.id })
+        return copy(singleShotEvents = removeEvent(event))
     }
 
     fun data(data: T, loading: Boolean = false): UiState<T>  {
@@ -33,6 +33,14 @@ data class UiState<T>(
 
     fun loading(loading: Boolean = true): UiState<T> {
         return copy(loading = loading)
+    }
+
+    fun tryAgain(sourceEvent: SingleShotEvent<*>): UiState<T> {
+        return copy(loading = true, singleShotEvents = removeEvent(sourceEvent))
+    }
+
+    private fun removeEvent(event: SingleShotEvent<*>): List<SingleShotEvent<*>> {
+        return singleShotEvents.filterNot { it.id == event.id }
     }
 }
 

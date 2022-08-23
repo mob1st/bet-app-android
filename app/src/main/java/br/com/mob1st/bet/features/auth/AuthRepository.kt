@@ -18,8 +18,13 @@ class AuthRepository(
 
     private val io get() = dispatcherProvider.io
 
-    suspend fun hasLoggedUser(): Boolean = withContext(io) {
-        firebaseAuth.currentUser != null
+    suspend fun getAuthType(): AuthType = withContext(io) {
+        val currentUser = firebaseAuth.currentUser
+        when {
+            currentUser == null -> AuthType.SignedOut
+            currentUser.isAnonymous -> AuthType.Guest
+            else -> AuthType.SignedIn(SignInProvider.GOOGLE)
+        }
     }
 
     suspend fun signInGuestUser(): Unit = withContext(io) {

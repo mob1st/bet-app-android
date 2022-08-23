@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.core.logs
+package br.com.mob1st.bet.core.timber
 
 import android.content.Context
 import androidx.startup.Initializer
