@@ -49,7 +49,7 @@ abstract class BaseViewModel<T>(initialState: UiState<T>) : ViewModel(){
         fetchJob?.cancel()
         fetchJob = dataFlow()
             .map { data ->
-                Log.d("ptest", "ERROR HAPENS")
+                Log.d("ptest", "ERROR HAPPENS")
                 viewModelState.updateAndGet { it.data(data) }
             }
             .catch { t ->
