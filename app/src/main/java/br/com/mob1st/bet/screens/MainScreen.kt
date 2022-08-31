@@ -1,6 +1,8 @@
 package br.com.mob1st.bet.bottomBar
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -8,9 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavDestination
@@ -39,7 +39,7 @@ fun BottomBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomNavigation {
+    NavigationBar() {
         tabs.forEach { tab ->
             AddItem(
                 tab = tab,
@@ -56,9 +56,9 @@ fun RowScope.AddItem(
     currentDestination: NavDestination?,
     navController: NavHostController
 ) {
-    BottomNavigationItem(
+    NavigationBarItem(
         label = {
-            Text(text = tab.title, color = Color.White)
+            Text(text = tab.title)
         },
         icon = {
             Icon(

@@ -27,21 +27,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             BetTheme {
                 MainScreen()
-//                val viewModel = koinViewModel<SplashViewModel>()
-//                val state by viewModel.uiState.collectAsState()
-//                Scaffold {
-//                    Surface(
-//                        modifier = Modifier.fillMaxSize(),
-//                        color = MaterialTheme.colorScheme.background
-//                    ) {
-//                        Greeting("Android ${state.data}")
-//                        if (state.singleShotEvents.isNotEmpty()) {
-//                            val firstEvent = state.singleShotEvents.first()
-//                            Greeting("Show First Event ${firstEvent.data}")
-//                            viewModel.consumeEvent(firstEvent)
-//                        }
-//                    }
-//                }
             }
         }
     }
