@@ -23,7 +23,7 @@ class SplashViewModel(
 sealed class SplashData {
     object Waiting : SplashData() {
         override fun toString(): String {
-            return "Waitinh"
+            return "Waiting"
         }
     }
     object SignedIn : SplashData() {

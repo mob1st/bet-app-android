@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import br.com.mob1st.bet.bottomBar.MainScreen
 import br.com.mob1st.bet.features.auth.SplashViewModel
 import br.com.mob1st.bet.ui.theme.BetTheme
 import org.koin.androidx.compose.koinViewModel
@@ -21,27 +22,11 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             BetTheme {
-                val viewModel = koinViewModel<SplashViewModel>()
-                val state by viewModel.uiState.collectAsState()
-                // A surface container using the 'background' color from the theme
-                Scaffold{
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        Greeting("Android ${state.data}")
-                        if (state.singleShotEvents.isNotEmpty()) {
-                            val firstEvent = state.singleShotEvents.first()
-                            Greeting("Show First Event ${firstEvent.data}")
-                            viewModel.consumeEvent(firstEvent)
-                        }
-                    }
-                }
+                MainScreen()
             }
         }
     }
