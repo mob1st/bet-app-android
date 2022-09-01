@@ -1,6 +1,6 @@
 # this workflow runs during the code phase of the continuous delivery lifecycle
 # it's used to help the code review, validating if the code is working properly
-name: Codr
+name: Code
 
 on: pull_request
 
