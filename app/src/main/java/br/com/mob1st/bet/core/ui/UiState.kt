@@ -3,17 +3,17 @@ package br.com.mob1st.bet.core.ui
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.bet.R
-import br.com.mob1st.bet.core.timber.DebuggableException
+
 import java.util.UUID
 
 @Immutable
 data class UiState<T>(
     val data: T,
     val loading: Boolean = false,
-    val singleShotEvents: List<SingleShotEvent<*>> = emptyList(),
+    val singleShotEvents: List<SingleShot<*>> = emptyList(),
 ) {
 
-    fun consumeEvent(event: SingleShotEvent<*>): UiState<T> {
+    fun removeSingleShot(event: SingleShot<*>): UiState<T> {
         return copy(singleShotEvents = removeEvent(event))
     }
 
@@ -35,17 +35,17 @@ data class UiState<T>(
         return copy(loading = loading)
     }
 
-    fun tryAgain(sourceEvent: SingleShotEvent<*>): UiState<T> {
+    fun tryAgain(sourceEvent: SingleShot<*>): UiState<T> {
         return copy(loading = true, singleShotEvents = removeEvent(sourceEvent))
     }
 
-    private fun removeEvent(event: SingleShotEvent<*>): List<SingleShotEvent<*>> {
+    private fun removeEvent(event: SingleShot<*>): List<SingleShot<*>> {
         return singleShotEvents.filterNot { it.id == event.id }
     }
 }
 
 @Immutable
-interface SingleShotEvent<T> {
+interface SingleShot<T> {
     val id: UUID
     val data: T
 }
@@ -54,7 +54,7 @@ interface SingleShotEvent<T> {
 data class GeneralErrorMessage(
     @StringRes override val data: Int = R.string.app_name,
     override val id: UUID = UUID.randomUUID(),
-) : SingleShotEvent<Int>
+) : SingleShot<Int>
 
 fun Throwable.toErrorMessage(): GeneralErrorMessage {
     return if (this is DebuggableException) {
