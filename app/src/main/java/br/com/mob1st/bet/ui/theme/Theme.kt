@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Build
 import android.view.Window
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -47,6 +48,9 @@ fun BetTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    BottomAppBar {
+
+    }
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
