@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Bet</string>
+    <string name="general_message_error_description">Desculpe, algum error inesperado aconteceu. Por favor, tente novamente</string>
 </resources>
