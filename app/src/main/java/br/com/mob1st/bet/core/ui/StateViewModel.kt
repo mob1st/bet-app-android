@@ -46,19 +46,6 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
     )
 
     /**
-     * Indicates that the UI have consumed a piece of its state that should be handled just once.
-     *
-     * This method will remove this piece of data from the UI state and trigger a new state without
-     * it
-     * @param singleShot the state consumed
-     * @see SingleShot for more details
-     */
-    open fun fromUi(singleShot: SingleShot<*>) = setState { current ->
-        current.removeSingleShot(singleShot)
-    }
-
-
-    /**
      * Uses the returned [Flow] as a [source] of states that will be emitted by the UI.
      *
      * It also catches the exceptions to display the default error message to the user, so for the
@@ -74,7 +61,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
     protected fun setSource(source: (current: AsyncState<Data>) -> Flow<AsyncState<Data>>): Job {
         return source(viewModelState.value)
             .catch {
-                emit(viewModelState.value.error())
+                // TODO implement the error handling
             }
             .onEach { newState -> setState { newState }}
             .launchIn(viewModelScope)
@@ -97,7 +84,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
         try {
             viewModelState.update { current -> block(current) }
         } catch (e: Exception) {
-            setState { it.error() }
+            // TODO implement the error handling
         }
     }
 
