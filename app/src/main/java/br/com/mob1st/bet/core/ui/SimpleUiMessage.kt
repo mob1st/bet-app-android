@@ -14,6 +14,9 @@ data class SimpleUiMessage(
     @StringRes override val data: Int,
 ) : SingleShot<Int>
 
+/**
+ * A [SimpleUiMessage] used for the default error message displayed in the UI
+ */
 fun errorMessage() = SimpleUiMessage(
     data = R.string.general_message_error_description
 )

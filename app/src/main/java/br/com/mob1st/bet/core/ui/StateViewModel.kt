@@ -20,9 +20,11 @@ import java.lang.Exception
  *
  * It applies the Unidirectional Data Flow design pattern, recommended by the JetPack Team, to
  * manage the state of the UI.
- * The [Data] is typically the success operation of the asynchronous operiation that provides the
- * state of the UI, while the UI event is the type of ui events this ViewModel handle.
  *
+ * @param Data It's typically the success operation of the asynchronous operation that provides the
+ * state of the UI, while the UI event is the type of ui events this ViewModel handle.
+ * @param UiEvent It's the types of events the UI can send to this ViewModel
+ * @param initialState The initial state of the UI
  * @see AsyncState
  * **See also** [Ui-Layer](https://developer.android.com/topic/architecture/ui-layer)
  */

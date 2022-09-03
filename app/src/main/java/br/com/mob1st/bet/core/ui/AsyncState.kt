@@ -12,12 +12,13 @@ import java.util.UUID
  * failed (using a Snackbar) or succeed.
  *
  * @param T the type of the data this UI will display. Can be any type of data class
- * @param data The data itself. Typically it represents the success state of this asynchronous
- * operation
+ * @param data the resulting data of this asynchronous operation. It's typically assigned in the
+ * success cases
  * @param loading a boolean to indicate if this operation is running or not. Typically it is false
  * when the operation have finished
  * @param singleShots the list of pieces of state that should be consumed just once. This class
- * by default will execute them in a stack order.
+ * by default will execute them in a queue order, where the first input shot will be the first
+ * output to the UI.
  * @see SingleShot
  */
 @Immutable
@@ -71,7 +72,7 @@ data class AsyncState<T>(
      * @param data the value used in the data, if required
      * @return a new state indicating the loading of this UI
      */
-    fun star(data: T = this.data): AsyncState<T> {
+    fun loading(data: T = this.data): AsyncState<T> {
         return copy(loading = true, data = data)
     }
 
@@ -100,7 +101,9 @@ interface SingleShot<T> {
     /**
      * The identifier of the state
      *
-     * It can be useful for cases where
+     * It can be useful for cases where the ViewModel requires some logic to identify which single
+     * shot state is that.
+     * For most of the cases, just [UUID.randomUUID] is enough as default value
      */
     val id: UUID
 
