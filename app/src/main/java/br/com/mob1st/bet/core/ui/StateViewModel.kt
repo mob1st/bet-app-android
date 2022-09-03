@@ -46,15 +46,15 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
     )
 
     /**
-     * Indicates that the UI have consumed a piece of its state that should be handled just once.
+     * Indicates that the UI have consumed a message and it should be removed from the state of
+     * the UI
      *
-     * This method will remove this piece of data from the UI state and trigger a new state without
-     * it
-     * @param singleShot the state consumed
-     * @see SingleShot for more details
+     * After removing this message, a new state will be triggered again to the UI without the
+     * message
+     * @param message the message consumed by UI
      */
-    open fun fromUi(singleShot: SingleShot<*>) = setState { current ->
-        current.removeSingleShot(singleShot)
+    open fun messageShown(message: SimpleMessage) = setState { current ->
+        current.removeMessage(message)
     }
 
 
@@ -74,7 +74,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
     protected fun setSource(source: (current: AsyncState<Data>) -> Flow<AsyncState<Data>>): Job {
         return source(viewModelState.value)
             .catch {
-                emit(viewModelState.value.error())
+                emit(viewModelState.value.failure())
             }
             .onEach { newState -> setState { newState }}
             .launchIn(viewModelScope)
@@ -97,7 +97,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
         try {
             viewModelState.update { current -> block(current) }
         } catch (e: Exception) {
-            setState { it.error() }
+            setState { it.failure() }
         }
     }
 
