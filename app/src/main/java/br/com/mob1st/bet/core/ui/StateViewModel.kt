@@ -50,7 +50,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
      *
      * This method will remove this piece of data from the UI state and trigger a new state without
      * it
-     * @param the state consumed
+     * @param singleShot the state consumed
      * @see SingleShot for more details
      */
     open fun fromUi(singleShot: SingleShot<*>) = setState { current ->
