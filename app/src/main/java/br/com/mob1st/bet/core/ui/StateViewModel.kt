@@ -1,6 +1,7 @@
 package br.com.mob1st.bet.core.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.mob1st.bet.core.logs.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -13,6 +14,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import org.koin.core.parameter.parametersOf
 import java.lang.Exception
 
 /**
@@ -28,7 +32,11 @@ import java.lang.Exception
  * @see AsyncState
  * **See also** [Ui-Layer](https://developer.android.com/topic/architecture/ui-layer)
  */
-abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : ViewModel() {
+abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : ViewModel(), KoinComponent {
+
+    private val logger: Logger by inject {
+        parametersOf("${this.javaClass.simpleName}(${hashCode()})")
+    }
 
     private val viewModelState = MutableStateFlow(initialState)
 
@@ -74,6 +82,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
     protected fun setSource(source: (current: AsyncState<Data>) -> Flow<AsyncState<Data>>): Job {
         return source(viewModelState.value)
             .catch {
+                logger.e("setSource have failed", it)
                 emit(viewModelState.value.failure())
             }
             .onEach { newState -> setState { newState }}
@@ -97,6 +106,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
         try {
             viewModelState.update { current -> block(current) }
         } catch (e: Exception) {
+            logger.e("setState have failed", e)
             setState { it.failure() }
         }
     }
