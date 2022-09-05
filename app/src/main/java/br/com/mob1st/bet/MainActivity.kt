@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import br.com.mob1st.bet.bottomBar.MainScreen
+import br.com.mob1st.bet.screens.MainScreen
 import br.com.mob1st.bet.ui.theme.BetTheme
 
 class MainActivity : ComponentActivity() {

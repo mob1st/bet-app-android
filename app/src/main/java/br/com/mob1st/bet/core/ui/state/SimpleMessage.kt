@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.core.ui
+package br.com.mob1st.bet.core.ui.state
 
 import androidx.annotation.StringRes
 import br.com.mob1st.bet.R

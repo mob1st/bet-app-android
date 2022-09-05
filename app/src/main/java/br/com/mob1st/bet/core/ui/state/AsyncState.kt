@@ -1,7 +1,6 @@
-package br.com.mob1st.bet.core.ui
+package br.com.mob1st.bet.core.ui.state
 
 import androidx.compose.runtime.Immutable
-import java.util.UUID
 
 /**
  * Asynchronous UI state, used when the UI allow the user to trigger asynchronous operations actions.
@@ -30,8 +29,8 @@ data class AsyncState<T>(
      * removes the given [message] from the state
      * @return a new state without the given [message]
      */
-    fun removeMessage(message: SimpleMessage): AsyncState<T> {
-        return copy(messages = messages.filterNot { it.id == message.id })
+    fun removeMessage(message: SimpleMessage, loading: Boolean = false): AsyncState<T> {
+        return copy(messages = messages.filterNot { it.id == message.id }, loading = loading)
     }
 
     /**
@@ -42,7 +41,7 @@ data class AsyncState<T>(
      * @param loading to changes the loading state of this asynchronous operation
      * @return a new state containing the given data value
      */
-    fun data(data: T, loading: Boolean = false): AsyncState<T>  {
+    fun data(data: T, loading: Boolean = false): AsyncState<T> {
         return copy(
             loading = loading,
             data = data,
