@@ -1,8 +1,7 @@
-package br.com.mob1st.bet.ui.theme
+package br.com.mob1st.bet.core.ui.ds.atoms
 
 import android.app.Activity
 import android.os.Build
-import android.view.Window
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -15,12 +14,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowCompat.getInsetsController
-import br.com.mob1st.bet.core.ui.ds.atoms.Dimens
-import br.com.mob1st.bet.core.ui.ds.atoms.Grid
-import br.com.mob1st.bet.core.ui.ds.atoms.GridCompositionLocal
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
