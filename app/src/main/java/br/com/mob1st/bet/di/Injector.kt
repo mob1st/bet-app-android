@@ -5,7 +5,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
-import org.koin.ksp.generated.module
+
 
 object Injector {
 
@@ -19,7 +19,7 @@ object Injector {
                 coroutinesModule,
                 logModule,
 
-                AppModule().module
+
             )
         }
     }
