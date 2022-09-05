@@ -36,24 +36,24 @@ fun InfoTemplate(
     action: @Composable (() -> Unit)? = null,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(32.dp),
+        modifier = Modifier.fillMaxSize().padding(Dimens.grid.margin),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(modifier = Modifier.height(Dimens.grid.line.times(8))) {
             icon()
         }
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer(modifier = Modifier.size(Dimens.grid.line))
         ProvideTextStyle(value = MaterialTheme.typography.headlineMedium) {
             title()
         }
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer(modifier = Modifier.size(Dimens.grid.line))
         ProvideTextStyle(
             value = MaterialTheme.typography.bodySmall.copy(textAlign = TextAlign.Center)
         ) {
             description()
         }
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer(modifier = Modifier.size(Dimens.grid.line.times(4)))
         action?.let { action() }
     }
 }

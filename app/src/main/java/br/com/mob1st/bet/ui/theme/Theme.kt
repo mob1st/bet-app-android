@@ -10,6 +10,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -17,6 +18,9 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowCompat.getInsetsController
+import br.com.mob1st.bet.core.ui.ds.atoms.Dimens
+import br.com.mob1st.bet.core.ui.ds.atoms.Grid
+import br.com.mob1st.bet.core.ui.ds.atoms.GridCompositionLocal
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -67,6 +71,9 @@ fun BetTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content
-    )
+    ) {
+        CompositionLocalProvider(GridCompositionLocal provides GridCompositionLocal.current) {
+            content()
+        }
+    }
 }
