@@ -1,9 +1,9 @@
-package br.com.mob1st.bet.screens
+package br.com.mob1st.bet.features.home
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class BottomBarData(
@@ -20,7 +20,7 @@ sealed class BottomBarData(
     object Overview : BottomBarData(
         route = "overview",
         title = "Overview",
-        icon = Icons.Default.Info
+        icon = Icons.Default.Star
     )
 
     object Profile : BottomBarData(
