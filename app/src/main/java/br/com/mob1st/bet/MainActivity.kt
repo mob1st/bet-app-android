@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import br.com.mob1st.bet.core.ui.ds.atoms.BetTheme
-import br.com.mob1st.bet.features.home.HomeScreen
+import br.com.mob1st.bet.features.launch.LaunchGraph
 
 class MainActivity : ComponentActivity() {
 
@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BetTheme {
-                HomeScreen()
+                LaunchGraph()
             }
         }
     }
