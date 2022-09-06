@@ -17,8 +17,7 @@ object Injector {
                 // core module
                 firebaseModule,
                 coroutinesModule,
-                logModule,
-
+                timberModule,
 
             )
         }
