@@ -3,7 +3,6 @@ package br.com.mob1st.bet.features.profile
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
 import br.com.mob1st.bet.core.logs.Debuggable
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -26,16 +25,16 @@ internal class UserRepositoryImpl(
     }
 
     private suspend fun authUser(): User {
-        try {
+        return runCatching {
             val result = auth.signInAnonymously().await()
             val firebaseUser = checkNotNull(result.user)
-            return User(
+            User(
                 id = firebaseUser.uid,
                 name = firebaseUser.displayName ?: "Anonymous",
                 authType = Anonymous
             )
-        } catch (e: FirebaseAuthException) {
-            throw AnonymousSignInException(e)
+        }.getOrElse {
+            throw AnonymousSignInException(it)
         }
     }
 
