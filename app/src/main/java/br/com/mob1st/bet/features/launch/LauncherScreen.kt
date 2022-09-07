@@ -46,9 +46,13 @@ fun LauncherPage(
     ) {
         FetchedCrossfade(
             state = state,
-            emptyError = { _, message ->  DefaultErrorPage(message = message, onTryAgain = onTryAgain) },
+            emptyError = { _, message ->
+                DefaultErrorPage(message = message, onTryAgain = onTryAgain)
+            },
             emptyLoading = { CircularProgressIndicator() },
-            empty = { DefaultErrorPage(message = state.messages.first(), onTryAgain = onTryAgain) },
+            empty = {
+                DefaultErrorPage(message = SimpleMessage.failure(), onTryAgain = onTryAgain)
+            },
         ) {
             LauncherCompleted(onFinish = onFinish)
         }

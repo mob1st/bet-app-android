@@ -27,7 +27,7 @@ class LauncherViewModel(
     private fun triggerUseCase() {
         setState {
             launchAppUseCase()
-            it.data(data = LaunchData.success.set(it.data, false))
+            it.data(data = LaunchData.success.set(it.data, true))
         }
     }
 

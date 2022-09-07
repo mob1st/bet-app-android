@@ -1,6 +1,5 @@
 package br.com.mob1st.bet.features.launch
 
-import android.window.SplashScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,8 +10,8 @@ import br.com.mob1st.bet.features.home.HomeScreen
 fun LaunchGraph() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "") {
-        composable("Splash") {
+    NavHost(navController = navController, startDestination = "splash") {
+        composable("splash") {
            LauncherScreen(onFinish = {
                navController.navigate("home")
                navController.popBackStack()
