@@ -28,7 +28,8 @@ class LauncherViewModel(
     private fun triggerUseCase() {
         setState {
             launchAppUseCase()
-            delay(1000)
+            // just as example. we have to replace it further
+            delay(1_500)
             it.data(data = LaunchData.finished.set(it.data, true))
         }
     }

@@ -55,9 +55,7 @@ class MainActivity : ComponentActivity() {
             0f, -provider.iconView.height.toFloat()
         )
         slideUp.interpolator = AnticipateInterpolator()
-        slideUp.duration = 300L
-        slideUp.repeatMode = ObjectAnimator.INFINITE
-        slideUp.end()
+        slideUp.duration = 1000L
         slideUp.doOnEnd {
             provider.remove()
         }
@@ -88,7 +86,7 @@ class MainActivity : ComponentActivity() {
             }
             .setMessage(message.descriptionResId)
             .setCancelable(false)
-            .create()
+            .show()
     }
 
 
