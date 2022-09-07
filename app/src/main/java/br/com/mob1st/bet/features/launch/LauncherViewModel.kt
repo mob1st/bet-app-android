@@ -1,6 +1,7 @@
 package br.com.mob1st.bet.features.launch
 
 import androidx.compose.runtime.Immutable
+import arrow.optics.optics
 import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.FetchedData
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
@@ -26,15 +27,18 @@ class LauncherViewModel(
     private fun triggerUseCase() {
         setState {
             launchAppUseCase()
-            it.data(data = it.data.copy(success = true))
+            it.data(data = LaunchData.success.set(it.data, false))
         }
     }
 
 }
 
 @Immutable
+@optics
 data class LaunchData(val success: Boolean = false) : FetchedData {
     override fun hasData(): Boolean = success
+
+    companion object
 }
 
 sealed class LauncherUiEvent {
