@@ -107,7 +107,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
             viewModelState.update { current -> block(current) }
         } catch (e: Exception) {
             logger.e("setState have failed", e)
-            setState { it.failure() }
+            viewModelState.update { it.failure() }
         }
     }
 

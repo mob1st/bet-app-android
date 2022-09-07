@@ -42,7 +42,7 @@ internal class UserRepositoryImpl(
     private suspend fun createUser(id: String) = runCatching {
         usersCollection
             .document(id)
-            .set(Any())
+            .set(emptyMap<String, Any>())
             .await()
     }.getOrElse {
         // sign out the user if the account creation was not possible

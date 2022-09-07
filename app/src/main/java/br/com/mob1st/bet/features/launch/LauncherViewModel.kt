@@ -6,6 +6,7 @@ import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.FetchedData
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.ui.state.StateViewModel
+import kotlinx.coroutines.delay
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
@@ -27,7 +28,8 @@ class LauncherViewModel(
     private fun triggerUseCase() {
         setState {
             launchAppUseCase()
-            it.data(data = LaunchData.success.set(it.data, true))
+            delay(1000)
+            it.data(data = LaunchData.finished.set(it.data, true))
         }
     }
 
@@ -35,8 +37,8 @@ class LauncherViewModel(
 
 @Immutable
 @optics
-data class LaunchData(val success: Boolean = false) : FetchedData {
-    override fun hasData(): Boolean = success
+data class LaunchData(val finished: Boolean = false) : FetchedData {
+    override fun hasData(): Boolean = finished
 
     companion object
 }
