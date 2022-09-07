@@ -99,6 +99,13 @@ dependencies {
     // timber
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
+    // arrow
+    implementation(platform("io.arrow-kt:arrow-stack:$arrow_version"))
+    implementation("io.arrow-kt:arrow-core")
+    implementation("io.arrow-kt:arrow-optics")
+    ksp("io.arrow-kt:arrow-optics-ksp-plugin:$arrow_version")
+
+
     // unit tests
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.insert-koin:koin-test:$koin_version"
