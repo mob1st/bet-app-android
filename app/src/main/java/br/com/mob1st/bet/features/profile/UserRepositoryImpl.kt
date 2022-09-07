@@ -55,7 +55,8 @@ internal class UserRepositoryImpl(
         return when {
             currentUser == null -> LoggedOut
             currentUser.isAnonymous -> Anonymous
-            else -> LoggedIn
+            // TODO change this hard coded value further
+            else -> LoggedIn(AuthMethod.FACEBOOK)
         }
     }
 
