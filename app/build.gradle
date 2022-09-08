@@ -4,6 +4,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
     id 'com.google.devtools.ksp'
+    id 'kotlinx-serialization'
 }
 
 android {
@@ -96,6 +97,9 @@ dependencies {
 
     // app startup
     implementation "androidx.startup:startup-runtime:1.1.1"
+
+    // serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-properties:$serialization_version"
 
     // firebase & play services
     implementation platform('com.google.firebase:firebase-bom:30.3.1')
