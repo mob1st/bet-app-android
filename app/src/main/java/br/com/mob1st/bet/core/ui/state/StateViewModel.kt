@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.core.ui
+package br.com.mob1st.bet.core.ui.state
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mob1st.bet.core.logs.Logger
