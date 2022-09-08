@@ -66,7 +66,7 @@ fun BetTheme(
         colorScheme = colorScheme,
         typography = Typography,
     ) {
-        CompositionLocalProvider(GridCompositionLocal provides GridCompositionLocal.current) {
+        CompositionLocalProvider(CompositionLocalGrid provides CompositionLocalGrid.current) {
             content()
         }
     }

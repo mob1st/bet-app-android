@@ -5,10 +5,8 @@ import br.com.mob1st.bet.core.logs.getPropertiesTree
 import br.com.mob1st.bet.core.utils.toFormat
 import com.google.firebase.crashlytics.CustomKeysAndValues
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import org.koin.core.annotation.Factory
 import java.util.Date
 
-@Factory
 class CrashlyticsTool(
     private val crashlytics: FirebaseCrashlytics
 ) : CrashReportingTool {
@@ -39,16 +37,16 @@ class CrashlyticsTool(
 private fun Map<String, Any>.toCustomKeyValues(
     builder: CustomKeysAndValues.Builder = CustomKeysAndValues.Builder()
 ): CustomKeysAndValues.Builder {
-    entries.forEach { property ->
-        when (val value = property.value) {
-            is String -> builder.putString(property.key, value)
-            is Int -> builder.putInt(property.key, value)
-            is Double -> builder.putDouble(property.key, value)
-            is Long -> builder.putLong(property.key, value)
-            is Float -> builder.putFloat(property.key, value)
-            is Boolean -> builder.putBoolean(property.key, value)
-            is Date -> builder.putString(property.key, value.toFormat())
-            else -> builder.putString(property.key, property.value.toString())
+    entries.forEach { (key, value) ->
+        when (value) {
+            is String -> builder.putString(key, value)
+            is Int -> builder.putInt(key, value)
+            is Double -> builder.putDouble(key, value)
+            is Long -> builder.putLong(key, value)
+            is Float -> builder.putFloat(key, value)
+            is Boolean -> builder.putBoolean(key, value)
+            is Date -> builder.putString(key, value.toFormat())
+            else -> builder.putString(key, value.toString())
         }
     }
     return builder

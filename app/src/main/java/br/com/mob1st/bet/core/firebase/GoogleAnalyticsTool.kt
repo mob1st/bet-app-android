@@ -4,9 +4,7 @@ import androidx.core.os.bundleOf
 import br.com.mob1st.bet.core.analytics.AnalyticsEvent
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import com.google.firebase.analytics.FirebaseAnalytics
-import org.koin.core.annotation.Factory
 
-@Factory
 class GoogleAnalyticsTool(
     private val analytics: FirebaseAnalytics
 ) : AnalyticsTool {

@@ -8,9 +8,10 @@ class CrashReportingTree(
     private val crashReportingTool: CrashReportingTool
 ) : Timber.Tree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-        if (priority == Log.VERBOSE || priority == Log.DEBUG) {
-            return
-        }
         crashReportingTool.log(message, t)
+    }
+
+    override fun isLoggable(tag: String?, priority: Int): Boolean {
+        return priority != Log.VERBOSE && priority != Log.DEBUG
     }
 }
