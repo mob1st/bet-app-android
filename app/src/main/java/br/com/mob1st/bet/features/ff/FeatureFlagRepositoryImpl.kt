@@ -1,17 +1,17 @@
 package br.com.mob1st.bet.features.ff
 
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
-import com.google.android.datatransport.runtime.dagger.Component.Factory
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import org.koin.core.annotation.Factory
 
 @Factory
 internal class FeatureFlagRepositoryImpl(
     private val remoteConfig: FirebaseRemoteConfig,
     private val provider: DispatcherProvider
-) : FeatureFlagRepository{
+) : FeatureFlagRepository {
 
     private val io get() = provider.io
 

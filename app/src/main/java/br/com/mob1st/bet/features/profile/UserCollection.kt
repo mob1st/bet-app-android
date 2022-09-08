@@ -1,0 +1,51 @@
+package br.com.mob1st.bet.features.profile
+
+import br.com.mob1st.bet.features.competitions.Competition
+import br.com.mob1st.bet.features.competitions.competitions
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
+import org.koin.core.annotation.Factory
+
+/**
+ * Manages the user and
+ */
+@Factory
+class UserCollection(
+    private val firestore: FirebaseFirestore
+) {
+
+    /**
+     * Subscribe the given [userId] into the given [competition]
+     */
+    suspend fun subscribe(userId: String, competition: Competition) {
+        val batch = firestore.batch()
+        batch.set(
+            firestore.subscriptions(userId).document(),
+            mapOf(
+                Competition::name.name to competition.name,
+                Competition::type.name to competition.type.name,
+                "ref" to firestore.competitions.document(competition.id),
+            ),
+        )
+        batch.update(
+            firestore.users.document(userId),
+            mapOf(User::activeSubscriptions.name to FieldValue.increment(1))
+        )
+        batch.commit().await()
+    }
+
+    suspend fun create(user: User) {
+        firestore.users
+            .document()
+            .set(user)
+            .await()
+    }
+
+}
+
+val FirebaseFirestore.users get() =
+    collection("users")
+
+fun FirebaseFirestore.subscriptions(userId: String) =
+    users.document(userId).collection("subscriptions")
