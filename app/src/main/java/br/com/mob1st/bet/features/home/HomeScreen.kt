@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.screens
+package br.com.mob1st.bet.features.home
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -16,11 +16,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-
+import br.com.mob1st.bet.features.competitions.CompetitionsTabScreen
+import br.com.mob1st.bet.features.groups.GroupsTabScreen
+import br.com.mob1st.bet.features.profile.ProfileTabScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun HomeScreen() {
     val navController = rememberNavController()
 
     Scaffold(
@@ -34,13 +36,13 @@ fun MainScreen() {
 fun BottomNavGraph(navController: NavHostController) {
     NavHost(navController, startDestination = BottomBarData.Home.route) {
         composable(route = BottomBarData.Home.route) {
-            MainScreen()
+            CompetitionsTabScreen()
         }
         composable(route = BottomBarData.Overview.route) {
-            OverviewScreen()
+            GroupsTabScreen()
         }
         composable(route = BottomBarData.Profile.route) {
-            ProfileScreen()
+            ProfileTabScreen()
         }
     }
 }
