@@ -1,6 +1,7 @@
 package br.com.mob1st.bet.core.ui
 
 import androidx.compose.runtime.Immutable
+import java.util.UUID
 
 /**
  * Asynchronous UI state, used when the UI allow the user to trigger asynchronous operations actions.
@@ -15,12 +16,23 @@ import androidx.compose.runtime.Immutable
  * success cases
  * @param loading a boolean to indicate if this operation is running or not. Typically it is false
  * when the operation have finished
+ * @param messages the list of simple messages that should be displayed in the UI. It's typically
+ * some generic error message that can be displayed in a text or Snackbar
  */
 @Immutable
 data class AsyncState<T>(
     val data: T,
-    val loading: Boolean = false
+    val loading: Boolean = false,
+    val messages: List<SimpleMessage> = emptyList(),
 ) {
+
+    /**
+     * removes the given [message] from the state
+     * @return a new state without the given [message]
+     */
+    fun removeMessage(message: SimpleMessage): AsyncState<T> {
+        return copy(messages = messages.filterNot { it.id == message.id })
+    }
 
     /**
      * Copy this state with a new [data] value.
@@ -34,6 +46,22 @@ data class AsyncState<T>(
         return copy(
             loading = loading,
             data = data,
+        )
+    }
+
+    /**
+     * adds a failure message to be displayed in the ui
+     * @param message the message that will be displayed in the UI
+     * @param loading by default the loading state is removed. assign true if the default behavior
+     * should be changed
+     */
+    fun failure(
+        message: SimpleMessage = SimpleMessage.failure(),
+        loading: Boolean = false,
+    ): AsyncState<T> {
+        return copy(
+            messages = messages + message,
+            loading = loading
         )
     }
 

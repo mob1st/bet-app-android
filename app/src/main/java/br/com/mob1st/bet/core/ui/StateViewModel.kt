@@ -46,6 +46,19 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
     )
 
     /**
+     * Indicates that the UI have consumed a message and it should be removed from the state of
+     * the UI
+     *
+     * After removing this message, a new state will be triggered again to the UI without the
+     * message
+     * @param message the message consumed by UI
+     */
+    open fun messageShown(message: SimpleMessage) = setState { current ->
+        current.removeMessage(message)
+    }
+
+
+    /**
      * Uses the returned [Flow] as a [source] of states that will be emitted by the UI.
      *
      * It also catches the exceptions to display the default error message to the user, so for the
@@ -61,7 +74,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
     protected fun setSource(source: (current: AsyncState<Data>) -> Flow<AsyncState<Data>>): Job {
         return source(viewModelState.value)
             .catch {
-                // TODO implement the error handling
+                emit(viewModelState.value.failure())
             }
             .onEach { newState -> setState { newState }}
             .launchIn(viewModelScope)
@@ -84,7 +97,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
         try {
             viewModelState.update { current -> block(current) }
         } catch (e: Exception) {
-            // TODO implement the error handling
+            setState { it.failure() }
         }
     }
 
