@@ -1,6 +1,6 @@
-package br.com.mob1st.bet.features.profile
+package br.com.mob1st.bet.features.profile.data
 
-import br.com.mob1st.bet.features.competitions.CompetitionType
+import br.com.mob1st.bet.features.competitions.domain.CompetitionType
 
 data class UserSubscriptionInput(
     val competition: CompetitionForSubscriptionInput,

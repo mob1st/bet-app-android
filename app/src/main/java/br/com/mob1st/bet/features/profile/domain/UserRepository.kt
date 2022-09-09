@@ -1,6 +1,6 @@
-package br.com.mob1st.bet.features.profile
+package br.com.mob1st.bet.features.profile.domain
 
-import br.com.mob1st.bet.features.competitions.Competition
+import br.com.mob1st.bet.features.competitions.domain.Competition
 
 /**
  * Manages the user entity and everything that depends on it to exists

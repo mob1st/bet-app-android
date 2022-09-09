@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.competitions
+package br.com.mob1st.bet.features.competitions.presentation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

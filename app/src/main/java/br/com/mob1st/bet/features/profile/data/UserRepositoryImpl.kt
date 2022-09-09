@@ -1,7 +1,15 @@
-package br.com.mob1st.bet.features.profile
+package br.com.mob1st.bet.features.profile.data
 
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
-import br.com.mob1st.bet.features.competitions.Competition
+import br.com.mob1st.bet.features.competitions.domain.Competition
+import br.com.mob1st.bet.features.profile.domain.AnonymousSignInException
+import br.com.mob1st.bet.features.profile.domain.AuthStatus
+import br.com.mob1st.bet.features.profile.domain.GetUserException
+import br.com.mob1st.bet.features.profile.domain.User
+import br.com.mob1st.bet.features.profile.domain.UserAuth
+import br.com.mob1st.bet.features.profile.domain.UserCreationException
+import br.com.mob1st.bet.features.profile.domain.UserRepository
+import br.com.mob1st.bet.features.profile.domain.UserSubscriptionException
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
 

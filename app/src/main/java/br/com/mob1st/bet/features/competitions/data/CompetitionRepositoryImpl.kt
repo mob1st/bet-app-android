@@ -1,6 +1,9 @@
-package br.com.mob1st.bet.features.competitions
+package br.com.mob1st.bet.features.competitions.data
 
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
+import br.com.mob1st.bet.features.competitions.domain.Competition
+import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
+import br.com.mob1st.bet.features.competitions.domain.GetDefaultCompetitionException
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
 

@@ -1,7 +1,7 @@
 package br.com.mob1st.bet.features.launch
 
 import br.com.mob1st.bet.core.analytics.AnalyticsEvent
-import br.com.mob1st.bet.features.profile.AuthMethod
+import br.com.mob1st.bet.features.profile.domain.AuthMethod
 import com.google.firebase.analytics.FirebaseAnalytics
 
 data class SignInEvent(

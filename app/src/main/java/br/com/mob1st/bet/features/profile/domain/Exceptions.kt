@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.profile
+package br.com.mob1st.bet.features.profile.domain
 
 import br.com.mob1st.bet.core.logs.Debuggable
 

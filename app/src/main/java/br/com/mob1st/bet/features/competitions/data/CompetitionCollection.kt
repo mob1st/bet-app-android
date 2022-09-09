@@ -1,8 +1,10 @@
-package br.com.mob1st.bet.features.competitions
+package br.com.mob1st.bet.features.competitions.data
 
 import br.com.mob1st.bet.core.firebase.getDateNotNull
 import br.com.mob1st.bet.core.firebase.getNestedObject
 import br.com.mob1st.bet.core.firebase.getStringNotNull
+import br.com.mob1st.bet.features.competitions.domain.Competition
+import br.com.mob1st.bet.features.competitions.domain.CompetitionType
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import org.koin.core.annotation.Factory

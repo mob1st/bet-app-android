@@ -3,12 +3,12 @@ package br.com.mob1st.bet.features.launch
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
 import br.com.mob1st.bet.core.logs.CrashReportingTool
-import br.com.mob1st.bet.features.competitions.CompetitionRepository
+import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.ff.FeatureFlagRepository
-import br.com.mob1st.bet.features.profile.AuthMethod
-import br.com.mob1st.bet.features.profile.LoggedOut
-import br.com.mob1st.bet.features.profile.User
-import br.com.mob1st.bet.features.profile.UserRepository
+import br.com.mob1st.bet.features.profile.domain.AuthMethod
+import br.com.mob1st.bet.features.profile.domain.LoggedOut
+import br.com.mob1st.bet.features.profile.domain.User
+import br.com.mob1st.bet.features.profile.domain.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext

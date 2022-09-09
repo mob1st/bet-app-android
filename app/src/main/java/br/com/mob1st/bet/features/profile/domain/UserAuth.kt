@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.profile
+package br.com.mob1st.bet.features.profile.domain
 
 import arrow.optics.Iso
 import com.google.firebase.auth.FirebaseAuth

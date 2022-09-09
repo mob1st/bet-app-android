@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.competitions
+package br.com.mob1st.bet.features.competitions.domain
 
 class GetDefaultCompetitionException(
     cause: Throwable

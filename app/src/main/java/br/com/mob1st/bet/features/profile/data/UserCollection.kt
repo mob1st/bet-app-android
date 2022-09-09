@@ -1,7 +1,8 @@
-package br.com.mob1st.bet.features.profile
+package br.com.mob1st.bet.features.profile.data
 
-import br.com.mob1st.bet.features.competitions.Competition
-import br.com.mob1st.bet.features.competitions.competitions
+import br.com.mob1st.bet.features.competitions.domain.Competition
+import br.com.mob1st.bet.features.competitions.data.competitions
+import br.com.mob1st.bet.features.profile.domain.User
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
