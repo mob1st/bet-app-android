@@ -12,23 +12,24 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreenViewProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import br.com.mob1st.bet.core.logs.Logger
 import br.com.mob1st.bet.core.ui.ds.atoms.BetTheme
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.features.home.HomeScreen
-import br.com.mob1st.bet.features.launch.LauncherUiEvent
 import br.com.mob1st.bet.features.launch.LauncherViewModel
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
     private val launcherViewModel by viewModel<LauncherViewModel>()
+    private val logger by inject<Logger>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        logger.d("The app has been started")
         initSplash()
         setContent {
             BetTheme {
@@ -41,7 +42,8 @@ class MainActivity : ComponentActivity() {
     private fun initSplash() {
         val splash = installSplashScreen()
         splash.setKeepOnScreenCondition {
-            !launcherViewModel.uiState.value.data.finished
+            launcherViewModel.currentState.loading ||
+                    launcherViewModel.currentState.messages.isNotEmpty()
         }
         splash.setOnExitAnimationListener { splashScreenViewProvider ->
             animateEndOfSplash(splashScreenViewProvider)
@@ -66,22 +68,20 @@ class MainActivity : ComponentActivity() {
         launcherViewModel
             .uiState
             .flowWithLifecycle(lifecycle)
-            .map { it.messages.firstOrNull() }
-            .filterNotNull()
             .onEach {
-                showErrorDialog(it)
+                if (it.messages.isNotEmpty()) {
+                    showErrorDialog(it.messages[0])
+                }
             }
             .launchIn(lifecycleScope)
     }
 
     private fun showErrorDialog(message: SimpleMessage): AlertDialog {
         return AlertDialog.Builder(this)
-            .setPositiveButton(R.string.try_again) { dialog, _ ->
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
                 dialog.dismiss()
-                launcherViewModel.fromUi(LauncherUiEvent.TryAgain(message))
             }
-            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
+            .setOnDismissListener {
                 finish()
             }
             .setMessage(message.descriptionResId)

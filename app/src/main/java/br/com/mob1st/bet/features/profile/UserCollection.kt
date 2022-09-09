@@ -16,16 +16,19 @@ class UserCollection(
 ) {
 
     /**
-     * Subscribe the given [userId] into the given [competition]
+     * Subscribe the given [userId] into the competition provided by [input]
      */
-    suspend fun subscribe(userId: String, competition: Competition) {
+    suspend fun subscribe(userId: String, input: UserSubscriptionInput) {
         val batch = firestore.batch()
         batch.set(
             firestore.subscriptions(userId).document(),
-            mapOf(
-                Competition::name.name to competition.name,
-                Competition::type.name to competition.type.name,
-                "ref" to firestore.competitions.document(competition.id),
+            mapOf<String, Any>(
+                UserSubscriptionInput::competition.name to mapOf(
+                    Competition::name.name to input.competition.name,
+                    Competition::type.name to input.competition.type.name,
+                    "ref" to firestore.competitions.document(input.competition.id)
+                ),
+                UserSubscriptionInput::points.name to input.points
             ),
         )
         batch.update(
@@ -37,8 +40,8 @@ class UserCollection(
 
     suspend fun create(user: User) {
         firestore.users
-            .document()
-            .set(user)
+            .document(user.id)
+            .set(mapOf(User::activeSubscriptions.name to 0))
             .await()
     }
 

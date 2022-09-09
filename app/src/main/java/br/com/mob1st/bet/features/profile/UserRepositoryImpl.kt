@@ -23,7 +23,16 @@ internal class UserRepositoryImpl(
     override suspend fun subscribe(competition: Competition): Unit = withContext(io){
         runCatching {
             val userId = checkNotNull(userAuth.get()?.id)
-            userCollection.subscribe(userId, competition)
+            userCollection.subscribe(
+                userId,
+                UserSubscriptionInput(
+                    competition = CompetitionForSubscriptionInput(
+                        id = competition.id,
+                        name = competition.name,
+                        type = competition.type
+                    )
+                ),
+            )
         }.getOrElse {
             throw UserSubscriptionException(competition.id, it)
         }
