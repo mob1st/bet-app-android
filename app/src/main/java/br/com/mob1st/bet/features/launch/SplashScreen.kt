@@ -11,6 +11,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -44,6 +45,7 @@ fun SplashPage(
     onFinish: () -> Unit,
     onTryAgain: (SimpleMessage) -> Unit
 ) {
+    val onFinishCallback by rememberUpdatedState(onFinish)
     Box(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
@@ -52,7 +54,7 @@ fun SplashPage(
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_splash_icon),
-            contentDescription = "Launcher",
+            contentDescription = stringResource(id = R.string.content_description_launcher),
         )
         if (state.messages.isNotEmpty()) {
             SplashErrorMessageDialog(message = state.messages[0], onTryAgain = onTryAgain)
@@ -60,7 +62,7 @@ fun SplashPage(
     }
     if (state.data.finished) {
         LaunchedEffect(Unit) {
-            onFinish()
+            onFinishCallback()
         }
     }
 }
