@@ -24,7 +24,6 @@ import br.com.mob1st.bet.features.profile.ProfileTabScreen
 @Composable
 fun HomeScreen() {
     val navController = rememberNavController()
-
     Scaffold(
         bottomBar = { BottomBar(navController = navController) }
     ) {
