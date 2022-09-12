@@ -15,22 +15,21 @@ class CompetitionCollection(
 ) {
 
     suspend fun getDefault(): Competition {
-        return firestore.competitions
+        val documents = firestore.competitions
             .whereEqualTo("default", true)
             .whereEqualTo(Competition::type.name, CompetitionType.FOOTBALL.name)
             .get()
             .await()
-            .first()
-            .let { doc ->
-                Competition(
-                    id = doc.id,
-                    name = doc.getNestedObject(Competition::name.name),
-                    code = doc.getStringNotNull(Competition::code.name),
-                    startAt = doc.getDateNotNull(Competition::startAt.name),
-                    endAt = doc.getDate(Competition::endAt.name),
-                    type = CompetitionType.FOOTBALL,
-                )
-            }
+        return documents.first().let { doc ->
+            Competition(
+                id = doc.id,
+                name = doc.getNestedObject(Competition::name.name),
+                code = doc.getStringNotNull(Competition::code.name),
+                startAt = doc.getDateNotNull(Competition::startAt.name),
+                endAt = doc.getDate(Competition::endAt.name),
+                type = CompetitionType.FOOTBALL,
+            )
+        }
     }
 
 }

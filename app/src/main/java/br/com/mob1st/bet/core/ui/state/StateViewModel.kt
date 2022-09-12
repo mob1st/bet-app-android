@@ -33,7 +33,7 @@ import java.lang.Exception
  */
 abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : ViewModel(), KoinComponent {
 
-    private val logger: Logger by inject()
+    protected val logger: Logger by inject()
 
     private val viewModelState = MutableStateFlow(initialState)
 
