@@ -7,11 +7,11 @@ import androidx.compose.ui.unit.dp
 
 object Dimens {
 
-    val grid: Grid @Composable get() = GridCompositionLocal.current
+    val grid: Grid @Composable get() = CompositionLocalGrid.current
 
 }
 
-val GridCompositionLocal = compositionLocalOf { Grid.Small }
+val CompositionLocalGrid = compositionLocalOf { Grid.Small }
 
 data class Grid(
     val gutter: Dp,

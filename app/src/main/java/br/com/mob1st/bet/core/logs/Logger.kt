@@ -59,4 +59,5 @@ interface Logger {
      * These type of logs is sent to production
      */
     fun e(message: String, throwable: Throwable)
+
 }

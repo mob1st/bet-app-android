@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.core.parameter.parametersOf
 import java.lang.Exception
 
 /**
@@ -34,11 +33,12 @@ import java.lang.Exception
  */
 abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : ViewModel(), KoinComponent {
 
-    private val logger: Logger by inject {
-        parametersOf("${this.javaClass.simpleName}(${hashCode()})")
-    }
+    protected val logger: Logger by inject()
 
     private val viewModelState = MutableStateFlow(initialState)
+
+    val currentState get() = uiState.value
+    val currentData get() = uiState.value.data
 
     /**
      * Provides the asynchronous state of the UI

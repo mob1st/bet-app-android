@@ -1,10 +1,18 @@
 <resources>
+
+    <!-- general -->
     <string name="app_name">Bet</string>
     <string name="general_message_error_title">Oops.</string>
     <string name="general_message_error_description">Desculpe, algum error inesperado aconteceu. Por favor, tente novamente.</string>
     <string name="try_again">Tentar novamente</string>
+    <string name="retry">Novamente</string>
     <string name="icon_failure_content_description">Falha</string>
 
-    <!-- -->
-    <string name="competition_subscribe_first_competition_button">Procurar competições</string>
+    <!-- home -->
+    <string name="tab_title_competitions">Competições</string>
+    <string name="tab_title_groups">Grupos</string>
+    <string name="tab_title_profile">Perfil</string>
+
+    <!-- Launcher -->
+    <string name="content_description_launcher">Inicializando</string>
 </resources>

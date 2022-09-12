@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.profile
+package br.com.mob1st.bet.features.profile.domain
 
 /**
  * The user.
@@ -8,7 +8,8 @@ package br.com.mob1st.bet.features.profile
 data class User(
     val id: String,
     val name: String,
-    val authType: AuthType
+    val authType: AuthType,
+    val activeSubscriptions: Int = 0
 )
 
 /**

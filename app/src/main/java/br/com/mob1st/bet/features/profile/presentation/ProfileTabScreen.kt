@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.profile
+package br.com.mob1st.bet.features.profile.presentation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person

@@ -1,93 +1,86 @@
 package br.com.mob1st.bet.features.home
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import br.com.mob1st.bet.features.competitions.CompetitionsTabScreen
-import br.com.mob1st.bet.features.groups.GroupsTabScreen
-import br.com.mob1st.bet.features.profile.ProfileTabScreen
 
+/**
+ * The Scaffold screen of the app, used to display the 3 tabs and provide access to all features
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
-    val navController = rememberNavController()
+fun HomeScreen(
+    homeUiState: HomeUiState = rememberHomeUiState()
+) {
     Scaffold(
-        bottomBar = { BottomBar(navController = navController) }
+        bottomBar = {
+            if (homeUiState.showBottomBar) {
+                HomeBottomBar(homeUiState)
+            }
+        },
+        snackbarHost = { SnackbarHost(hostState = homeUiState.snackbarHostState) }
     ) {
-        BottomNavGraph(navController = navController)
-    }
-}
-
-@Composable
-fun BottomNavGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = BottomBarData.Home.route) {
-        composable(route = BottomBarData.Home.route) {
-            CompetitionsTabScreen()
-        }
-        composable(route = BottomBarData.Overview.route) {
-            GroupsTabScreen()
-        }
-        composable(route = BottomBarData.Profile.route) {
-            ProfileTabScreen()
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(it),
+        ) {
+            HomeNavGraph(homeUiState)
         }
     }
 }
 
 @Composable
-fun BottomBar(navController: NavHostController) {
-    val tabs = listOf(
-        BottomBarData.Home,
-        BottomBarData.Overview,
-        BottomBarData.Profile
-    )
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+private fun HomeBottomBar(homeUiState: HomeUiState) {
+    val navBackStackEntry by homeUiState.navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-
     NavigationBar {
-        tabs.forEach { tab ->
-            AddItem(
+        homeUiState.tabs.forEach { tab ->
+            BottomTabItem(
                 tab = tab,
                 currentDestination = currentDestination,
-                navController = navController
+                homeUiState = homeUiState
             )
         }
     }
 }
 
 @Composable
-fun RowScope.AddItem(
-    tab: BottomBarData,
+private fun RowScope.BottomTabItem(
+    tab: BottomBarDestination,
     currentDestination: NavDestination?,
-    navController: NavHostController
+    homeUiState: HomeUiState
 ) {
+    val tabTitle = stringResource(id = tab.title)
     NavigationBarItem(
         label = {
-            Text(text = tab.title)
+            Text(text = tabTitle)
         },
         icon = {
             Icon(
                 imageVector = tab.icon,
-                contentDescription = "Navigation icon"
+                contentDescription = null
             )
         },
         selected = currentDestination?.hierarchy?.any {
             it.route == tab.route
         } == true,
         onClick = {
-            navController.navigate(tab.route)
+            homeUiState.navigateTo(tab)
         }
     )
 }
