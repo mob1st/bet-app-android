@@ -53,21 +53,13 @@ sealed class BottomBarDestination(
         title = R.string.tab_title_profile,
         icon = Icons.Default.Person
     )
-
-    companion object {
-        val tabs = listOf(
-            Competitions,
-            Groups,
-            Profile
-        )
-    }
 }
 
 
 @Composable
-fun HomeNavGraph(navController: NavHostController) {
+fun HomeNavGraph(homeUiState: HomeUiState) {
     NavHost(
-        navController = navController,
+        navController = homeUiState.navController,
         startDestination = BottomBarDestination.Competitions.route,
     ) {
         composable(route = BottomBarDestination.Competitions.route) {

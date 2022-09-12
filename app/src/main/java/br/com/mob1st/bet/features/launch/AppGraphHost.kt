@@ -24,8 +24,6 @@ sealed class AppRouteDestination(val route: String) {
 
 /**
  * Entry point for the app.
- *
- * It fetc
  */
 @Composable
 fun AppNavGraph() {

@@ -2,13 +2,14 @@ package br.com.mob1st.bet.features.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,11 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 
 /**
  * The Scaffold screen of the app, used to display the 3 tabs and provide access to all features
@@ -28,29 +25,35 @@ import androidx.navigation.compose.rememberNavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavHostController = rememberNavController()
+    homeUiState: HomeUiState = rememberHomeUiState()
 ) {
     Scaffold(
-        bottomBar = { HomeBottomBar(navController = navController) }
+        bottomBar = {
+            if (homeUiState.showBottomBar) {
+                HomeBottomBar(homeUiState)
+            }
+        },
+        snackbarHost = { SnackbarHost(hostState = homeUiState.snackbarHostState) }
     ) {
         Box(modifier = Modifier
             .fillMaxSize()
-            .padding(it)) {
-            HomeNavGraph(navController)
+            .padding(it),
+        ) {
+            HomeNavGraph(homeUiState)
         }
     }
 }
 
 @Composable
-private fun HomeBottomBar(navController: NavHostController) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+private fun HomeBottomBar(homeUiState: HomeUiState) {
+    val navBackStackEntry by homeUiState.navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     NavigationBar {
-        BottomBarDestination.tabs.forEach { tab ->
+        homeUiState.tabs.forEach { tab ->
             BottomTabItem(
                 tab = tab,
                 currentDestination = currentDestination,
-                navController = navController
+                homeUiState = homeUiState
             )
         }
     }
@@ -60,7 +63,7 @@ private fun HomeBottomBar(navController: NavHostController) {
 private fun RowScope.BottomTabItem(
     tab: BottomBarDestination,
     currentDestination: NavDestination?,
-    navController: NavHostController
+    homeUiState: HomeUiState
 ) {
     val tabTitle = stringResource(id = tab.title)
     NavigationBarItem(
@@ -77,19 +80,7 @@ private fun RowScope.BottomTabItem(
             it.route == tab.route
         } == true,
         onClick = {
-            navController.navigate(tab.route) {
-                // Pop up to the start destination of the graph to
-                // avoid building up a large stack of destinations
-                // on the back stack as users select items
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
-                }
-                // Avoid multiple copies of the same destination when
-                // reselecting the same item
-                launchSingleTop = true
-                // Restore state when reselecting a previously selected item
-                restoreState = true
-            }
+            homeUiState.navigateTo(tab)
         }
     )
 }

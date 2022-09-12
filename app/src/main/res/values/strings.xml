@@ -1,8 +1,11 @@
 <resources>
+
+    <!-- general -->
     <string name="app_name">Bet</string>
     <string name="general_message_error_title">Oops.</string>
     <string name="general_message_error_description">Desculpe, algum error inesperado aconteceu. Por favor, tente novamente.</string>
     <string name="try_again">Tentar novamente</string>
+    <string name="retry">Novamente</string>
     <string name="icon_failure_content_description">Falha</string>
 
     <!-- home -->
