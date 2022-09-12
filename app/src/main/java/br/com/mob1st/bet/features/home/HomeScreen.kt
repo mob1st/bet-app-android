@@ -12,12 +12,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import br.com.mob1st.bet.core.ui.ds.molecule.LocalSnackbarState
 
 /**
  * The Scaffold screen of the app, used to display the 3 tabs and provide access to all features
@@ -27,19 +29,21 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 fun HomeScreen(
     homeUiState: HomeUiState = rememberHomeUiState()
 ) {
-    Scaffold(
-        bottomBar = {
-            if (homeUiState.showBottomBar) {
-                HomeBottomBar(homeUiState)
-            }
-        },
-        snackbarHost = { SnackbarHost(hostState = homeUiState.snackbarHostState) }
-    ) {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(it),
+    CompositionLocalProvider(LocalSnackbarState provides homeUiState.snackbarHostState) {
+        Scaffold(
+            bottomBar = {
+                if (homeUiState.showBottomBar) {
+                    HomeBottomBar(homeUiState)
+                }
+            },
+            snackbarHost = { SnackbarHost(hostState = LocalSnackbarState.current) }
         ) {
-            HomeNavGraph(homeUiState)
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(it),
+            ) {
+                HomeNavGraph(homeUiState)
+            }
         }
     }
 }
