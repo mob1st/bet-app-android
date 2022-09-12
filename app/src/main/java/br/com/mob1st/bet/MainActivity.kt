@@ -7,12 +7,14 @@ import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreenViewProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import br.com.mob1st.bet.core.logs.Logger
+import br.com.mob1st.bet.core.ui.compose.LocalActivity
 import br.com.mob1st.bet.core.ui.ds.atoms.BetTheme
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.features.home.HomeScreen
@@ -28,12 +30,14 @@ class MainActivity : ComponentActivity() {
     private val logger by inject<Logger>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initSplash()
         super.onCreate(savedInstanceState)
         logger.d("The app has been started")
-        initSplash()
         setContent {
-            BetTheme {
-                HomeScreen()
+            CompositionLocalProvider(LocalActivity provides this) {
+                BetTheme {
+                    HomeScreen()
+                }
             }
         }
         collectSplashState()
@@ -42,8 +46,7 @@ class MainActivity : ComponentActivity() {
     private fun initSplash() {
         val splash = installSplashScreen()
         splash.setKeepOnScreenCondition {
-            launcherViewModel.currentState.loading ||
-                    launcherViewModel.currentState.messages.isNotEmpty()
+            launcherViewModel.currentState.loading
         }
         splash.setOnExitAnimationListener { splashScreenViewProvider ->
             animateEndOfSplash(splashScreenViewProvider)
@@ -91,3 +94,4 @@ class MainActivity : ComponentActivity() {
 
 
 }
+
