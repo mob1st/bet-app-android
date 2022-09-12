@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.ui.compose.LocalActivity
+import br.com.mob1st.bet.core.ui.compose.ScreenViewLog
 import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import org.koin.androidx.compose.koinViewModel
@@ -46,6 +47,7 @@ fun SplashPage(
     onTryAgain: (SimpleMessage) -> Unit
 ) {
     val onFinishCallback by rememberUpdatedState(onFinish)
+    ScreenViewLog(screenName = "splash")
     Box(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
@@ -62,6 +64,7 @@ fun SplashPage(
     }
     if (state.data.finished) {
         LaunchedEffect(Unit) {
+            // TODO run splash finish animation
             onFinishCallback()
         }
     }

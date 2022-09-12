@@ -2,7 +2,9 @@ package br.com.mob1st.bet.features.launch
 
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
+import br.com.mob1st.bet.core.localization.default
 import br.com.mob1st.bet.core.logs.CrashReportingTool
+import br.com.mob1st.bet.features.competitions.CompetitionSubscriptionEvent
 import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.ff.FeatureFlagRepository
 import br.com.mob1st.bet.features.profile.domain.AuthMethod
@@ -60,6 +62,13 @@ class LaunchAppUseCase(
     private suspend fun subscribeInDefaultCompetition() {
         val defaultCompetition = competitionRepository.getDefaultCompetition()
         userRepository.subscribe(defaultCompetition)
+        analyticsTool.log(
+            CompetitionSubscriptionEvent(
+                competitionId = defaultCompetition.id,
+                competitionName = defaultCompetition.name.default,
+                method = CompetitionSubscriptionEvent.Method.AUTOMATIC
+            )
+        )
     }
 
     companion object {
