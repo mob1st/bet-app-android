@@ -18,6 +18,7 @@ class CompetitionCollection(
         val documents = firestore.competitions
             .whereEqualTo("default", true)
             .whereEqualTo(Competition::type.name, CompetitionType.FOOTBALL.name)
+            .limit(1)
             .get()
             .await()
         return documents.first().let { doc ->

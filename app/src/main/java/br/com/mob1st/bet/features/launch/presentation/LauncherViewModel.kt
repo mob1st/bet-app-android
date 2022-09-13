@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.launch
+package br.com.mob1st.bet.features.launch.presentation
 
 import androidx.compose.runtime.Immutable
 import arrow.optics.optics
@@ -6,6 +6,8 @@ import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.FetchedData
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.ui.state.StateViewModel
+import br.com.mob1st.bet.features.launch.domain.LaunchAppUseCase
+
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel

@@ -1,22 +1,24 @@
 package br.com.mob1st.bet.features.competitions
 
 import br.com.mob1st.bet.core.analytics.AnalyticsEvent
+import br.com.mob1st.bet.core.localization.default
+import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 
 /**
  * Register when the user subscribes a competition
  */
-data class CompetitionSubscriptionEvent(
-    val competitionId: String,
-    val competitionName: String,
+data class CompetitionSubscribeEvent(
+    val entry: CompetitionEntry,
     val method: Method,
 ) : AnalyticsEvent {
     override val name: String
-        get() = "bet_competition_subscription"
+        get() = "bet_competition_subscribe"
 
     override fun params(): Map<String, Any> {
         return mapOf(
-            "competitionId" to competitionId,
-            "competitionName" to competitionName,
+            "id" to entry.id,
+            "name" to entry.name.default,
+            "type" to entry.type.name.lowercase(),
             "method" to method.name.lowercase()
         )
     }

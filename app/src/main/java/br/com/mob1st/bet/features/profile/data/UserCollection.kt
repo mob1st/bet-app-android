@@ -1,7 +1,7 @@
 package br.com.mob1st.bet.features.profile.data
 
-import br.com.mob1st.bet.features.competitions.domain.Competition
 import br.com.mob1st.bet.features.competitions.data.competitions
+import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.profile.domain.User
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,10 +23,10 @@ class UserCollection(
         val batch = firestore.batch()
         batch.set(
             firestore.subscriptions(userId).document(),
-            mapOf<String, Any>(
+            mapOf(
                 UserSubscriptionInput::competition.name to mapOf(
-                    Competition::name.name to input.competition.name,
-                    Competition::type.name to input.competition.type.name,
+                    CompetitionEntry::name.name to input.competition.name,
+                    CompetitionEntry::type.name to input.competition.type.name,
                     "ref" to firestore.competitions.document(input.competition.id)
                 ),
                 UserSubscriptionInput::points.name to input.points
@@ -52,4 +52,4 @@ val FirebaseFirestore.users get() =
     collection("users")
 
 fun FirebaseFirestore.subscriptions(userId: String) =
-    users.document(userId).collection("subscriptions")
+    collection("users/${userId}/subscriptions")

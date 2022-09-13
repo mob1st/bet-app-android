@@ -1,6 +1,6 @@
 package br.com.mob1st.bet.features.profile.domain
 
-import br.com.mob1st.bet.features.competitions.domain.Competition
+import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 
 /**
  * Manages the user entity and everything that depends on it to exists
@@ -21,7 +21,7 @@ interface UserRepository {
      * Subscribes the user in the given competition
      * @throws UserSubscriptionException
      */
-    suspend fun subscribe(competition: Competition)
+    suspend fun subscribe(entry: CompetitionEntry)
 
     /**
      * Get the current logged user

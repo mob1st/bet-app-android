@@ -7,7 +7,7 @@ package br.com.mob1st.bet.features.competitions.domain
 interface CompetitionRepository {
 
     /**
-     * Get the default competition for new users
+     * Get the default [Competition] for new users
      */
     suspend fun getDefaultCompetition(): Competition
 

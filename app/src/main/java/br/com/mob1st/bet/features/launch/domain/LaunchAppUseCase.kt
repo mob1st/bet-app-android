@@ -2,9 +2,8 @@ package br.com.mob1st.bet.features.launch.domain
 
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
-import br.com.mob1st.bet.core.localization.default
 import br.com.mob1st.bet.core.logs.CrashReportingTool
-import br.com.mob1st.bet.features.competitions.CompetitionSubscriptionEvent
+import br.com.mob1st.bet.features.competitions.CompetitionSubscribeEvent
 import br.com.mob1st.bet.features.competitions.domain.Competition
 import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.ff.FeatureFlagRepository
@@ -32,21 +31,19 @@ class LaunchAppUseCase(
 
     suspend operator fun invoke() = withContext(default) {
         val responses = awaitAll(
-            async {
-                featureFlagRepository.sync()
-            },
-            async {
-                if (userRepository.getAuthStatus() is LoggedOut) {
-                    registerUser()
-                } else {
-                    userRepository.get()
-                }
-            }
+            async { featureFlagRepository.sync() },
+            async { getUser() }
         )
         val user = responses.last() as User
         if (user.activeSubscriptions == 0 && usesDefaultCompetition()) {
             subscribeInDefaultCompetition()
         }
+    }
+
+    private suspend fun getUser() = if (userRepository.getAuthStatus() is LoggedOut) {
+        registerUser()
+    } else {
+        userRepository.get()
     }
 
     private fun usesDefaultCompetition(): Boolean {
@@ -63,12 +60,12 @@ class LaunchAppUseCase(
 
     private suspend fun subscribeInDefaultCompetition(): Competition {
         val defaultCompetition = competitionRepository.getDefaultCompetition()
-        userRepository.subscribe(defaultCompetition)
+        val entry = defaultCompetition.toEntry()
+        userRepository.subscribe(entry)
         analyticsTool.log(
-            CompetitionSubscriptionEvent(
-                competitionId = defaultCompetition.id,
-                competitionName = defaultCompetition.name.default,
-                method = CompetitionSubscriptionEvent.Method.AUTOMATIC
+            CompetitionSubscribeEvent(
+                entry = entry,
+                method = CompetitionSubscribeEvent.Method.AUTOMATIC
             )
         )
         return defaultCompetition

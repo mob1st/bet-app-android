@@ -1,7 +1,7 @@
 package br.com.mob1st.bet.features.profile.data
 
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
-import br.com.mob1st.bet.features.competitions.domain.Competition
+import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.profile.domain.AnonymousSignInException
 import br.com.mob1st.bet.features.profile.domain.AuthStatus
 import br.com.mob1st.bet.features.profile.domain.GetUserException
@@ -28,21 +28,15 @@ internal class UserRepositoryImpl(
         return@withContext user
     }
 
-    override suspend fun subscribe(competition: Competition): Unit = withContext(io){
+    override suspend fun subscribe(entry: CompetitionEntry): Unit = withContext(io){
         runCatching {
             val userId = checkNotNull(userAuth.get()?.id)
             userCollection.subscribe(
                 userId,
-                UserSubscriptionInput(
-                    competition = CompetitionForSubscriptionInput(
-                        id = competition.id,
-                        name = competition.name,
-                        type = competition.type
-                    )
-                ),
+                UserSubscriptionInput(entry),
             )
         }.getOrElse {
-            throw UserSubscriptionException(competition.id, it)
+            throw UserSubscriptionException(entry.id, it)
         }
     }
 
