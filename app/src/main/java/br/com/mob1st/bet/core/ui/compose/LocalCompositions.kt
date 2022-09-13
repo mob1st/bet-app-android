@@ -1,6 +1,7 @@
 package br.com.mob1st.bet.core.ui.compose
 
 import androidx.activity.ComponentActivity
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import br.com.mob1st.bet.core.logs.Logger
@@ -33,4 +34,11 @@ val LocalAnalyticsTool = staticCompositionLocalOf<AnalyticsTool> {
  */
 val LocalLogger = staticCompositionLocalOf<Logger> {
     error("CompositionLocal for LocalLogger not present")
+}
+
+/**
+ * Provides the current theme used by the tree
+ */
+val LocalDarkTime = compositionLocalOf {
+    false
 }
