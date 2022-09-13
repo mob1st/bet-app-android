@@ -3,6 +3,7 @@ package br.com.mob1st.bet.di
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import br.com.mob1st.bet.core.firebase.CrashlyticsTool
 import br.com.mob1st.bet.core.firebase.GoogleAnalyticsTool
+import br.com.mob1st.bet.core.firebase.firestoreSettings
 import br.com.mob1st.bet.core.firebase.remoteConfigSettings
 import br.com.mob1st.bet.core.logs.CrashReportingTool
 import com.google.firebase.analytics.ktx.analytics
@@ -30,7 +31,9 @@ val firebaseModule = module {
         Firebase.analytics
     }
     single {
-        Firebase.firestore
+        Firebase.firestore.also {
+            it.firestoreSettings = firestoreSettings
+        }
     }
     single {
         Firebase.remoteConfig.also {
