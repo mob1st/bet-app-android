@@ -5,6 +5,7 @@ import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.profile.domain.AnonymousSignInException
 import br.com.mob1st.bet.features.profile.domain.AuthStatus
 import br.com.mob1st.bet.features.profile.domain.GetUserException
+import br.com.mob1st.bet.features.profile.domain.GetUserFirstAvailableSubscription
 import br.com.mob1st.bet.features.profile.domain.User
 import br.com.mob1st.bet.features.profile.domain.UserAuth
 import br.com.mob1st.bet.features.profile.domain.UserCreationException
@@ -60,6 +61,14 @@ internal class UserRepositoryImpl(
         // sign out the user if the account creation was not possible
         userAuth.signOut()
         throw UserCreationException(user.id, it)
+    }
+
+    override suspend fun getFirstAvailableSubscription(): CompetitionEntry = withContext(io) {
+        runCatching {
+            userCollection.getCompetitionEntry(checkNotNull(userAuth.getId()))
+        }.getOrElse {
+            throw GetUserFirstAvailableSubscription(it)
+        }
     }
 
     override suspend fun getAuthStatus(): AuthStatus = userAuth.getAuthStatus()

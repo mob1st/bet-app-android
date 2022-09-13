@@ -2,9 +2,11 @@ package br.com.mob1st.bet.features.launch.domain
 
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
+import br.com.mob1st.bet.core.localization.default
 import br.com.mob1st.bet.core.logs.CrashReportingTool
+import br.com.mob1st.bet.core.logs.Logger
 import br.com.mob1st.bet.features.competitions.CompetitionSubscribeEvent
-import br.com.mob1st.bet.features.competitions.domain.Competition
+import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.ff.FeatureFlagRepository
 import br.com.mob1st.bet.features.profile.SignInEvent
@@ -17,6 +19,10 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
 
+/**
+ * Handles the app launching action and provides the [CompetitionEntry] to be used when the user is
+ * moved to the home
+ */
 @Factory
 class LaunchAppUseCase(
     private val userRepository: UserRepository,
@@ -25,24 +31,32 @@ class LaunchAppUseCase(
     private val analyticsTool: AnalyticsTool,
     private val crashReportingTool: CrashReportingTool,
     private val provider: DispatcherProvider,
+    private val logger: Logger,
 ) {
 
     private val default get() = provider.default
 
-    suspend operator fun invoke() = withContext(default) {
+    suspend operator fun invoke(): CompetitionEntry = withContext(default) {
         val responses = awaitAll(
             async { featureFlagRepository.sync() },
             async { getUser() }
         )
+        logger.i("sync the feature flags and retrive the user")
         val user = responses.last() as User
         if (user.activeSubscriptions == 0 && usesDefaultCompetition()) {
+            logger.i("subscribe the user in the default competition")
             subscribeInDefaultCompetition()
+        } else {
+            logger.i("get first available competition")
+            userRepository.getFirstAvailableSubscription()
         }
     }
 
     private suspend fun getUser() = if (userRepository.getAuthStatus() is LoggedOut) {
+        logger.v("user is logged out. do the login")
         registerUser()
     } else {
+        logger.v("user is already authenticated")
         userRepository.get()
     }
 
@@ -58,9 +72,11 @@ class LaunchAppUseCase(
         return user
     }
 
-    private suspend fun subscribeInDefaultCompetition(): Competition {
+    private suspend fun subscribeInDefaultCompetition(): CompetitionEntry {
+        logger.v("get the default competition")
         val defaultCompetition = competitionRepository.getDefaultCompetition()
         val entry = defaultCompetition.toEntry()
+        logger.v("subscribe the user into competition ${entry.name.default}")
         userRepository.subscribe(entry)
         analyticsTool.log(
             CompetitionSubscribeEvent(
@@ -68,7 +84,7 @@ class LaunchAppUseCase(
                 method = CompetitionSubscribeEvent.Method.AUTOMATIC
             )
         )
-        return defaultCompetition
+        return entry
     }
 
     companion object {

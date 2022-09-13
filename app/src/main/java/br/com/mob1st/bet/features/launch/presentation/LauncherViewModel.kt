@@ -3,11 +3,10 @@ package br.com.mob1st.bet.features.launch.presentation
 import androidx.compose.runtime.Immutable
 import arrow.optics.optics
 import br.com.mob1st.bet.core.ui.state.AsyncState
-import br.com.mob1st.bet.core.ui.state.FetchedData
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.ui.state.StateViewModel
+import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.launch.domain.LaunchAppUseCase
-
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
@@ -28,8 +27,9 @@ class LauncherViewModel(
 
     private fun triggerUseCase() {
         setState {
-            launchAppUseCase()
-            it.data(data = LaunchData.finished.set(it.data, true))
+            it.data(LaunchData(launchAppUseCase()))
+            //it.data(data = LaunchData.finished.set(it.data, true))
+            it
         }
     }
 
@@ -37,9 +37,7 @@ class LauncherViewModel(
 
 @Immutable
 @optics
-data class LaunchData(val finished: Boolean = false) : FetchedData {
-    override fun hasData(): Boolean = finished
-
+data class LaunchData(val competitionEntry: CompetitionEntry? = null) {
     companion object
 }
 

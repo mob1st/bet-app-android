@@ -21,16 +21,16 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.ui.compose.LocalActivity
-import br.com.mob1st.bet.core.ui.compose.LocalLogger
 import br.com.mob1st.bet.core.ui.compose.ScreenViewLog
 import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
+import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun SplashScreen(
-    onFinish: () -> Unit
+    onFinish: (CompetitionEntry) -> Unit
 ) {
     val viewModel = koinViewModel<LauncherViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -44,7 +44,7 @@ fun SplashScreen(
 @Composable
 fun SplashPage(
     state: AsyncState<LaunchData>,
-    onFinish: () -> Unit,
+    onFinish: (CompetitionEntry) -> Unit,
     onTryAgain: (SimpleMessage) -> Unit
 ) {
     val onFinishCallback by rememberUpdatedState(onFinish)
@@ -63,11 +63,9 @@ fun SplashPage(
             SplashErrorMessageDialog(message = state.messages[0], onTryAgain = onTryAgain)
         }
     }
-    if (state.data.finished) {
-        val logger = LocalLogger.current
+    state.data.competitionEntry?.let {
         SideEffect {
-            logger.d("ptest call side effect on launcher to finish")
-            onFinishCallback()
+            onFinishCallback(it)
         }
     }
 }

@@ -1,8 +1,13 @@
 package br.com.mob1st.bet.features.profile.data
 
+import br.com.mob1st.bet.core.firebase.awaitWithTimeout
+import br.com.mob1st.bet.core.firebase.getNestedObject
+import br.com.mob1st.bet.core.localization.LocalizedText
 import br.com.mob1st.bet.features.competitions.data.competitions
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
+import br.com.mob1st.bet.features.competitions.domain.CompetitionType
 import br.com.mob1st.bet.features.profile.domain.User
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -29,21 +34,38 @@ class UserCollection(
                     CompetitionEntry::type.name to input.competition.type.name,
                     "ref" to firestore.competitions.document(input.competition.id)
                 ),
-                UserSubscriptionInput::points.name to input.points
+                UserSubscriptionInput::points.name to input.points,
+                UserSubscriptionInput::active.name to input.active,
             ),
         )
         batch.update(
             firestore.users.document(userId),
             mapOf(User::activeSubscriptions.name to FieldValue.increment(1))
-        )
-        batch.commit().await()
+        ).commit().awaitWithTimeout()
     }
 
     suspend fun create(user: User) {
         firestore.users
             .document(user.id)
             .set(mapOf(User::activeSubscriptions.name to 0))
-            .await()
+            .awaitWithTimeout()
+    }
+
+    suspend fun getCompetitionEntry(userId: String): CompetitionEntry {
+        val documents = firestore.subscriptions(userId)
+            .whereEqualTo("active", true)
+            .limit(1)
+            .get()
+            .awaitWithTimeout()
+        return documents.first().let { doc ->
+            val competitionMap = doc.getNestedObject<Any>(UserSubscriptionInput::competition.name)
+            @Suppress("UNCHECKED_CAST")
+            CompetitionEntry(
+                id = (competitionMap["ref"]!! as DocumentReference).id,
+                name = competitionMap["name"] as LocalizedText,
+                type = CompetitionType.FOOTBALL
+            )
+        }
     }
 
 }
@@ -52,4 +74,4 @@ val FirebaseFirestore.users get() =
     collection("users")
 
 fun FirebaseFirestore.subscriptions(userId: String) =
-    collection("users/${userId}/subscriptions")
+    users.document(userId).collection("subscriptions")

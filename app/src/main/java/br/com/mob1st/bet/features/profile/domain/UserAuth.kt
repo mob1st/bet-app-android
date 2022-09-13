@@ -36,6 +36,9 @@ class UserAuth(
         return auth.currentUser?.let { firebaseIso.get(it) }
     }
 
+    fun getId(): String? = auth.currentUser?.uid
+
+
     fun getAuthStatus(): AuthStatus {
         val currentUser = auth.currentUser
         return when {

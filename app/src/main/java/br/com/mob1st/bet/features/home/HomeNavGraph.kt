@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.mob1st.bet.R
+import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.presentation.CompetitionsTabScreen
 import br.com.mob1st.bet.features.groups.GroupsTabScreen
 import br.com.mob1st.bet.features.profile.presentation.ProfileTabScreen
@@ -52,13 +53,13 @@ sealed class BottomBarDestination(
 
 
 @Composable
-fun HomeNavGraph(homeUiState: HomeUiState) {
+fun HomeNavGraph(homeUiState: HomeUiState, entry: CompetitionEntry) {
     NavHost(
         navController = homeUiState.navController,
         startDestination = BottomBarDestination.Competitions.route,
     ) {
         composable(route = BottomBarDestination.Competitions.route) {
-            CompetitionsTabScreen()
+            CompetitionsTabScreen(entry)
         }
         composable(route = BottomBarDestination.Groups.route) {
             GroupsTabScreen()

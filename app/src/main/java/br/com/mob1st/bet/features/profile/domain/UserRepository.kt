@@ -33,4 +33,9 @@ interface UserRepository {
      */
     suspend fun getAuthStatus(): AuthStatus
 
+    /**
+     * Get the first available competition for the User to start the app
+     */
+    suspend fun getFirstAvailableSubscription(): CompetitionEntry
+
 }

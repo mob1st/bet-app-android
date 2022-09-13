@@ -8,19 +8,25 @@ import androidx.compose.runtime.Composable
 import br.com.mob1st.bet.core.ui.compose.setThemedContent
 import br.com.mob1st.bet.core.ui.ds.molecule.SystemBarProperties
 import br.com.mob1st.bet.core.ui.ds.molecule.SystemBars
+import br.com.mob1st.bet.core.utils.intent
+import br.com.mob1st.bet.core.utils.start
 import br.com.mob1st.bet.features.home.HomeActivity
+import br.com.mob1st.bet.features.home.HomeActivity.Companion.put
 
 class LauncherActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setThemedContent(
             systemBars = { SplashSystemBars() }
         ) {
             SplashScreen(
-                onFinish = {
-                    startActivity(Intent(this, HomeActivity::class.java))
-                    finish()
+                onFinish = { entry ->
+                    intent<HomeActivity> {
+                        put(entry)
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }.start()
                 },
             )
         }
