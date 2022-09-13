@@ -10,7 +10,7 @@ import br.com.mob1st.bet.core.ui.compose.LocalActivity
 import br.com.mob1st.bet.core.ui.compose.LocalAnalyticsTool
 import br.com.mob1st.bet.core.ui.compose.LocalLogger
 import br.com.mob1st.bet.core.ui.ds.atoms.BetTheme
-import br.com.mob1st.bet.features.launch.AppNavGraph
+import br.com.mob1st.bet.features.launch.presentation.AppNavGraph
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {

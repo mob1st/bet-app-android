@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.launch
+package br.com.mob1st.bet.features.launch.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost

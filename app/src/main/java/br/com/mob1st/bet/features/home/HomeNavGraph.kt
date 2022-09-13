@@ -7,16 +7,11 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.features.competitions.presentation.CompetitionsTabScreen
 import br.com.mob1st.bet.features.groups.GroupsTabScreen
-import br.com.mob1st.bet.features.launch.AppRouteDestination
 import br.com.mob1st.bet.features.profile.presentation.ProfileTabScreen
 
 /**

@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.launch
+package br.com.mob1st.bet.features.launch.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

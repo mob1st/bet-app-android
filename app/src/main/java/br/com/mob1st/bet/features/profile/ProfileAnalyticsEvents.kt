@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.launch
+package br.com.mob1st.bet.features.profile
 
 import br.com.mob1st.bet.core.analytics.AnalyticsEvent
 import br.com.mob1st.bet.features.profile.domain.AuthMethod
