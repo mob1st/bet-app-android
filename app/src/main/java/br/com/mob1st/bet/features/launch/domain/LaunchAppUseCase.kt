@@ -41,7 +41,7 @@ class LaunchAppUseCase(
             async { featureFlagRepository.sync() },
             async { getUser() }
         )
-        logger.i("sync the feature flags and retrive the user")
+        logger.i("sync the feature flags and retrieve the user")
         val user = responses.last() as User
         if (user.activeSubscriptions == 0 && usesDefaultCompetition()) {
             logger.i("subscribe the user in the default competition")
