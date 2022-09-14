@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import br.com.mob1st.bet.core.ui.compose.setThemedContent
-import br.com.mob1st.bet.core.utils.getParcelableNotNull
+import br.com.mob1st.bet.core.utils.extensions.getParcelableNotNull
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 
 class HomeActivity : ComponentActivity() {

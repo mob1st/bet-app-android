@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.core.utils
+package br.com.mob1st.bet.core.utils.extensions
 
 /**
  * Calls the given [ifBlock] if there are itens in the list
