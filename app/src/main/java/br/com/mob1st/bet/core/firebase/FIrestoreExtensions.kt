@@ -1,14 +1,10 @@
 package br.com.mob1st.bet.core.firebase
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.getField
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeout
 import java.util.Date
-
-inline fun <reified T> DocumentSnapshot.getFieldNotNull(fieldName: String): T {
-    return checkNotNull(getField<T>(fieldName)) {
-        fieldMessage(fieldName)
-    }
-}
 
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T> DocumentSnapshot.getNestedObject(fieldName: String): Map<String, T> {
@@ -44,3 +40,15 @@ fun DocumentSnapshot.getBooleanNotNull(fieldName: String): Boolean {
 }
 
 fun fieldMessage(fieldName: String) = "$fieldName must no be null"
+
+/**
+ * Triggers the current [Task] with a timeout.
+ *
+ * Always connect to the task using this function to apply the default project timeout to the
+ * requests, because Firebase doesn't provide any configuration for that
+ */
+suspend fun <T> Task<T>.awaitWithTimeout(durationInMillis: Long = 2_500): T {
+    return withTimeout(durationInMillis) {
+        await()
+    }
+}

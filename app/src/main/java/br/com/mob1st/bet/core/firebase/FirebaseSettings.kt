@@ -1,5 +1,6 @@
 package br.com.mob1st.bet.core.firebase
 
+import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.remoteconfig.ktx.BuildConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 
@@ -9,4 +10,8 @@ val remoteConfigSettings = remoteConfigSettings {
     } else {
         fetchTimeoutInSeconds = 5
     }
+}
+
+val firestoreSettings = firestoreSettings {
+    isPersistenceEnabled = false
 }

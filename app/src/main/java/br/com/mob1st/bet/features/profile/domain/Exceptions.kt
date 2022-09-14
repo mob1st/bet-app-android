@@ -25,6 +25,10 @@ class UserSubscriptionException(
     }
 }
 
+class GetUserFirstAvailableSubscription(
+    cause: Throwable
+) : Exception("unable to get the first available subscription for the user", cause)
+
 class GetUserException(
     cause: Throwable
 ) : Exception("unable to get the user. check if login was executed first", cause)

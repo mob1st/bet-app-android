@@ -1,12 +1,12 @@
 package br.com.mob1st.bet.features.competitions.data
 
+import br.com.mob1st.bet.core.firebase.awaitWithTimeout
 import br.com.mob1st.bet.core.firebase.getDateNotNull
 import br.com.mob1st.bet.core.firebase.getNestedObject
 import br.com.mob1st.bet.core.firebase.getStringNotNull
 import br.com.mob1st.bet.features.competitions.domain.Competition
 import br.com.mob1st.bet.features.competitions.domain.CompetitionType
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 import org.koin.core.annotation.Factory
 
 @Factory
@@ -20,7 +20,7 @@ class CompetitionCollection(
             .whereEqualTo(Competition::type.name, CompetitionType.FOOTBALL.name)
             .limit(1)
             .get()
-            .await()
+            .awaitWithTimeout()
         return documents.first().let { doc ->
             Competition(
                 id = doc.id,
