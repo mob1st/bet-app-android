@@ -11,7 +11,7 @@ interface BetSelector<T> {
 interface Duel<T> : BetSelector<Duel.Selection>{
     val contender1: Bet<T>
     val contender2: Bet<T>
-    val draw: Bet<Nothing>
+    val draw: Bet<Unit>
 
     enum class Selection {
         CONTENDER_1,

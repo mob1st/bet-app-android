@@ -2,10 +2,14 @@ package br.com.mob1st.bet.features.competitions.data
 
 import br.com.mob1st.bet.core.firebase.awaitWithTimeout
 import br.com.mob1st.bet.core.firebase.getDateNotNull
+import br.com.mob1st.bet.core.firebase.getLongNotNull
 import br.com.mob1st.bet.core.firebase.getNestedObject
 import br.com.mob1st.bet.core.firebase.getStringNotNull
+import br.com.mob1st.bet.core.utils.objects.Node
 import br.com.mob1st.bet.features.competitions.domain.Competition
+import br.com.mob1st.bet.features.competitions.domain.ConfrontationStatus
 import br.com.mob1st.bet.features.competitions.domain.CompetitionType
+import br.com.mob1st.bet.features.competitions.domain.Confrontation
 import com.google.firebase.firestore.FirebaseFirestore
 import org.koin.core.annotation.Factory
 
@@ -33,5 +37,27 @@ class CompetitionCollection(
         }
     }
 
+    suspend fun getConfrontationsById(competitionId: String): List<Confrontation> {
+        val confrontations = firestore.confrontations(competitionId)
+            .get()
+            .awaitWithTimeout()
+
+        return confrontations.map { doc ->
+            val contest = doc.getNestedObject<Any>(Confrontation::contest.name)
+
+            Confrontation(
+                id = doc.id,
+                expectedDuration = doc.getLongNotNull(Confrontation::expectedDuration.name),
+                allowBetsUntil = doc.getDateNotNull(Confrontation::allowBetsUntil.name),
+                startAt = doc.getDateNotNull(Confrontation::startAt.name),
+                status = ConfrontationStatus.valueOf(doc.getStringNotNull(Confrontation::status.name)),
+                contest = ContestMapFactory[CompetitionType.FOOTBALL](contest)
+            )
+        }
+    }
+
 }
+
 val FirebaseFirestore.competitions get() = collection("competitions")
+fun FirebaseFirestore.confrontations(competitionId: String) =
+    collection("competitions/${competitionId}/confrontations")

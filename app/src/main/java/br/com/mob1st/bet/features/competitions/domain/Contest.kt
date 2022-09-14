@@ -13,7 +13,7 @@ sealed interface Contest
 data class MatchWinner(
     override val contender1: Bet<Team>,
     override val contender2: Bet<Team>,
-    override val draw: Bet<Nothing>
+    override val draw: Bet<Unit>
 ) : Contest, Duel<Team>
 
 /**

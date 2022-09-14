@@ -15,6 +15,30 @@ inline fun <reified T> DocumentSnapshot.getNestedObject(fieldName: String): Map<
     } as Map<String, T>
 }
 
+/**
+ * Get a nested field in a map structure
+ *
+ * Useful to work with Firestore nested objects
+ */
+@Suppress("UNCHECKED_CAST")
+fun Map<String, *>.getNestedMap(fieldName: String): Map<String, Any> {
+    return checkNotNull(get(fieldName)) {
+        fieldMessage(fieldName)
+    } as Map<String, Any>
+}
+
+/**
+ * Get a list field in a map structure
+ *
+ * Useful to work with Firestore nested arrays
+ */
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T> Map<String, *>.getNestedList(fieldName: String): List<T> {
+    return checkNotNull(get(fieldName)) {
+        fieldMessage(fieldName)
+    } as List<T>
+}
+
 fun DocumentSnapshot.getDateNotNull(fieldName: String): Date {
     return checkNotNull(getDate(fieldName)) {
         fieldMessage(fieldName)
