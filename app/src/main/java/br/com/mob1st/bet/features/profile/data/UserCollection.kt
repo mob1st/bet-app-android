@@ -10,7 +10,6 @@ import br.com.mob1st.bet.features.profile.domain.User
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 import org.koin.core.annotation.Factory
 
 /**
@@ -53,7 +52,6 @@ class UserCollection(
 
     suspend fun getCompetitionEntry(userId: String): CompetitionEntry {
         val documents = firestore.subscriptions(userId)
-            .whereEqualTo("active", true)
             .limit(1)
             .get()
             .awaitWithTimeout()
