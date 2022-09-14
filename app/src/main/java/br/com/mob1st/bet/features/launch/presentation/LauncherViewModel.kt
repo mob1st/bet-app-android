@@ -27,9 +27,8 @@ class LauncherViewModel(
 
     private fun triggerUseCase() {
         setState {
-            it.data(LaunchData(launchAppUseCase()))
-            //it.data(data = LaunchData.finished.set(it.data, true))
-            it
+            val entry: CompetitionEntry = launchAppUseCase()
+            it.data(data = LaunchData.competitionEntry.set(it.data, entry))
         }
     }
 
