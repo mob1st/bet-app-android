@@ -2,7 +2,7 @@ package br.com.mob1st.bet.core.firebase
 
 import br.com.mob1st.bet.core.logs.CrashReportingTool
 import br.com.mob1st.bet.core.logs.getPropertiesTree
-import br.com.mob1st.bet.core.utils.toFormat
+import br.com.mob1st.bet.core.utils.extensions.toFormat
 import com.google.firebase.crashlytics.CustomKeysAndValues
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import java.util.Date
