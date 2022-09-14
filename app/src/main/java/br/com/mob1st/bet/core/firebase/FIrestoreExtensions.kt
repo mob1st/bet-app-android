@@ -47,7 +47,7 @@ fun fieldMessage(fieldName: String) = "$fieldName must no be null"
  * Always connect to the task using this function to apply the default project timeout to the
  * requests, because Firebase doesn't provide any configuration for that
  */
-suspend fun <T> Task<T>.awaitWithTimeout(durationInMillis: Long = 1_500): T {
+suspend fun <T> Task<T>.awaitWithTimeout(durationInMillis: Long = 2_500): T {
     return withTimeout(durationInMillis) {
         await()
     }
