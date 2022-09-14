@@ -13,6 +13,7 @@ import br.com.mob1st.bet.R
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.presentation.CompetitionsTabScreen
 import br.com.mob1st.bet.features.groups.GroupsTabScreen
+import br.com.mob1st.bet.features.groups.createGroup.CreateGroupScreen
 import br.com.mob1st.bet.features.profile.presentation.ProfileTabScreen
 
 /**
@@ -51,6 +52,12 @@ sealed class BottomBarDestination(
     )
 }
 
+sealed class AppRouteDestination(val route: String) {
+    object CreateGroups: AppRouteDestination(
+        route = "createGroups"
+    )
+}
+
 
 @Composable
 fun HomeNavGraph(homeUiState: HomeUiState, entry: CompetitionEntry) {
@@ -62,10 +69,16 @@ fun HomeNavGraph(homeUiState: HomeUiState, entry: CompetitionEntry) {
             CompetitionsTabScreen(entry)
         }
         composable(route = BottomBarDestination.Groups.route) {
-            GroupsTabScreen()
+            GroupsTabScreen(
+                onNavigateToCreateGroups = { homeUiState.navController.navigate(AppRouteDestination.CreateGroups.route) },
+                onNavigateToGroupDetails = { Unit }
+            )
         }
         composable(route = BottomBarDestination.Profile.route) {
             ProfileTabScreen()
+        }
+        composable(AppRouteDestination.CreateGroups.route) {
+            CreateGroupScreen()
         }
     }
 }
