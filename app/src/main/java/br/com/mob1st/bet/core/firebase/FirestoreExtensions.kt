@@ -1,9 +1,16 @@
 package br.com.mob1st.bet.core.firebase
 
+import br.com.mob1st.bet.core.utils.extensions.toFormat
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeout
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import java.util.Date
 
 @Suppress("UNCHECKED_CAST")
@@ -60,6 +67,33 @@ fun DocumentSnapshot.getStringNotNull(fieldName: String): String {
 fun DocumentSnapshot.getBooleanNotNull(fieldName: String): Boolean {
     return checkNotNull(getBoolean(fieldName)) {
         fieldMessage(fieldName)
+    }
+}
+
+fun DocumentSnapshot.asJson(): JsonElement {
+    return data.toJsonElement()
+}
+
+fun Map<*, *>.toJsonObject(): JsonElement {
+    val json = entries.associate { it.key!!.toString() to it.value.toJsonElement() }
+    return JsonObject(json)
+}
+
+private fun List<*>.toJsonArray(): JsonElement {
+    return JsonArray(map { it.toJsonElement() })
+}
+
+private fun Any?.toJsonElement(): JsonElement {
+    return when (this) {
+        null -> JsonNull
+        is Boolean -> JsonPrimitive(this)
+        is Number -> JsonPrimitive(this)
+        is String -> JsonPrimitive(this)
+        is Date -> JsonPrimitive(toFormat())
+        is List<*> -> toJsonArray()
+        is Map<*, *> -> toJsonObject()
+        is DocumentReference -> JsonPrimitive(id)
+        else -> throw IllegalStateException("invalid ")
     }
 }
 
