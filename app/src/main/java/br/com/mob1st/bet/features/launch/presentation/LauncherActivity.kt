@@ -17,7 +17,6 @@ class LauncherActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setThemedContent(
             systemBars = { SplashSystemBars() }
         ) {

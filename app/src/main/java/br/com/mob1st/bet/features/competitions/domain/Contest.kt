@@ -25,6 +25,7 @@ data class MatchWinner(
  * The available scores of a Contest
  */
 @Serializable
+@Keep
 data class IntScores(
     override val contenders: List<Bet<Duo<Int>>>,
 ) : Contest, MultiChoice<Duo<Int>>

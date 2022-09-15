@@ -1,7 +1,6 @@
 package br.com.mob1st.bet.features.launch.domain
 
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
-import br.com.mob1st.bet.core.coroutines.DispatcherProvider
 import br.com.mob1st.bet.core.localization.default
 import br.com.mob1st.bet.core.logs.CrashReportingTool
 import br.com.mob1st.bet.core.logs.Logger
@@ -14,9 +13,9 @@ import br.com.mob1st.bet.features.profile.domain.AuthMethod
 import br.com.mob1st.bet.features.profile.domain.LoggedOut
 import br.com.mob1st.bet.features.profile.domain.User
 import br.com.mob1st.bet.features.profile.domain.UserRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
 
 /**
@@ -30,20 +29,18 @@ class LaunchAppUseCase(
     private val competitionRepository: CompetitionRepository,
     private val analyticsTool: AnalyticsTool,
     private val crashReportingTool: CrashReportingTool,
-    private val provider: DispatcherProvider,
     private val logger: Logger,
 ) {
 
-    private val default get() = provider.default
-
-    suspend operator fun invoke(): CompetitionEntry = withContext(default) {
+    context(CoroutineScope)
+    suspend operator fun invoke(): CompetitionEntry {
         val responses = awaitAll(
             async { featureFlagRepository.sync() },
             async { getUser() }
         )
         logger.i("sync the feature flags and retrieve the user")
         val user = responses.last() as User
-        if (user.activeSubscriptions == 0 && usesDefaultCompetition()) {
+        return if (user.activeSubscriptions == 0 && usesDefaultCompetition()) {
             logger.i("subscribe the user in the default competition")
             subscribeInDefaultCompetition()
         } else {

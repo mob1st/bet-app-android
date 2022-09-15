@@ -1,22 +1,31 @@
 package br.com.mob1st.bet.features.competitions.data
 
+import br.com.mob1st.bet.core.firebase.asJson
 import br.com.mob1st.bet.core.firebase.awaitWithTimeout
 import br.com.mob1st.bet.core.firebase.getDateNotNull
 import br.com.mob1st.bet.core.firebase.getLongNotNull
 import br.com.mob1st.bet.core.firebase.getNestedObject
 import br.com.mob1st.bet.core.firebase.getStringNotNull
-import br.com.mob1st.bet.core.utils.objects.Node
 import br.com.mob1st.bet.features.competitions.domain.Competition
-import br.com.mob1st.bet.features.competitions.domain.ConfrontationStatus
 import br.com.mob1st.bet.features.competitions.domain.CompetitionType
 import br.com.mob1st.bet.features.competitions.domain.Confrontation
+import br.com.mob1st.bet.features.competitions.domain.ConfrontationStatus
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromJsonElement
 import org.koin.core.annotation.Factory
 
 @Factory
 class CompetitionCollection(
     private val firestore: FirebaseFirestore
 ) {
+
+    @OptIn(ExperimentalSerializationApi::class)
+    private val json = Json {
+        ignoreUnknownKeys = true
+        explicitNulls = false
+    }
 
     suspend fun getDefault(): Competition {
         val documents = firestore.competitions
@@ -26,14 +35,8 @@ class CompetitionCollection(
             .get()
             .awaitWithTimeout()
         return documents.first().let { doc ->
-            Competition(
-                id = doc.id,
-                name = doc.getNestedObject(Competition::name.name),
-                code = doc.getStringNotNull(Competition::code.name),
-                startAt = doc.getDateNotNull(Competition::startAt.name),
-                endAt = doc.getDate(Competition::endAt.name),
-                type = CompetitionType.FOOTBALL,
-            )
+            val obj = doc.asJson()
+            json.decodeFromJsonElement(obj)
         }
     }
 
@@ -41,10 +44,9 @@ class CompetitionCollection(
         val confrontations = firestore.confrontations(competitionId)
             .get()
             .awaitWithTimeout()
-
         return confrontations.map { doc ->
+            //TODO: Fix the database to allow sealed class mapping of Confrontation
             val contest = doc.getNestedObject<Any>(Confrontation::contest.name)
-
             Confrontation(
                 id = doc.id,
                 expectedDuration = doc.getLongNotNull(Confrontation::expectedDuration.name),
