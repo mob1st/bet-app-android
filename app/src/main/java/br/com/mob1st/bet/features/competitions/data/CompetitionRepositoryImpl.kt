@@ -4,6 +4,7 @@ import br.com.mob1st.bet.core.coroutines.DispatcherProvider
 import br.com.mob1st.bet.features.competitions.domain.Competition
 import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.competitions.domain.Confrontation
+import br.com.mob1st.bet.features.competitions.domain.GetConfrontationListException
 import br.com.mob1st.bet.features.competitions.domain.GetDefaultCompetitionException
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
@@ -23,7 +24,9 @@ class CompetitionRepositoryImpl(
     }
 
     override suspend fun getConfrontationsBy(competitionId: String): List<Confrontation> = withContext(io){
-        TODO("Not yet implemented")
+        runCatching {
+            competitionCollection.getConfrontationsById(competitionId)
+        }.getOrElse { throw GetConfrontationListException(competitionId, it) }
     }
 
 }
