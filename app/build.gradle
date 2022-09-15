@@ -121,7 +121,6 @@ dependencies {
     ksp("io.arrow-kt:arrow-optics-ksp-plugin:$arrow_version")
 
     // serialization
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-properties:1.4.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0'
 
 
