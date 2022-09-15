@@ -14,7 +14,6 @@ import br.com.mob1st.bet.features.competitions.domain.Team
  * on the [CompetitionType] provided to [ContestMapFactory]
  */
 typealias FirebaseContestMapper = (contest: Map<String, Any>) -> Node<Contest>
-
 object ContestMapFactory {
 
     operator fun get(competitionType: CompetitionType): FirebaseContestMapper {
@@ -36,6 +35,7 @@ private val nodeBuilder: FirebaseContestMapper = { data: Map<String, Any> ->
     )
 }
 
+// TODO figure out how to avoid map property by property in firebase
 private val matchWinner = { current: Map<String, Any> ->
      MatchWinner(
          contender1 = Bet(
