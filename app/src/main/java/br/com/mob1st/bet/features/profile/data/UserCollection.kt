@@ -1,15 +1,14 @@
 package br.com.mob1st.bet.features.profile.data
 
+import br.com.mob1st.bet.core.firebase.asJson
 import br.com.mob1st.bet.core.firebase.awaitWithTimeout
-import br.com.mob1st.bet.core.firebase.getNestedObject
-import br.com.mob1st.bet.core.localization.LocalizedText
 import br.com.mob1st.bet.features.competitions.data.competitions
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
-import br.com.mob1st.bet.features.competitions.domain.CompetitionType
 import br.com.mob1st.bet.features.profile.domain.User
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromJsonElement
 import org.koin.core.annotation.Factory
 
 /**
@@ -17,7 +16,8 @@ import org.koin.core.annotation.Factory
  */
 @Factory
 class UserCollection(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val json: Json
 ) {
 
     /**
@@ -56,13 +56,9 @@ class UserCollection(
             .get()
             .awaitWithTimeout()
         return documents.first().let { doc ->
-            val competitionMap = doc.getNestedObject<Any>(UserSubscriptionInput::competition.name)
-            @Suppress("UNCHECKED_CAST")
-            CompetitionEntry(
-                id = (competitionMap["ref"]!! as DocumentReference).id,
-                name = competitionMap["name"] as LocalizedText,
-                type = CompetitionType.FOOTBALL
-            )
+            val jsonObj = doc.asJson()
+            val subscription = json.decodeFromJsonElement<UserSubscriptionInput>(jsonObj)
+            subscription.competition
         }
     }
 

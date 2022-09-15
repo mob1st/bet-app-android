@@ -65,12 +65,6 @@ fun DocumentSnapshot.getStringNotNull(fieldName: String): String {
     }
 }
 
-fun DocumentSnapshot.getBooleanNotNull(fieldName: String): Boolean {
-    return checkNotNull(getBoolean(fieldName)) {
-        fieldMessage(fieldName)
-    }
-}
-
 fun DocumentSnapshot.asJson(): JsonElement {
     val properties = data.orEmpty() + listOf("id" to id)
     return properties.toJsonElement()

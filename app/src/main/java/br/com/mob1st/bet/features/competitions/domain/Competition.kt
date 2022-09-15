@@ -6,6 +6,8 @@ import arrow.optics.optics
 import br.com.mob1st.bet.core.localization.LocalizedText
 import br.com.mob1st.bet.core.serialization.DateSerializer
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.Date
 
@@ -31,9 +33,11 @@ data class Competition(
  * it.
  */
 @Parcelize
-@Keep
 @optics
+@Serializable
+@Keep
 data class CompetitionEntry(
+    @SerialName("ref")
     val id: String,
     val name: LocalizedText,
     val type: CompetitionType,

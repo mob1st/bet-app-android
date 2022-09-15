@@ -11,21 +11,15 @@ import br.com.mob1st.bet.features.competitions.domain.CompetitionType
 import br.com.mob1st.bet.features.competitions.domain.Confrontation
 import br.com.mob1st.bet.features.competitions.domain.ConfrontationStatus
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 import org.koin.core.annotation.Factory
 
 @Factory
 class CompetitionCollection(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val json: Json,
 ) {
-
-    @OptIn(ExperimentalSerializationApi::class)
-    private val json = Json {
-        ignoreUnknownKeys = true
-        explicitNulls = false
-    }
 
     suspend fun getDefault(): Competition {
         val documents = firestore.competitions
