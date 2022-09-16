@@ -11,4 +11,9 @@ interface CompetitionRepository {
      */
     suspend fun getDefaultCompetition(): Competition
 
+    /**
+     * Returns a list of the next confrontations related to the given [competitionId]
+     */
+    suspend fun getConfrontationsBy(competitionId: String): List<Confrontation>
+
 }

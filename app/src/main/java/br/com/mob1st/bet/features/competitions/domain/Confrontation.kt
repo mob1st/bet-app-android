@@ -7,13 +7,15 @@ import java.util.Date
  * A confrontation provides bets
  */
 data class Confrontation(
+    val id: String,
     val startAt: Date,
+    val allowBetsUntil: Date,
     val expectedDuration: Long,
-    val status: CompetitionStatus,
+    val status: ConfrontationStatus,
     val contest: Node<Contest>
 )
 
-enum class CompetitionStatus {
+enum class ConfrontationStatus {
     NOT_STARTED,
     IN_PROGRESS,
     FINISHED,
