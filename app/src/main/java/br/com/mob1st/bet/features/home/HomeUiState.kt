@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 /**
@@ -38,7 +39,7 @@ class HomeUiState(
     )
 
     // TODO implement custom logic to hide bottom bar depending on the screan
-    var showBottomBar by mutableStateOf(true)
+    val showBottomBar @Composable get() = navController.currentBackStackEntryAsState().value?.destination?.route in tabs.map { it.route }
 
     /**
      * Navigates to one of the tabs in the app

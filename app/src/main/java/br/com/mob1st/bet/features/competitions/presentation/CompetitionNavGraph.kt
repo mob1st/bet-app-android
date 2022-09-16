@@ -16,16 +16,13 @@ fun NavGraphBuilder.competitionNavGraph(
 ) {
     composable(route = BottomBarDestination.Competitions.route) {
         CompetitionsTabScreen(viewModel) {
-            homeUiState.navController.navigate(BottomBarDestination.Competitions.route + "/$it")
+            homeUiState.navController.navigate("createGuess")
         }
     }
     composable(
-        route = "competitions/{index}",
-        arguments = listOf(navArgument("index") { type = NavType.IntType })
-    ) { navBackStackEntry ->
-        navBackStackEntry.savedStateHandle
-        val index = requireNotNull(navBackStackEntry.arguments).getInt("index")
-        SelectedCompetition(viewModel, index) {
+        route = "createGuess"
+    ) {
+        SelectedCompetition(viewModel) {
             homeUiState.navController.popBackStack()
         }
     }

@@ -51,7 +51,6 @@ import br.com.mob1st.bet.features.competitions.domain.MatchWinner
 @Composable
 fun SelectedCompetition(
     viewModel: ConfrontationListViewModel,
-    index: Int,
     navigateBack: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -67,7 +66,7 @@ fun SelectedCompetition(
             val team1 = context.getText(matchWinner.contender1.subject.name)
             val team2 = context.getText(matchWinner.contender2.subject.name)
             Text(
-                text = "${index + 1}° Confronto selectionado\n $team1 X $team2",
+                text = "${state.data.selected!! + 1}° Confronto selectionado\n $team1 X $team2",
                 textAlign = TextAlign.Center
             )
         }
@@ -81,6 +80,13 @@ fun SelectedCompetition(
 
     BackHandler {
         viewModel.fromUi(ConfrontationUiEvent.SetSelection(null))
+    }
+}
+
+@Composable
+fun Sample() {
+    Box(contentAlignment = Alignment.Center) {
+        Text(text = "aáaaaaaaaaa")
     }
 }
 

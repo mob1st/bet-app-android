@@ -45,7 +45,6 @@ class ConfrontationListViewModel(
         savedState.getStateFlow<Int?>(SELECTED, null)
             .filter { selected -> selected != currentData.selected }
             .onEach { selected ->
-                logger.d("ptest on select $selected")
                 setData { it.copy(selected = selected) }
             }
             .launchIn(viewModelScope)
