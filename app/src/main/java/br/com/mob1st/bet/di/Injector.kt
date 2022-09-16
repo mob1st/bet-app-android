@@ -19,6 +19,7 @@ object Injector {
                 firebaseModule,
                 coroutinesModule,
                 timberModule,
+                serializationModule,
                 AppModule().module
             )
         }

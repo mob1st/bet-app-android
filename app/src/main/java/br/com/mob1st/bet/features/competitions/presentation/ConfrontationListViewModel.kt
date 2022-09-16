@@ -27,7 +27,7 @@ class ConfrontationListViewModel(
             val confrontations = repository.getConfrontationsBy(it.data.entry.id)
             logger.d("fetch ${confrontations.size} confrontations")
             it.data(
-                ConfrontationData.confrontations.set(it.data, confrontations)
+                ConfrontationData.confrontations.set(it.data, confrontations),
             )
         }
     }
