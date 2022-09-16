@@ -1,5 +1,7 @@
 package br.com.mob1st.bet.features.home
 
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -23,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 class HomeUiState(
     val navController: NavHostController,
     val snackbarHostState: SnackbarHostState,
+    val competitionsListLazyListState: LazyListState,
 ) {
 
     /**
@@ -65,6 +68,7 @@ class HomeUiState(
 fun rememberHomeUiState(
     navController: NavHostController = rememberNavController(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    lazyListState: LazyListState = rememberLazyListState()
 ): HomeUiState = remember(navController, snackbarHostState) {
-    HomeUiState(navController, snackbarHostState)
+    HomeUiState(navController, snackbarHostState, lazyListState)
 }

@@ -1,6 +1,8 @@
 package br.com.mob1st.bet.core.ui.compose
 
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
@@ -41,4 +43,15 @@ val LocalLogger = staticCompositionLocalOf<Logger> {
  */
 val LocalDarkTime = compositionLocalOf {
     false
+}
+
+/**
+ * Provides the current snackbar host state of the composable tree
+ */
+val LocalSnackbarState = compositionLocalOf {
+    SnackbarHostState()
+}
+
+val LocalLazyListState = compositionLocalOf {
+    LazyListState()
 }
