@@ -8,11 +8,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.res.stringResource
 import br.com.mob1st.bet.R
+import br.com.mob1st.bet.core.ui.compose.LocalSnackbarState
 
 @Composable
 fun DismissSnackbar(
-    snackbarHostState: SnackbarHostState,
     message: String,
+    snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
     onDismiss: () -> Unit
 ) {
     val onDismissUpdated by rememberUpdatedState(onDismiss)
@@ -26,8 +27,8 @@ fun DismissSnackbar(
 
 @Composable
 fun RetrySnackbar(
-    snackbarHostState: SnackbarHostState,
     message: String,
+    snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
     onDismiss: () -> Unit,
     onRetry: () -> Unit,
 ) {

@@ -14,23 +14,37 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.annotation.KoinViewModel
 
+/**
+ * The data holder used in the Confrontations List and Confrontation Detail
+ */
 @optics
 data class ConfrontationData(
     val entry: CompetitionEntry,
     val confrontations: List<Confrontation> = emptyList(),
+    val hasFinished: Boolean = false,
     val selected: Int?  = null,
 ) : FetchedData {
 
-    val detail: Confrontation? get() = selected?.let { confrontations[selected] }
+    /*
+    Operators for UI.
+     */
+    val detail: Confrontation? get() = selected?.let { confrontations.getOrNull(selected) }
+    val progress: Float get() = (selected!! / confrontations.size) * 100F
+    val hasNext get() = selected != null && selected + 1 > confrontations.size
+    val isLast get() = selected != null && selected == confrontations.lastIndex
 
     override fun hasData(): Boolean = confrontations.isNotEmpty()
 
     companion object
 }
 
+/**
+ * All UI events the confrontation list and the confrontation detail can trigger
+ */
 sealed class ConfrontationUiEvent {
     data class TryAgain(val message: SimpleMessage) : ConfrontationUiEvent()
     data class SetSelection(val index: Int?) : ConfrontationUiEvent()
+    object GetNext : ConfrontationUiEvent()
 }
 
 @KoinViewModel
@@ -42,10 +56,11 @@ class ConfrontationListViewModel(
 
     init {
         load()
+
         savedState.getStateFlow<Int?>(SELECTED, null)
             .filter { selected -> selected != currentData.selected }
             .onEach { selected ->
-                setData { it.copy(selected = selected) }
+                setData { it.copy(selected = selected, hasFinished = false) }
             }
             .launchIn(viewModelScope)
     }
@@ -54,6 +69,7 @@ class ConfrontationListViewModel(
         when (uiEvent) {
             is ConfrontationUiEvent.TryAgain -> tryAgain(uiEvent.message)
             is ConfrontationUiEvent.SetSelection -> savedState[SELECTED] = uiEvent.index
+            ConfrontationUiEvent.GetNext -> getNext()
         }
     }
 
@@ -69,6 +85,19 @@ class ConfrontationListViewModel(
             it.data(
                 ConfrontationData.confrontations.set(it.data, confrontations),
             )
+        }
+    }
+
+    private fun getNext() {
+        setData { current ->
+            if (current.hasNext) {
+                val selected = checkNotNull(current.selected) {
+                    "If hasNext returns true so selected should be not null"
+                }
+                ConfrontationData.selected.set(current, selected + 1)
+            } else {
+                ConfrontationData.hasFinished.set(current, true)
+            }
         }
     }
 

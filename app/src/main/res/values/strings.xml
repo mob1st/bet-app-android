@@ -13,6 +13,10 @@
     <string name="tab_title_groups">Grupos</string>
     <string name="tab_title_profile">Perfil</string>
 
+    <!-- confrontations -->
+    <string name="draw">Empate</string>
+    <string name="confrontation_detail_header">Quem ganha?</string>
+
     <!-- Launcher -->
     <string name="content_description_launcher">Inicializando</string>
 </resources>
