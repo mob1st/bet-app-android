@@ -1,9 +1,11 @@
 package br.com.mob1st.bet.features.competitions.presentation
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -38,6 +42,7 @@ import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.utils.extensions.ifNotEmpty
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.domain.Confrontation
+import br.com.mob1st.bet.features.competitions.domain.Contest
 import br.com.mob1st.bet.features.competitions.domain.Duel
 import br.com.mob1st.bet.features.competitions.domain.IntScores
 import br.com.mob1st.bet.features.competitions.domain.MatchWinner
@@ -138,7 +143,7 @@ private fun ConfrontationData(
         )
         Spacer(modifier = Modifier.height(CompositionLocalGrid.current.line * 8))
         NodeComponent(
-            detail = confrontationData.detail!!,
+            node = confrontationData.detail!!.contest,
             isLast = confrontationData.isLast,
             onClickNext = { /*TODO*/ }
         )
@@ -169,28 +174,5 @@ private fun Header(
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineMedium
         )
-    }
-}
-
-@Composable
-private fun NodeComponent(
-    detail: Confrontation,
-    isLast: Boolean,
-    onClickNext: () -> Unit
-) {
-
-    var selected: Duel.Selection? by remember {
-        mutableStateOf(null)
-    }
-
-    when(val contest = detail.contest.current) {
-        is IntScores -> { /*TODO*/ }
-        is MatchWinner -> {
-            MatchWinnerComponent(
-                matchWinner = contest,
-                selected = selected,
-                onSelectScore = { selected = it },
-            )
-        }
     }
 }

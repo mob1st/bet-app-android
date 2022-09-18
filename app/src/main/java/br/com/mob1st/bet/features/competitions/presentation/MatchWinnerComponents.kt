@@ -74,7 +74,7 @@ fun MatchWinnerComponentPreview() {
 fun MatchWinnerComponent(
     matchWinner: MatchWinner,
     selected: Duel.Selection? = null,
-    onSelectScore: (Duel.Selection) -> Unit
+    onSelectScore: (Duel.Selection?) -> Unit
 ) {
 
     Column(
