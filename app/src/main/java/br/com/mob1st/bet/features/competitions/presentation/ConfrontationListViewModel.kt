@@ -1,17 +1,21 @@
 package br.com.mob1st.bet.features.competitions.presentation
 
+import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import arrow.optics.optics
 import br.com.mob1st.bet.core.ui.state.FetchedData
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.ui.state.StateViewModel
+import br.com.mob1st.bet.core.utils.objects.Duo
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.competitions.domain.Confrontation
+import br.com.mob1st.bet.features.competitions.domain.Duel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.parcelize.Parcelize
 import org.koin.android.annotation.KoinViewModel
 
 /**
@@ -45,6 +49,23 @@ sealed class ConfrontationUiEvent {
     data class TryAgain(val message: SimpleMessage) : ConfrontationUiEvent()
     data class SetSelection(val index: Int?) : ConfrontationUiEvent()
     object GetNext : ConfrontationUiEvent()
+}
+
+@Parcelize
+data class ConfrontationInput(
+    val winner: Duel.Selection? = null,
+    val score: Duo<Int>? = null,
+) : Parcelable {
+    val scoresVisible: Boolean get() = winner != null
+
+    fun selectWinner(newSelected: Duel.Selection?): ConfrontationInput {
+        val score = if (newSelected == winner) {
+            score
+        } else {
+            null
+        }
+        return copy(winner = newSelected, score = score)
+    }
 }
 
 @KoinViewModel

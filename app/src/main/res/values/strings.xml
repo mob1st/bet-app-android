@@ -17,6 +17,9 @@
     <string name="draw">Empate</string>
     <string name="confrontation_detail_header">Quem ganha?</string>
     <string name="confrontation_detail_score_other">Outro</string>
+    <string name="confrontation_detail_score_header">Placar</string>
+    <string name="confrontation_detail_score_next">Próximo</string>
+    <string name="confrontation_detail_score_done">Pronto</string>
 
     <!-- Launcher -->
     <string name="content_description_launcher">Inicializando</string>

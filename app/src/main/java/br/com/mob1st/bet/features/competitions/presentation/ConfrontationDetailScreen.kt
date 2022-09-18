@@ -4,8 +4,8 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,15 +15,11 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.localization.getText
 import br.com.mob1st.bet.core.ui.compose.LocalLogger
 import br.com.mob1st.bet.core.ui.ds.atoms.CompositionLocalGrid
@@ -41,11 +38,6 @@ import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.utils.extensions.ifNotEmpty
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
-import br.com.mob1st.bet.features.competitions.domain.Confrontation
-import br.com.mob1st.bet.features.competitions.domain.Contest
-import br.com.mob1st.bet.features.competitions.domain.Duel
-import br.com.mob1st.bet.features.competitions.domain.IntScores
-import br.com.mob1st.bet.features.competitions.domain.MatchWinner
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -92,13 +84,14 @@ private fun ConfrontationDetailPage(
         },
         data = { ConfrontationDetailContent(it, {}, {}) },
     )
-
-
 }
 
 @Composable
 private fun Loading() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         CircularProgressIndicator()
     }
 }
@@ -135,18 +128,37 @@ private fun ConfrontationData(
             .fillMaxSize()
             .padding(horizontal = CompositionLocalGrid.current.margin)
             .padding(vertical = CompositionLocalGrid.current.line * 4),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Header(
-            competitionEntry = confrontationData.entry,
-            progress = confrontationData.progress
-        )
-        Spacer(modifier = Modifier.height(CompositionLocalGrid.current.line * 8))
-        NodeComponent(
-            node = confrontationData.detail!!.contest,
-            isLast = confrontationData.isLast,
-            onClickNext = { /*TODO*/ }
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Header(
+                competitionEntry = confrontationData.entry,
+                progress = confrontationData.progress
+            )
+            Spacer(
+                modifier = Modifier.height(CompositionLocalGrid.current.line * 8)
+            )
+            NodeComponent(
+                root = confrontationData.detail!!.contest,
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End,
+        ) {
+            TextButton(
+                onClick = { /*TODO*/ },
+            ) {
+                val text = if (confrontationData.isLast) {
+                    R.string.confrontation_detail_score_done
+                } else {
+                    R.string.confrontation_detail_score_next
+                }
+                Text(text = stringResource(id = text))
+            }
+        }
     }
 }
 
