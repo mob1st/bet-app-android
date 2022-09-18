@@ -29,7 +29,7 @@ data class ConfrontationData(
     Operators for UI.
      */
     val detail: Confrontation? get() = selected?.let { confrontations.getOrNull(selected) }
-    val progress: Float get() = ((selected!! + 1) / confrontations.size).toFloat()
+    val progress: Float get() = (selected!! + 1) / confrontations.size.toFloat()
     val hasNext get() = selected != null && selected + 1 > confrontations.size
     val isLast get() = selected != null && selected == confrontations.lastIndex
 
