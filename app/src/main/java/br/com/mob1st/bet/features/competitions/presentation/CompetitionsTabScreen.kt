@@ -1,6 +1,5 @@
 package br.com.mob1st.bet.features.competitions.presentation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -30,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.core.localization.getText
@@ -46,49 +44,6 @@ import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.utils.extensions.ifNotEmpty
 import br.com.mob1st.bet.features.competitions.domain.IntScores
 import br.com.mob1st.bet.features.competitions.domain.MatchWinner
-
-@OptIn(ExperimentalLifecycleComposeApi::class)
-@Composable
-fun SelectedCompetition(
-    viewModel: ConfrontationListViewModel,
-    navigateBack: () -> Unit
-) {
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val updatedNavigateBack by rememberUpdatedState(navigateBack)
-    val detail = state.data.detail
-    detail?.let {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            val context = LocalContext.current
-            val matchWinner = detail.contest.current as MatchWinner
-            val team1 = context.getText(matchWinner.contender1.subject.name)
-            val team2 = context.getText(matchWinner.contender2.subject.name)
-            Text(
-                text = "${state.data.selected!! + 1}° Confronto selectionado\n $team1 X $team2",
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-
-    if (state.data.selected == null) {
-        LaunchedEffect(Unit) {
-            updatedNavigateBack()
-        }
-    }
-
-    BackHandler {
-        viewModel.fromUi(ConfrontationUiEvent.SetSelection(null))
-    }
-}
-
-@Composable
-fun Sample() {
-    Box(contentAlignment = Alignment.Center) {
-        Text(text = "aáaaaaaaaaa")
-    }
-}
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

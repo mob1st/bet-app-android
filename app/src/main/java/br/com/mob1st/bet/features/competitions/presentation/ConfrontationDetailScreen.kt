@@ -3,7 +3,7 @@ package br.com.mob1st.bet.features.competitions.presentation
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,22 +16,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.core.localization.getText
 import br.com.mob1st.bet.core.ui.compose.LocalLogger
 import br.com.mob1st.bet.core.ui.ds.atoms.CompositionLocalGrid
 import br.com.mob1st.bet.core.ui.ds.molecule.DismissSnackbar
-import br.com.mob1st.bet.core.ui.ds.molecule.RetrySnackbar
 import br.com.mob1st.bet.core.ui.ds.organisms.FetchedCrossfade
 import br.com.mob1st.bet.core.ui.ds.page.DefaultErrorPage
 import br.com.mob1st.bet.core.ui.state.AsyncState
@@ -39,16 +38,30 @@ import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.utils.extensions.ifNotEmpty
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.domain.Confrontation
+import br.com.mob1st.bet.features.competitions.domain.Duel
+import br.com.mob1st.bet.features.competitions.domain.IntScores
+import br.com.mob1st.bet.features.competitions.domain.MatchWinner
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ConfrontationDetailScreen(
     viewModel: ConfrontationListViewModel,
-    navigateUp: () -> Unit,
     popBackStack: () -> Unit,
-    closeAll: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val updatedNavigateBack by rememberUpdatedState(popBackStack)
+    if (state.data.selected == null) {
+        LaunchedEffect(Unit) {
+            updatedNavigateBack()
+        }
+    }
+
+    ConfrontationDetailPage(
+        state = state,
+        onTryAgain = { viewModel.fromUi(ConfrontationUiEvent.TryAgain(it)) },
+        onEmpty = updatedNavigateBack
+    )
+
     BackHandler {
         viewModel.fromUi(ConfrontationUiEvent.SetSelection(null))
     }
@@ -109,19 +122,26 @@ private fun ConfrontationDetailContent(
 }
 
 @Composable
-private fun ConfrontationData(confrontationData: ConfrontationData) {
+private fun ConfrontationData(
+    confrontationData: ConfrontationData,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = CompositionLocalGrid.current.margin)
-            .padding(vertical = CompositionLocalGrid.current.line * 4)
-
+            .padding(vertical = CompositionLocalGrid.current.line * 4),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Header(
             competitionEntry = confrontationData.entry,
             progress = confrontationData.progress
         )
-
+        Spacer(modifier = Modifier.height(CompositionLocalGrid.current.line * 8))
+        NodeComponent(
+            detail = confrontationData.detail!!,
+            isLast = confrontationData.isLast,
+            onClickNext = { /*TODO*/ }
+        )
     }
 }
 
@@ -133,7 +153,9 @@ private fun Header(
 ) {
     val context = LocalContext.current
     Column(
-        modifier = modifier.wrapContentHeight()
+        modifier = modifier
+            .wrapContentHeight()
+            .fillMaxWidth()
     ) {
         LinearProgressIndicator(
             modifier = Modifier
@@ -145,18 +167,30 @@ private fun Header(
             modifier = Modifier.fillMaxWidth(),
             text = context.getText(competitionEntry.name),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.headlineMedium
         )
     }
 }
 
 @Composable
-private fun Detail(
+private fun NodeComponent(
     detail: Confrontation,
     isLast: Boolean,
     onClickNext: () -> Unit
 ) {
-    Column {
-        
+
+    var selected: Duel.Selection? by remember {
+        mutableStateOf(null)
+    }
+
+    when(val contest = detail.contest.current) {
+        is IntScores -> { /*TODO*/ }
+        is MatchWinner -> {
+            MatchWinnerComponent(
+                matchWinner = contest,
+                selected = selected,
+                onSelectScore = { selected = it },
+            )
+        }
     }
 }

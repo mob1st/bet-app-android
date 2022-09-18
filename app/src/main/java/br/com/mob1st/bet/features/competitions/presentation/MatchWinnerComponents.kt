@@ -74,12 +74,8 @@ fun MatchWinnerComponentPreview() {
 fun MatchWinnerComponent(
     matchWinner: MatchWinner,
     selected: Duel.Selection? = null,
-    onSelectScore: (Int) -> Unit
+    onSelectScore: (Duel.Selection) -> Unit
 ) {
-
-    val onSelectChip = { selection: Duel.Selection ->
-        onSelectScore(selection.pathIndex)
-    }
 
     Column(
         modifier = Modifier
@@ -92,7 +88,7 @@ fun MatchWinnerComponent(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.confrontation_detail_header),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineSmall
         )
 
         Spacer(modifier = Modifier.height(CompositionLocalGrid.current.line * 4))
@@ -102,27 +98,25 @@ fun MatchWinnerComponent(
                 .fillMaxWidth()
                 .wrapContentHeight(),
             selected = selected == Duel.Selection.CONTENDER_1,
-            onClick = { onSelectChip(Duel.Selection.CONTENDER_1) },
+            onClick = { onSelectScore(Duel.Selection.CONTENDER_1) },
             trailingIcon = { OddsText(odds = matchWinner.contender1.odds) },
             leadingIcon = { ContenderImage(team = matchWinner.contender1.subject) },
-            //leadingIcon = { Icon(imageVector = Icons.Filled.Warning, contentDescription = null) },
             label = { ContenderText(team = matchWinner.contender1.subject) }
         )
 
         InputChip(
             modifier = Modifier.fillMaxWidth(),
             selected = selected == Duel.Selection.CONTENDER_2,
-            onClick = { onSelectChip(Duel.Selection.CONTENDER_2) },
+            onClick = { onSelectScore(Duel.Selection.CONTENDER_2) },
             trailingIcon = { OddsText(odds = matchWinner.contender2.odds) },
             leadingIcon = { ContenderImage(team = matchWinner.contender2.subject) },
-            //leadingIcon = { Icon(imageVector = Icons.Filled.Warning, contentDescription = null) },
             label = { ContenderText(team = matchWinner.contender2.subject) }
         )
 
         InputChip(
             modifier = Modifier.fillMaxWidth(),
             selected = selected == Duel.Selection.DRAW,
-            onClick = { onSelectChip(Duel.Selection.DRAW) },
+            onClick = { onSelectScore(Duel.Selection.DRAW) },
             trailingIcon = { OddsText(odds = matchWinner.draw.odds) },
             leadingIcon = { Icon(imageVector = Icons.Filled.Warning, contentDescription = null) },
             label = { Text(text = stringResource(id = R.string.draw)) }
