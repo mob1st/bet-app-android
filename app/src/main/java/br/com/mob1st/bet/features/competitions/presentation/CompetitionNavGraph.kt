@@ -1,9 +1,7 @@
 package br.com.mob1st.bet.features.competitions.presentation
 
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import br.com.mob1st.bet.features.home.BottomBarDestination
 import br.com.mob1st.bet.features.home.HomeUiState
 
@@ -22,7 +20,7 @@ fun NavGraphBuilder.competitionNavGraph(
     composable(
         route = "createGuess"
     ) {
-        SelectedCompetition(viewModel) {
+        ConfrontationDetailScreen(viewModel) {
             homeUiState.navController.popBackStack()
         }
     }
