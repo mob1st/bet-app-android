@@ -34,10 +34,9 @@ fun NodeComponent(
     AnimatedVisibility(visible = input.scoresVisible) {
         val intScores = root.paths[input.winner!!.pathIndex].current as IntScores
         ScoresChipComponent(
-            modifier = Modifier.padding(CompositionLocalGrid.current.line * 4),
+            modifier = Modifier.padding(top = CompositionLocalGrid.current.line * 4),
             scores = intScores,
             selected = input.score,
-            other = null,
             onSelect = {
                 input = input.copy(score = it)
             }

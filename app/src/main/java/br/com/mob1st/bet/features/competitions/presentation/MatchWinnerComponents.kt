@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
@@ -79,7 +78,7 @@ fun MatchWinnerComponent(
 
     Column(
         modifier = Modifier
-            .width(CompositionLocalGrid.current.columns(4))
+            .fillMaxWidth()
             .wrapContentHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -87,11 +86,10 @@ fun MatchWinnerComponent(
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.confrontation_detail_header),
-            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineSmall
         )
 
-        Spacer(modifier = Modifier.height(CompositionLocalGrid.current.line * 4))
+        Spacer(modifier = Modifier.height(CompositionLocalGrid.current.line * 2))
 
         InputChip(
             modifier = Modifier

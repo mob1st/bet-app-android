@@ -7,6 +7,9 @@
     <string name="try_again">Tentar novamente</string>
     <string name="retry">Novamente</string>
     <string name="icon_failure_content_description">Falha</string>
+    <string name="cancel">Cancelar</string>
+    <string name="done">Pronto</string>
+    <string name="next">Próximo</string>
 
     <!-- home -->
     <string name="tab_title_competitions">Competições</string>
