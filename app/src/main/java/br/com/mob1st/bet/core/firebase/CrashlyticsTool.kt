@@ -1,8 +1,8 @@
 package br.com.mob1st.bet.core.firebase
 
+import br.com.mob1st.bet.core.arrow.dateTimeIso
 import br.com.mob1st.bet.core.logs.CrashReportingTool
 import br.com.mob1st.bet.core.logs.getPropertiesTree
-import br.com.mob1st.bet.core.utils.extensions.toFormat
 import com.google.firebase.crashlytics.CustomKeysAndValues
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import java.util.Date
@@ -45,7 +45,7 @@ private fun Map<String, Any>.toCustomKeyValues(
             is Long -> builder.putLong(key, value)
             is Float -> builder.putFloat(key, value)
             is Boolean -> builder.putBoolean(key, value)
-            is Date -> builder.putString(key, value.toFormat())
+            is Date -> builder.putString(key, dateTimeIso.get(value))
             else -> builder.putString(key, value.toString())
         }
     }
