@@ -12,7 +12,8 @@ class KoinInitializer : Initializer<KoinApplication> {
 
     override fun dependencies(): List<Class<out Initializer<*>>> {
         return listOf(
-            FirebaseInitializer::class.java
+            FirebaseInitializer::class.java,
+            CoilInitializer::class.java
         )
     }
 }

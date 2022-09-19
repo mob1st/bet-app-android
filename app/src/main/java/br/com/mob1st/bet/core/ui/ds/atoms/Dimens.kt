@@ -19,8 +19,9 @@ data class Grid(
     val column: Dp,
     val line: Dp,
 ) {
+
     fun columns(count: Int): Dp {
-        check(count < 1) {
+        require(count > 1) {
             "count should be greater then or equals 1, so the value $count you used is invalid"
         }
         return (column * count) + (gutter * (count - 1))
