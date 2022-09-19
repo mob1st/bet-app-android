@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import br.com.mob1st.bet.core.ui.ds.InfoTemplate
+import br.com.mob1st.bet.core.ui.ds.templates.InfoTemplate
 
 @Composable
 fun ProfileTabScreen() {

@@ -19,14 +19,12 @@ class LauncherViewModel(
     }
 
     override fun fromUi(uiEvent: LauncherUiEvent) {
-        setState {
-            it.removeMessage((uiEvent as LauncherUiEvent.TryAgain).simpleMessage, loading = true)
-        }
+        messageShown((uiEvent as LauncherUiEvent.TryAgain).simpleMessage, loading = true)
         triggerUseCase()
     }
 
     private fun triggerUseCase() {
-        setState {
+        setAsync {
             val entry: CompetitionEntry = launchAppUseCase()
             it.data(data = LaunchData.competitionEntry.set(it.data, entry))
         }

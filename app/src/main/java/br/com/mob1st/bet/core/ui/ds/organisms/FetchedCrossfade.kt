@@ -28,12 +28,18 @@ fun <T : FetchedData> FetchedCrossfade(
     empty: @Composable (state: AsyncState<T>) -> Unit,
     data: @Composable (state: AsyncState<T>) -> Unit,
 ) {
-    Crossfade(targetState = state) {
+    Crossfade(targetState = state) { current ->
         when {
-            it.data.hasData() -> data(it)
-            it.messages.isEmpty() && it.loading -> emptyLoading(it)
-            it.messages.isEmpty() -> empty(it)
-            else -> emptyError(it, it.messages.first())
+            current.data.hasData() -> {
+                data(current)
+            }
+            current.messages.isEmpty() && current.loading -> {
+                emptyLoading(current)
+            }
+            current.messages.isEmpty() -> {
+                empty(current)
+            }
+            else -> emptyError(current, current.messages.first())
         }
     }
 }

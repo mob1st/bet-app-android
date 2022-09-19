@@ -1,5 +1,7 @@
 package br.com.mob1st.bet.features.home
 
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -9,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 /**
@@ -23,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 class HomeUiState(
     val navController: NavHostController,
     val snackbarHostState: SnackbarHostState,
+    val competitionsListLazyListState: LazyListState,
 ) {
 
     /**
@@ -35,7 +39,7 @@ class HomeUiState(
     )
 
     // TODO implement custom logic to hide bottom bar depending on the screan
-    var showBottomBar by mutableStateOf(true)
+    val showBottomBar @Composable get() = navController.currentBackStackEntryAsState().value?.destination?.route in tabs.map { it.route }
 
     /**
      * Navigates to one of the tabs in the app
@@ -65,6 +69,7 @@ class HomeUiState(
 fun rememberHomeUiState(
     navController: NavHostController = rememberNavController(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    lazyListState: LazyListState = rememberLazyListState()
 ): HomeUiState = remember(navController, snackbarHostState) {
-    HomeUiState(navController, snackbarHostState)
+    HomeUiState(navController, snackbarHostState, lazyListState)
 }

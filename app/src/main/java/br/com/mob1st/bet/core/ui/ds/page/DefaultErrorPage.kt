@@ -8,7 +8,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
-import br.com.mob1st.bet.core.ui.ds.InfoTemplate
+import br.com.mob1st.bet.core.ui.ds.templates.InfoTemplate
 
 @Composable
 fun DefaultErrorPage(

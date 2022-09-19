@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.core.ui.ds
+package br.com.mob1st.bet.core.ui.ds.templates
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import br.com.mob1st.bet.core.ui.ds.atoms.Dimens
 
 /**
