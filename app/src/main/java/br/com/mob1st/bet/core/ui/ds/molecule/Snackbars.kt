@@ -1,20 +1,19 @@
 package br.com.mob1st.bet.core.ui.ds.molecule
 
-import androidx.annotation.StringRes
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.res.stringResource
 import br.com.mob1st.bet.R
+import br.com.mob1st.bet.core.ui.compose.LocalSnackbarState
 
 @Composable
 fun DismissSnackbar(
-    snackbarHostState: SnackbarHostState,
     message: String,
+    snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
     onDismiss: () -> Unit
 ) {
     val onDismissUpdated by rememberUpdatedState(onDismiss)
@@ -28,8 +27,8 @@ fun DismissSnackbar(
 
 @Composable
 fun RetrySnackbar(
-    snackbarHostState: SnackbarHostState,
     message: String,
+    snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
     onDismiss: () -> Unit,
     onRetry: () -> Unit,
 ) {
@@ -78,11 +77,4 @@ suspend fun SnackbarHostState.showRetrySnackbar(
         SnackbarResult.Dismissed -> onDismiss()
         SnackbarResult.ActionPerformed -> onRetry()
     }
-}
-
-/**
- * Provides the current snackbar host state of the composable tree
- */
-val LocalSnackbarState = compositionLocalOf {
-    SnackbarHostState()
 }

@@ -2,6 +2,7 @@ package br.com.mob1st.bet.core.utils.extensions
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 
@@ -27,9 +28,12 @@ fun Intent.start(options: Bundle? = null) {
 }
 
 inline fun <reified T : Parcelable> Intent.getParcelableNotNull(name: String): T {
-    return requireNotNull(
+    val parcelable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         getParcelableExtra(name, T::class.java)
-    ) {
+    } else {
+        getParcelableExtra(name)
+    }
+    return requireNotNull(parcelable) {
         "The parcelable extra $name must be provided with an instance of ${T::class.simpleName}"
     }
 }

@@ -29,7 +29,7 @@ data class AsyncState<T>(
      * removes the given [message] from the state
      * @return a new state without the given [message]
      */
-    fun removeMessage(message: SimpleMessage, loading: Boolean = false): AsyncState<T> {
+    fun removeMessage(message: SimpleMessage, loading: Boolean): AsyncState<T> {
         return copy(messages = messages.filterNot { it.id == message.id }, loading = loading)
     }
 

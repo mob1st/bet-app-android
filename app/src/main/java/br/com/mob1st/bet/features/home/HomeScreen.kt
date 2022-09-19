@@ -19,7 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import br.com.mob1st.bet.core.ui.ds.molecule.LocalSnackbarState
+import br.com.mob1st.bet.core.ui.compose.LocalLazyListState
+import br.com.mob1st.bet.core.ui.compose.LocalSnackbarState
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 
 /**
@@ -42,9 +43,14 @@ fun HomeScreen(
         ) {
             Box(modifier = Modifier
                 .fillMaxSize()
-                .padding(it),
+                .padding(it)
             ) {
-                HomeNavGraph(homeUiState, entry)
+                CompositionLocalProvider(
+                    //TODO add conditional to select the scroll state based on the current tab
+                    LocalLazyListState provides homeUiState.competitionsListLazyListState
+                ) {
+                    HomeNavGraph(homeUiState, entry)
+                }
             }
         }
     }

@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.lang.Exception
+import kotlin.Exception
 
 /**
  * The project's base ViewModel, used to handle the asynchronous state changes in the UI.
@@ -33,12 +33,13 @@ import java.lang.Exception
  */
 abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : ViewModel(), KoinComponent {
 
+    constructor(data: Data, loading: Boolean = true) : this(
+        AsyncState(data = data, loading = loading)
+    )
+
     protected val logger: Logger by inject()
 
     private val viewModelState = MutableStateFlow(initialState)
-
-    val currentState get() = uiState.value
-    val currentData get() = uiState.value.data
 
     /**
      * Provides the asynchronous state of the UI
@@ -53,6 +54,9 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
         viewModelState.value,
     )
 
+    val currentState get() = uiState.value
+    val currentData get() = uiState.value.data
+
     /**
      * Indicates that the UI have consumed a message and it should be removed from the state of
      * the UI
@@ -60,9 +64,14 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
      * After removing this message, a new state will be triggered again to the UI without the
      * message
      * @param message the message consumed by UI
+     * @param loading by default it removes the loading, so set this param if another behavior is
+     * needed
      */
-    open fun messageShown(message: SimpleMessage) = setState { current ->
-        current.removeMessage(message)
+    open fun messageShown(
+        message: SimpleMessage,
+        loading: Boolean = false,
+    ) = viewModelState.update { current ->
+        current.removeMessage(message, loading)
     }
 
 
@@ -85,7 +94,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
                 logger.e("setSource have failed", it)
                 emit(viewModelState.value.failure())
             }
-            .onEach { newState -> setState { newState }}
+            .onEach { newState -> setAsync { newState }}
             .launchIn(viewModelScope)
     }
 
@@ -100,14 +109,36 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
      * @param block the block function that will be executed to manipulate the UI state
      * @return The [Job] created in this operation. Use it to cancel this asynchonous operation
      */
-    protected fun setState(
+    protected fun setAsync(
         block: suspend CoroutineScope.(current: AsyncState<Data>) -> (AsyncState<Data>)
     ): Job = viewModelScope.launch {
+        viewModelState.update { current ->
+            try {
+                block(current)
+            } catch (e: Exception) {
+                logger.e("setState have failed", e)
+                current.failure()
+            }
+        }
+    }
+
+    /**
+     * Turn on the loading
+     */
+    protected fun loading() = viewModelState.update {
+        it.loading()
+    }
+
+    /**
+     * Set only the data, in a synchronous way. Use this method if no coroutines is required, such
+     * as suspend functions or flow collections.
+     * If some internal error happens, it will be catched and sent as default
+     */
+    protected fun setData(block: (current: Data) -> Data) = viewModelState.update {
         try {
-            viewModelState.update { current -> block(current) }
+            it.data(data = block(it.data))
         } catch (e: Exception) {
-            logger.e("setState have failed", e)
-            viewModelState.update { it.failure() }
+            it.failure()
         }
     }
 
@@ -117,7 +148,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
      * This method typically maps events to Use Case calls, and can mutate the state of the UI more
      * then one time per call.
      *
-     * Use [setState] or [setSource] in order to mutate the state of the UI
+     * Use [setAsync] or [setSource] in order to mutate the state of the UI
      */
     abstract fun fromUi(uiEvent: UiEvent)
 

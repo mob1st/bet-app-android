@@ -5,10 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import br.com.mob1st.bet.core.ui.ds.molecule.AddButton
-import br.com.mob1st.bet.core.ui.ds.organisms.GroupRow
+import br.com.mob1st.bet.core.ui.ds.templates.InfoTemplate
 
 @Composable
 fun GroupsTabScreen(
