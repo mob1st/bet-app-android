@@ -21,11 +21,11 @@ import br.com.mob1st.bet.core.ui.ds.atoms.Purple40
 
 @Composable
 fun AddButton(
-    onNavigate: () -> Unit,
+    onAction: () -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
         OutlinedButton(
-            onClick = { onNavigate() },
+            onClick = { onAction() },
             modifier = Modifier.size(50.dp),
             shape = CircleShape,
             border = BorderStroke(5.dp, Purple40),
@@ -41,5 +41,5 @@ fun AddButton(
 @Composable
 @Preview
 fun PreviewAddButton() {
-    //AddButton()
+    AddButton { Unit }
 }

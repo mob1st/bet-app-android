@@ -83,7 +83,11 @@ fun HomeNavGraph(homeUiState: HomeUiState, entry: CompetitionEntry) {
             ProfileTabScreen()
         }
         composable(AppRouteDestination.CreateGroups.route) {
-            CreateGroupScreen()
+            CreateGroupScreen(
+                onCreateGroupAction = {
+                    homeUiState.navController.navigate(BottomBarDestination.Groups.route)
+                },
+            )
         }
     }
 }

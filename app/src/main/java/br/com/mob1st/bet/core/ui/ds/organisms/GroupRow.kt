@@ -1,6 +1,5 @@
 package br.com.mob1st.bet.core.ui.ds.organisms
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,9 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.com.mob1st.bet.core.ui.ds.atoms.Pink40
-import br.com.mob1st.bet.core.ui.ds.atoms.Purple40
-import br.com.mob1st.bet.core.ui.ds.atoms.Purple80
 import br.com.mob1st.bet.core.ui.ds.atoms.PurpleGrey40
 import br.com.mob1st.bet.core.ui.ds.molecule.GroupIcon
 
