@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.groups.createGroup
+package br.com.mob1st.bet.features.groups.presentation.createGroup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
