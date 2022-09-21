@@ -26,4 +26,8 @@
 
     <!-- Launcher -->
     <string name="content_description_launcher">Inicializando</string>
+
+    <!-- -->
+    <string name="group_create_message_error_limit">Você não entrar em mais de 10 grupos</string>
+    <string name="group_create_message_error_auth">Você precisa fazer login para poder criar um grupo</string>
 </resources>

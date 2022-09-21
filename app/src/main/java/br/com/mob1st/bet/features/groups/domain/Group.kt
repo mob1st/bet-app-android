@@ -24,7 +24,7 @@ data class Group(
 
 
 /**
- * A small piece of the [GroupEntry] entity to used as reference in other entities
+ * A small piece of the [Group] entity to used as reference in other entities
  */
 data class GroupEntry(
     val id: String,
