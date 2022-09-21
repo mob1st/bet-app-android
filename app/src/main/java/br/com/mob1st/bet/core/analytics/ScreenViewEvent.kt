@@ -25,7 +25,7 @@ data class ScreenDismissEvent(
     val params: Map<String, Any> = emptyMap()
 ) : AnalyticsEvent {
     override val name: String
-        get() = FirebaseAnalytics.Event.SCREEN_VIEW
+        get() = "screen_dismiss"
 
     override fun params(): Map<String, Any> {
         return mapOf(FirebaseAnalytics.Param.SCREEN_NAME to screenName) + params

@@ -8,9 +8,10 @@ package br.com.mob1st.bet.features.profile.domain
 data class User(
     val id: String,
     val name: String,
-    val authType: AuthType,
+    val authType: AuthType = Anonymous,
     val activeSubscriptions: Int = 0,
-    val imageUrl: String?
+    val membershipCount: Int = 0,
+    val imageUrl: String? = null
 )
 
 /**
