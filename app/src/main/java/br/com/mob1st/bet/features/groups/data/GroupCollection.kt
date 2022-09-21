@@ -13,11 +13,19 @@ import org.koin.core.annotation.Factory
 class GroupCollection(
     private val firestore: FirebaseFirestore
 ) {
-
     suspend fun create(
         founder: User,
         group: Group,
     ) {
+        /*
+        Esses arquivos "Collection" servem pra isolar o Firebase do resto do projeto.
+        Fazer isso é uma forma de seguir Clean Architeture, mantendo o código de regras de negócio
+        isolado do código que interage com framework.
+
+        A vantagem é que podemos no futuro remover o firebase sem precisar alterar as outras camadas
+        do app.
+        */
+
         val batch = firestore.batch()
         val groupRef = firestore.groups.document()
         batch.set(
