@@ -15,6 +15,6 @@ interface Debuggable {
      *
      * @return a map containing the keys and the values to be logged
      */
-    fun logProperties(): Map<String, Any>
+    fun logProperties(): Map<String, Any?>
 
 }

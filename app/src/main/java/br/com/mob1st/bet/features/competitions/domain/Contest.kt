@@ -2,6 +2,7 @@ package br.com.mob1st.bet.features.competitions.domain
 
 import androidx.annotation.Keep
 import br.com.mob1st.bet.core.utils.objects.Duo
+import br.com.mob1st.bet.core.utils.objects.Selector
 import kotlinx.serialization.Serializable
 
 /**
@@ -18,8 +19,24 @@ sealed interface Contest
 data class MatchWinner(
     override val contender1: Bet<Team>,
     override val contender2: Bet<Team>,
-    override val draw: Bet<String>
-) : Contest, Duel<Team>
+    override val draw: Bet<String>,
+    val scores: List<IntScores> = emptyList()
+) : Contest, Duel<Team>, Selector<Duel.Selection, DuelWinner> {
+
+    override fun select(selection: Duel.Selection): DuelWinner {
+        val bet = when(selection) {
+            Duel.Selection.CONTENDER_1 -> contender1
+            Duel.Selection.CONTENDER_2 -> contender2
+            Duel.Selection.DRAW -> draw
+        }
+        return DuelWinner(
+            odds = bet.odds,
+            // todo find a way to customize it
+            weight = 1,
+            selected = selection
+        )
+    }
+}
 
 /**
  * The available scores of a Contest
@@ -28,4 +45,16 @@ data class MatchWinner(
 @Keep
 data class IntScores(
     override val contenders: List<Bet<Duo<Int>>>,
-) : Contest, MultiChoice<Duo<Int>>
+) : Contest, MultiChoice<Duo<Int>>, Selector<Duo<Int>, FinalScore>{
+    override fun select(selection: Duo<Int>): FinalScore {
+        val bet = contenders.firstOrNull { it.subject == selection } ?: contenders.maxBy { it.odds }
+        return FinalScore(
+            odds = bet.odds,
+            // todo find a way to customize it
+            weight = 1,
+            selected = selection
+        )
+    }
+
+
+}
