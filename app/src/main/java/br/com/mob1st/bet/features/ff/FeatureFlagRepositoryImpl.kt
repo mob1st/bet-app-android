@@ -3,6 +3,7 @@ package br.com.mob1st.bet.features.ff
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
 import br.com.mob1st.bet.core.firebase.awaitWithTimeout
 import br.com.mob1st.bet.core.logs.Logger
+import br.com.mob1st.bet.core.utils.functions.suspendRunCatching
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
 import kotlinx.coroutines.TimeoutCancellationException
@@ -19,7 +20,7 @@ internal class FeatureFlagRepositoryImpl(
     private val io get() = provider.io
 
     override suspend fun sync(): Unit = withContext(io) {
-        runCatching {
+        suspendRunCatching {
             try {
                 remoteConfig.fetchAndActivate().awaitWithTimeout()
             } catch (e: TimeoutCancellationException) {

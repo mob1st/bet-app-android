@@ -5,6 +5,7 @@ Tu pode ver que nos imports não tem nada referenciando o firebase, porque o Gro
 ele do projeto
  */
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
+import br.com.mob1st.bet.core.utils.functions.suspendRunCatching
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.groups.domain.CreateGroupException
 import br.com.mob1st.bet.features.groups.domain.Group
@@ -48,7 +49,7 @@ class GroupRepositoryImpl(
             memberCount = 1
         )
         val entry = group.toEntry()
-        runCatching {
+        suspendRunCatching {
             groupCollection.create(founder, group).let { entry }
         }.getOrElse {
             throw CreateGroupException(
