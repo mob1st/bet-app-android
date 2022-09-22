@@ -16,7 +16,10 @@ class UserAuth(
             User(
                 id = firebaseUser.uid,
                 name = firebaseUser.displayName ?: "Anonymous",
-                authType = Anonymous
+                authType = Anonymous,
+
+                // nao sei se isso vai funcionar
+                imageUrl = firebaseUser.photoUrl?.toString()
             )
         },
         reverseGet = { _ -> throw Exception() }

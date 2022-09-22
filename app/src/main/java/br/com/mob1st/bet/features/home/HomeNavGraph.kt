@@ -14,7 +14,7 @@ import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.presentation.ConfrontationListViewModel
 import br.com.mob1st.bet.features.competitions.presentation.competitionNavGraph
 import br.com.mob1st.bet.features.groups.GroupsTabScreen
-import br.com.mob1st.bet.features.groups.createGroup.CreateGroupScreen
+import br.com.mob1st.bet.features.groups.presentation.createGroup.CreateGroupScreen
 import br.com.mob1st.bet.features.profile.presentation.ProfileTabScreen
 import org.koin.androidx.compose.getStateViewModel
 import org.koin.core.parameter.parametersOf
