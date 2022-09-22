@@ -12,7 +12,6 @@ data class Guess(
     @Serializable(DateSerializer::class)
     val updatedAt: Date = createdAt,
     val confrontation: ConfrontationForGuess,
-    val subscriptionId: String,
     val aggregation: AnswerAggregation,
 ) {
     /**
@@ -30,6 +29,8 @@ data class Guess(
  */
 @Serializable
 data class ConfrontationForGuess(
+    @Serializable
+    val competitionId: String,
     @Serializable
     val id: String,
     @Serializable(DateSerializer::class)

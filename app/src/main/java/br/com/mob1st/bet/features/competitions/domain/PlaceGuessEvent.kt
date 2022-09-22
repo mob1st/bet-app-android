@@ -4,6 +4,7 @@ import br.com.mob1st.bet.core.analytics.AnalyticsEvent
 import br.com.mob1st.bet.core.arrow.dateTimeIso
 
 data class PlaceGuessEvent(
+    private val subscriptionId: String,
     private val guess: Guess
 ) : AnalyticsEvent {
     override val name: String
@@ -14,7 +15,7 @@ data class PlaceGuessEvent(
             "moment" to dateTimeIso.get(guess.updatedAt),
             "betAllowedUntil" to dateTimeIso.get(guess.confrontation.allowBetsUntil),
             "confrontationId" to guess.confrontation.id,
-            "subscriptionId" to guess.subscriptionId
+            "subscriptionId" to subscriptionId
         ) + guess.aggregation.logProperties()
     }
 

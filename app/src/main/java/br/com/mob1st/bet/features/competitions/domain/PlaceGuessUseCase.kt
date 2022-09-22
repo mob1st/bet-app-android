@@ -3,22 +3,24 @@ package br.com.mob1st.bet.features.competitions.domain
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import br.com.mob1st.bet.core.logs.Debuggable
 import br.com.mob1st.bet.core.logs.Logger
+import br.com.mob1st.bet.features.profile.domain.UserRepository
 import org.koin.core.annotation.Factory
 
 @Factory
 class PlaceGuessUseCase(
-    private val guessRepository: GuessRepository,
+    private val userRepository: UserRepository,
     private val analyticsTool: AnalyticsTool,
     private val logger: Logger,
 ) {
 
     suspend operator fun invoke(
+        subscriptionId: String,
         guess: Guess,
     ): Guess {
         val updatedGuess = guess.update()
         requireAllowedGuess(updatedGuess)
         requireValidAnswers(updatedGuess)
-        placeGuess(updatedGuess)
+        placeGuess(subscriptionId, updatedGuess)
         return updatedGuess
     }
 
@@ -36,10 +38,13 @@ class PlaceGuessUseCase(
         }
     }
 
-    private suspend fun placeGuess(guess: Guess) {
+    private suspend fun placeGuess(subscriptionId: String, guess: Guess) {
         logger.i("creating guess")
-        guessRepository.set(guess = guess)
-        analyticsTool.log(PlaceGuessEvent(guess))
+        userRepository.placeGuess(
+            subscriptionId = subscriptionId,
+            guess = guess,
+        )
+        analyticsTool.log(PlaceGuessEvent(subscriptionId, guess))
     }
 
 }
