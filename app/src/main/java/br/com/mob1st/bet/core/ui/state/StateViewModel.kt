@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.Exception
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * The project's base ViewModel, used to handle the asynchronous state changes in the UI.
@@ -115,6 +116,8 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
         viewModelState.update { current ->
             try {
                 block(current)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 logger.e("setState have failed", e)
                 current.failure()
@@ -123,7 +126,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
     }
 
     /**
-     * Turn on the loading
+     * Turn on the loading on
      */
     protected fun loading() = viewModelState.update {
         it.loading()
