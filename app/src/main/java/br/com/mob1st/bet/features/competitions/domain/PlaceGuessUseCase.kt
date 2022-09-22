@@ -6,6 +6,12 @@ import br.com.mob1st.bet.core.logs.Logger
 import br.com.mob1st.bet.features.profile.domain.UserRepository
 import org.koin.core.annotation.Factory
 
+/**
+ * Handles the user action of guess placing.
+ *
+ * It creates or edits a guess, check required the validations, logs the events and transfer the
+ * proper data to the datalayer
+ */
 @Factory
 class PlaceGuessUseCase(
     private val userRepository: UserRepository,

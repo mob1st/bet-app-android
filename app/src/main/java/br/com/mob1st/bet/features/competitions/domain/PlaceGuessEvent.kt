@@ -3,6 +3,9 @@ package br.com.mob1st.bet.features.competitions.domain
 import br.com.mob1st.bet.core.analytics.AnalyticsEvent
 import br.com.mob1st.bet.core.arrow.dateTimeIso
 
+/**
+ * Triggered when the user places a guess
+ */
 data class PlaceGuessEvent(
     private val subscriptionId: String,
     private val guess: Guess
