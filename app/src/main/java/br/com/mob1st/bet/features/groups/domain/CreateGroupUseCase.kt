@@ -25,23 +25,6 @@ class CreateGroupUseCase(
     suspend operator fun invoke(
         groupName: String,
     ): GroupEntry {
-
-        /*
-        Aqui implementamos as regras de negócio relacioadas a criação do grupo
-        Mas o que são regras de negócio?
-
-        Geralmente são condifionais (if-else-when) nmecessário pra processamento de dados.
-
-        Por exemplo, digamos que um usuário que não esteja logado não possa criar um grupo.
-        Além disso, um usuário não pode estar em mais de 10 grupos.
-
-        Por fim, toda vez que um usuário criar um grupo nós temos que enviar um evento de analytics
-        para termos um track efetivo.
-
-        Tudo isso são regras de negócio que independem de qual framework, arquitetura, linguagem de
-        programação e etc
-         */
-
         val user = userRepository.get()
 
         if (user.authType == Anonymous) {
@@ -58,9 +41,6 @@ class CreateGroupUseCase(
             competitionEntry = competitionEntry
         )
 
-        /*
-        Analytics são importantes e também fazem parte das regras de negócio
-         */
         analyticsTool.log(
             CreateGroupEvent(
                 groupEntry = groupEntry,
