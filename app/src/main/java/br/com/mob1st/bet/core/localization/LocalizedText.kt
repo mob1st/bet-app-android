@@ -9,9 +9,9 @@ import androidx.core.os.ConfigurationCompat
 typealias LocalizedText = Map<String, String>
 
 val LocalizedText.default: String get() =
-    getOrDefault("en-us", checkNotNull(get(keys.first())))
+    get("en-us") ?: checkNotNull(get(keys.first()))
 
 fun Context.getText(text: LocalizedText): String {
     val locales = ConfigurationCompat.getLocales(resources.configuration)
-    return text.getOrDefault(locales.toLanguageTags().lowercase(), text.default)
+    return text[locales.toLanguageTags().lowercase()] ?: text.default
 }
