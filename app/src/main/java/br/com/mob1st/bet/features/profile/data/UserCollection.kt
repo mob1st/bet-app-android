@@ -69,3 +69,6 @@ val FirebaseFirestore.users get() =
 
 fun FirebaseFirestore.subscriptions(userId: String) =
     users.document(userId).collection("subscriptions")
+
+fun FirebaseFirestore.memberships(userId: String) =
+    users.document(userId).collection("subscriptions")

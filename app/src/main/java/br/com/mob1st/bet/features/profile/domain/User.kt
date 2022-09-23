@@ -10,7 +10,8 @@ data class User(
     val name: String,
     val authType: AuthType,
     val activeSubscriptions: Int = 0,
-    val imageUrl: String?
+    val membershipCount: Int = 0,
+    val imageUrl: String? = null
 )
 
 /**
