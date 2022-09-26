@@ -31,19 +31,7 @@ sealed class GroupsUIEvent {
 class CreateGroupViewModel(
     private val createGroupUseCase: CreateGroupUseCase
 ) : StateViewModel<GroupData, GroupsUIEvent>(GroupData(), loading = false) {
-
-    init {
-        /*
-        ja que essa tela só cria grupos, acho que aqui tu nao precisa fazer nada no init
-        esse método é útil no init quando tu precisa fazer requests ou coisas do tipo
-        setAsync {
-            // tu vai precisar de um
-            it.data(data = it.data.copy())
-        }
-         */
-
-    }
-
+    
     override fun fromUi(uiEvent: GroupsUIEvent) {
         when (uiEvent) {
             is GroupsUIEvent.CreateGroup -> createGroup(uiEvent.groupName)
@@ -52,28 +40,14 @@ class CreateGroupViewModel(
     }
 
     private fun tryAgain(message: SimpleMessage) {
-        // aqui to removeu e colocou um loading, isso quer dizer que se essa linha for executada
-        // um loading infinito vai ficar rodando na tela. o que exatamente dispara esse evento?
         messageShown(message, loading = true)
     }
 
     private fun createGroup(groupName: String) {
-        // mostra o loading na UI
         loading()
 
-        // esse cara remove o loading e faz o tratamento dos erros.
-        // depois tu pode exib
         setAsync {
             try {
-
-                /*
-                aqui tu pode ver que eu fiz o tratamento de duas exceptions que precisam de um
-                tratamento "especial", porque tem uma mensagem customizada pra explicar que erro
-                que deu.
-
-                qualquer outra exception que acontever vai ser capturada pelo setAsync e vai ser
-                exibido o erro padrão
-                 */
                 it.data(data = it.data.copy(createdGroup = createGroupUseCase(groupName)))
             } catch (e: NotAuthorizedForItException) {
                 it.failure(SimpleMessage(R.string.group_create_message_error_auth))
