@@ -140,7 +140,7 @@ fun ConfrontationsData(
                         .fillMaxWidth()
                         .padding(top = CompositionLocalGrid.current.line * 4)
                         .padding(horizontal = CompositionLocalGrid.current.margin),
-                    text = context.getText(state.data.entry.name),
+                    text = context.getText(state.data.subscription.competition.name),
                     style = MaterialTheme.typography.displaySmall
                 )
             }

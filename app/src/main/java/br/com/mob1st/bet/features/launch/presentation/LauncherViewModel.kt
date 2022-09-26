@@ -5,8 +5,8 @@ import arrow.optics.optics
 import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.ui.state.StateViewModel
-import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.launch.domain.LaunchAppUseCase
+import br.com.mob1st.bet.features.profile.data.Subscription
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
@@ -25,8 +25,8 @@ class LauncherViewModel(
 
     private fun triggerUseCase() {
         setAsync {
-            val entry: CompetitionEntry = launchAppUseCase()
-            it.data(data = LaunchData.competitionEntry.set(it.data, entry))
+            val subscription = launchAppUseCase()
+            it.data(LaunchData.subscription.set(it.data, subscription))
         }
     }
 
@@ -34,7 +34,7 @@ class LauncherViewModel(
 
 @Immutable
 @optics
-data class LaunchData(val competitionEntry: CompetitionEntry? = null) {
+data class LaunchData(val subscription: Subscription? = null) {
     companion object
 }
 

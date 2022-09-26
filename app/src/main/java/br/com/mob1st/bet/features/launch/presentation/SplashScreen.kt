@@ -24,13 +24,13 @@ import br.com.mob1st.bet.core.ui.compose.LocalActivity
 import br.com.mob1st.bet.core.ui.compose.ScreenViewLog
 import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
-import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
+import br.com.mob1st.bet.features.profile.data.Subscription
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun SplashScreen(
-    onFinish: (CompetitionEntry) -> Unit
+    onFinish: (Subscription) -> Unit
 ) {
     val viewModel = koinViewModel<LauncherViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -44,7 +44,7 @@ fun SplashScreen(
 @Composable
 fun SplashPage(
     state: AsyncState<LaunchData>,
-    onFinish: (CompetitionEntry) -> Unit,
+    onFinish: (Subscription) -> Unit,
     onTryAgain: (SimpleMessage) -> Unit
 ) {
     val onFinishCallback by rememberUpdatedState(onFinish)
@@ -63,7 +63,7 @@ fun SplashPage(
             SplashErrorMessageDialog(message = state.messages[0], onTryAgain = onTryAgain)
         }
     }
-    state.data.competitionEntry?.let {
+    state.data.subscription?.let {
         SideEffect {
             onFinishCallback(it)
         }

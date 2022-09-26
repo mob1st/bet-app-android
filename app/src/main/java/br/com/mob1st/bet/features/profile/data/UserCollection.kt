@@ -26,24 +26,26 @@ class UserCollection(
     /**
      * Subscribe the given [userId] into the competition provided by [input]
      */
-    suspend fun subscribe(userId: String, input: UserSubscriptionInput) {
+    suspend fun subscribe(userId: String, input: Subscription): Subscription {
         val batch = firestore.batch()
+        val subscriptionDoc = firestore.subscriptions(userId).document()
         batch.set(
-            firestore.subscriptions(userId).document(),
+            subscriptionDoc,
             mapOf(
-                UserSubscriptionInput::competition.name to mapOf(
+                Subscription::competition.name to mapOf(
                     CompetitionEntry::name.name to input.competition.name,
                     CompetitionEntry::type.name to input.competition.type.name,
                     "ref" to firestore.competitions.document(input.competition.id)
                 ),
-                UserSubscriptionInput::points.name to input.points,
-                UserSubscriptionInput::active.name to input.active,
+                Subscription::points.name to input.points,
+                Subscription::active.name to input.active,
             ),
         )
         batch.update(
             firestore.users.document(userId),
             mapOf(User::activeSubscriptions.name to FieldValue.increment(1))
         ).commit().awaitWithTimeout()
+        return input.copy(id = subscriptionDoc.id)
     }
 
     suspend fun create(user: User) {
@@ -53,15 +55,14 @@ class UserCollection(
             .awaitWithTimeout()
     }
 
-    suspend fun getCompetitionEntry(userId: String): CompetitionEntry {
+    suspend fun getCompetitionEntry(userId: String): Subscription {
         val documents = firestore.subscriptions(userId)
             .limit(1)
             .get()
             .awaitWithTimeout()
         return documents.first().let { doc ->
             val jsonObj = doc.asJson()
-            val subscription = json.decodeFromJsonElement<UserSubscriptionInput>(jsonObj)
-            subscription.competition
+            json.decodeFromJsonElement(jsonObj)
         }
     }
 

@@ -134,7 +134,7 @@ private fun ConfrontationData(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Header(
-                competitionEntry = confrontationData.entry,
+                competitionEntry = confrontationData.subscription.competition,
                 progress = confrontationData.progress
             )
             Spacer(
