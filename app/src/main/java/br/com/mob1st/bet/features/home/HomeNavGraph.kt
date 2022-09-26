@@ -10,11 +10,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.mob1st.bet.R
-import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.presentation.ConfrontationListViewModel
 import br.com.mob1st.bet.features.competitions.presentation.competitionNavGraph
 import br.com.mob1st.bet.features.groups.GroupsTabScreen
 import br.com.mob1st.bet.features.groups.presentation.createGroup.CreateGroupScreen
+import br.com.mob1st.bet.features.profile.data.Subscription
 import br.com.mob1st.bet.features.profile.presentation.ProfileTabScreen
 import org.koin.androidx.compose.getStateViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -64,10 +64,10 @@ sealed class AppRouteDestination(val route: String) {
 
 
 @Composable
-fun HomeNavGraph(homeUiState: HomeUiState, entry: CompetitionEntry) {
+fun HomeNavGraph(homeUiState: HomeUiState, subscription: Subscription) {
 
-    val competitionsViewModel = koinViewModel<ConfrontationListViewModel> {
-        parametersOf(entry)
+    val competitionsViewModel = getStateViewModel<ConfrontationListViewModel> {
+        parametersOf(subscription)
     }
     NavHost(
         navController = homeUiState.navController,

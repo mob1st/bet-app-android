@@ -8,10 +8,10 @@ import br.com.mob1st.bet.core.ui.state.FetchedData
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.ui.state.StateViewModel
 import br.com.mob1st.bet.core.utils.objects.Duo
-import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.competitions.domain.Confrontation
 import br.com.mob1st.bet.features.competitions.domain.Duel
+import br.com.mob1st.bet.features.profile.data.Subscription
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,7 +23,7 @@ import org.koin.android.annotation.KoinViewModel
  */
 @optics
 data class ConfrontationData(
-    val entry: CompetitionEntry,
+    val subscription: Subscription,
     val confrontations: List<Confrontation> = emptyList(),
     val hasFinished: Boolean = false,
     val selected: Int?  = null,
@@ -70,10 +70,10 @@ data class ConfrontationInput(
 
 @KoinViewModel
 class ConfrontationListViewModel(
-    entry: CompetitionEntry,
+    subscription: Subscription,
     private val repository: CompetitionRepository,
     private val savedState: SavedStateHandle
-) : StateViewModel<ConfrontationData, ConfrontationUiEvent>(ConfrontationData(entry)){
+) : StateViewModel<ConfrontationData, ConfrontationUiEvent>(ConfrontationData(subscription)){
 
     init {
         load()
@@ -101,7 +101,7 @@ class ConfrontationListViewModel(
 
     private fun load() {
         setAsync {
-            val confrontations = repository.getConfrontationsBy(it.data.entry.id)
+            val confrontations = repository.getConfrontationsBy(it.data.subscription.competition.id)
             logger.d("fetch ${confrontations.size} confrontations")
             it.data(
                 ConfrontationData.confrontations.set(it.data, confrontations),

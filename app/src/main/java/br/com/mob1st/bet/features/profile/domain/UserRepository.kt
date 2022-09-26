@@ -2,6 +2,7 @@ package br.com.mob1st.bet.features.profile.domain
 
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.domain.Guess
+import br.com.mob1st.bet.features.profile.data.Subscription
 
 /**
  * Manages the user entity and everything that depends on it to exists
@@ -22,7 +23,7 @@ interface UserRepository {
      * Subscribes the user in the given competition
      * @throws UserSubscriptionException
      */
-    suspend fun subscribe(entry: CompetitionEntry)
+    suspend fun subscribe(entry: CompetitionEntry): Subscription
 
     /**
      * Get the current logged user
@@ -37,7 +38,7 @@ interface UserRepository {
     /**
      * Get the first available competition for the User to start the app
      */
-    suspend fun getFirstAvailableSubscription(): CompetitionEntry
+    suspend fun getFirstAvailableSubscription(): Subscription
 
     /**
      * Place the given guess for logged user.

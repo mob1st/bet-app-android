@@ -21,7 +21,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import br.com.mob1st.bet.core.ui.compose.LocalLazyListState
 import br.com.mob1st.bet.core.ui.compose.LocalSnackbarState
-import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
+import br.com.mob1st.bet.features.profile.data.Subscription
 
 /**
  * The Scaffold screen of the app, used to display the 3 tabs and provide access to all features
@@ -29,7 +29,7 @@ import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    entry: CompetitionEntry,
+    entry: Subscription,
     homeUiState: HomeUiState = rememberHomeUiState(),
 ) {
     CompositionLocalProvider(LocalSnackbarState provides homeUiState.snackbarHostState) {

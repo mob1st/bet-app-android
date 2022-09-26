@@ -37,12 +37,12 @@ internal class UserRepositoryImpl(
         return@withContext user
     }
 
-    override suspend fun subscribe(entry: CompetitionEntry): Unit = withContext(io){
+    override suspend fun subscribe(entry: CompetitionEntry): Subscription = withContext(io){
         suspendRunCatching {
             val userId = checkNotNull(userAuth.get()?.id)
             userCollection.subscribe(
                 userId,
-                UserSubscriptionInput(entry),
+                Subscription(competition = entry),
             )
         }.getOrElse {
             throw UserSubscriptionException(entry.id, it)
@@ -71,7 +71,7 @@ internal class UserRepositoryImpl(
         throw UserCreationException(user.id, it)
     }
 
-    override suspend fun getFirstAvailableSubscription(): CompetitionEntry = withContext(io) {
+    override suspend fun getFirstAvailableSubscription(): Subscription = withContext(io) {
         suspendRunCatching {
             userCollection.getCompetitionEntry(checkNotNull(userAuth.getId()))
         }.getOrElse {
