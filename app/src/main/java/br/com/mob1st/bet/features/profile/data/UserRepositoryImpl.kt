@@ -1,6 +1,7 @@
 package br.com.mob1st.bet.features.profile.data
 
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
+import br.com.mob1st.bet.core.utils.functions.suspendRunCatching
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.profile.domain.AnonymousSignInException
 import br.com.mob1st.bet.features.profile.domain.AuthStatus
@@ -30,7 +31,7 @@ internal class UserRepositoryImpl(
     }
 
     override suspend fun subscribe(entry: CompetitionEntry): Unit = withContext(io){
-        runCatching {
+        suspendRunCatching {
             val userId = checkNotNull(userAuth.get()?.id)
             userCollection.subscribe(
                 userId,
@@ -42,13 +43,13 @@ internal class UserRepositoryImpl(
     }
 
     override suspend fun get(): User {
-        return runCatching {
+        return suspendRunCatching {
             checkNotNull(userAuth.get())
         }.getOrElse { throw GetUserException(it) }
     }
 
     private suspend fun authUser(): User {
-        return runCatching {
+        return suspendRunCatching {
             userAuth.signInAnonymously()
         }.getOrElse {
             throw AnonymousSignInException(it)
@@ -64,7 +65,7 @@ internal class UserRepositoryImpl(
     }
 
     override suspend fun getFirstAvailableSubscription(): CompetitionEntry = withContext(io) {
-        runCatching {
+        suspendRunCatching {
             userCollection.getCompetitionEntry(checkNotNull(userAuth.getId()))
         }.getOrElse {
             throw GetUserFirstAvailableSubscription(it)
