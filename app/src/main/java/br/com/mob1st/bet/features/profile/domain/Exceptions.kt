@@ -1,7 +1,6 @@
 package br.com.mob1st.bet.features.profile.domain
 
 import br.com.mob1st.bet.core.logs.Debuggable
-import br.com.mob1st.bet.features.competitions.domain.Guess
 
 class AnonymousSignInException(
     cause: Throwable,
@@ -33,19 +32,3 @@ class GetUserFirstAvailableSubscription(
 class GetUserException(
     cause: Throwable
 ) : Exception("unable to get the user. check if login was executed first", cause)
-
-class PlaceGuessException(
-    private val subscriptionId: String,
-    private val guess: Guess,
-    cause: Throwable
-) : Exception("unable to place the guess", cause), Debuggable {
-    override fun logProperties(): Map<String, Any?> {
-        return mapOf(
-            "subscriptionId" to subscriptionId,
-            "updatedAt" to guess.updatedAt,
-            "createdAt" to guess.createdAt,
-            "confrontationId" to guess.confrontation.id,
-            "confrontationAllowsUntil" to guess.confrontation.allowBetsUntil,
-        ) + guess.aggregation.logProperties()
-    }
-}

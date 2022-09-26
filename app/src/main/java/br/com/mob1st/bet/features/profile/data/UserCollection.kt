@@ -3,10 +3,7 @@ package br.com.mob1st.bet.features.profile.data
 import br.com.mob1st.bet.core.firebase.asJson
 import br.com.mob1st.bet.core.firebase.awaitWithTimeout
 import br.com.mob1st.bet.features.competitions.data.competitions
-import br.com.mob1st.bet.features.competitions.data.confrontations
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
-import br.com.mob1st.bet.features.competitions.domain.ConfrontationForGuess
-import br.com.mob1st.bet.features.competitions.domain.Guess
 import br.com.mob1st.bet.features.profile.domain.User
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -66,44 +63,6 @@ class UserCollection(
         }
     }
 
-    suspend fun createGuess(
-        userId: String,
-        subscriptionId: String,
-        guess: Guess,
-    ) {
-        val confrontation = guess.confrontation
-        firestore.guesses(userId, subscriptionId)
-            .document(guess.id)
-        firestore.guesses(userId, subscriptionId)
-            .document(guess.id)
-            .set(mapOf(
-                Guess::createdAt::name to guess.createdAt,
-                Guess::updatedAt::name to guess.updatedAt,
-                Guess::aggregation::name to GuessAnswerFactory.toMap(guess.aggregation),
-                Guess::confrontation::name to mapOf(
-                    "ref" to firestore
-                        .confrontations(confrontation.competitionId)
-                        .document(confrontation.id),
-                    ConfrontationForGuess::allowBetsUntil to guess.confrontation.allowBetsUntil
-                ),
-            ))
-            .awaitWithTimeout()
-    }
-
-    suspend fun updateGuess(
-        userId: String,
-        subscriptionId: String,
-        guess: Guess,
-    ) {
-        firestore.guesses(userId, subscriptionId)
-            .document(guess.id)
-            .update(mapOf(
-                Guess::updatedAt.name to guess.updatedAt,
-                Guess::aggregation.name to GuessAnswerFactory.toMap(guess.aggregation)
-            ))
-            .awaitWithTimeout()
-    }
-
 }
 
 val FirebaseFirestore.users get() =
@@ -113,7 +72,4 @@ fun FirebaseFirestore.subscriptions(userId: String) =
 
 fun FirebaseFirestore.memberships(userId: String) =
     users.document(userId).collection("memberships")
-
-fun FirebaseFirestore.guesses(userId: String, subscriptionId: String) =
-    subscriptions(userId).document(subscriptionId).collection("guesses")
 
