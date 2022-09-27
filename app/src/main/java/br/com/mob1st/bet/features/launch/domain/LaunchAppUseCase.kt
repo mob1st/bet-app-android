@@ -9,6 +9,7 @@ import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.ff.FeatureFlagRepository
 import br.com.mob1st.bet.features.profile.SignInEvent
+import br.com.mob1st.bet.features.profile.data.Subscription
 import br.com.mob1st.bet.features.profile.domain.AuthMethod
 import br.com.mob1st.bet.features.profile.domain.LoggedOut
 import br.com.mob1st.bet.features.profile.domain.User
@@ -33,7 +34,7 @@ class LaunchAppUseCase(
 ) {
 
     context(CoroutineScope)
-    suspend operator fun invoke(): CompetitionEntry {
+    suspend operator fun invoke(): Subscription {
         val responses = awaitAll(
             async { featureFlagRepository.sync() },
             async { getUser() }
@@ -69,19 +70,19 @@ class LaunchAppUseCase(
         return user
     }
 
-    private suspend fun subscribeInDefaultCompetition(): CompetitionEntry {
+    private suspend fun subscribeInDefaultCompetition(): Subscription {
         logger.v("get the default competition")
         val defaultCompetition = competitionRepository.getDefaultCompetition()
         val entry = defaultCompetition.toEntry()
         logger.v("subscribe the user into competition ${entry.name.default}")
-        userRepository.subscribe(entry)
+        val subscription = userRepository.subscribe(entry)
         analyticsTool.log(
             CompetitionSubscribeEvent(
                 entry = entry,
                 method = CompetitionSubscribeEvent.Method.AUTOMATIC
             )
         )
-        return entry
+        return subscription
     }
 
     companion object {
