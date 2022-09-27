@@ -34,11 +34,9 @@ data class GroupEntry(
 
 
 fun Pair<GroupEntry, CompetitionEntry>.toLogMap() = mapOf(
-    // group info
     "groupId" to first.id,
     "groupName" to first.name,
 
-    // competition info
     "competitionId" to second.id,
     "competitionName" to second.name.default,
     "competitionType" to second.type.name.lowercase(),
