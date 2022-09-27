@@ -1,6 +1,7 @@
 package br.com.mob1st.bet.features.competitions.domain
 
 import br.com.mob1st.bet.core.serialization.DateSerializer
+import br.com.mob1st.bet.features.profile.data.Subscription
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.Date
@@ -14,6 +15,8 @@ import java.util.Date
 @Serializable
 data class Guess(
     val id: String = "",
+    @SerialName("subscriptionRef")
+    val subscriptionId: String,
     @Serializable(DateSerializer::class)
     val createdAt: Date = Date(),
     @Serializable(DateSerializer::class)

@@ -1,9 +1,13 @@
 package br.com.mob1st.bet.features.competitions.domain
 
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
+import br.com.mob1st.bet.core.coroutines.AppScopeProvider
 import br.com.mob1st.bet.core.logs.Debuggable
 import br.com.mob1st.bet.core.logs.Logger
+import br.com.mob1st.bet.features.profile.domain.LoggedOut
+import br.com.mob1st.bet.features.profile.domain.User
 import br.com.mob1st.bet.features.profile.domain.UserRepository
+import kotlinx.coroutines.launch
 import org.koin.core.annotation.Factory
 
 /**
@@ -15,19 +19,37 @@ import org.koin.core.annotation.Factory
 @Factory
 class PlaceGuessUseCase(
     private val userRepository: UserRepository,
+    private val guessRepository: GuessRepository,
     private val analyticsTool: AnalyticsTool,
     private val logger: Logger,
+    private val appScopeProvider: AppScopeProvider,
 ) {
 
-    suspend operator fun invoke(
-        subscriptionId: String,
+    operator fun invoke(
         guess: Guess,
-    ): Guess {
-        val updatedGuess = guess.update()
-        requireAllowedGuess(updatedGuess)
-        requireValidAnswers(updatedGuess)
-        placeGuess(subscriptionId, updatedGuess)
-        return updatedGuess
+    ) {
+        // to don't suspend the UI and allow the user to bet fast, this use case uses the app scope
+        appScopeProvider.appScope.launch {
+            try {
+                val updatedGuess = guess.update()
+                val user = requireAuthentication()
+                requireAllowedGuess(updatedGuess)
+                requireValidAnswers(updatedGuess)
+                placeGuess(user, updatedGuess)
+            } catch (e: Exception) {
+                // once we don't make the user wait the response of this use case, we should catch
+                // the error and log it her
+                logger.e("error for placing guess", e)
+            }
+
+        }
+    }
+
+    private suspend fun requireAuthentication(): User {
+        if (userRepository.getAuthStatus() == LoggedOut) {
+            throw RequireAuthException()
+        }
+        return userRepository.get()
     }
 
     private fun requireAllowedGuess(guess: Guess) {
@@ -44,13 +66,13 @@ class PlaceGuessUseCase(
         }
     }
 
-    private suspend fun placeGuess(subscriptionId: String, guess: Guess) {
+    private suspend fun placeGuess(user: User, guess: Guess) {
         logger.i("creating guess")
-        userRepository.placeGuess(
-            subscriptionId = subscriptionId,
+        guessRepository.placeGuess(
+            user = user,
             guess = guess,
         )
-        analyticsTool.log(PlaceGuessEvent(subscriptionId, guess))
+        analyticsTool.log(PlaceGuessEvent(guess))
     }
 
 }
@@ -78,5 +100,6 @@ class InvalidScoreException(
     override fun logProperties(): Map<String, Any?> {
         return aggregation.logProperties()
     }
-
 }
+
+class RequireAuthException() : Exception("you need authetication to create a guess")

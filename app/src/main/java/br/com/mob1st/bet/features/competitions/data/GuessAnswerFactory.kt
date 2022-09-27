@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.features.profile.data
+package br.com.mob1st.bet.features.competitions.data
 
 import br.com.mob1st.bet.features.competitions.domain.AnswerAggregation
 import br.com.mob1st.bet.features.competitions.domain.DuelWinner
@@ -7,7 +7,7 @@ import br.com.mob1st.bet.features.competitions.domain.Odds
 import br.com.mob1st.bet.features.competitions.domain.WinnerAnswers
 
 /**
- * Creates
+ * Creates a strucure of answer in firestore depending on the given type
  */
 object GuessAnswerFactory {
 

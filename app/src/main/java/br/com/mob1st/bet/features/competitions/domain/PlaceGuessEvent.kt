@@ -7,7 +7,6 @@ import br.com.mob1st.bet.core.arrow.dateTimeIso
  * Triggered when the user places a guess
  */
 data class PlaceGuessEvent(
-    private val subscriptionId: String,
     private val guess: Guess
 ) : AnalyticsEvent {
     override val name: String
@@ -18,7 +17,7 @@ data class PlaceGuessEvent(
             "moment" to dateTimeIso.get(guess.updatedAt),
             "betAllowedUntil" to dateTimeIso.get(guess.confrontation.allowBetsUntil),
             "confrontationId" to guess.confrontation.id,
-            "subscriptionId" to subscriptionId
+            "subscriptionId" to guess.subscriptionId
         ) + guess.aggregation.logProperties()
     }
 
