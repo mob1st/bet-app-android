@@ -80,16 +80,11 @@ data class ConfrontationInput(
     fun toAnswers(
         root: Node<Contest>
     ): AnswerAggregation {
-
-        val winnerAnswer = winner?.let {
-            (root.current as MatchWinner).select(it)
-        }
-        val scoreAnswer = winnerAnswer?.let {
-            val path = root.paths[it.selected.pathIndex].current as IntScores
-            score?.let { score ->
-                path.select(score)
-            }
-
+        checkNotNull(winner)
+        val winnerAnswer = (root.current as MatchWinner).select(winner)
+        val path = root.paths[winnerAnswer.selected.pathIndex].current as IntScores
+        val scoreAnswer = score?.let { score ->
+            path.select(score)
         }
         return WinnerAnswers(
             winner = winnerAnswer,
@@ -160,10 +155,11 @@ class ConfrontationListViewModel(
                 val selected = checkNotNull(current.selected) {
                     "If hasNext returns true so selected should be not null"
                 }
-                ConfrontationData.selected.set(current, selected + 1)
+                //ConfrontationData.selected.set(current, selected + 1)
             } else {
-                ConfrontationData.hasFinished.set(current, true)
+                //ConfrontationData.hasFinished.set(current, true)
             }
+            current
         }
     }
 

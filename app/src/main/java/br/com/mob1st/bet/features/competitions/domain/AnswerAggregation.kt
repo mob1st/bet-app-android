@@ -33,7 +33,7 @@ sealed interface AnswerAggregation : Debuggable {
 @Serializable
 @SerialName("WinnerAnswers")
 data class WinnerAnswers(
-    val winner: DuelWinner?,
+    val winner: DuelWinner,
     val score: FinalScore? = null,
 ) : AnswerAggregation {
     override val answers: Set<Answer<*>>
@@ -41,7 +41,6 @@ data class WinnerAnswers(
 
     override fun isValid(): Boolean {
         return when {
-            winner == null -> false
             score == null -> true
             winner.selected == Duel.Selection.DRAW -> score.selected.first == score.selected.second
             else -> score.selected.first != score.selected.second
