@@ -31,6 +31,7 @@ inline fun <reified T : Parcelable> Intent.getParcelableNotNull(name: String): T
     val parcelable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         getParcelableExtra(name, T::class.java)
     } else {
+        @Suppress("DEPRECATION")
         getParcelableExtra(name)
     }
     return requireNotNull(parcelable) {

@@ -17,6 +17,7 @@ import br.com.mob1st.bet.features.groups.GroupsTabScreen
 import br.com.mob1st.bet.features.groups.presentation.createGroup.CreateGroupScreen
 import br.com.mob1st.bet.features.profile.presentation.ProfileTabScreen
 import org.koin.androidx.compose.getStateViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 /**
@@ -65,7 +66,7 @@ sealed class AppRouteDestination(val route: String) {
 @Composable
 fun HomeNavGraph(homeUiState: HomeUiState, entry: CompetitionEntry) {
 
-    val competitionsViewModel = getStateViewModel<ConfrontationListViewModel> {
+    val competitionsViewModel = koinViewModel<ConfrontationListViewModel> {
         parametersOf(entry)
     }
     NavHost(
