@@ -13,6 +13,6 @@ interface AnalyticsEvent {
     /**
      * Provides the list of the params for this event
      */
-    fun params(): Map<String, Any>
+    fun params(): Map<String, Any?>
 
 }

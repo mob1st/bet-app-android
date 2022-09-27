@@ -80,6 +80,7 @@ private fun List<*>.toJsonArray(): JsonArray {
 }
 
 private fun Any?.toJsonElement(): JsonElement {
+    JsonPrimitive(0).content
     return when (this) {
         null -> JsonNull
         is Boolean -> JsonPrimitive(this)

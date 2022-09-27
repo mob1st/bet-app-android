@@ -1,17 +1,22 @@
 package br.com.mob1st.bet.features.profile.data
 
+import br.com.mob1st.bet.core.coroutines.AppScopeProvider
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
+import br.com.mob1st.bet.core.logs.Logger
 import br.com.mob1st.bet.core.utils.functions.suspendRunCatching
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
+import br.com.mob1st.bet.features.competitions.domain.Guess
 import br.com.mob1st.bet.features.profile.domain.AnonymousSignInException
 import br.com.mob1st.bet.features.profile.domain.AuthStatus
 import br.com.mob1st.bet.features.profile.domain.GetUserException
 import br.com.mob1st.bet.features.profile.domain.GetUserFirstAvailableSubscription
+import br.com.mob1st.bet.features.profile.domain.PlaceGuessException
 import br.com.mob1st.bet.features.profile.domain.User
 import br.com.mob1st.bet.features.profile.domain.UserAuth
 import br.com.mob1st.bet.features.profile.domain.UserCreationException
 import br.com.mob1st.bet.features.profile.domain.UserRepository
 import br.com.mob1st.bet.features.profile.domain.UserSubscriptionException
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
 
@@ -20,6 +25,8 @@ internal class UserRepositoryImpl(
     private val userAuth: UserAuth,
     private val userCollection: UserCollection,
     private val dispatcherProvider: DispatcherProvider,
+    private val appScopeProvider: AppScopeProvider,
+    private val logger: Logger,
 ) : UserRepository {
 
     private val io get() = dispatcherProvider.io
@@ -70,6 +77,32 @@ internal class UserRepositoryImpl(
         }.getOrElse {
             throw GetUserFirstAvailableSubscription(it)
         }
+    }
+
+    override suspend fun placeGuess(subscriptionId: String, guess: Guess) {
+        // uses the app scope to avoid block the user until the guess is placed
+        appScopeProvider.appScope.launch(io) {
+            suspendRunCatching {
+                if (guess.id.isEmpty()) {
+                    userCollection.createGuess(
+                        userId = checkNotNull(userAuth.getId()),
+                        subscriptionId = subscriptionId,
+                        guess = guess,
+                    )
+                } else {
+                    userCollection.updateGuess(
+                        userId = checkNotNull(userAuth.getId()),
+                        subscriptionId = subscriptionId,
+                        guess = guess,
+                    )
+                }
+            }.getOrElse {
+                // avoid error propagation and log it here.
+                // since it's not an operation that blocks the user, we will not throw errors
+                val e = PlaceGuessException(subscriptionId, guess, it)
+                logger.e("error when placing the guess", e)
+            }
+        }.join()
     }
 
     override suspend fun getAuthStatus(): AuthStatus = userAuth.getAuthStatus()
