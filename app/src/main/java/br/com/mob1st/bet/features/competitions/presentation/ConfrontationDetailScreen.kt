@@ -19,7 +19,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -56,7 +59,10 @@ fun ConfrontationDetailScreen(
     ConfrontationDetailPage(
         state = state,
         onTryAgain = { viewModel.fromUi(ConfrontationUiEvent.TryAgain(it)) },
-        onEmpty = updatedNavigateBack
+        onEmpty = updatedNavigateBack,
+        onDismissSnackbar = { viewModel.messageShown(it) },
+        onButtonClicked = { viewModel.fromUi(ConfrontationUiEvent.GetNext(it)) },
+        onNullDetail = updatedNavigateBack
     )
 
     BackHandler {
@@ -68,7 +74,10 @@ fun ConfrontationDetailScreen(
 private fun ConfrontationDetailPage(
     state: AsyncState<ConfrontationData>,
     onTryAgain: (SimpleMessage) -> Unit,
-    onEmpty: () -> Unit
+    onEmpty: () -> Unit,
+    onDismissSnackbar: (SimpleMessage) -> Unit,
+    onButtonClicked: (ConfrontationInput) -> Unit,
+    onNullDetail: () -> Unit
 ) {
 
     val onEmptyUpdated by rememberUpdatedState(onEmpty)
@@ -82,7 +91,14 @@ private fun ConfrontationDetailPage(
                 onEmptyUpdated()
             }
         },
-        data = { ConfrontationDetailContent(it, {}, {}) },
+        data = {
+            ConfrontationDetailContent(
+                state = it,
+                onDismissSnackbar = onDismissSnackbar,
+                onButtonClicked = onButtonClicked,
+                onNullDetail = onNullDetail
+            )
+        },
     )
 }
 
@@ -100,6 +116,7 @@ private fun Loading() {
 private fun ConfrontationDetailContent(
     state: AsyncState<ConfrontationData>,
     onDismissSnackbar: (SimpleMessage) -> Unit,
+    onButtonClicked: (ConfrontationInput) -> Unit,
     onNullDetail: () -> Unit
 ) {
     state.messages.ifNotEmpty { message ->
@@ -109,7 +126,7 @@ private fun ConfrontationDetailContent(
         )
     }
     if (state.data.detail != null) {
-        ConfrontationData(state.data)
+        ConfrontationData(state.data, onButtonClicked)
     } else {
         LocalLogger.current.w(
             "A confrontation detail should never be null. " +
@@ -122,7 +139,13 @@ private fun ConfrontationDetailContent(
 @Composable
 private fun ConfrontationData(
     confrontationData: ConfrontationData,
+    onButtonClicked: (ConfrontationInput) -> Unit
 ) {
+
+    var input: ConfrontationInput by rememberSaveable {
+        mutableStateOf(ConfrontationInput())
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -142,6 +165,10 @@ private fun ConfrontationData(
             )
             NodeComponent(
                 root = confrontationData.detail!!.contest,
+                input = input,
+                onInput = {
+                    input = it
+                }
             )
         }
         Row(
@@ -149,7 +176,9 @@ private fun ConfrontationData(
             horizontalArrangement = Arrangement.End,
         ) {
             TextButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    onButtonClicked(input)
+                },
             ) {
                 val text = if (confrontationData.isLast) {
                     R.string.confrontation_detail_score_done

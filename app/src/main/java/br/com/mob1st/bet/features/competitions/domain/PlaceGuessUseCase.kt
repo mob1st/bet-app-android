@@ -25,7 +25,7 @@ class PlaceGuessUseCase(
     private val appScopeProvider: AppScopeProvider,
 ) {
 
-    operator fun invoke(
+    suspend operator fun invoke(
         guess: Guess,
     ) {
         // to don't suspend the UI and allow the user to bet fast, this use case uses the app scope
@@ -41,8 +41,7 @@ class PlaceGuessUseCase(
                 // the error and log it her
                 logger.e("error for placing guess", e)
             }
-
-        }
+        }.join()
     }
 
     private suspend fun requireAuthentication(): User {

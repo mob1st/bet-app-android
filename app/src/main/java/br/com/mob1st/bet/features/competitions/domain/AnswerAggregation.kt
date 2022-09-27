@@ -33,14 +33,15 @@ sealed interface AnswerAggregation : Debuggable {
 @Serializable
 @SerialName("WinnerAnswers")
 data class WinnerAnswers(
-    val winner: DuelWinner,
+    val winner: DuelWinner?,
     val score: FinalScore? = null,
 ) : AnswerAggregation {
     override val answers: Set<Answer<*>>
-        get() = score?.let { setOf(winner, it) } ?: setOf(winner)
+        get() = setOfNotNull(winner, score)
 
     override fun isValid(): Boolean {
         return when {
+            winner == null -> false
             score == null -> true
             winner.selected == Duel.Selection.DRAW -> score.selected.first == score.selected.second
             else -> score.selected.first != score.selected.second
@@ -49,7 +50,7 @@ data class WinnerAnswers(
 
     override fun logProperties(): Map<String, Any?> {
         return mapOf(
-            "winner" to winner.selected,
+            "winner" to winner?.selected,
             "score1" to score?.selected?.first,
             "score2" to score?.selected?.second
         )
