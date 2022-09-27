@@ -23,9 +23,14 @@ data class Bet<T>(
  */
 @Serializable
 @Keep
-sealed class Odds {
+sealed class Odds : Comparable<Odds> {
     abstract val value: Long
 
+    operator fun times(operator: Int) = value * operator
+
+    override fun compareTo(other: Odds): Int {
+        return value.compareTo(other.value)
+    }
 }
 
 @SerialName("EUROPEAN")
