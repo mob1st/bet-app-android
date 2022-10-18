@@ -17,7 +17,7 @@ class GuessRepositoryImpl(
 
     private val io get() = dispatcherProvider.io
 
-    override suspend fun placeGuess(user: User, guess: Guess) = withContext(io){
+    override suspend fun placeGuess(user: User, guess: Guess) = withContext(io) {
         // uses the app scope to avoid block the user until the guess is placed
         suspendRunCatching {
             if (guess.id.isEmpty()) {

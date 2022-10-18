@@ -8,13 +8,23 @@ import br.com.mob1st.bet.core.ui.state.FetchedData
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.ui.state.StateViewModel
 import br.com.mob1st.bet.core.utils.objects.Duo
+import br.com.mob1st.bet.core.utils.objects.Node
+import br.com.mob1st.bet.features.competitions.domain.AnswerAggregation
 import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.competitions.domain.Confrontation
+import br.com.mob1st.bet.features.competitions.domain.ConfrontationForGuess
+import br.com.mob1st.bet.features.competitions.domain.Contest
 import br.com.mob1st.bet.features.competitions.domain.Duel
+import br.com.mob1st.bet.features.competitions.domain.Guess
+import br.com.mob1st.bet.features.competitions.domain.IntScores
+import br.com.mob1st.bet.features.competitions.domain.MatchWinner
+import br.com.mob1st.bet.features.competitions.domain.PlaceGuessUseCase
+import br.com.mob1st.bet.features.competitions.domain.WinnerAnswers
 import br.com.mob1st.bet.features.profile.data.Subscription
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.koin.android.annotation.KoinViewModel
 
@@ -48,7 +58,7 @@ data class ConfrontationData(
 sealed class ConfrontationUiEvent {
     data class TryAgain(val message: SimpleMessage) : ConfrontationUiEvent()
     data class SetSelection(val index: Int?) : ConfrontationUiEvent()
-    object GetNext : ConfrontationUiEvent()
+    data class GetNext(val input: ConfrontationInput) : ConfrontationUiEvent()
 }
 
 @Parcelize
@@ -66,11 +76,27 @@ data class ConfrontationInput(
         }
         return copy(winner = newSelected, score = score)
     }
+
+    fun toAnswers(
+        root: Node<Contest>
+    ): AnswerAggregation {
+        checkNotNull(winner)
+        val winnerAnswer = (root.current as MatchWinner).select(winner)
+        val path = root.paths[winnerAnswer.selected.pathIndex].current as IntScores
+        val scoreAnswer = score?.let { score ->
+            path.select(score)
+        }
+        return WinnerAnswers(
+            winner = winnerAnswer,
+            score = scoreAnswer
+        )
+    }
 }
 
 @KoinViewModel
 class ConfrontationListViewModel(
     subscription: Subscription,
+    private val placeGuessUseCase: PlaceGuessUseCase,
     private val repository: CompetitionRepository,
     private val savedState: SavedStateHandle
 ) : StateViewModel<ConfrontationData, ConfrontationUiEvent>(ConfrontationData(subscription)){
@@ -90,7 +116,7 @@ class ConfrontationListViewModel(
         when (uiEvent) {
             is ConfrontationUiEvent.TryAgain -> tryAgain(uiEvent.message)
             is ConfrontationUiEvent.SetSelection -> savedState[SELECTED] = uiEvent.index
-            ConfrontationUiEvent.GetNext -> getNext()
+            is ConfrontationUiEvent.GetNext -> getNext(uiEvent.input)
         }
     }
 
@@ -109,16 +135,31 @@ class ConfrontationListViewModel(
         }
     }
 
-    private fun getNext() {
+    private fun getNext(confrontationInput: ConfrontationInput) {
         setData { current ->
+            if (confrontationInput.winner != null) {
+                viewModelScope.launch {
+                    val answers = confrontationInput.toAnswers(current.detail!!.contest)
+                    val guess = Guess(
+                        subscriptionId = current.subscription.id,
+                        aggregation = answers,
+                        confrontation = ConfrontationForGuess(
+                            confrontation = current.detail!!,
+                            competitionId = current.subscription.competition.id
+                        )
+                    )
+                    placeGuessUseCase(guess)
+                }
+            }
             if (current.hasNext) {
                 val selected = checkNotNull(current.selected) {
                     "If hasNext returns true so selected should be not null"
                 }
-                ConfrontationData.selected.set(current, selected + 1)
+                //ConfrontationData.selected.set(current, selected + 1)
             } else {
-                ConfrontationData.hasFinished.set(current, true)
+                //ConfrontationData.hasFinished.set(current, true)
             }
+            current
         }
     }
 

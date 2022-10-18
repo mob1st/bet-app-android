@@ -75,7 +75,6 @@ fun MatchWinnerComponent(
     selected: Duel.Selection? = null,
     onSelectScore: (Duel.Selection?) -> Unit
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxWidth()

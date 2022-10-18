@@ -33,7 +33,7 @@ data class MatchWinner(
             odds = bet.odds,
             // todo find a way to customize it
             weight = 1,
-            selected = selection
+            selected = selection,
         )
     }
 }

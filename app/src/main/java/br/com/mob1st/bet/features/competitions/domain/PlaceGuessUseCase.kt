@@ -25,9 +25,7 @@ class PlaceGuessUseCase(
     private val appScopeProvider: AppScopeProvider,
 ) {
 
-    operator fun invoke(
-        guess: Guess,
-    ) {
+    suspend operator fun invoke(guess: Guess) {
         // to don't suspend the UI and allow the user to bet fast, this use case uses the app scope
         appScopeProvider.appScope.launch {
             try {
@@ -41,8 +39,7 @@ class PlaceGuessUseCase(
                 // the error and log it her
                 logger.e("error for placing guess", e)
             }
-
-        }
+        }.join()
     }
 
     private suspend fun requireAuthentication(): User {
@@ -54,7 +51,7 @@ class PlaceGuessUseCase(
 
     private fun requireAllowedGuess(guess: Guess) {
         logger.v("validating guess expiration")
-        if (guess.betAllowed()) {
+        if (!guess.betAllowed()) {
             throw ExpiredBetException(guess)
         }
     }

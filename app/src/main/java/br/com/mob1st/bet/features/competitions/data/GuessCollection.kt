@@ -17,23 +17,20 @@ class GuessCollection(
         guess: Guess,
     ) {
         val confrontation = guess.confrontation
-
+        val params = mapOf(
+            Guess::createdAt.name to guess.createdAt,
+            Guess::updatedAt.name to guess.updatedAt,
+            Guess::aggregation.name to GuessAnswerFactory.toMap(guess.aggregation),
+            Guess::confrontation.name to mapOf(
+                "ref" to firestore
+                    .confrontations(confrontation.competitionId)
+                    .document(confrontation.id),
+                ConfrontationForGuess::allowBetsUntil.name to guess.confrontation.allowBetsUntil
+            ),
+            "subscriptionRef" to firestore.subscriptions(userId).document(guess.subscriptionId)
+        )
         firestore.guesses
-            .document(guess.id)
-            .set(mapOf(
-                Guess::createdAt::name to guess.createdAt,
-                Guess::updatedAt::name to guess.updatedAt,
-                Guess::aggregation::name to GuessAnswerFactory.toMap(guess.aggregation),
-                Guess::confrontation::name to mapOf(
-                    "ref" to firestore
-                        .confrontations(confrontation.competitionId)
-                        .document(confrontation.id),
-                    ConfrontationForGuess::allowBetsUntil to guess.confrontation.allowBetsUntil
-                ),
-                "subscriptionRef" to mapOf(
-                    "ref" to firestore.subscriptions(userId)
-                )
-            ))
+            .add(params)
             .awaitWithTimeout()
     }
 
