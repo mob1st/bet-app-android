@@ -9,28 +9,26 @@ import br.com.mob1st.bet.features.groups.domain.MembershipLimitException
 import br.com.mob1st.bet.features.groups.domain.NotAuthorizedForItException
 import org.koin.android.annotation.KoinViewModel
 
-data class GroupData(
+data class CreateGroupData(
     val name: String = "",
-
-    // quando a UI receber esse valor NÃO NULO, tu pode fechar a tela e voltar para a lista de grupos
     val createdGroup: GroupEntry? = null
 )
 
-sealed class GroupsUIEvent {
-    data class CreateGroup(val groupName: String) : GroupsUIEvent()
-    data class TryAgain(val message: SimpleMessage) : GroupsUIEvent()
+sealed class CreateGroupUIEvent {
+    data class CreateGroup(val groupName: String) : CreateGroupUIEvent()
+    data class TryAgain(val message: SimpleMessage) : CreateGroupUIEvent()
 }
 
 
 @KoinViewModel
 class CreateGroupViewModel(
     private val createGroupUseCase: CreateGroupUseCase
-) : StateViewModel<GroupData, GroupsUIEvent>(GroupData(), loading = false) {
-    
-    override fun fromUi(uiEvent: GroupsUIEvent) {
+) : StateViewModel<CreateGroupData, CreateGroupUIEvent>(CreateGroupData(), loading = false) {
+
+    override fun fromUi(uiEvent: CreateGroupUIEvent) {
         when (uiEvent) {
-            is GroupsUIEvent.CreateGroup -> createGroup(uiEvent.groupName)
-            is GroupsUIEvent.TryAgain -> tryAgain(uiEvent.message)
+            is CreateGroupUIEvent.CreateGroup -> createGroup(uiEvent.groupName)
+            is CreateGroupUIEvent.TryAgain -> tryAgain(uiEvent.message)
         }
     }
 
@@ -49,7 +47,6 @@ class CreateGroupViewModel(
             } catch (e: MembershipLimitException) {
                 it.failure(SimpleMessage(R.string.group_create_message_error_limit))
             }
-
         }
     }
 }

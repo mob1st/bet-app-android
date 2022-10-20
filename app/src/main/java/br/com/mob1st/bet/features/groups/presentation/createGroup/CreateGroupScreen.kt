@@ -21,10 +21,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.core.ui.ds.molecule.AddButton
-import br.com.mob1st.bet.features.groups.presentation.createGroup.CreateGroupViewModel
-import br.com.mob1st.bet.features.groups.presentation.createGroup.GroupsUIEvent
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalMaterial3Api::class)
@@ -33,7 +30,6 @@ fun CreateGroupScreen(
     onCreateGroupAction: () -> Unit
 ) {
     val viewModel = koinViewModel<CreateGroupViewModel>()
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     var groupName by remember {
         mutableStateOf("")
@@ -57,7 +53,7 @@ fun CreateGroupScreen(
         )
         AddButton(
             onAction = {
-                viewModel.fromUi(GroupsUIEvent.CreateGroup(groupName))
+                viewModel.fromUi(CreateGroupUIEvent.CreateGroup(groupName))
                 onCreateGroupAction()
         })
     }

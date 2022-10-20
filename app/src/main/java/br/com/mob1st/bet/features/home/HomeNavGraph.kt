@@ -12,12 +12,12 @@ import androidx.navigation.compose.composable
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.features.competitions.presentation.ConfrontationListViewModel
 import br.com.mob1st.bet.features.competitions.presentation.competitionNavGraph
+import br.com.mob1st.bet.features.groups.GroupTabViewModel
 import br.com.mob1st.bet.features.groups.GroupsTabScreen
 import br.com.mob1st.bet.features.groups.presentation.createGroup.CreateGroupScreen
 import br.com.mob1st.bet.features.profile.data.Subscription
 import br.com.mob1st.bet.features.profile.presentation.ProfileTabScreen
 import org.koin.androidx.compose.getStateViewModel
-import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 /**
@@ -66,16 +66,21 @@ sealed class AppRouteDestination(val route: String) {
 @Composable
 fun HomeNavGraph(homeUiState: HomeUiState, subscription: Subscription) {
 
+    val groupsViewModel = getStateViewModel<GroupTabViewModel> {
+        parametersOf()
+    }
+
     val competitionsViewModel = getStateViewModel<ConfrontationListViewModel> {
         parametersOf(subscription)
     }
     NavHost(
         navController = homeUiState.navController,
-        startDestination = BottomBarDestination.Competitions.route,
+        startDestination = BottomBarDestination.Competitions.route
     ) {
         competitionNavGraph(homeUiState, competitionsViewModel)
         composable(route = BottomBarDestination.Groups.route) {
             GroupsTabScreen(
+                viewModel = groupsViewModel,
                 onNavigateToCreateGroups = { homeUiState.navController.navigate(AppRouteDestination.CreateGroups.route) },
                 onNavigateToGroupDetails = { Unit }
             )

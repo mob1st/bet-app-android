@@ -1,13 +1,10 @@
 package br.com.mob1st.bet.features.groups.data
 
-/*
-Tu pode ver que nos imports não tem nada referenciando o firebase, porque o GroupCollection isolou
-ele do projeto
- */
 import br.com.mob1st.bet.core.coroutines.DispatcherProvider
 import br.com.mob1st.bet.core.utils.functions.suspendRunCatching
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 import br.com.mob1st.bet.features.groups.domain.CreateGroupException
+import br.com.mob1st.bet.features.groups.domain.GetGroupsListException
 import br.com.mob1st.bet.features.groups.domain.Group
 import br.com.mob1st.bet.features.groups.domain.GroupEntry
 import br.com.mob1st.bet.features.groups.domain.GroupRepository
@@ -33,9 +30,9 @@ class GroupRepositoryImpl(
             name = name,
             competition = competitionEntry,
             description = "",
-            // the founder is the first member in the group
             memberCount = 1
         )
+
         val entry = group.toEntry()
         suspendRunCatching {
             groupCollection.create(founder, group).let { entry }
@@ -45,6 +42,16 @@ class GroupRepositoryImpl(
                 competitionEntry = competitionEntry,
                 cause = it,
             )
+        }
+    }
+
+    override suspend fun getGroups(
+        founder: User
+    ): List<GroupEntry> = withContext(io) {
+        suspendRunCatching {
+            groupCollection.getGroupsByUserId(founder)
+        }.getOrElse {
+            throw GetGroupsListException(founder.id, it)
         }
     }
 }
