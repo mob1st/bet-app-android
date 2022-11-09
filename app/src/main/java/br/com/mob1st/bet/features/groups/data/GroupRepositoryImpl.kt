@@ -49,9 +49,9 @@ class GroupRepositoryImpl(
         founder: User
     ): List<GroupEntry> = withContext(io) {
         suspendRunCatching {
-            groupCollection.getGroupsByUserId(founder)
+            groupCollection.getByUserId(founder)
         }.getOrElse {
-            throw GetGroupsListException(founder.id, it)
+            throw GetGroupsListException(it)
         }
     }
 }

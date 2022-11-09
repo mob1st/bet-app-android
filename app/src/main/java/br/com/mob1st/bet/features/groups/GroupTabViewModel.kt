@@ -3,9 +3,8 @@ package br.com.mob1st.bet.features.groups
 import br.com.mob1st.bet.core.ui.state.FetchedData
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.ui.state.StateViewModel
+import br.com.mob1st.bet.features.groups.domain.GetGroupsUseCase
 import br.com.mob1st.bet.features.groups.domain.GroupEntry
-import br.com.mob1st.bet.features.groups.domain.GroupRepository
-import br.com.mob1st.bet.features.profile.domain.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.android.annotation.KoinViewModel
@@ -22,8 +21,7 @@ sealed class GroupsUIEvent {
 
 @KoinViewModel
 class GroupTabViewModel(
-    private val repository: GroupRepository,
-    private val userRepository: UserRepository
+    private val getGroupsUseCase: GetGroupsUseCase
 ) : StateViewModel<GroupsListData, GroupsUIEvent>(GroupsListData(), loading = false) {
     override fun fromUi(uiEvent: GroupsUIEvent) {
         when (uiEvent) {
@@ -45,7 +43,7 @@ class GroupTabViewModel(
 
     fun getGroups() {
         setAsync {
-            val listGroups = repository.getGroups(userRepository.get())
+            val listGroups = getGroupsUseCase()
             logger.d("fetch ${listGroups.size} groups")
             _groups.value = listGroups
             it.data(data = it.data.copy(groupList = listGroups))

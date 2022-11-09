@@ -53,7 +53,7 @@ fun CreateGroupScreen(
         )
         AddButton(
             onAction = {
-                viewModel.fromUi(CreateGroupUIEvent.CreateGroup(groupName))
+                viewModel.fromUi(CreateGroupUiEvent.CreateGroup(groupName))
                 onCreateGroupAction()
         })
     }

@@ -35,12 +35,10 @@ class CreateGroupException(
     }
 }
 
-//Faz sentido essa Exception que eu criei?
 class GetGroupsListException(
-    private val id: String,
     cause: Throwable
-) : Exception("Unable to get groups from user id $id", cause), Debuggable {
+) : Exception("Unable to get groups from user", cause), Debuggable {
     override fun logProperties(): Map<String, Any?> {
-        return mapOf("UserId" to id)
+        return mapOf()
     }
 }

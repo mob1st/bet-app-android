@@ -62,7 +62,7 @@ class GroupCollection(
         batch.commit().awaitWithTimeout()
     }
 
-    suspend fun getGroupsByUserId(founder: User) : List<GroupEntry> {
+    suspend fun getByUserId(founder: User) : List<GroupEntry> {
         val groups = firestore.memberships(founder.id).get().awaitWithTimeout()
         return groups.map { doc ->
             GroupEntry(

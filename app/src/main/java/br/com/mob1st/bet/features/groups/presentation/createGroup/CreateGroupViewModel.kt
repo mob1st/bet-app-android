@@ -14,21 +14,21 @@ data class CreateGroupData(
     val createdGroup: GroupEntry? = null
 )
 
-sealed class CreateGroupUIEvent {
-    data class CreateGroup(val groupName: String) : CreateGroupUIEvent()
-    data class TryAgain(val message: SimpleMessage) : CreateGroupUIEvent()
+sealed class CreateGroupUiEvent {
+    data class CreateGroup(val groupName: String) : CreateGroupUiEvent()
+    data class TryAgain(val message: SimpleMessage) : CreateGroupUiEvent()
 }
 
 
 @KoinViewModel
 class CreateGroupViewModel(
     private val createGroupUseCase: CreateGroupUseCase
-) : StateViewModel<CreateGroupData, CreateGroupUIEvent>(CreateGroupData(), loading = false) {
+) : StateViewModel<CreateGroupData, CreateGroupUiEvent>(CreateGroupData(), loading = false) {
 
-    override fun fromUi(uiEvent: CreateGroupUIEvent) {
+    override fun fromUi(uiEvent: CreateGroupUiEvent) {
         when (uiEvent) {
-            is CreateGroupUIEvent.CreateGroup -> createGroup(uiEvent.groupName)
-            is CreateGroupUIEvent.TryAgain -> tryAgain(uiEvent.message)
+            is CreateGroupUiEvent.CreateGroup -> createGroup(uiEvent.groupName)
+            is CreateGroupUiEvent.TryAgain -> tryAgain(uiEvent.message)
         }
     }
 

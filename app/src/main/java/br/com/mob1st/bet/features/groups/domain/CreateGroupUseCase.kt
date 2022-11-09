@@ -27,10 +27,6 @@ class CreateGroupUseCase(
     ): GroupEntry {
         val user = userRepository.get()
 
-//        if (user.authType == Anonymous) {
-//            throw NotAuthorizedForItException()
-//        }
-
         if (user.membershipCount >= MEMBERSHIP_LIMIT) {
             throw MembershipLimitException(user.membershipCount)
         }

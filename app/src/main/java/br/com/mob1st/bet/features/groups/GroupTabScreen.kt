@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import arrow.optics.Fold.Companion.string
+import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.ui.compose.LocalLazyListState
 import br.com.mob1st.bet.core.ui.compose.LocalSnackbarState
 import br.com.mob1st.bet.core.ui.ds.molecule.AddButton
@@ -40,10 +42,8 @@ fun GroupsTabScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val listGroups = viewModel.groups
 
-    LaunchedEffect(key1 = true) {
-        listGroups.collect() {
-            viewModel.getGroups()
-        }
+    LaunchedEffect(listGroups) {
+        viewModel.getGroups()
     }
 
     Column(
@@ -52,7 +52,7 @@ fun GroupsTabScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         ProvideTextStyle(MaterialTheme.typography.headlineMedium){
-            Text("Seus grupos")
+            Text(stringResource(id = R.string.group_title))
         }
         AddButton(onNavigateToCreateGroups)
 
@@ -127,7 +127,7 @@ fun EmptyLoading() {
 fun GroupsEmptyData() {
     InfoTemplate(
         icon = { Icon(imageVector = Icons.Default.Person, contentDescription = "groups tab") },
-        title = { Text("Sem grupos") },
-        description = { Text("Tente criar ou entrar em algum grupo.") }
+        title = { stringResource(id = R.string.group_empty_list_title ) },
+        description = { stringResource(id = R.string.group_empty_list_description) }
     )
 }

@@ -62,13 +62,10 @@ sealed class AppRouteDestination(val route: String) {
     )
 }
 
-
 @Composable
 fun HomeNavGraph(homeUiState: HomeUiState, subscription: Subscription) {
 
-    val groupsViewModel = getStateViewModel<GroupTabViewModel> {
-        parametersOf()
-    }
+    val groupsViewModel = getStateViewModel<GroupTabViewModel>()
 
     val competitionsViewModel = getStateViewModel<ConfrontationListViewModel> {
         parametersOf(subscription)
