@@ -24,6 +24,11 @@
     <string name="confrontation_detail_score_next">Próximo</string>
     <string name="confrontation_detail_score_done">Pronto</string>
 
+    <!-- groups -->
+    <string name="group_title">Seus grupos</string>
+    <string name="group_empty_list_title">Sem grupos</string>
+    <string name="group_empty_list_description">Tente criar ou entrar em algum grupo.</string>
+
     <!-- Launcher -->
     <string name="content_description_launcher">Inicializando</string>
 

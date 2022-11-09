@@ -22,6 +22,7 @@ interface GroupRepository {
         competitionEntry: CompetitionEntry
     ) : GroupEntry
 
+    suspend fun getGroups(founder: User) : List<GroupEntry>
 }
 
 class CreateGroupException(
@@ -32,5 +33,12 @@ class CreateGroupException(
     override fun logProperties(): Map<String, Any> {
         return (groupEntry to competitionEntry).toLogMap()
     }
+}
 
+class GetGroupsListException(
+    cause: Throwable
+) : Exception("Unable to get groups from user", cause), Debuggable {
+    override fun logProperties(): Map<String, Any?> {
+        return mapOf()
+    }
 }

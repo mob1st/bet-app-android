@@ -1,8 +1,10 @@
 package br.com.mob1st.bet.features.groups.data
 
 import br.com.mob1st.bet.core.firebase.awaitWithTimeout
+import br.com.mob1st.bet.core.firebase.getStringNotNull
 import br.com.mob1st.bet.features.competitions.data.competitions
 import br.com.mob1st.bet.features.groups.domain.Group
+import br.com.mob1st.bet.features.groups.domain.GroupEntry
 import br.com.mob1st.bet.features.profile.data.memberships
 import br.com.mob1st.bet.features.profile.data.users
 import br.com.mob1st.bet.features.profile.domain.User
@@ -43,7 +45,6 @@ class GroupCollection(
                 "ref" to firestore.users.document(founder.id),
                 "name" to founder.name,
                 "image" to founder.imageUrl.orEmpty(),
-
                 "points" to 0L
             )
         )
@@ -61,9 +62,20 @@ class GroupCollection(
         batch.commit().awaitWithTimeout()
     }
 
+    suspend fun getByUserId(founder: User) : List<GroupEntry> {
+        val groups = firestore.memberships(founder.id).get().awaitWithTimeout()
+        return groups.map { doc ->
+            GroupEntry(
+                id = doc.id,
+                name = doc.getStringNotNull(GroupEntry::name.name),
+                imageUrl = doc.getString(GroupEntry::imageUrl.name)
+            )
+        }
+    }
 }
 
 val FirebaseFirestore.groups get() =
     collection("groups")
+
 fun FirebaseFirestore.members(groupId: String) =
     groups.document(groupId).collection("members")
