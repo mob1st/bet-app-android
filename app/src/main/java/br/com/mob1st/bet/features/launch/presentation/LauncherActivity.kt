@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import br.com.mob1st.bet.core.ui.compose.setThemedContent
 import br.com.mob1st.bet.core.ui.ds.molecule.SystemBarProperties
 import br.com.mob1st.bet.core.ui.ds.molecule.SystemBars
-import br.com.mob1st.bet.core.utils.extensions.intent
-import br.com.mob1st.bet.core.utils.extensions.start
+import br.com.mob1st.bet.core.tooling.androidx.intent
+import br.com.mob1st.bet.core.tooling.androidx.start
 import br.com.mob1st.bet.features.home.HomeActivity
 import br.com.mob1st.bet.features.home.HomeActivity.Companion.put
 

@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.core.utils.objects
+package br.com.mob1st.bet.core.tooling.ktx
 
 /**
  * An abstraction used when a selection of something can be done and return a value

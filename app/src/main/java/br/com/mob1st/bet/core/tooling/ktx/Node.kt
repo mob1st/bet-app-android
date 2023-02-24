@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.core.utils.objects
+package br.com.mob1st.bet.core.tooling.ktx
 
 
 import androidx.annotation.Keep

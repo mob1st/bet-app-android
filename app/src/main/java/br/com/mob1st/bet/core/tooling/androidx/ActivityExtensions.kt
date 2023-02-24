@@ -1,4 +1,4 @@
-package br.com.mob1st.bet.core.utils.extensions
+package br.com.mob1st.bet.core.tooling.androidx
 
 import android.app.Activity
 import android.content.Intent

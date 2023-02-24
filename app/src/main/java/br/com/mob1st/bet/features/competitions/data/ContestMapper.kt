@@ -1,7 +1,7 @@
 package br.com.mob1st.bet.features.competitions.data
 
 import br.com.mob1st.bet.core.firebase.toJsonObject
-import br.com.mob1st.bet.core.utils.objects.Node
+import br.com.mob1st.bet.core.tooling.ktx.Node
 import br.com.mob1st.bet.features.competitions.domain.CompetitionType
 import br.com.mob1st.bet.features.competitions.domain.Contest
 import br.com.mob1st.bet.features.competitions.domain.IntScores

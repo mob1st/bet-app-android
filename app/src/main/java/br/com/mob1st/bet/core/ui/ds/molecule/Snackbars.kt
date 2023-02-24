@@ -6,9 +6,53 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import br.com.mob1st.bet.R
+import br.com.mob1st.bet.core.tooling.androidx.TextData
 import br.com.mob1st.bet.core.ui.compose.LocalSnackbarState
+import java.util.UUID
+
+data class SnackState<T>(
+    val id: T,
+    val message: TextData,
+    val action: TextData? = null,
+) {
+    companion object {
+
+        fun generalFailure(action: TextData? = null) = generalFailure(
+            id = UUID.randomUUID(),
+            action = action
+        )
+
+        fun <T> generalFailure(id: T, action: TextData?) = SnackState(
+             id = id,
+             message = TextData(R.string.general_message_error_snack),
+             action = action
+         )
+    }
+}
+@Composable
+fun SnackBar(
+    state: SnackState<*>,
+    snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
+    onDismiss: (state: SnackState<*>) -> Unit,
+    onRetry: (state: SnackState<*>) -> Unit
+) {
+    val currentOnDismiss by rememberUpdatedState(onDismiss)
+    val currentOnRetry by rememberUpdatedState(onRetry)
+    val resources = LocalContext.current.resources
+    LaunchedEffect(state.id) {
+        val result = snackbarHostState.showSnackbar(
+            message = state.message.resolve(resources)
+        )
+        when (result) {
+            SnackbarResult.Dismissed -> currentOnDismiss(state)
+            SnackbarResult.ActionPerformed -> currentOnRetry(state)
+        }
+    }
+}
+
 
 @Composable
 fun DismissSnackbar(

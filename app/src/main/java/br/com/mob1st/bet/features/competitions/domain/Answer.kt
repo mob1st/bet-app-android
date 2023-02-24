@@ -1,6 +1,6 @@
 package br.com.mob1st.bet.features.competitions.domain
 
-import br.com.mob1st.bet.core.utils.objects.Duo
+import br.com.mob1st.bet.core.tooling.ktx.Duo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

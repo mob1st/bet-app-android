@@ -7,8 +7,8 @@ import arrow.optics.optics
 import br.com.mob1st.bet.core.ui.state.FetchedData
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.ui.state.StateViewModel
-import br.com.mob1st.bet.core.utils.objects.Duo
-import br.com.mob1st.bet.core.utils.objects.Node
+import br.com.mob1st.bet.core.tooling.ktx.Duo
+import br.com.mob1st.bet.core.tooling.ktx.Node
 import br.com.mob1st.bet.features.competitions.domain.AnswerAggregation
 import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.competitions.domain.Confrontation

@@ -1,8 +1,8 @@
 package br.com.mob1st.bet.features.competitions.domain
 
 import androidx.annotation.Keep
-import br.com.mob1st.bet.core.utils.objects.Duo
-import br.com.mob1st.bet.core.utils.objects.Selector
+import br.com.mob1st.bet.core.tooling.ktx.Duo
+import br.com.mob1st.bet.core.tooling.ktx.Selector
 import kotlinx.serialization.Serializable
 
 /**
@@ -45,7 +45,7 @@ data class MatchWinner(
 @Keep
 data class IntScores(
     override val contenders: List<Bet<Duo<Int>>>,
-) : Contest, MultiChoice<Duo<Int>>, Selector<Duo<Int>, FinalScore>{
+) : Contest, MultiChoice<Duo<Int>>, Selector<Duo<Int>, FinalScore> {
     override fun select(selection: Duo<Int>): FinalScore {
         val bet = contenders.firstOrNull { it.subject == selection } ?: contenders.maxBy { it.odds }
         return FinalScore(

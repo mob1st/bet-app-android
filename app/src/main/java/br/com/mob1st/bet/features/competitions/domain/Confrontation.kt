@@ -1,6 +1,6 @@
 package br.com.mob1st.bet.features.competitions.domain
 
-import br.com.mob1st.bet.core.utils.objects.Node
+import br.com.mob1st.bet.core.tooling.ktx.Node
 import java.util.Date
 
 /**

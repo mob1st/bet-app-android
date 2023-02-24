@@ -46,7 +46,7 @@ import androidx.compose.ui.window.DialogProperties
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.ui.ds.atoms.BetTheme
 import br.com.mob1st.bet.core.ui.ds.atoms.CompositionLocalGrid
-import br.com.mob1st.bet.core.utils.objects.Duo
+import br.com.mob1st.bet.core.tooling.ktx.Duo
 import br.com.mob1st.bet.features.competitions.domain.American
 import br.com.mob1st.bet.features.competitions.domain.Bet
 import br.com.mob1st.bet.features.competitions.domain.IntScores

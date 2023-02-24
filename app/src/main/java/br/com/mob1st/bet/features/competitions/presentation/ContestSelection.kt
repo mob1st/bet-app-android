@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import br.com.mob1st.bet.core.ui.ds.atoms.CompositionLocalGrid
-import br.com.mob1st.bet.core.utils.objects.Node
+import br.com.mob1st.bet.core.tooling.ktx.Node
 import br.com.mob1st.bet.features.competitions.domain.Contest
 import br.com.mob1st.bet.features.competitions.domain.IntScores
 import br.com.mob1st.bet.features.competitions.domain.MatchWinner
