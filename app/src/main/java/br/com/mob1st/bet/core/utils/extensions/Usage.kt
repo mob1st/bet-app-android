@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.mob1st.bet.core.tooling.androidx.TextData
 import br.com.mob1st.bet.core.tooling.vm.next
@@ -25,9 +26,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.stateIn
 
 class ClickUseCase {
     operator fun invoke(value: Int): Flow<String> = flowOf(value).map { it.toString() }
@@ -51,10 +54,10 @@ class MyViewModel(
 
     private val buttonClickInput = MutableSharedFlow<Unit>()
 
-    private val getAction = actionFromFlow<String> {
+    private val getAction = viewModelScope.actionFromFlow<String> {
         getUseCase()
     }
-    private val clickAction = actionFromFlow<Int, String> {
+    private val clickAction = viewModelScope.actionFromFlow<Int, String> {
         clickUseCase(it)
     }
 
@@ -82,7 +85,7 @@ class MyViewModel(
             }
 
         // provide to ui
-        output = mutableOutput
+        output = mutableOutput.asStateFlow()
     }
 
     fun click() {

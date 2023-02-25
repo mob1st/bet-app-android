@@ -56,6 +56,12 @@ android {
         }
     }
 
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+
     namespace 'br.com.mob1st.bet'
 
     applicationVariants.configureEach { variant ->
@@ -122,11 +128,11 @@ dependencies {
     // serialization
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0'
 
-
     // unit tests
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
+
     testImplementation "io.insert-koin:koin-test:$koin_version"
-    testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
+    testImplementation 'app.cash.turbine:turbine:0.12.1'
 
     // android tests
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

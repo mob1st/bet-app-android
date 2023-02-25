@@ -5,6 +5,7 @@ buildscript {
         kotlin_version = "1.8.0"
         koin_version = "3.3.3"
         koin_ksp_version = "1.1.1"
+        kotest_version = "5.5.5"
         lifecycle_version = "2.6.0-rc01"
         arrow_version = "1.1.5"
         ksp_version = "1.8.10-1.0.9"
