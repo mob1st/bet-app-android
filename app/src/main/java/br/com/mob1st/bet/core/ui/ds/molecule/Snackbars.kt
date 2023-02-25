@@ -37,10 +37,10 @@ fun SnackBar(
     state: SnackState<*>,
     snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
     onDismiss: (state: SnackState<*>) -> Unit,
-    onRetry: (state: SnackState<*>) -> Unit
+    onActionPerformed: (state: SnackState<*>) -> Unit
 ) {
     val currentOnDismiss by rememberUpdatedState(onDismiss)
-    val currentOnRetry by rememberUpdatedState(onRetry)
+    val currentOnActionPerformed by rememberUpdatedState(onActionPerformed)
     val resources = LocalContext.current.resources
     LaunchedEffect(state.id) {
         val result = snackbarHostState.showSnackbar(
@@ -48,7 +48,7 @@ fun SnackBar(
         )
         when (result) {
             SnackbarResult.Dismissed -> currentOnDismiss(state)
-            SnackbarResult.ActionPerformed -> currentOnRetry(state)
+            SnackbarResult.ActionPerformed -> currentOnActionPerformed(state)
         }
     }
 }

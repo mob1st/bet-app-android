@@ -6,8 +6,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -15,7 +13,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -48,12 +45,8 @@ private open class ActionImpl<I, O>(
     private val trigger = MutableSharedFlow<I>()
     private val asyncFlow = MutableStateFlow<AsyncData>(AsyncData.NotTriggeredYet)
 
-    override val loading: Flow<Boolean> = asyncFlow
-        .mapNotNull { it.isLoading() }
-
-    override val failure: Flow<Throwable> = asyncFlow.mapNotNull {
-        it.throwable()
-    }
+    override val loading: Flow<Boolean> = asyncFlow.mapNotNull { it.isLoading() }
+    override val failure: Flow<Throwable> = asyncFlow.mapNotNull { it.throwable() }
     override val success: Flow<O> = asyncFlow.mapNotNull { it.data<O>() }
 
     init {

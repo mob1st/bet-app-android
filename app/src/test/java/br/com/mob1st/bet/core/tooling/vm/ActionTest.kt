@@ -1,4 +1,4 @@
-package br.com.mob1st.bet
+package br.com.mob1st.bet.core.tooling.vm
 
 import br.com.mob1st.bet.core.tooling.vm.actionFromFlow
 import br.com.mob1st.bet.core.tooling.vm.trigger

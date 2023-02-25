@@ -40,7 +40,7 @@ import br.com.mob1st.bet.core.ui.ds.page.DefaultErrorPage
 import br.com.mob1st.bet.core.ui.ds.templates.InfoTemplate
 import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
-import br.com.mob1st.bet.core.utils.extensions.ifNotEmpty
+import br.com.mob1st.bet.core.tooling.ktx.ifNotEmpty
 import br.com.mob1st.bet.features.competitions.domain.IntScores
 import br.com.mob1st.bet.features.competitions.domain.MatchWinner
 

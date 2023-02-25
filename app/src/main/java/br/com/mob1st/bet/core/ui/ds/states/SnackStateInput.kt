@@ -8,29 +8,29 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.merge
 
-interface SnackStateManager {
+interface SnackStateInput {
 
     fun dismiss(snackState: SnackState<*>)
 
-    fun retry(snackState: SnackState<*>)
+    fun actionPerformed(snackState: SnackState<*>)
 
 }
 
 context(ViewModel)
-class DelegateSnackStateManager : SnackStateManager {
+class DelegateSnackStateInput : SnackStateInput {
 
     private val dismissInput = MutableSharedFlow<SnackState<*>>()
-    val retryInput = MutableSharedFlow<SnackState<*>>()
+    val actionPerformedInput = MutableSharedFlow<SnackState<*>>()
 
-    val dismiss = merge(dismissInput, retryInput)
+    val poll = merge(dismissInput, actionPerformedInput)
 
     override fun dismiss(snackState: SnackState<*>) {
         dismissInput.next(snackState)
     }
 
 
-    override fun retry(snackState: SnackState<*>) {
-        retryInput.next(snackState)
+    override fun actionPerformed(snackState: SnackState<*>) {
+        actionPerformedInput.next(snackState)
     }
 }
 
