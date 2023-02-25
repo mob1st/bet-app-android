@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.mob1st.bet.core.tooling.androidx.TextData
@@ -101,17 +100,12 @@ fun <T> MutableList<T>.putIf(element: T, predicate: (T) -> Boolean) {
     }
 }
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun Ui() {
     val vm = viewModel<MyViewModel>()
     val x by vm.output.collectAsStateWithLifecycle()
     Crossfade(targetState = x.mainContent != null) {
-        if (it) {
 
-        } else {
-
-        }
     }
     Button(onClick = vm::click) {
         Text(text = x.mainContent.orEmpty())

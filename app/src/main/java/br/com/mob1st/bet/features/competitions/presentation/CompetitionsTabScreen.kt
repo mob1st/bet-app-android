@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.core.localization.getText
 import br.com.mob1st.bet.core.ui.compose.LocalLazyListState
@@ -45,7 +44,6 @@ import br.com.mob1st.bet.core.utils.extensions.ifNotEmpty
 import br.com.mob1st.bet.features.competitions.domain.IntScores
 import br.com.mob1st.bet.features.competitions.domain.MatchWinner
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun CompetitionsTabScreen(
     viewModel: ConfrontationListViewModel,

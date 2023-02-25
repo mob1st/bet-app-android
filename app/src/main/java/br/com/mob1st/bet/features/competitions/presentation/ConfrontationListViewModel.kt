@@ -129,9 +129,7 @@ class ConfrontationListViewModel(
         setAsync {
             val confrontations = repository.getConfrontationsBy(it.data.subscription.competition.id)
             logger.d("fetch ${confrontations.size} confrontations")
-            it.data(
-                ConfrontationData.confrontations.set(it.data, confrontations),
-            )
+            it
         }
     }
 
@@ -152,7 +150,7 @@ class ConfrontationListViewModel(
                 }
             }
             if (current.hasNext) {
-                val selected = checkNotNull(current.selected) {
+                checkNotNull(current.selected) {
                     "If hasNext returns true so selected should be not null"
                 }
                 //ConfrontationData.selected.set(current, selected + 1)

@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.ui.compose.LocalActivity
@@ -27,7 +26,6 @@ import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.features.profile.data.Subscription
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun SplashScreen(
     onFinish: (Subscription) -> Unit

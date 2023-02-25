@@ -49,7 +49,7 @@ data class WinnerAnswers(
 
     override fun logProperties(): Map<String, Any?> {
         return mapOf(
-            "winner" to winner?.selected,
+            "winner" to winner.selected,
             "score1" to score?.selected?.first,
             "score2" to score?.selected?.second
         )

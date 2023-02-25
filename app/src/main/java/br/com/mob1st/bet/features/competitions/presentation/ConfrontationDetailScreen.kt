@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.localization.getText
@@ -42,7 +41,6 @@ import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.utils.extensions.ifNotEmpty
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ConfrontationDetailScreen(
     viewModel: ConfrontationListViewModel,
