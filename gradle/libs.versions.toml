@@ -11,7 +11,7 @@ ksp = "1.8.10-1.0.9"
 accompaninst = "0.27.1"
 gradle-plugin = "7.4.1"
 google-services = "4.3.15"
-
+detekt = "1.22.0"
 [libraries]
 # androidx
 android-core = "androidx.core:core-ktx:1.9.0"
@@ -77,6 +77,10 @@ kotest = "io.kotest:kotest-runner-junit5:5.5.5"
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
 plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }
 plugin-google = { module = "com.google.gms:google-services", version = "4.3.15" }
+plugin-detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
+plugin-detekt-libraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
+plugin-detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
+plugin-detekt-twitter-compose = { module = "com.twitter.compose.rules:detekt", version = "0.0.22" }
 
 [bundles]
 android = ["android-core", "android-startup"]
@@ -114,4 +118,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 google-ksp = { id = "com.google.devtools.ksp", version = "1.8.10-1.0.9" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "11.2.0" }
 
