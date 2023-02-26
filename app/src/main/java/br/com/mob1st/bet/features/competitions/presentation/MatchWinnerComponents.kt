@@ -79,9 +79,8 @@ fun MatchWinnerComponent(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.confrontation_detail_header),
@@ -121,7 +120,6 @@ fun MatchWinnerComponent(
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ContenderImage(team: Team) {
@@ -131,7 +129,7 @@ private fun ContenderImage(team: Team) {
             .data(team.url)
             .build(),
         contentDescription = null,
-        contentScale = ContentScale.Crop,
+        contentScale = ContentScale.Crop
     )
 }
 
@@ -147,6 +145,6 @@ private fun OddsText(
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "${odds.value}x",
-        textAlign = TextAlign.End,
+        textAlign = TextAlign.End
     )
 }

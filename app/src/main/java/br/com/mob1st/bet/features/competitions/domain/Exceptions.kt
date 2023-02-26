@@ -13,5 +13,4 @@ class GetConfrontationListException(
     override fun logProperties(): Map<String, Any> {
         return mapOf("competitionId" to id)
     }
-
 }

@@ -12,7 +12,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class GuessRepositoryImpl(
     private val guessCollection: GuessCollection,
-    private val dispatcherProvider: DispatcherProvider,
+    private val dispatcherProvider: DispatcherProvider
 ) : GuessRepository {
 
     private val io get() = dispatcherProvider.io
@@ -23,11 +23,11 @@ class GuessRepositoryImpl(
             if (guess.id.isEmpty()) {
                 guessCollection.createGuess(
                     userId = user.id,
-                    guess = guess,
+                    guess = guess
                 )
             } else {
                 guessCollection.updateGuess(
-                    guess = guess,
+                    guess = guess
                 )
             }
         }.getOrElse {

@@ -1,8 +1,8 @@
 package br.com.mob1st.bet.core.ui.ds.states
 
 import androidx.lifecycle.ViewModel
-import br.com.mob1st.bet.core.ui.ds.molecule.SnackState
 import br.com.mob1st.bet.core.tooling.vm.next
+import br.com.mob1st.bet.core.ui.ds.molecule.SnackState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.mapNotNull
@@ -13,7 +13,6 @@ interface SnackStateInput {
     fun dismiss(snackState: SnackState<*>)
 
     fun actionPerformed(snackState: SnackState<*>)
-
 }
 
 context(ViewModel)
@@ -27,7 +26,6 @@ class DelegateSnackStateInput : SnackStateInput {
     override fun dismiss(snackState: SnackState<*>) {
         dismissInput.next(snackState)
     }
-
 
     override fun actionPerformed(snackState: SnackState<*>) {
         actionPerformedInput.next(snackState)

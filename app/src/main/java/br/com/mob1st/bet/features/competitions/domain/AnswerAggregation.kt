@@ -19,7 +19,7 @@ sealed interface AnswerAggregation : Debuggable {
     /**
      * the sum of all points of each answer in [answers]
      */
-    fun totalPoints(): Long= answers.sumOf { it.points() }
+    fun totalPoints(): Long = answers.sumOf { it.points() }
 
     /**
      * Indicates if the selected answers available in [answers] are valid
@@ -34,7 +34,7 @@ sealed interface AnswerAggregation : Debuggable {
 @SerialName("WinnerAnswers")
 data class WinnerAnswers(
     val winner: DuelWinner,
-    val score: FinalScore? = null,
+    val score: FinalScore? = null
 ) : AnswerAggregation {
     override val answers: Set<Answer<*>>
         get() = setOfNotNull(winner, score)

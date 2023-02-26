@@ -1,9 +1,9 @@
 package br.com.mob1st.bet.features.competitions.domain
 
 import br.com.mob1st.bet.core.serialization.DateSerializer
+import java.util.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.util.*
 
 /**
  * The users will guess the results of confrontations to figure out who is the master of guessing.
@@ -21,7 +21,7 @@ data class Guess(
     @Serializable(DateSerializer::class)
     val updatedAt: Date = createdAt,
     val confrontation: ConfrontationForGuess,
-    val aggregation: AnswerAggregation,
+    val aggregation: AnswerAggregation
 ) {
     /**
      * Indicates if the bet
@@ -33,7 +33,9 @@ data class Guess(
      */
     fun update() = if (id.isEmpty()) {
         this
-    } else copy(updatedAt = Date())
+    } else {
+        copy(updatedAt = Date())
+    }
 }
 
 /**

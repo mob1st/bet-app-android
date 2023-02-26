@@ -12,7 +12,7 @@ import br.com.mob1st.bet.features.competitions.domain.WinnerAnswers
 object GuessAnswerFactory {
 
     fun toMap(answerAggregation: AnswerAggregation): Map<String, Any> {
-        return when(answerAggregation) {
+        return when (answerAggregation) {
             is WinnerAnswers -> answerAggregation.toMap()
         }
     }
@@ -25,20 +25,21 @@ private fun WinnerAnswers.toMap(): Map<String, Any> {
             DuelWinner::weight.name to winner.weight,
             winner.odds.toField(DuelWinner::odds.name)
         )
-    ).plus(score?.let {
-        mapOf(
-            WinnerAnswers::score.name to mapOf(
-                FinalScore::selected.name to mapOf(
-                    "first" to it.selected.first,
-                    "second" to it.selected.second,
-                ),
-                FinalScore::weight.name to it.weight,
-                it.odds.toField(FinalScore::odds.name)
+    ).plus(
+        score?.let {
+            mapOf(
+                WinnerAnswers::score.name to mapOf(
+                    FinalScore::selected.name to mapOf(
+                        "first" to it.selected.first,
+                        "second" to it.selected.second
+                    ),
+                    FinalScore::weight.name to it.weight,
+                    it.odds.toField(FinalScore::odds.name)
+                )
             )
-        )
-    } ?: emptyMap())
+        } ?: emptyMap()
+    )
 }
-
 
 private fun Odds.toField(fieldName: String): Pair<String, Map<String, Any>> {
     return fieldName to mapOf(

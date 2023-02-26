@@ -23,5 +23,4 @@ interface CrashReportingTool {
      * Logs a crash in the tool
      */
     fun log(message: String, throwable: Throwable?)
-
 }

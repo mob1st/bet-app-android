@@ -51,7 +51,7 @@ object Anonymous : AuthStatus, AuthType {
  * When the user use some intentional authentication action to identify itself
  */
 data class LoggedIn(
-    override val method: AuthMethod,
+    override val method: AuthMethod
 ) : AuthStatus, AuthType
 
 /**
@@ -62,8 +62,4 @@ enum class AuthMethod {
     ANONYMOUS,
     FACEBOOK,
     PHONE_NUMBER
-
 }
-
-
-

@@ -21,12 +21,11 @@ sealed class GroupsUIEvent {
     data class TryAgain(val message: SimpleMessage) : GroupsUIEvent()
 }
 
-
 @KoinViewModel
 class CreateGroupViewModel(
     private val createGroupUseCase: CreateGroupUseCase
 ) : StateViewModel<GroupData, GroupsUIEvent>(GroupData(), loading = false) {
-    
+
     override fun fromUi(uiEvent: GroupsUIEvent) {
         when (uiEvent) {
             is GroupsUIEvent.CreateGroup -> createGroup(uiEvent.groupName)
@@ -49,7 +48,6 @@ class CreateGroupViewModel(
             } catch (e: MembershipLimitException) {
                 it.failure(SimpleMessage(R.string.group_create_message_error_limit))
             }
-
         }
     }
 }

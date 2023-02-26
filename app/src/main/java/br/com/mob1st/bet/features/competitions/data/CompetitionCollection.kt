@@ -18,7 +18,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class CompetitionCollection(
     private val firestore: FirebaseFirestore,
-    private val json: Json,
+    private val json: Json
 ) {
 
     suspend fun getDefault(): Competition {
@@ -39,21 +39,22 @@ class CompetitionCollection(
             .get()
             .awaitWithTimeout()
         return confrontations.map { doc ->
-            //TODO: Fix the database to allow sealed class mapping of Confrontation
+            // TODO: Fix the database to allow sealed class mapping of Confrontation
             val contest = doc.getNestedObject<Any>(Confrontation::contest.name)
             Confrontation(
                 id = doc.id,
                 expectedDuration = doc.getLongNotNull(Confrontation::expectedDuration.name),
                 allowBetsUntil = doc.getDateNotNull(Confrontation::allowBetsUntil.name),
                 startAt = doc.getDateNotNull(Confrontation::startAt.name),
-                status = ConfrontationStatus.valueOf(doc.getStringNotNull(Confrontation::status.name)),
+                status = ConfrontationStatus.valueOf(
+                    doc.getStringNotNull(Confrontation::status.name)
+                ),
                 contest = ContestMapFactory[CompetitionType.FOOTBALL](contest)
             )
         }
     }
-
 }
 
 val FirebaseFirestore.competitions get() = collection("competitions")
 fun FirebaseFirestore.confrontations(competitionId: String) =
-    collection("competitions/${competitionId}/confrontations")
+    collection("competitions/$competitionId/confrontations")

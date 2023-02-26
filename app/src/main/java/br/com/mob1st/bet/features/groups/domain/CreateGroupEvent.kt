@@ -1,12 +1,11 @@
 package br.com.mob1st.bet.features.groups.domain
 
 import br.com.mob1st.bet.core.analytics.AnalyticsEvent
-import br.com.mob1st.bet.core.localization.default
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 
 data class CreateGroupEvent(
     val groupEntry: GroupEntry,
-    val competitionEntry: CompetitionEntry,
+    val competitionEntry: CompetitionEntry
 ) : AnalyticsEvent {
     override val name: String
         get() = "bet_group_creation"

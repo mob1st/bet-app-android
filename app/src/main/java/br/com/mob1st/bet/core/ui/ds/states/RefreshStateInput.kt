@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 interface RefreshStateInput {
 
     fun refresh()
-
 }
 
 context(ViewModel)
@@ -18,5 +17,4 @@ class DelegateRefreshStateManager : RefreshStateInput {
     override fun refresh() {
         refreshInput.next(Unit)
     }
-
 }

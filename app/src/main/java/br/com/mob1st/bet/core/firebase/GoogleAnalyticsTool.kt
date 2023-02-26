@@ -21,7 +21,9 @@ class GoogleAnalyticsTool(
         val params = event.params()
         val bundle = if (params.isNotEmpty()) {
             bundleOf(*params.toList().toTypedArray())
-        } else null
+        } else {
+            null
+        }
         analytics.logEvent(event.name, bundle)
     }
 }

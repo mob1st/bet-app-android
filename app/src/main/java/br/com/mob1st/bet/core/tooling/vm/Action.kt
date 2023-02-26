@@ -23,7 +23,6 @@ interface Action<I, O> {
     val success: Flow<O>
 
     fun trigger(input: I): Job
-
 }
 
 fun <I, O> CoroutineScope.actionFromFlow(

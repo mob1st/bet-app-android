@@ -1,17 +1,15 @@
 package br.com.mob1st.bet.core.firebase
 
 import br.com.mob1st.bet.core.logs.ThrowableDebugger
-import br.com.mob1st.bet.core.logs.getPropertiesTree
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigClientException
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigFetchThrottledException
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigServerException
 
 object FirebaseExceptionDebugger : ThrowableDebugger<FirebaseException> {
     override fun propertiesFrom(throwable: FirebaseException): Map<String, Any> {
-        return when(throwable) {
+        return when (throwable) {
             is FirebaseFirestoreException -> throwable.loggedProperties()
             is FirebaseAuthException -> throwable.loggedProperties()
             is FirebaseRemoteConfigFetchThrottledException -> throwable.loggedProperties()

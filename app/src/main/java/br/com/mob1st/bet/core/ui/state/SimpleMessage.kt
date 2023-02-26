@@ -6,7 +6,7 @@ import java.util.UUID
 
 data class SimpleMessage(
     @StringRes val descriptionResId: Int,
-    val id: Long = UUID.randomUUID().mostSignificantBits,
+    val id: Long = UUID.randomUUID().mostSignificantBits
 ) {
 
     companion object {

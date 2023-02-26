@@ -13,5 +13,4 @@ interface FetchedData {
      * Returns true if there is data to be displayed in the UI
      */
     fun hasData(): Boolean
-
 }

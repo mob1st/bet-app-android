@@ -44,9 +44,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import br.com.mob1st.bet.R
+import br.com.mob1st.bet.core.tooling.ktx.Duo
 import br.com.mob1st.bet.core.ui.ds.atoms.BetTheme
 import br.com.mob1st.bet.core.ui.ds.atoms.LocalCompositionGrid
-import br.com.mob1st.bet.core.tooling.ktx.Duo
 import br.com.mob1st.bet.features.competitions.domain.American
 import br.com.mob1st.bet.features.competitions.domain.Bet
 import br.com.mob1st.bet.features.competitions.domain.IntScores
@@ -82,7 +82,7 @@ private fun ScoreDialogPreview() {
         ScoreDialog(
             currentScore = 1 to 0,
             onDone = { },
-            onDismiss = {},
+            onDismiss = {}
         )
     }
 }
@@ -142,7 +142,7 @@ fun ScoresChipComponent(
                             stringResource(id = R.string.confrontation_detail_score_other)
                         }
                     )
-                },
+                }
             )
         }
     }
@@ -164,7 +164,7 @@ fun ScoresChipComponent(
 fun ScoreChip(
     bet: Bet<Duo<Int>>,
     selected: Boolean,
-    onSelect: () -> Unit,
+    onSelect: () -> Unit
 ) {
     val subject = bet.subject
     InputChip(
@@ -181,7 +181,7 @@ fun ScoreChip(
 fun ScoreDialog(
     currentScore: Duo<Int>?,
     onDone: (Duo<Int>) -> Unit,
-    onDismiss: () -> Unit,
+    onDismiss: () -> Unit
 ) {
     val firstRequester = remember {
         FocusRequester()
@@ -228,7 +228,7 @@ fun ScoreDialog(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 ScoreTextField(
                     modifier = Modifier
@@ -243,7 +243,7 @@ fun ScoreDialog(
                     onIme = {
                         firstScore = it
                         secondRequester.requestFocus()
-                    },
+                    }
                 )
                 Text(text = "X")
                 ScoreTextField(
@@ -268,7 +268,6 @@ fun ScoreDialog(
             firstRequester.requestFocus()
         }
     }
-
 }
 
 @Composable
@@ -276,7 +275,7 @@ private fun ScoreTextField(
     modifier: Modifier = Modifier,
     value: String,
     imeAction: ImeAction,
-    onIme: (value: String) -> Unit,
+    onIme: (value: String) -> Unit
 ) {
     var state by remember(value) {
         mutableStateOf(value)
@@ -303,7 +302,7 @@ private fun ScoreTextField(
             keyboardOptions = KeyboardOptions(
                 imeAction = imeAction,
                 keyboardType = KeyboardType.Number,
-                autoCorrect = false,
+                autoCorrect = false
             ),
             keyboardActions = KeyboardActions(
                 onNext = { onIme(state) },
@@ -311,7 +310,6 @@ private fun ScoreTextField(
             )
         )
     }
-
 }
 
 private fun Duo<Int>.toScoreText() = "$first X $second"

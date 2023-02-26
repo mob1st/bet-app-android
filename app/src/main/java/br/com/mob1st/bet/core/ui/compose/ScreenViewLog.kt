@@ -19,7 +19,7 @@ import br.com.mob1st.bet.core.analytics.ScreenViewEvent
 fun ScreenViewLog(
     screenName: String,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
-    analyticsTool: AnalyticsTool = LocalAnalyticsTool.current,
+    analyticsTool: AnalyticsTool = LocalAnalyticsTool.current
 ) {
     ScreenViewLog(
         screenView = ScreenViewEvent(screenName),
@@ -37,9 +37,8 @@ fun ScreenViewLog(
     screenView: ScreenViewEvent,
     screenDismiss: ScreenDismissEvent = ScreenDismissEvent(screenView.screenName),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
-    analyticsTool: AnalyticsTool = LocalAnalyticsTool.current,
+    analyticsTool: AnalyticsTool = LocalAnalyticsTool.current
 ) {
-
     val currentScreenView by rememberUpdatedState(screenView)
     val currentScreenDismiss by rememberUpdatedState(screenDismiss)
 

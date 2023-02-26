@@ -31,7 +31,7 @@ sealed interface Answer<T : Any> {
 data class DuelWinner(
     override val weight: Int,
     override val odds: Odds,
-    override val selected: Duel.Selection,
+    override val selected: Duel.Selection
 ) : Answer<Duel.Selection>
 
 /**
@@ -42,5 +42,5 @@ data class DuelWinner(
 data class FinalScore(
     override val weight: Int,
     override val odds: Odds,
-    override val selected: Duo<Int>,
+    override val selected: Duo<Int>
 ) : Answer<Duo<Int>>

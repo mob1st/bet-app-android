@@ -11,7 +11,7 @@ class UserAuth(
     private val auth: FirebaseAuth
 ) {
 
-    private val firebaseIso: Iso<FirebaseUser, User>  = Iso(
+    private val firebaseIso: Iso<FirebaseUser, User> = Iso(
         get = { firebaseUser ->
             User(
                 id = firebaseUser.uid,
@@ -41,7 +41,6 @@ class UserAuth(
 
     fun getId(): String? = auth.currentUser?.uid
 
-
     fun getAuthStatus(): AuthStatus {
         val currentUser = auth.currentUser
         return when {
@@ -51,5 +50,4 @@ class UserAuth(
             else -> LoggedIn(AuthMethod.FACEBOOK)
         }
     }
-
 }

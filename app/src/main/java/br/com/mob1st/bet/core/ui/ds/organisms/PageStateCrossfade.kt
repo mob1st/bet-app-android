@@ -15,13 +15,13 @@ fun <T> PageStateCrossfade(
     pageState: PageState<T>,
     empty: @Composable (PageState.Empty<T>) -> Unit,
     helper: @Composable (PageState.Helper<T>) -> Unit,
-    main: @Composable (PageState.Main<T>) -> Unit,
+    main: @Composable (PageState.Main<T>) -> Unit
 ) {
     val switcher = remember(pageState) {
         PageSwithcer(pageState)
     }
     Crossfade(modifier = modifier, targetState = switcher) { target ->
-        when(val ps = target.pageState) {
+        when (val ps = target.pageState) {
             is PageState.Empty -> empty(ps)
             is PageState.Helper -> helper(ps)
             is PageState.Main -> main(ps)

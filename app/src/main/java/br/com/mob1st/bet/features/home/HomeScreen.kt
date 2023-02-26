@@ -30,7 +30,7 @@ import br.com.mob1st.bet.features.profile.data.Subscription
 @Composable
 fun HomeScreen(
     entry: Subscription,
-    homeUiState: HomeUiState = rememberHomeUiState(),
+    homeUiState: HomeUiState = rememberHomeUiState()
 ) {
     CompositionLocalProvider(LocalSnackbarState provides homeUiState.snackbarHostState) {
         Scaffold(
@@ -41,12 +41,13 @@ fun HomeScreen(
             },
             snackbarHost = { SnackbarHost(hostState = LocalSnackbarState.current) }
         ) {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it)
             ) {
                 CompositionLocalProvider(
-                    //TODO add conditional to select the scroll state based on the current tab
+                    // TODO add conditional to select the scroll state based on the current tab
                     LocalLazyListState provides homeUiState.competitionsListLazyListState
                 ) {
                     HomeNavGraph(homeUiState, entry)

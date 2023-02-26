@@ -16,14 +16,14 @@ class CreateGroupUseCase(
     private val userRepository: UserRepository,
     private val groupRepository: GroupRepository,
     private val competitionRepository: CompetitionRepository,
-    private val analyticsTool: AnalyticsTool,
+    private val analyticsTool: AnalyticsTool
 ) {
 
     /**
      * @param groupName the name of the group
      */
     suspend operator fun invoke(
-        groupName: String,
+        groupName: String
     ): GroupEntry {
         val user = userRepository.get()
 
@@ -53,12 +53,13 @@ class CreateGroupUseCase(
     companion object {
         const val MEMBERSHIP_LIMIT = 10
     }
-
 }
 
 class MembershipLimitException(
     private val currentCount: Int
-) : Exception("a user can't have more then $MEMBERSHIP_LIMIT memberships. Your current memberships is $currentCount"), Debuggable {
+) : Exception(
+    "a user can't have more then $MEMBERSHIP_LIMIT memberships. Your current memberships is $currentCount"
+), Debuggable {
     override fun logProperties(): Map<String, Any> {
         return mapOf(
             "currentMemberships" to currentCount,
@@ -67,4 +68,6 @@ class MembershipLimitException(
     }
 }
 
-class NotAuthorizedForItException : Exception("The user have to be logged in with some provider to be able to create and join groups")
+class NotAuthorizedForItException : Exception(
+    "The user have to be logged in with some provider to be able to create and join groups"
+)

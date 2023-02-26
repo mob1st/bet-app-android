@@ -16,7 +16,7 @@ import java.util.UUID
 data class SnackState<T>(
     val id: T,
     val message: TextData,
-    val action: TextData? = null,
+    val action: TextData? = null
 ) {
     companion object {
 
@@ -26,12 +26,13 @@ data class SnackState<T>(
         )
 
         fun <T> generalFailure(id: T, action: TextData?) = SnackState(
-             id = id,
-             message = TextData(R.string.general_message_error_snack),
-             action = action
-         )
+            id = id,
+            message = TextData(R.string.general_message_error_snack),
+            action = action
+        )
     }
 }
+
 @Composable
 fun SnackBar(
     state: SnackState<*>,
@@ -53,7 +54,6 @@ fun SnackBar(
     }
 }
 
-
 @Composable
 fun DismissSnackbar(
     message: String,
@@ -74,7 +74,7 @@ fun RetrySnackbar(
     message: String,
     snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
     onDismiss: () -> Unit,
-    onRetry: () -> Unit,
+    onRetry: () -> Unit
 ) {
     val onDismissUpdated by rememberUpdatedState(onDismiss)
     val onRetryUpdated by rememberUpdatedState(onRetry)
@@ -110,7 +110,7 @@ suspend fun SnackbarHostState.showRetrySnackbar(
     message: String,
     retryText: String,
     onRetry: () -> Unit,
-    onDismiss: () -> Unit,
+    onDismiss: () -> Unit
 ) {
     val result = showSnackbar(
         message = message,

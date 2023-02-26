@@ -26,7 +26,7 @@ fun <T : FetchedData> FetchedCrossfade(
     emptyError: @Composable (state: AsyncState<T>, firstMessage: SimpleMessage) -> Unit,
     emptyLoading: @Composable (state: AsyncState<T>) -> Unit,
     empty: @Composable (state: AsyncState<T>) -> Unit,
-    data: @Composable (state: AsyncState<T>) -> Unit,
+    data: @Composable (state: AsyncState<T>) -> Unit
 ) {
     Crossfade(targetState = state) { current ->
         when {

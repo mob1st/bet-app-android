@@ -22,7 +22,7 @@ class PlaceGuessUseCase(
     private val guessRepository: GuessRepository,
     private val analyticsTool: AnalyticsTool,
     private val logger: Logger,
-    private val appScopeProvider: AppScopeProvider,
+    private val appScopeProvider: AppScopeProvider
 ) {
 
     suspend operator fun invoke(guess: Guess) {
@@ -67,11 +67,10 @@ class PlaceGuessUseCase(
         logger.i("creating guess")
         guessRepository.placeGuess(
             user = user,
-            guess = guess,
+            guess = guess
         )
         analyticsTool.log(PlaceGuessEvent(guess))
     }
-
 }
 
 /**
@@ -80,7 +79,9 @@ class PlaceGuessUseCase(
  */
 class ExpiredBetException(
     private val guess: Guess
-) : IllegalArgumentException("the confrontation ${guess.confrontation.id} does not allows bets anymore"),
+) : IllegalArgumentException(
+    "the confrontation ${guess.confrontation.id} does not allows bets anymore"
+),
     Debuggable {
     override fun logProperties(): Map<String, Any> {
         return mapOf(
@@ -92,7 +93,7 @@ class ExpiredBetException(
 }
 
 class InvalidScoreException(
-    private val aggregation: AnswerAggregation,
+    private val aggregation: AnswerAggregation
 ) : IllegalArgumentException("invalid combination of answers"), Debuggable {
     override fun logProperties(): Map<String, Any?> {
         return aggregation.logProperties()

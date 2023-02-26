@@ -7,7 +7,6 @@ import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.ksp.generated.module
 
-
 object Injector {
 
     fun init(context: Context): KoinApplication {
@@ -24,5 +23,4 @@ object Injector {
             )
         }
     }
-
 }

@@ -20,5 +20,4 @@ interface DispatcherProvider {
         override val unconfined: CoroutineDispatcher
             get() = Dispatchers.Unconfined
     }
-
 }

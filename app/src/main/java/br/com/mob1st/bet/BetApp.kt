@@ -16,5 +16,4 @@ class BetApp : Application(), AppScopeProvider {
         _appScope.cancel("onLowMemory called by the BetApp")
         _appScope = MainScope()
     }
-
 }

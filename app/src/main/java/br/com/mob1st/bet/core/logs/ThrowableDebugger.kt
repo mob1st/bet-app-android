@@ -12,5 +12,4 @@ interface ThrowableDebugger<T : Throwable> {
      * For the cases some important properties
      */
     fun propertiesFrom(throwable: T): Map<String, Any>
-
 }

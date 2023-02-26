@@ -33,6 +33,6 @@ fun InputText() {
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next
         ),
-        colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
+        colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black)
     )
 }

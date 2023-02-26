@@ -13,5 +13,4 @@ interface AppScopeProvider {
      * The coroutine scope attached to the app lifecycle
      */
     val appScope: CoroutineScope
-
 }

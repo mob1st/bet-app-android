@@ -15,13 +15,11 @@ data class Group(
     val createdAt: Date = Date(),
     val updatedAt: Date = createdAt,
     val imageUrl: String? = null,
-    val memberCount: Int = 0,
+    val memberCount: Int = 0
 ) {
 
     fun toEntry() = GroupEntry(id, name, imageUrl)
-
 }
-
 
 /**
  * A small piece of the [Group] entity to used as reference in other entities
@@ -32,12 +30,11 @@ data class GroupEntry(
     val imageUrl: String? = null
 )
 
-
 fun Pair<GroupEntry, CompetitionEntry>.toLogMap() = mapOf(
     "groupId" to first.id,
     "groupName" to first.name,
 
     "competitionId" to second.id,
     "competitionName" to second.name.default,
-    "competitionType" to second.type.name.lowercase(),
+    "competitionType" to second.type.name.lowercase()
 )

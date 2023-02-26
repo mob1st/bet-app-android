@@ -17,5 +17,4 @@ interface AnalyticsTool {
     fun clearUser()
 
     fun log(event: AnalyticsEvent)
-
 }

@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.core.ui.ds.molecule.AddButton
 import org.koin.androidx.compose.koinViewModel
 
@@ -35,7 +34,10 @@ fun CreateGroupScreen(
         mutableStateOf("")
     }
 
-    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(text = "Criação de Grupo")
         OutlinedTextField(
             modifier = Modifier
@@ -49,12 +51,13 @@ fun CreateGroupScreen(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
             ),
-            colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
+            colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black)
         )
         AddButton(
             onAction = {
                 viewModel.fromUi(GroupsUIEvent.CreateGroup(groupName))
                 onCreateGroupAction()
-        })
+            }
+        )
     }
 }

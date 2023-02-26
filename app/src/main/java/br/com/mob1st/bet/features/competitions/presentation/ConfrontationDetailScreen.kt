@@ -19,10 +19,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.localization.getText
+import br.com.mob1st.bet.core.tooling.ktx.ifNotEmpty
 import br.com.mob1st.bet.core.ui.compose.LocalLogger
 import br.com.mob1st.bet.core.ui.ds.atoms.LocalCompositionGrid
 import br.com.mob1st.bet.core.ui.ds.molecule.DismissSnackbar
@@ -38,13 +39,12 @@ import br.com.mob1st.bet.core.ui.ds.organisms.FetchedCrossfade
 import br.com.mob1st.bet.core.ui.ds.page.DefaultErrorPage
 import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
-import br.com.mob1st.bet.core.tooling.ktx.ifNotEmpty
 import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 
 @Composable
 fun ConfrontationDetailScreen(
     viewModel: ConfrontationListViewModel,
-    popBackStack: () -> Unit,
+    popBackStack: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val updatedNavigateBack by rememberUpdatedState(popBackStack)
@@ -77,7 +77,6 @@ private fun ConfrontationDetailPage(
     onButtonClicked: (ConfrontationInput) -> Unit,
     onNullDetail: () -> Unit
 ) {
-
     val onEmptyUpdated by rememberUpdatedState(onEmpty)
 
     FetchedCrossfade(
@@ -96,7 +95,7 @@ private fun ConfrontationDetailPage(
                 onButtonClicked = onButtonClicked,
                 onNullDetail = onNullDetail
             )
-        },
+        }
     )
 }
 
@@ -139,7 +138,6 @@ private fun ConfrontationData(
     confrontationData: ConfrontationData,
     onButtonClicked: (ConfrontationInput) -> Unit
 ) {
-
     var input: ConfrontationInput by rememberSaveable {
         mutableStateOf(ConfrontationInput())
     }
@@ -171,12 +169,12 @@ private fun ConfrontationData(
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
+            horizontalArrangement = Arrangement.End
         ) {
             TextButton(
                 onClick = {
                     onButtonClicked(input)
-                },
+                }
             ) {
                 val text = if (confrontationData.isLast) {
                     R.string.confrontation_detail_score_done
@@ -193,7 +191,7 @@ private fun ConfrontationData(
 private fun Header(
     modifier: Modifier = Modifier,
     competitionEntry: CompetitionEntry,
-    progress: Float,
+    progress: Float
 ) {
     val context = LocalContext.current
     Column(
@@ -205,7 +203,7 @@ private fun Header(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = LocalCompositionGrid.current.line),
-            progress = progress,
+            progress = progress
         )
         Text(
             modifier = Modifier.fillMaxWidth(),

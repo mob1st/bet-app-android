@@ -15,7 +15,7 @@ class GroupCollection(
 ) {
     suspend fun create(
         founder: User,
-        group: Group,
+        group: Group
     ) {
         val batch = firestore.batch()
         val groupRef = firestore.groups.document()
@@ -60,7 +60,6 @@ class GroupCollection(
         )
         batch.commit().awaitWithTimeout()
     }
-
 }
 
 val FirebaseFirestore.groups get() =

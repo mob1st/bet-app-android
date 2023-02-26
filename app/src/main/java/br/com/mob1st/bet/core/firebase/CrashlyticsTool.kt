@@ -31,8 +31,6 @@ class CrashlyticsTool(
         val map = throwable.getPropertiesTree(FirebaseExceptionDebugger)
         crashlytics.setCustomKeys(map.toCustomKeyValues().build())
     }
-
-
 }
 
 private fun Map<String, Any?>.toCustomKeyValues(

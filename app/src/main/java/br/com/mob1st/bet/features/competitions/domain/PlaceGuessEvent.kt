@@ -20,5 +20,4 @@ data class PlaceGuessEvent(
             "subscriptionId" to guess.subscriptionId
         ) + guess.aggregation.logProperties()
     }
-
 }

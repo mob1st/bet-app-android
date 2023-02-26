@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.core.localization.getText
+import br.com.mob1st.bet.core.tooling.ktx.ifNotEmpty
 import br.com.mob1st.bet.core.ui.compose.LocalLazyListState
 import br.com.mob1st.bet.core.ui.compose.LocalSnackbarState
 import br.com.mob1st.bet.core.ui.ds.atoms.LocalCompositionGrid
@@ -40,7 +41,6 @@ import br.com.mob1st.bet.core.ui.ds.page.DefaultErrorPage
 import br.com.mob1st.bet.core.ui.ds.templates.InfoTemplate
 import br.com.mob1st.bet.core.ui.state.AsyncState
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
-import br.com.mob1st.bet.core.tooling.ktx.ifNotEmpty
 import br.com.mob1st.bet.features.competitions.domain.IntScores
 import br.com.mob1st.bet.features.competitions.domain.MatchWinner
 
@@ -69,10 +69,10 @@ fun ConfrontationsPage(
     state: AsyncState<ConfrontationData>,
     onTryAgain: (SimpleMessage) -> Unit,
     onSelect: (Int) -> Unit,
-    onDismiss: (SimpleMessage) -> Unit,
+    onDismiss: (SimpleMessage) -> Unit
 ) {
     Box(
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         FetchedCrossfade(
             state = state,
@@ -113,7 +113,7 @@ fun ConfrontationsData(
     state: AsyncState<ConfrontationData>,
     onSelect: (Int) -> Unit,
     onTryAgain: (SimpleMessage) -> Unit,
-    onDismiss: (SimpleMessage) -> Unit,
+    onDismiss: (SimpleMessage) -> Unit
 ) {
     state.messages.ifNotEmpty {
         RetrySnackbar(
@@ -125,12 +125,13 @@ fun ConfrontationsData(
     }
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        state = LocalLazyListState.current,
+        state = LocalLazyListState.current
     ) {
         stickyHeader {
-            Surface(modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
             ) {
                 val context = LocalContext.current
                 Text(
@@ -145,7 +146,7 @@ fun ConfrontationsData(
         }
         itemsIndexed(
             state.data.confrontations,
-            key = { _, item -> item.id },
+            key = { _, item -> item.id }
         ) { index, item ->
             when (val contest = item.contest.current) {
                 is IntScores -> IntScoresItem(contest)
@@ -160,9 +161,8 @@ fun ConfrontationsData(
 private fun MatchWinnerItem(
     index: Int,
     matchWinner: MatchWinner,
-    onSelect: (Int) -> Unit,
+    onSelect: (Int) -> Unit
 ) {
-
     ListItem(
         modifier = Modifier.clickable { onSelect(index) },
         headlineText = {
@@ -170,7 +170,7 @@ private fun MatchWinnerItem(
             val team1 = context.getText(matchWinner.contender1.subject.name)
             val team2 = context.getText(matchWinner.contender2.subject.name)
             Text(text = "${index + 1}° $team1 X $team2")
-        },
+        }
     )
     Divider()
 }
@@ -178,7 +178,7 @@ private fun MatchWinnerItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun IntScoresItem(
-    intScores: IntScores,
+    intScores: IntScores
 ) {
     Row {
         intScores.contenders.forEachIndexed { _, bet ->

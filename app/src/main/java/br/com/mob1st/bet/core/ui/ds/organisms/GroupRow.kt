@@ -41,5 +41,5 @@ fun GroupRow(
 @Composable
 @Preview
 fun GroupRowPreview() {
-    //GroupRow(groupName = "Primeiro grupo", currentMembersNumber = 2, maxMembers = 25, () -> Unit)
+    // GroupRow(groupName = "Primeiro grupo", currentMembersNumber = 2, maxMembers = 25, () -> Unit)
 }

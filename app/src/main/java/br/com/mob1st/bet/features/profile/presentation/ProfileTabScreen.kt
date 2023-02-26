@@ -12,6 +12,6 @@ fun ProfileTabScreen() {
     InfoTemplate(
         icon = { Icon(imageVector = Icons.Default.Person, contentDescription = "group") },
         title = { Text("Aba de grupos") },
-        description = { Text("Trabalho em progresso. Volte aqui editar o seu perfil") },
+        description = { Text("Trabalho em progresso. Volte aqui editar o seu perfil") }
     )
 }

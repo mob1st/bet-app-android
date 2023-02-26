@@ -41,5 +41,4 @@ class TimberLogger(
         // 0 getCaller, 1 is the logger function, 2 is the intercace call
         const val STACK_TRACE_ELEMENT_INDEX = 3
     }
-
 }

@@ -19,7 +19,7 @@ interface PageStateManager<Data> {
 }
 
 abstract class PageStateViewModel<Data>(
-    initialValue: PageState<Data> = PageState.Empty(),
+    initialValue: PageState<Data> = PageState.Empty()
 ) : ViewModel(), PageStateManager<Data> {
 
     private val _output = MutableStateFlow(initialValue)
@@ -65,7 +65,7 @@ abstract class PageStateViewModel<Data>(
 
     private fun <T> updateEmpty(
         source: Flow<T>,
-        transform: suspend (state: PageState.Empty<Data>, value:T) -> PageState<Data>
+        transform: suspend (state: PageState.Empty<Data>, value: T) -> PageState<Data>
     ): Job = updateState(source = source, empty = transform)
 
     private fun <T> updateHelper(
@@ -75,21 +75,21 @@ abstract class PageStateViewModel<Data>(
 
     protected fun <T> updateMain(
         source: Flow<T>,
-        transform: suspend (state: PageState.Main<Data>, value:T) -> PageState<Data>
+        transform: suspend (state: PageState.Main<Data>, value: T) -> PageState<Data>
     ): Job = updateState(source = source, main = transform)
-    
+
     protected fun <T> updateMainData(
         source: Flow<T>,
-        transform: suspend (data: Data, value:T) -> Data
+        transform: suspend (data: Data, value: T) -> Data
     ): Job = updateMain(source) { state, value ->
         state.copy(data = transform(state.data, value))
     }
-    
+
     private fun <T> updateState(
         source: Flow<T>,
         empty: suspend (state: PageState.Empty<Data>, T) -> PageState<Data> = { s, _ -> s },
         helper: suspend (state: PageState.Helper<Data>, T) -> PageState<Data> = { s, _ -> s },
-        main: suspend (state: PageState.Main<Data>, T) -> PageState<Data> = { s, _ -> s },
+        main: suspend (state: PageState.Main<Data>, T) -> PageState<Data> = { s, _ -> s }
     ): Job = source.onEach { value ->
         _output.update { state ->
             when (state) {
@@ -99,5 +99,4 @@ abstract class PageStateViewModel<Data>(
             }
         }
     }.launchIn(viewModelScope)
-    
 }

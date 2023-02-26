@@ -1,7 +1,5 @@
 package br.com.mob1st.bet.core.tooling.vm
 
-import br.com.mob1st.bet.core.tooling.vm.actionFromFlow
-import br.com.mob1st.bet.core.tooling.vm.trigger
 import io.kotest.common.ExperimentalKotest
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
@@ -42,7 +40,7 @@ class ActionTest : BehaviorSpec({
 
     Given("a indeterminate flow") {
         val action = scope.actionFromFlow<Any> {
-            flow {  }
+            flow { }
         }
         When("trigger") {
             scope.testScheduler.advanceUntilIdle()

@@ -56,7 +56,7 @@ fun TextButton(
 ) {
     TextButton(
         onClick = onClick,
-        enabled = state.isAllowingClicks(),
+        enabled = state.isAllowingClicks()
     ) {
         TextArea(state = state)
     }
@@ -112,8 +112,5 @@ object ButtonDefaults {
 
     val height: Dp = 64.dp
 
-    object Icon {
-
-    }
-
+    object Icon
 }

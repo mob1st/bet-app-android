@@ -56,26 +56,26 @@ sealed class BottomBarDestination(
 }
 
 sealed class AppRouteDestination(val route: String) {
-    object CreateGroups: AppRouteDestination(
+    object CreateGroups : AppRouteDestination(
         route = "createGroups"
     )
 }
 
-
 @Composable
 fun HomeNavGraph(homeUiState: HomeUiState, subscription: Subscription) {
-
     val competitionsViewModel = koinViewModel<ConfrontationListViewModel> {
         parametersOf(subscription)
     }
     NavHost(
         navController = homeUiState.navController,
-        startDestination = BottomBarDestination.Competitions.route,
+        startDestination = BottomBarDestination.Competitions.route
     ) {
         competitionNavGraph(homeUiState, competitionsViewModel)
         composable(route = BottomBarDestination.Groups.route) {
             GroupsTabScreen(
-                onNavigateToCreateGroups = { homeUiState.navController.navigate(AppRouteDestination.CreateGroups.route) },
+                onNavigateToCreateGroups = {
+                    homeUiState.navController.navigate(AppRouteDestination.CreateGroups.route)
+                },
                 onNavigateToGroupDetails = { Unit }
             )
         }
@@ -86,7 +86,7 @@ fun HomeNavGraph(homeUiState: HomeUiState, subscription: Subscription) {
             CreateGroupScreen(
                 onCreateGroupAction = {
                     homeUiState.navController.navigate(BottomBarDestination.Groups.route)
-                },
+                }
             )
         }
     }

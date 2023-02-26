@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-
 context(ViewModel)
 fun <T> MutableSharedFlow<T>.next(
     value: T
@@ -22,7 +21,5 @@ fun <T, U> MutableStateFlow<T>.update(
     combine: (currentState: T, newData: U) -> T
 ): Job = update(viewModelScope, source, combine)
 
-
 context(ViewModel)
 fun <T> Flow<T>.onCollect(block: suspend (T) -> Unit): Job = onCollect(viewModelScope, block)
-

@@ -3,7 +3,7 @@ package br.com.mob1st.bet.features.profile.domain
 import br.com.mob1st.bet.core.logs.Debuggable
 
 class AnonymousSignInException(
-    cause: Throwable,
+    cause: Throwable
 ) : Exception("Unable to sign in the user anonymously", cause)
 
 class UserCreationException(
@@ -17,7 +17,7 @@ class UserCreationException(
 
 class UserSubscriptionException(
     private val subscriptionId: String,
-    cause: Throwable,
+    cause: Throwable
 ) : Exception("unable to subscribe the user in the competition $subscriptionId", cause),
     Debuggable {
     override fun logProperties(): Map<String, Any> {

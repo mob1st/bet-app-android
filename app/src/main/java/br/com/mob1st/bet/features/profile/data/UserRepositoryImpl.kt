@@ -19,7 +19,7 @@ import org.koin.core.annotation.Factory
 internal class UserRepositoryImpl(
     private val userAuth: UserAuth,
     private val userCollection: UserCollection,
-    private val dispatcherProvider: DispatcherProvider,
+    private val dispatcherProvider: DispatcherProvider
 ) : UserRepository {
 
     private val io get() = dispatcherProvider.io
@@ -30,12 +30,12 @@ internal class UserRepositoryImpl(
         return@withContext user
     }
 
-    override suspend fun subscribe(entry: CompetitionEntry): Subscription = withContext(io){
+    override suspend fun subscribe(entry: CompetitionEntry): Subscription = withContext(io) {
         suspendRunCatching {
             val userId = checkNotNull(userAuth.get()?.id)
             userCollection.subscribe(
                 userId,
-                Subscription(competition = entry),
+                Subscription(competition = entry)
             )
         }.getOrElse {
             throw UserSubscriptionException(entry.id, it)
@@ -73,5 +73,4 @@ internal class UserRepositoryImpl(
     }
 
     override suspend fun getAuthStatus(): AuthStatus = userAuth.getAuthStatus()
-
 }

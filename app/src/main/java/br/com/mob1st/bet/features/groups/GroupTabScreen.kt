@@ -17,14 +17,24 @@ fun GroupsTabScreen(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center ,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxSize()
     ) {
-        ProvideTextStyle(MaterialTheme.typography.headlineMedium){
+        ProvideTextStyle(MaterialTheme.typography.headlineMedium) {
             Text("Seus grupos")
         }
         AddButton(onNavigateToCreateGroups)
-        GroupRow(groupName = "Primeiro grupo", currentMembersNumber = 1, maxMembers = 25, onNavigateToGroupDetails)
-        GroupRow(groupName = "Segundo grupo", currentMembersNumber = 3, maxMembers = 25, onNavigateToGroupDetails)
+        GroupRow(
+            groupName = "Primeiro grupo",
+            currentMembersNumber = 1,
+            maxMembers = 25,
+            onNavigateToGroupDetails
+        )
+        GroupRow(
+            groupName = "Segundo grupo",
+            currentMembersNumber = 3,
+            maxMembers = 25,
+            onNavigateToGroupDetails
+        )
     }
 }

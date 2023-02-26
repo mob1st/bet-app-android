@@ -11,8 +11,8 @@ import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
 class LauncherViewModel(
-    private val launchAppUseCase: LaunchAppUseCase,
-) : StateViewModel<LaunchData, LauncherUiEvent>(AsyncState(LaunchData(), loading = true)){
+    private val launchAppUseCase: LaunchAppUseCase
+) : StateViewModel<LaunchData, LauncherUiEvent>(AsyncState(LaunchData(), loading = true)) {
 
     init {
         triggerUseCase()
@@ -29,7 +29,6 @@ class LauncherViewModel(
             it.data(LaunchData.subscription.set(it.data, subscription))
         }
     }
-
 }
 
 @Immutable

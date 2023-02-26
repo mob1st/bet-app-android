@@ -2,6 +2,8 @@ package br.com.mob1st.bet.core.ui.state
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mob1st.bet.core.logs.Logger
+import kotlin.Exception
+import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +18,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import kotlin.Exception
-import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * The project's base ViewModel, used to handle the asynchronous state changes in the UI.
@@ -52,7 +52,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
     val uiState: StateFlow<AsyncState<Data>> = viewModelState.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(STOP_TIMEOUT),
-        viewModelState.value,
+        viewModelState.value
     )
 
     val currentState get() = uiState.value
@@ -70,11 +70,10 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
      */
     open fun messageShown(
         message: SimpleMessage,
-        loading: Boolean = false,
+        loading: Boolean = false
     ) = viewModelState.update { current ->
         current.removeMessage(message, loading)
     }
-
 
     /**
      * Uses the returned [Flow] as a [source] of states that will be emitted by the UI.
@@ -95,7 +94,7 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
                 logger.e("setSource have failed", it)
                 emit(viewModelState.value.failure())
             }
-            .onEach { newState -> setAsync { newState }}
+            .onEach { newState -> setAsync { newState } }
             .launchIn(viewModelScope)
     }
 
@@ -165,6 +164,5 @@ abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : V
          * **See also**
          */
         private const val STOP_TIMEOUT = 5_000L
-
     }
 }

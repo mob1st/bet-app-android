@@ -14,7 +14,7 @@ class GuessCollection(
 
     suspend fun createGuess(
         userId: String,
-        guess: Guess,
+        guess: Guess
     ) {
         val confrontation = guess.confrontation
         val params = mapOf(
@@ -35,17 +35,18 @@ class GuessCollection(
     }
 
     suspend fun updateGuess(
-        guess: Guess,
+        guess: Guess
     ) {
         firestore.guesses
             .document(guess.id)
-            .update(mapOf(
-                Guess::updatedAt.name to guess.updatedAt,
-                Guess::aggregation.name to GuessAnswerFactory.toMap(guess.aggregation)
-            ))
+            .update(
+                mapOf(
+                    Guess::updatedAt.name to guess.updatedAt,
+                    Guess::aggregation.name to GuessAnswerFactory.toMap(guess.aggregation)
+                )
+            )
             .awaitWithTimeout()
     }
-
 }
 
 val FirebaseFirestore.guesses get() = collection("guesses")

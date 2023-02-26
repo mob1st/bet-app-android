@@ -33,7 +33,7 @@ sealed interface PageState<T> {
     data class Main<T>(
         val data: T,
         val snacks: PersistentList<SnackState<*>> = persistentListOf(),
-        val refreshing: Boolean = false,
+        val refreshing: Boolean = false
     ) : PageState<T> {
 
         fun offer(snack: SnackState<*>) = copy(snacks = snacks.add(snack))
@@ -41,6 +41,5 @@ sealed interface PageState<T> {
         fun poll() = copy(snacks = snacks.removeAt(0))
 
         fun peek(): SnackState<*>? = snacks.getOrNull(0)
-
     }
 }

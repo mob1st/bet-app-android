@@ -15,13 +15,15 @@ sealed class AsyncData {
     fun <T> data(): T? = if (this is Success<*>) {
         @Suppress("UNCHECKED_CAST")
         data as? T
-    } else null
+    } else {
+        null
+    }
 
     fun throwable(): Throwable? = if (this is Failure) {
         throwable
-    } else null
-
+    } else {
+        null
+    }
 }
 
 operator fun <U> AsyncData.plus(item: U): Pair<AsyncData, U> = this to item
-

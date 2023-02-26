@@ -1,7 +1,7 @@
 package br.com.mob1st.bet.core.utils.functions
 
-import timber.log.Timber
 import kotlin.coroutines.cancellation.CancellationException
+import timber.log.Timber
 
 /**
  * Attempts [block], returning a successful [Result] if it succeeds, otherwise a [Result.Failure]

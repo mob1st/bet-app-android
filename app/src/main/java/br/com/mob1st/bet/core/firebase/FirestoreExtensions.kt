@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
+import java.util.Date
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.JsonArray
@@ -12,13 +13,12 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
-import java.util.Date
 
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T> DocumentSnapshot.getNestedObject(fieldName: String): Map<String, T> {
     // firestore triggers an exception when the method get is used to read a nested object
     // so is necessary to get the field using the [data] property and force cast it
-    return checkNotNull(data?.get(fieldName))  {
+    return checkNotNull(data?.get(fieldName)) {
         fieldMessage(fieldName)
     } as Map<String, T>
 }

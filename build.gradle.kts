@@ -18,6 +18,44 @@ plugins {
     alias(libs.plugins.ktlint)
 }
 
+allprojects {
+    apply(plugin = rootProject.libs.plugins.ktlint.get().pluginId)
+    apply(plugin = rootProject.libs.plugins.detekt.get().pluginId)
+
+    dependencies {
+        detektPlugins(rootProject.libs.plugin.detekt.libraries)
+        detektPlugins(rootProject.libs.plugin.detekt.twitter.compose)
+    }
+
+    ktlint {
+        android.set(true)
+        enableExperimentalRules.set(true)
+        ignoreFailures.set(false)
+        version.set(rootProject.libs.versions.ktlint.get())
+        filter {
+            exclude("**/generated/**", "**/build/**")
+        }
+        reporters {
+            reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML)
+        }
+    }
+
+    detekt {
+        config = files("$rootDir/buildsystem/quality/detekt/detekt-config.yml")
+        baseline = file("$rootDir/buildsystem/quality/detekt/baseline.xml")
+        ignoreFailures = false
+    }
+
+    tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+        jvmTarget = "1.8"
+        reports {
+            txt.required.set(false)
+            xml.required.set(false)
+            html.required.set(true)
+        }
+    }
+}
+
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }

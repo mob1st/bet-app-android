@@ -19,9 +19,8 @@ fun GroupIcon() {
         modifier = Modifier.size(25.dp),
         border = BorderStroke(1.dp, Color.White),
         shape = CircleShape,
-        colors = ButtonDefaults.buttonColors(Purple40),
+        colors = ButtonDefaults.buttonColors(Purple40)
     ) {
-
     }
 }
 

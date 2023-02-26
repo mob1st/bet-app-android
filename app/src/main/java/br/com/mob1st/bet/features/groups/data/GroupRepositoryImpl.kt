@@ -28,7 +28,6 @@ class GroupRepositoryImpl(
         name: String,
         competitionEntry: CompetitionEntry
     ): GroupEntry = withContext(io) {
-
         val group = Group(
             name = name,
             competition = competitionEntry,
@@ -43,7 +42,7 @@ class GroupRepositoryImpl(
             throw CreateGroupException(
                 groupEntry = entry,
                 competitionEntry = competitionEntry,
-                cause = it,
+                cause = it
             )
         }
     }

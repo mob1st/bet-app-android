@@ -13,21 +13,22 @@ import org.koin.core.annotation.Factory
 @Factory
 class CompetitionRepositoryImpl(
     private val competitionCollection: CompetitionCollection,
-    private val provider: DispatcherProvider,
+    private val provider: DispatcherProvider
 ) : CompetitionRepository {
 
     private val io get() = provider.io
 
-    override suspend fun getDefaultCompetition(): Competition = withContext(io){
+    override suspend fun getDefaultCompetition(): Competition = withContext(io) {
         suspendRunCatching {
             competitionCollection.getDefault()
         }.getOrElse { throw GetDefaultCompetitionException(it) }
     }
 
-    override suspend fun getConfrontationsBy(competitionId: String): List<Confrontation> = withContext(io){
+    override suspend fun getConfrontationsBy(competitionId: String): List<Confrontation> = withContext(
+        io
+    ) {
         suspendRunCatching {
             competitionCollection.getConfrontationsById(competitionId)
         }.getOrElse { throw GetConfrontationListException(competitionId, it) }
     }
-
 }

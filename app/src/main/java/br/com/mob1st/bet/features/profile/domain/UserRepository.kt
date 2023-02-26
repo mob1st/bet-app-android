@@ -38,5 +38,4 @@ interface UserRepository {
      * Get the first available competition for the User to start the app
      */
     suspend fun getFirstAvailableSubscription(): Subscription
-
 }

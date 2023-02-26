@@ -11,5 +11,4 @@ interface FeatureFlagRepository {
      * Returns a boolean data class
      */
     fun getBoolean(featureFlag: String): Boolean
-
 }

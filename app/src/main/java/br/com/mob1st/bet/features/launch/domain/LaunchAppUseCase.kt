@@ -30,7 +30,7 @@ class LaunchAppUseCase(
     private val competitionRepository: CompetitionRepository,
     private val analyticsTool: AnalyticsTool,
     private val crashReportingTool: CrashReportingTool,
-    private val logger: Logger,
+    private val logger: Logger
 ) {
 
     context(CoroutineScope)
@@ -88,5 +88,4 @@ class LaunchAppUseCase(
     companion object {
         private const val FF_DEFAULT_COMPETITION = "ff_default_competition"
     }
-
 }

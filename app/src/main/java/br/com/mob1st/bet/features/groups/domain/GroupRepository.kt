@@ -20,8 +20,7 @@ interface GroupRepository {
         founder: User,
         name: String,
         competitionEntry: CompetitionEntry
-    ) : GroupEntry
-
+    ): GroupEntry
 }
 
 class CreateGroupException(
@@ -32,5 +31,4 @@ class CreateGroupException(
     override fun logProperties(): Map<String, Any> {
         return (groupEntry to competitionEntry).toLogMap()
     }
-
 }

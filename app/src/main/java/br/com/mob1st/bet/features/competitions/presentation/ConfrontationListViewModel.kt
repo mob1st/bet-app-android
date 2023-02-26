@@ -4,11 +4,11 @@ import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import arrow.optics.optics
+import br.com.mob1st.bet.core.tooling.ktx.Duo
+import br.com.mob1st.bet.core.tooling.ktx.Node
 import br.com.mob1st.bet.core.ui.state.FetchedData
 import br.com.mob1st.bet.core.ui.state.SimpleMessage
 import br.com.mob1st.bet.core.ui.state.StateViewModel
-import br.com.mob1st.bet.core.tooling.ktx.Duo
-import br.com.mob1st.bet.core.tooling.ktx.Node
 import br.com.mob1st.bet.features.competitions.domain.AnswerAggregation
 import br.com.mob1st.bet.features.competitions.domain.CompetitionRepository
 import br.com.mob1st.bet.features.competitions.domain.Confrontation
@@ -36,7 +36,7 @@ data class ConfrontationData(
     val subscription: Subscription,
     val confrontations: List<Confrontation> = emptyList(),
     val hasFinished: Boolean = false,
-    val selected: Int?  = null,
+    val selected: Int? = null
 ) : FetchedData {
 
     /*
@@ -64,7 +64,7 @@ sealed class ConfrontationUiEvent {
 @Parcelize
 data class ConfrontationInput(
     val winner: Duel.Selection? = null,
-    val score: Duo<Int>? = null,
+    val score: Duo<Int>? = null
 ) : Parcelable {
     val scoresVisible: Boolean get() = winner != null
 
@@ -99,7 +99,7 @@ class ConfrontationListViewModel(
     private val placeGuessUseCase: PlaceGuessUseCase,
     private val repository: CompetitionRepository,
     private val savedState: SavedStateHandle
-) : StateViewModel<ConfrontationData, ConfrontationUiEvent>(ConfrontationData(subscription)){
+) : StateViewModel<ConfrontationData, ConfrontationUiEvent>(ConfrontationData(subscription)) {
 
     init {
         load()
@@ -153,9 +153,9 @@ class ConfrontationListViewModel(
                 checkNotNull(current.selected) {
                     "If hasNext returns true so selected should be not null"
                 }
-                //ConfrontationData.selected.set(current, selected + 1)
+                // ConfrontationData.selected.set(current, selected + 1)
             } else {
-                //ConfrontationData.hasFinished.set(current, true)
+                // ConfrontationData.hasFinished.set(current, true)
             }
             current
         }

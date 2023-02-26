@@ -39,15 +39,15 @@ class GetUseCase {
 @Immutable
 data class UsageData(
     val content: String,
-    val clickRunning: Boolean = false,
+    val clickRunning: Boolean = false
 )
 
 class MyViewModel(
     getUseCase: GetUseCase,
     clickUseCase: ClickUseCase,
     snackStateManager: DelegateSnackStateInput,
-    refreshStateManager: DelegateRefreshStateManager,
-): PageStateViewModel<UsageData>(),
+    refreshStateManager: DelegateRefreshStateManager
+) : PageStateViewModel<UsageData>(),
     SnackStateInput by snackStateManager,
     RefreshStateInput by refreshStateManager {
 
@@ -65,7 +65,7 @@ class MyViewModel(
             failure = getAction.failure,
             loading = getAction.loading,
             poll = snackStateManager.poll,
-            data = getAction.success.map { UsageData(content = it) },
+            data = getAction.success.map { UsageData(content = it) }
         )
 
         updateMainData(getAction.success) { data, value ->
@@ -100,13 +100,11 @@ class MyViewModel(
                 data
             }
         }
-
     }
 
     fun click() {
         buttonClickInput.next(Unit)
     }
-
 }
 
 @Composable
@@ -130,6 +128,5 @@ fun Ui() {
     }
 
     Button(onClick = vm::click) {
-
     }
 }

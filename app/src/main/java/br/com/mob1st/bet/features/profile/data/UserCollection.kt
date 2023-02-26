@@ -35,8 +35,8 @@ class UserCollection(
                     "ref" to firestore.competitions.document(input.competition.id)
                 ),
                 Subscription::points.name to input.points,
-                Subscription::active.name to input.active,
-            ),
+                Subscription::active.name to input.active
+            )
         )
         batch.update(
             firestore.users.document(userId),
@@ -62,7 +62,6 @@ class UserCollection(
             json.decodeFromJsonElement(jsonObj)
         }
     }
-
 }
 
 val FirebaseFirestore.users get() =
@@ -72,4 +71,3 @@ fun FirebaseFirestore.subscriptions(userId: String) =
 
 fun FirebaseFirestore.memberships(userId: String) =
     users.document(userId).collection("memberships")
-

@@ -5,11 +5,10 @@ import androidx.annotation.Keep
 import arrow.optics.optics
 import br.com.mob1st.bet.core.localization.LocalizedText
 import br.com.mob1st.bet.core.serialization.DateSerializer
+import java.util.Date
 import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.util.Date
 
 @Serializable
 @Keep
@@ -40,11 +39,10 @@ data class CompetitionEntry(
     @SerialName("ref")
     val id: String,
     val name: LocalizedText,
-    val type: CompetitionType,
+    val type: CompetitionType
 ) : Parcelable {
     companion object
 }
-
 
 @Keep
 enum class CompetitionType {

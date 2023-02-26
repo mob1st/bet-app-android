@@ -15,9 +15,8 @@ interface GuessRepository {
      */
     suspend fun placeGuess(
         user: User,
-        guess: Guess,
+        guess: Guess
     )
-
 }
 
 class PlaceGuessException(
@@ -30,8 +29,7 @@ class PlaceGuessException(
             "confrontation" to guess.confrontation.id,
             "confrontationAllowBetsUntil" to guess.confrontation.allowBetsUntil,
             "createdAt" to guess.createdAt,
-            "updatedAt" to guess.updatedAt,
+            "updatedAt" to guess.updatedAt
         ) + guess.aggregation.logProperties()
     }
-
 }
