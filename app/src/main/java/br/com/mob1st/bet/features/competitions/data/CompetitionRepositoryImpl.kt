@@ -24,9 +24,9 @@ class CompetitionRepositoryImpl(
         }.getOrElse { throw GetDefaultCompetitionException(it) }
     }
 
-    override suspend fun getConfrontationsBy(competitionId: String): List<Confrontation> = withContext(
-        io
-    ) {
+    override suspend fun getConfrontationsBy(
+        competitionId: String
+    ): List<Confrontation> = withContext(io) {
         suspendRunCatching {
             competitionCollection.getConfrontationsById(competitionId)
         }.getOrElse { throw GetConfrontationListException(competitionId, it) }

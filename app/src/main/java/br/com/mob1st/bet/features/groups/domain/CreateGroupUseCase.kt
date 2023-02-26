@@ -58,7 +58,7 @@ class CreateGroupUseCase(
 class MembershipLimitException(
     private val currentCount: Int
 ) : Exception(
-    "a user can't have more then $MEMBERSHIP_LIMIT memberships. Your current memberships is $currentCount"
+    "a user can't have more then $MEMBERSHIP_LIMIT memberships. Your current value is $currentCount"
 ), Debuggable {
     override fun logProperties(): Map<String, Any> {
         return mapOf(

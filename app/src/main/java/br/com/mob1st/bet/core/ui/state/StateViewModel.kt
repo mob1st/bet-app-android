@@ -32,7 +32,9 @@ import org.koin.core.component.inject
  * @see AsyncState
  * **See also** [Ui-Layer](https://developer.android.com/topic/architecture/ui-layer)
  */
-abstract class StateViewModel<Data, UiEvent>(initialState: AsyncState<Data>) : ViewModel(), KoinComponent {
+abstract class StateViewModel<Data, UiEvent>(
+    initialState: AsyncState<Data>
+) : ViewModel(), KoinComponent {
 
     constructor(data: Data, loading: Boolean = true) : this(
         AsyncState(data = data, loading = loading)

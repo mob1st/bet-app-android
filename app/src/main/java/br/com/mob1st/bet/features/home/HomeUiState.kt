@@ -38,9 +38,11 @@ class HomeUiState(
     )
 
     // TODO implement custom logic to hide bottom bar depending on the screan
-    val showBottomBar @Composable get() = navController.currentBackStackEntryAsState().value?.destination?.route in tabs.map {
-        it.route
-    }
+    val showBottomBar @Composable get() = navController
+        .currentBackStackEntryAsState()
+        .value
+        ?.destination
+        ?.route in tabs.map { it.route }
 
     /**
      * Navigates to one of the tabs in the app
