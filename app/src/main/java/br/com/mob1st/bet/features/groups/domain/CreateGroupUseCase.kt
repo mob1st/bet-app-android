@@ -59,7 +59,8 @@ class MembershipLimitException(
     private val currentCount: Int
 ) : Exception(
     "a user can't have more then $MEMBERSHIP_LIMIT memberships. Your current value is $currentCount"
-), Debuggable {
+),
+    Debuggable {
     override fun logProperties(): Map<String, Any> {
         return mapOf(
             "currentMemberships" to currentCount,
