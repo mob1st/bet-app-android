@@ -11,6 +11,91 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        libs {
+            version('compose-compiler-version', '1.4.3')
+            version('compose-version', '1.4.0-beta02')
+            version('kotlin-version', '1.8.0')
+            version('koin-version', '3.3.3')
+            version('koin-ksp-version', '1.1.1')
+            version('kotest-version', '5.5.5')
+            version('lifecycle-version', '2.6.0-rc01')
+            version('arrow-version', '1.1.5')
+            version('ksp-version', '1.8.10-1.0.9')
+            version('accompaninst-version', '0.27.1')
+            version('compose-compiler', '3.0.5')
+            /*
+            // android core
+            library('android-core','androidx.core:core-ktx:1.9.0')
+
+            // lifecycle
+            library("","androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle")
+            library("","androidx.lifecycle:lifecycle-runtime-compose:$lifecycle")
+            library("","androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle")
+
+            // compose
+            library("","androidx.compose.ui:ui:$compose")
+            library("","androidx.compose.ui:ui-tooling-preview:$compose")
+            library("","androidx.compose.ui:ui-util:1.4.0-beta02")
+            library("","androidx.compose.ui:ui-tooling:$compose")
+            library("","androidx.compose.ui:ui-test-manifest:$compose")
+            library("",'androidx.compose.material3:material3:1.1.0-alpha07')
+            library("",'androidx.activity:activity-compose:1.6.1')
+            library("","androidx.navigation:navigation-compose:2.5.3")
+
+            // coil
+            library("","io.coil-kt:coil-compose:2.2.2")
+
+            // accompanist
+            library("","com.google.accompanist:accompanist-systemuicontroller:$accompaninst")
+
+            // koin
+            library("","io.insert-koin:koin-android:$koin")
+            library("","io.insert-koin:koin-androidx-compose:3.4.2")
+            library("","io.insert-koin:koin-annotations:$koin_ksp")
+            library("io.insert-koin:koin-ksp-compiler:$koin_ksp")
+
+            // app startup
+            library("","androidx.startup:startup-runtime:1.1.1")
+
+            // firebase & play services
+            library("", 'com.google.firebase:firebase-bom:30.3.1')
+            library("",'com.google.firebase:firebase-crashlytics-ktx')
+            library("",'com.google.firebase:firebase-analytics-ktx')
+            library("",'com.google.firebase:firebase-firestore-ktx')
+            library("",'com.google.firebase:firebase-auth-ktx')
+            library("",'com.google.firebase:firebase-config-ktx')
+            library("",'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4')
+
+            // timber
+            library("",'com.jakewharton.timber:timber:5.0.1')
+
+            // arrow
+
+            //library(platform("io.arrow-kt:arrow-stack:$arrow")))
+            library("io.arrow-kt:arrow-core")
+            library("io.arrow-kt:arrow-optics")
+            library("io.arrow-kt:arrow-optics-ksp-plugin:$arrow")
+
+            // serialization
+            library("",'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0')
+
+            library("","org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+
+            // unit tests
+            library("","io.kotest:kotest-runner-junit5:$kotest")
+
+            library("","io.insert-koin:koin-test:$koin")
+            library("",'app.cash.turbine:turbine:0.12.1')
+
+            // android tests
+            library("",'androidx.test.ext:junit:1.1.5')
+            library("",'androidx.test.espresso:espresso-core:3.5.1')
+            library("","androidx.compose.ui:ui-test-junit4:$compose")
+            library("", "")
+            */
+        }
+    }
 }
 rootProject.name = "Bet"
 include ':app'

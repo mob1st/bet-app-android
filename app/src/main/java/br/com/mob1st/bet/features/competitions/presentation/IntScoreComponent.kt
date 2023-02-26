@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.ui.ds.atoms.BetTheme
-import br.com.mob1st.bet.core.ui.ds.atoms.CompositionLocalGrid
+import br.com.mob1st.bet.core.ui.ds.atoms.LocalCompositionGrid
 import br.com.mob1st.bet.core.tooling.ktx.Duo
 import br.com.mob1st.bet.features.competitions.domain.American
 import br.com.mob1st.bet.features.competitions.domain.Bet
@@ -115,7 +115,7 @@ fun ScoresChipComponent(
         )
 
         Spacer(
-            modifier = Modifier.height(CompositionLocalGrid.current.line * 2)
+            modifier = Modifier.height(LocalCompositionGrid.current.line * 2)
         )
 
         Row {
@@ -127,7 +127,7 @@ fun ScoresChipComponent(
                         onSelect = { selectOrReselect(bet.subject) }
                     )
                 }
-                Spacer(modifier = Modifier.width(CompositionLocalGrid.current.gutter))
+                Spacer(modifier = Modifier.width(LocalCompositionGrid.current.gutter))
             }
             InputChip(
                 selected = selected != null && !scores.contenders.any { it.subject == selected },
@@ -283,8 +283,8 @@ private fun ScoreTextField(
     }
     Box(
         modifier = modifier
-            .width(CompositionLocalGrid.current.column)
-            .height(CompositionLocalGrid.current.column)
+            .width(LocalCompositionGrid.current.column)
+            .height(LocalCompositionGrid.current.column)
             .background(MaterialTheme.colorScheme.background)
             .clip(RoundedCornerShape(2.dp)),
         contentAlignment = Alignment.Center

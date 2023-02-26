@@ -44,7 +44,7 @@ fun BetTheme(
         typography = Typography,
     ) {
         CompositionLocalProvider(
-            CompositionLocalGrid provides Grid.Small,
+            LocalCompositionGrid provides Grid.Small,
             LocalDarkTime provides darkTheme
         ) {
             systemBars()

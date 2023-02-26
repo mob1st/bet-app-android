@@ -2,6 +2,8 @@ package br.com.mob1st.bet.core.tooling.androidx
 
 import android.content.res.Resources
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import br.com.mob1st.bet.R
 
 /**
@@ -30,3 +32,9 @@ sealed interface TextData {
 
 fun TextData(text: String): TextData = TextData.ActualText(text)
 fun TextData(@StringRes id: Int): TextData = TextData.IdRes(id)
+
+@Composable
+fun TextData.resolve(): String {
+    val context = LocalContext.current
+    return resolve(resources = context.resources)
+}

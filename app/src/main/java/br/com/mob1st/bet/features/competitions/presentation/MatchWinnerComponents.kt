@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.localization.getText
 import br.com.mob1st.bet.core.ui.ds.atoms.BetTheme
-import br.com.mob1st.bet.core.ui.ds.atoms.CompositionLocalGrid
+import br.com.mob1st.bet.core.ui.ds.atoms.LocalCompositionGrid
 import br.com.mob1st.bet.features.competitions.domain.American
 import br.com.mob1st.bet.features.competitions.domain.Bet
 import br.com.mob1st.bet.features.competitions.domain.Duel
@@ -88,7 +88,7 @@ fun MatchWinnerComponent(
             style = MaterialTheme.typography.headlineSmall
         )
 
-        Spacer(modifier = Modifier.height(CompositionLocalGrid.current.line * 2))
+        Spacer(modifier = Modifier.height(LocalCompositionGrid.current.line * 2))
 
         InputChip(
             modifier = Modifier

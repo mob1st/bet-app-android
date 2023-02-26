@@ -33,7 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.core.localization.getText
 import br.com.mob1st.bet.core.ui.compose.LocalLazyListState
 import br.com.mob1st.bet.core.ui.compose.LocalSnackbarState
-import br.com.mob1st.bet.core.ui.ds.atoms.CompositionLocalGrid
+import br.com.mob1st.bet.core.ui.ds.atoms.LocalCompositionGrid
 import br.com.mob1st.bet.core.ui.ds.molecule.RetrySnackbar
 import br.com.mob1st.bet.core.ui.ds.organisms.FetchedCrossfade
 import br.com.mob1st.bet.core.ui.ds.page.DefaultErrorPage
@@ -136,8 +136,8 @@ fun ConfrontationsData(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = CompositionLocalGrid.current.line * 4)
-                        .padding(horizontal = CompositionLocalGrid.current.margin),
+                        .padding(top = LocalCompositionGrid.current.line * 4)
+                        .padding(horizontal = LocalCompositionGrid.current.margin),
                     text = context.getText(state.data.subscription.competition.name),
                     style = MaterialTheme.typography.displaySmall
                 )

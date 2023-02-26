@@ -32,7 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.localization.getText
 import br.com.mob1st.bet.core.ui.compose.LocalLogger
-import br.com.mob1st.bet.core.ui.ds.atoms.CompositionLocalGrid
+import br.com.mob1st.bet.core.ui.ds.atoms.LocalCompositionGrid
 import br.com.mob1st.bet.core.ui.ds.molecule.DismissSnackbar
 import br.com.mob1st.bet.core.ui.ds.organisms.FetchedCrossfade
 import br.com.mob1st.bet.core.ui.ds.page.DefaultErrorPage
@@ -147,8 +147,8 @@ private fun ConfrontationData(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = CompositionLocalGrid.current.margin)
-            .padding(vertical = CompositionLocalGrid.current.line * 4),
+            .padding(horizontal = LocalCompositionGrid.current.margin)
+            .padding(vertical = LocalCompositionGrid.current.line * 4),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
@@ -159,7 +159,7 @@ private fun ConfrontationData(
                 progress = confrontationData.progress
             )
             Spacer(
-                modifier = Modifier.height(CompositionLocalGrid.current.line * 8)
+                modifier = Modifier.height(LocalCompositionGrid.current.line * 8)
             )
             NodeComponent(
                 root = confrontationData.detail!!.contest,
@@ -204,7 +204,7 @@ private fun Header(
         LinearProgressIndicator(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = CompositionLocalGrid.current.line),
+                .padding(vertical = LocalCompositionGrid.current.line),
             progress = progress,
         )
         Text(
