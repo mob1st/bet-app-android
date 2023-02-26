@@ -9,8 +9,8 @@ lifecycle = "2.6.0-rc01"
 arrow = "1.1.5"
 ksp = "1.8.10-1.0.9"
 accompaninst = "0.27.1"
-firebase = "30.3.1"
 gradle-plugin = "7.4.1"
+google-services = "4.3.15"
 
 [libraries]
 # androidx
@@ -49,11 +49,11 @@ koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "
 koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-ksp"}
 
 # firebase & play services ('com.google.firebase:firebase-bom:30.3.1')
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase"}
-firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase" }
-firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebase" }
-firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase" }
-firebase-config = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebase" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version = "18.3.5"}
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version = "21.2.0" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version = "24.4.3" }
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version = "21.1.0" }
+firebase-config = { module = "com.google.firebase:firebase-config-ktx", version = "21.2.1" }
 kotlin-playservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
 
 # timber
@@ -68,7 +68,7 @@ arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", versio
 serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
 
 # collections
-immutable-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 
 # unit tests
 kotest = "io.kotest:kotest-runner-junit5:5.5.5"
@@ -85,8 +85,6 @@ koin = ["koin-android", "koin-compose", "koin-annotations"]
 compose = [
     "compose-ui",
     "compose-preview",
-    "compose-tooling",
-    "compose-manifest",
     "compose-util",
     "compose-material3",
     "compose-activity",
