@@ -1,9 +1,9 @@
 package br.com.mob1st.bet.features.competitions.domain
 
 import br.com.mob1st.bet.core.serialization.DateSerializer
-import java.util.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.util.*
 
 /**
  * The users will guess the results of confrontations to figure out who is the master of guessing.

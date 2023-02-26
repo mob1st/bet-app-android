@@ -2,8 +2,6 @@ package br.com.mob1st.bet.core.ui.state
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mob1st.bet.core.logs.Logger
-import kotlin.Exception
-import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +17,8 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
+import kotlin.Exception
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * The project's base ViewModel, used to handle the asynchronous state changes in the UI.
