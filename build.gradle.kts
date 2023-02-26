@@ -1,5 +1,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
+import com.android.build.gradle.internal.tasks.factory.dependsOn
+
 buildscript {
     dependencies {
         classpath(libs.plugin.gradle)
@@ -54,14 +56,33 @@ subprojects {
             html.required.set(true)
         }
     }
-
-    afterEvaluate {
-        tasks.named("check") {
-            dependsOn("ktlintCheck")
-        }
-    }
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
+
+val deletePreviousGitHook by tasks.registering(Delete::class) {
+    group = "utils"
+    description = "Deleting previous githook"
+
+    val preCommit = "${rootProject.rootDir}/.git/hooks/pre-commit.sh"
+    val prePush = "${rootProject.rootDir}/.git/hooks/pre-push.sh"
+    if (file(preCommit).exists() && file(prePush).exists()) {
+        delete(preCommit, prePush)
+    }
+}
+
+val installGitHook by tasks.registering(Copy::class) {
+    group = "utils"
+    description = "Adding githook to local working copy, this must be run manually"
+    dependsOn(deletePreviousGitHook)
+    from("${rootProject.rootDir}/hooks/pre-commit.sh", "${rootProject.rootDir}/hooks/pre-push.sh")
+    into("${rootProject.rootDir}/.git/hooks")
+
+    eachFile {
+        fileMode = 0b111101101
+    }
+}
+
+tasks.getByPath("app:preBuild").dependsOn(installGitHook)
