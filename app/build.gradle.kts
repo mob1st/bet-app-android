@@ -1,4 +1,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
+
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -36,9 +39,10 @@ android {
         getByName("debug") {
             isMinifyEnabled = true
             isDebuggable = true
-//            (this as ExtensionAware).configure<CrashlyticsExtension> {
-//                mappingFileUploadEnabled = false
-//            }
+            configure<CrashlyticsExtension> {
+                // speeds up the build times
+                mappingFileUploadEnabled = false
+            }
         }
     }
     compileOptions {
