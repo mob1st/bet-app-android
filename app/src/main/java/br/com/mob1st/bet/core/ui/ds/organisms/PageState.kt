@@ -2,7 +2,7 @@ package br.com.mob1st.bet.core.ui.ds.organisms
 
 import br.com.mob1st.bet.R
 import br.com.mob1st.bet.core.tooling.androidx.TextData
-import br.com.mob1st.bet.core.ui.ds.molecule.PrimaryButtonState
+import br.com.mob1st.bet.core.ui.ds.molecule.ButtonState
 import br.com.mob1st.bet.core.ui.ds.molecule.SnackState
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -14,7 +14,7 @@ sealed interface PageState<T> {
     data class Helper<T>(
         val title: TextData,
         val description: TextData,
-        val cta: PrimaryButtonState?
+        val cta: ButtonState.Primary?
     ) : PageState<T> {
 
         fun loading(loading: Boolean) = copy(
@@ -22,7 +22,7 @@ sealed interface PageState<T> {
         )
 
         companion object {
-            fun <T> generalFailure(cta: PrimaryButtonState? = null) = Helper<T>(
+            fun <T> generalFailure(cta: ButtonState.Primary? = null) = Helper<T>(
                 title = TextData(R.string.general_message_error_title),
                 description = TextData(R.string.general_message_error_description),
                 cta = cta
