@@ -24,12 +24,11 @@ abstract class PageStateViewModel<Data>(
 
     private val _output = MutableStateFlow(initialValue)
     override val output: StateFlow<PageState<Data>> = _output.asStateFlow()
-
     protected fun updatePage(
         failure: Flow<Throwable> = emptyFlow(),
         loading: Flow<Boolean> = emptyFlow(),
         poll: Flow<SnackState<*>> = emptyFlow(),
-        success: Flow<Data> = emptyFlow()
+        data: Flow<Data> = emptyFlow()
     ) {
         updateEmpty(failure) { _, _ ->
             PageState.Helper.generalFailure()
@@ -39,7 +38,7 @@ abstract class PageStateViewModel<Data>(
             state.copy(loading = value)
         }
 
-        updateEmpty(success) { _, value ->
+        updateEmpty(data) { _, value ->
             PageState.Main(data = value)
         }
 
@@ -47,8 +46,12 @@ abstract class PageStateViewModel<Data>(
             state.loading(value)
         }
 
-        updateMain(poll) { data, _ ->
-            data.poll()
+        updateHelper(data) { _, value ->
+            PageState.Main(value)
+        }
+
+        updateMain(poll) { state, _ ->
+            state.poll()
         }
 
         updateMain(loading) { state, value ->
@@ -60,12 +63,12 @@ abstract class PageStateViewModel<Data>(
         }
     }
 
-    protected fun <T> updateEmpty(
+    private fun <T> updateEmpty(
         source: Flow<T>,
         transform: suspend (state: PageState.Empty<Data>, value:T) -> PageState<Data>
     ): Job = updateState(source = source, empty = transform)
 
-    protected fun <T> updateHelper(
+    private fun <T> updateHelper(
         source: Flow<T>,
         transform: suspend (state: PageState.Helper<Data>, value: T) -> PageState<Data>
     ): Job = updateState(source = source, helper = transform)
