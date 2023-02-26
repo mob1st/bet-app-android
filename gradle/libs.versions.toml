@@ -73,6 +73,11 @@ immutable-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3
 # unit tests
 kotest = "io.kotest:kotest-runner-junit5:5.5.5"
 
+# classpath plugins
+plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
+plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }
+plugin-google = { module = "com.google.gms:google-services", version = "4.3.15" }
+
 [bundles]
 android = ["android-core", "android-startup"]
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]
@@ -104,8 +109,11 @@ arrow = ["arrow-core", "arrow-optics"]
 serialization = ["serialization-json"]
 
 [plugins]
+# defaults
 android-application = { id = "com.android.application", version.ref = "gradle-plugin" }
 android-library = { id = "com.android.library", version.ref = "gradle-plugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+google-ksp = { id = "com.google.devtools.ksp", version = "1.8.10-1.0.9" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
