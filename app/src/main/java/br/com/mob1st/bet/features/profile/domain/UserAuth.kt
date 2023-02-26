@@ -22,7 +22,7 @@ class UserAuth(
                 imageUrl = firebaseUser.photoUrl?.toString()
             )
         },
-        reverseGet = { _ -> throw Exception() }
+        reverseGet = { error("failure") }
     )
 
     suspend fun signInAnonymously(): User {

@@ -90,7 +90,7 @@ private fun Any?.toJsonElement(): JsonElement {
         is Map<*, *> -> toJsonObject()
         is Timestamp -> JsonPrimitive(dateTimeIso.get(toDate()))
         is DocumentReference -> JsonPrimitive(id)
-        else -> throw IllegalStateException("Not supported ${this.javaClass.simpleName}")
+        else -> error("Not supported ${this.javaClass.simpleName}")
     }
 }
 

@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import timber.log.Timber
 
 /**
  * The project's base ViewModel, used to handle the asynchronous state changes in the UI.
@@ -32,6 +33,7 @@ import org.koin.core.component.inject
  * @see AsyncState
  * **See also** [Ui-Layer](https://developer.android.com/topic/architecture/ui-layer)
  */
+@Suppress("TooGenericExceptionCaught")
 abstract class StateViewModel<Data, UiEvent>(
     initialState: AsyncState<Data>
 ) : ViewModel(), KoinComponent {
@@ -49,7 +51,8 @@ abstract class StateViewModel<Data, UiEvent>(
      *
      * It uses a StateFlow to holds the last emitted state of the UI to be able to exposes it in a
      * immutable way.
-     * **See also** [A safer way to collect flows from Android UIs](https://medium.com/androiddevelopers/a-safer-way-to-collect-flows-from-android-uis-23080b1f8bda)
+     * **See also** [A safer way to collect flows from Android UIs]
+     * (https://medium.com/androiddevelopers/a-safer-way-to-collect-flows-from-android-uis-23080b1f8bda)
      */
     val uiState: StateFlow<AsyncState<Data>> = viewModelState.stateIn(
         viewModelScope,
@@ -142,6 +145,7 @@ abstract class StateViewModel<Data, UiEvent>(
         try {
             it.data(data = block(it.data))
         } catch (e: Exception) {
+            Timber.e(e)
             it.failure()
         }
     }

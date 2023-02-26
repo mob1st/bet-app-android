@@ -8,6 +8,7 @@ import br.com.mob1st.bet.features.groups.domain.GroupEntry
 import br.com.mob1st.bet.features.groups.domain.MembershipLimitException
 import br.com.mob1st.bet.features.groups.domain.NotAuthorizedForItException
 import org.koin.android.annotation.KoinViewModel
+import timber.log.Timber
 
 data class GroupData(
     val name: String = "",
@@ -44,8 +45,10 @@ class CreateGroupViewModel(
             try {
                 it.data(data = it.data.copy(createdGroup = createGroupUseCase(groupName)))
             } catch (e: NotAuthorizedForItException) {
+                Timber.e(e)
                 it.failure(SimpleMessage(R.string.group_create_message_error_auth))
             } catch (e: MembershipLimitException) {
+                Timber.e(e)
                 it.failure(SimpleMessage(R.string.group_create_message_error_limit))
             }
         }

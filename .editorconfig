@@ -1,0 +1,14 @@
+# EditorConfig: http://editorconfig.org
+root=true
+
+[*]
+insert_final_newline=true
+# Intellij Default Ordering:
+# https://github.com/JetBrains/intellij-kotlin/blob/master/formatter/src/org/jetbrains/kotlin/idea/core/formatter/KotlinCodeStyleSettings.java#L87-L91
+ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^
+
+[*.{kt,kts}]
+max_line_length=120
+
+[**/test/**.kt]
+max_line_length=off

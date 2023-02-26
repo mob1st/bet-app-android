@@ -32,7 +32,7 @@ class TimberLogger(
 
     @Suppress("ThrowableNotThrown")
     private fun getCaller(): String {
-        val element = Exception().stackTrace[STACK_TRACE_ELEMENT_INDEX]
+        val element = Exception("dummy").stackTrace[STACK_TRACE_ELEMENT_INDEX]
         val fileNameOnly = element.fileName.split(".")[0]
         return "$fileNameOnly.${element.methodName}"
     }

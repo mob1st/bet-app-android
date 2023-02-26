@@ -6,7 +6,7 @@ sealed class AsyncData {
 
     object Loading : AsyncData()
 
-    class Failure(val throwable: Throwable) : AsyncData()
+    class Failure(val cause: Throwable) : AsyncData()
 
     class Success<T>(val data: T) : AsyncData()
 
@@ -19,8 +19,8 @@ sealed class AsyncData {
         null
     }
 
-    fun throwable(): Throwable? = if (this is Failure) {
-        throwable
+    fun failure(): Throwable? = if (this is Failure) {
+        cause
     } else {
         null
     }

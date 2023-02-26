@@ -9,29 +9,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import br.com.mob1st.bet.R
-import br.com.mob1st.bet.core.tooling.androidx.TextData
 import br.com.mob1st.bet.core.ui.compose.LocalSnackbarState
-import java.util.UUID
-
-data class SnackState<T>(
-    val id: T,
-    val message: TextData,
-    val action: TextData? = null
-) {
-    companion object {
-
-        fun generalFailure(action: TextData? = null) = generalFailure(
-            id = UUID.randomUUID(),
-            action = action
-        )
-
-        fun <T> generalFailure(id: T, action: TextData?) = SnackState(
-            id = id,
-            message = TextData(R.string.general_message_error_snack),
-            action = action
-        )
-    }
-}
 
 @Composable
 fun SnackBar(

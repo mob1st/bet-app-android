@@ -79,9 +79,7 @@ kotest = "io.kotest:kotest-runner-junit5:5.5.5"
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
 plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }
 plugin-google = { module = "com.google.gms:google-services", version = "4.3.15" }
-plugin-detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
 plugin-detekt-libraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
-plugin-detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
 plugin-detekt-twitter-compose = { module = "com.twitter.compose.rules:detekt", version = "0.0.22" }
 
 [bundles]

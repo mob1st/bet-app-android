@@ -4,6 +4,7 @@ import androidx.core.os.bundleOf
 import br.com.mob1st.bet.core.analytics.AnalyticsEvent
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 
 class GoogleAnalyticsTool(
     private val analytics: FirebaseAnalytics
@@ -17,6 +18,7 @@ class GoogleAnalyticsTool(
         analytics.setUserId(null)
     }
 
+    @Suppress("SpreadOperator")
     override fun log(event: AnalyticsEvent) {
         val params = event.params()
         val bundle = if (params.isNotEmpty()) {

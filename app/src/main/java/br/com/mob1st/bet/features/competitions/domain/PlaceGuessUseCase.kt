@@ -34,7 +34,7 @@ class PlaceGuessUseCase(
                 requireAllowedGuess(updatedGuess)
                 requireValidAnswers(updatedGuess)
                 placeGuess(user, updatedGuess)
-            } catch (e: Exception) {
+            } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
                 // once we don't make the user wait the response of this use case, we should catch
                 // the error and log it her
                 logger.e("error for placing guess", e)
@@ -100,4 +100,4 @@ class InvalidScoreException(
     }
 }
 
-class RequireAuthException() : Exception("you need authetication to create a guess")
+class RequireAuthException : Exception("you need authetication to create a guess")

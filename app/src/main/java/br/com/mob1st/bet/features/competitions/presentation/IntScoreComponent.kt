@@ -176,7 +176,6 @@ fun ScoreChip(
     )
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ScoreDialog(
     currentScore: Duo<Int>?,
@@ -195,26 +194,16 @@ fun ScoreDialog(
     var secondScore by remember(currentScore?.second) {
         mutableStateOf(currentScore?.second?.toString().orEmpty())
     }
-    val keyboardController = LocalSoftwareKeyboardController.current
-
     AlertDialog(
         onDismissRequest = onDismiss,
-        properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true
-        ),
+        properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true),
         confirmButton = {
-            TextButton(
-                onClick = {
-                    if (firstScore.isNotEmpty() && secondScore.isNotEmpty()) {
-                        onDone(firstScore.toInt() to secondScore.toInt())
-                    } else {
-                        onDismiss()
-                    }
-                }
-            ) {
-                Text(text = stringResource(id = R.string.done))
-            }
+            DialogConfirmButton(
+                firstScore = firstScore,
+                secondScore = secondScore,
+                onDone = onDone,
+                onDismiss = onDismiss
+            )
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
@@ -225,48 +214,94 @@ fun ScoreDialog(
             Text(text = stringResource(id = R.string.confrontation_detail_score_header))
         },
         text = {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ScoreTextField(
-                    modifier = Modifier
-                        .focusRequester(firstRequester)
-                        .onFocusChanged {
-                            if (it.isFocused) {
-                                keyboardController?.show()
-                            }
-                        },
-                    value = firstScore,
-                    imeAction = ImeAction.Next,
-                    onIme = {
-                        firstScore = it
-                        secondRequester.requestFocus()
+            DialogText(
+                firstScore = firstScore,
+                secondScore = secondScore,
+                firstRequester = firstRequester,
+                secondRequester = secondRequester,
+                onFirstIme = {
+                    firstScore = it
+                    secondRequester.requestFocus()
+                },
+                onSecondIme = {
+                    secondScore = it
+                    if (firstScore.isNotEmpty() && secondScore.isNotEmpty()) {
+                        onDone(firstScore.toInt() to secondScore.toInt())
+                    } else {
+                        firstRequester.requestFocus()
                     }
-                )
-                Text(text = "X")
-                ScoreTextField(
-                    modifier = Modifier.focusRequester(secondRequester),
-                    value = secondScore,
-                    imeAction = ImeAction.Done,
-                    onIme = {
-                        secondScore = it
-                        if (firstScore.isNotEmpty() && secondScore.isNotEmpty()) {
-                            onDone(firstScore.toInt() to secondScore.toInt())
-                        } else {
-                            firstRequester.requestFocus()
-                        }
-                    }
-                )
-            }
+                }
+            )
         }
     )
-
     if (firstScore.isEmpty()) {
         LaunchedEffect(Unit) {
             firstRequester.requestFocus()
         }
+    }
+}
+
+@Composable
+private fun DialogConfirmButton(
+    firstScore: String,
+    secondScore: String,
+    onDone: (Duo<Int>) -> Unit,
+    onDismiss: () -> Unit
+) {
+    TextButton(
+        onClick = {
+            if (firstScore.isNotEmpty() && secondScore.isNotEmpty()) {
+                onDone(firstScore.toInt() to secondScore.toInt())
+            } else {
+                onDismiss()
+            }
+        }
+    ) {
+        Text(text = stringResource(id = R.string.done))
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun DialogText(
+    firstScore: String,
+    secondScore: String,
+    firstRequester: FocusRequester,
+    secondRequester: FocusRequester,
+    onFirstIme: (value: String) -> Unit,
+    onSecondIme: (value: String) -> Unit
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ScoreTextField(
+            modifier = Modifier
+                .focusRequester(firstRequester)
+                .onFocusChanged {
+                    if (it.isFocused) {
+                        keyboardController?.show()
+                    }
+                },
+            value = firstScore,
+            imeAction = ImeAction.Next,
+            onIme = {
+                onFirstIme(it)
+            }
+        )
+        Text(text = "X")
+        ScoreTextField(
+            modifier = Modifier.focusRequester(secondRequester),
+            value = secondScore,
+            imeAction = ImeAction.Done,
+            onIme = {
+                onSecondIme(it)
+
+            }
+        )
     }
 }
 

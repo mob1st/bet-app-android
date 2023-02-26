@@ -6,8 +6,9 @@ buildscript {
         classpath(libs.plugin.google)
         classpath(libs.plugin.crashlytics)
     }
-} // Top-level build file where you can add configuration options common to all sub-projects/modules.
+}
 
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
@@ -18,7 +19,7 @@ plugins {
     alias(libs.plugins.ktlint)
 }
 
-allprojects {
+subprojects {
     apply(plugin = rootProject.libs.plugins.ktlint.get().pluginId)
     apply(plugin = rootProject.libs.plugins.detekt.get().pluginId)
 
@@ -41,8 +42,7 @@ allprojects {
     }
 
     detekt {
-        config = files("$rootDir/buildsystem/quality/detekt/detekt-config.yml")
-        baseline = file("$rootDir/buildsystem/quality/detekt/baseline.xml")
+        config = files("$rootDir/config/detekt.yml")
         ignoreFailures = false
     }
 
@@ -52,6 +52,12 @@ allprojects {
             txt.required.set(false)
             xml.required.set(false)
             html.required.set(true)
+        }
+    }
+
+    afterEvaluate {
+        tasks.named("check") {
+            dependsOn("ktlintCheck")
         }
     }
 }

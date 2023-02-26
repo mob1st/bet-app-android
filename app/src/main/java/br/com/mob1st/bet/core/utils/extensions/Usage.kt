@@ -93,12 +93,8 @@ class MyViewModel(
             }
             .launchIn(viewModelScope)
 
-        updateMainData(textInput) { data, value ->
-            if (value.length < 5) {
-                data.copy(clickRunning = true)
-            } else {
-                data
-            }
+        updateMainData(textInput) { data, _ ->
+            data.copy(clickRunning = true)
         }
     }
 
