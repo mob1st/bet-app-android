@@ -1,0 +1,111 @@
+[versions]
+compose-compiler = '1.4.3'
+compose = '1.4.0-beta02'
+kotlin = "1.8.0"
+koin = "3.3.3"
+koin-ksp = "1.1.1"
+kotest = "5.5.5"
+lifecycle = "2.6.0-rc01"
+arrow = "1.1.5"
+ksp = "1.8.10-1.0.9"
+accompaninst = "0.27.1"
+firebase = "30.3.1"
+gradle-plugin = "7.4.1"
+
+[libraries]
+# androidx
+android-core = "androidx.core:core-ktx:1.9.0"
+android-startup = "androidx.startup:startup-runtime:1.1.1"
+android-test = "androidx.test.ext:junit:1.1.5"
+espresso = "androidx.test.espresso:espresso-core:3.5.1"
+
+# lifecycle
+lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle"}
+lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle"}
+
+# compose
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+compose-util = "androidx.compose.ui:ui-util:1.4.0-beta02"
+compose-material3 = "androidx.compose.material3:material3:1.1.0-alpha07"
+compose-activity = "androidx.activity:activity-compose:1.6.1"
+compose-navigation = "androidx.navigation:navigation-compose:2.5.3"
+compose-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+
+# accompanist
+accompanist-systemcontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompaninst" }
+
+# coil
+coil = "io.coil-kt:coil-compose:2.2.2"
+
+# koin
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-compose = "io.insert-koin:koin-androidx-compose:3.4.2"
+koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-ksp"}
+koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-ksp"}
+
+# firebase & play services ('com.google.firebase:firebase-bom:30.3.1')
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase"}
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebase" }
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase" }
+firebase-config = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebase" }
+kotlin-playservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
+
+# timber
+timber = "com.jakewharton.timber:timber:5.0.1"
+
+# arrow
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
+arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
+
+# serialization
+serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+
+# collections
+immutable-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+
+# unit tests
+kotest = "io.kotest:kotest-runner-junit5:5.5.5"
+
+[bundles]
+android = ["android-core", "android-startup"]
+lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]
+koin = ["koin-android", "koin-compose", "koin-annotations"]
+compose = [
+    "compose-ui",
+    "compose-preview",
+    "compose-tooling",
+    "compose-manifest",
+    "compose-util",
+    "compose-material3",
+    "compose-activity",
+    "compose-navigation"
+]
+
+accompanist = ["accompanist-systemcontroller"]
+
+firebase = [
+    "firebase-crashlytics",
+    "firebase-analytics",
+    "firebase-firestore",
+    "firebase-auth",
+    "firebase-config",
+    "kotlin-playservices"
+]
+
+arrow = ["arrow-core", "arrow-optics"]
+
+serialization = ["serialization-json"]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "gradle-plugin" }
+android-library = { id = "com.android.library", version.ref = "gradle-plugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
