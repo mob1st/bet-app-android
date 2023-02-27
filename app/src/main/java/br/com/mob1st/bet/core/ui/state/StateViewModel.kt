@@ -123,6 +123,11 @@ abstract class StateViewModel<Data, UiEvent>(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
+
+
+
+
+                
                 logger.e("setState have failed", e)
                 current.failure()
             }
