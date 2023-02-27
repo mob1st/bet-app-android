@@ -119,15 +119,17 @@ abstract class StateViewModel<Data, UiEvent>(
     ): Job = viewModelScope.launch {
         viewModelState.update { current ->
             try {
-                block(current)
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
+
+
 
 
 
 
                 
+                block(current)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
                 logger.e("setState have failed", e)
                 current.failure()
             }
