@@ -1,12 +1,12 @@
 package br.com.mob1st.bet.core.ui.ds.states
 
-import androidx.lifecycle.ViewModel
-import br.com.mob1st.bet.core.tooling.vm.next
 import br.com.mob1st.bet.core.ui.ds.molecule.SnackState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.launch
 
 interface SnackStateInput {
 
@@ -15,8 +15,9 @@ interface SnackStateInput {
     fun actionPerformed(snackState: SnackState<*>)
 }
 
-context(ViewModel)
 class DelegateSnackStateInput : SnackStateInput {
+
+    lateinit var scope: CoroutineScope
 
     private val dismissInput = MutableSharedFlow<SnackState<*>>()
     val actionPerformedInput = MutableSharedFlow<SnackState<*>>()
@@ -24,11 +25,15 @@ class DelegateSnackStateInput : SnackStateInput {
     val poll = merge(dismissInput, actionPerformedInput)
 
     override fun dismiss(snackState: SnackState<*>) {
-        dismissInput.next(snackState)
+        scope.launch {
+            dismissInput.emit(snackState)
+        }
     }
 
     override fun actionPerformed(snackState: SnackState<*>) {
-        actionPerformedInput.next(snackState)
+        scope.launch {
+            actionPerformedInput.emit(snackState)
+        }
     }
 }
 
