@@ -79,6 +79,9 @@ val installGitHook by tasks.registering(Copy::class) {
     dependsOn(deletePreviousGitHook)
     from("${rootProject.rootDir}/hooks/pre-commit.sh", "${rootProject.rootDir}/hooks/pre-push.sh")
     into("${rootProject.rootDir}/.git/hooks")
+    rename {
+        it.replace(".sh", "")
+    }
 
     eachFile {
         fileMode = 0b111101101
