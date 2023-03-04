@@ -13,15 +13,16 @@ import br.com.mob1st.bet.core.ui.compose.LocalSnackbarState
 
 @Composable
 fun SnackBar(
-    state: SnackState<*>,
+    state: SnackState?,
     snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
-    onDismiss: (state: SnackState<*>) -> Unit,
-    onActionPerformed: (state: SnackState<*>) -> Unit
+    onDismiss: (state: SnackState) -> Unit,
+    onActionPerformed: (state: SnackState) -> Unit
 ) {
+    state ?: return
     val currentOnDismiss by rememberUpdatedState(onDismiss)
     val currentOnActionPerformed by rememberUpdatedState(onActionPerformed)
     val resources = LocalContext.current.resources
-    LaunchedEffect(state.id) {
+    LaunchedEffect(snackbarHostState, state) {
         val result = snackbarHostState.showSnackbar(
             message = state.message.resolve(resources)
         )
