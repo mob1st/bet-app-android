@@ -16,22 +16,24 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-interface Action<I, O> {
+interface Action<O> {
 
     val loading: Flow<Boolean>
     val failure: Flow<Throwable>
     val success: Flow<O>
+}
 
+interface TriggerableAction<I, O> : Action<O> {
     fun trigger(input: I): Job
 }
 
 fun <I, O> CoroutineScope.actionFromFlow(
     source: (input: I) -> Flow<O>
-): Action<I, O> {
+): TriggerableAction<I, O> {
     return ActionImpl(this, source)
 }
 
-fun <O> CoroutineScope.actionFromFlow(source: () -> Flow<O>): Action<Unit, O> {
+fun <O> CoroutineScope.actionFromFlow(source: () -> Flow<O>): TriggerableAction<Unit, O> {
     return ActionImpl(this) { source() }
 }
 
@@ -39,7 +41,7 @@ fun <O> CoroutineScope.actionFromFlow(source: () -> Flow<O>): Action<Unit, O> {
 private open class ActionImpl<I, O>(
     private val scope: CoroutineScope,
     private val source: (I) -> Flow<O>
-) : Action<I, O> {
+) : TriggerableAction<I, O> {
 
     private val trigger = MutableSharedFlow<I>()
     private val asyncFlow = MutableStateFlow<AsyncData>(AsyncData.NotTriggeredYet)
@@ -72,4 +74,4 @@ private open class ActionImpl<I, O>(
     }
 }
 
-fun <O> Action<Unit, O>.trigger() = trigger(Unit)
+fun <O> TriggerableAction<Unit, O>.trigger() = trigger(Unit)
