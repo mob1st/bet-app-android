@@ -99,11 +99,14 @@ dependencies {
     implementation(libs.kotlin.collections)
     implementation(libs.timber)
 
+    implementation(projects.morpheus.annotation)
+
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)
 
     ksp(libs.koin.compiler)
     ksp(libs.arrow.optics.compiler)
+    ksp(projects.morpheus.processor)
 
     testImplementation(libs.kotest)
     testImplementation(libs.koin.test)

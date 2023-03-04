@@ -1,3 +1,5 @@
+
+
 pluginManagement {
     repositories {
         mavenCentral()
@@ -8,7 +10,7 @@ pluginManagement {
 
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
     repositories {
         mavenCentral()
         google()
@@ -19,3 +21,5 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "Bet"
 include(":app")
+include(":morpheus:annotation")
+include(":morpheus:processor")
