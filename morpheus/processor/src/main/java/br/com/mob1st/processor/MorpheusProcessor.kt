@@ -1,6 +1,7 @@
 package br.com.mob1st.processor
 
 import br.com.mob1st.morpheus.annotation.Morpheus
+import br.com.mob1st.processor.writters.morpheus
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
@@ -9,10 +10,6 @@ import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.Modifier
-import com.google.devtools.ksp.validate
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ksp.writeTo
 import java.io.OutputStream
 
@@ -29,20 +26,26 @@ class MorpheusProcessor(
         }
 
         symbols.forEach { classDeclaration ->
-            val packageName = classDeclaration.packageName.getQualifier()
-            val className = "Morpheus${classDeclaration.simpleName.getShortName()}"
+            // create file (original class and packa)
+            // create sealed class
+            // create subclasses by property
+            // create extension function by property
+            // create consume extension
+//            val packageName = classDeclaration.packageName.getQualifier()
+//            val className = "Morpheus${classDeclaration.simpleName.getShortName()}"
+//
+//            val fileBuilder = FileSpec.builder(packageName, className)
+//
+//            val typeSpec = TypeSpec.classBuilder(className)
+//                .addModifiers(KModifier.SEALED)
+//            fileBuilder.addType(typeSpec)
+//                .build()
 
-            val fileBuilder = FileSpec.builder(packageName, className)
-
-            val typeSpec = TypeSpec.classBuilder(className)
-                .addModifiers(KModifier.SEALED)
-                .build()
-            fileBuilder.addType(typeSpec)
-
-            fileBuilder.build().writeTo(codeGenerator, Dependencies(true))
+            morpheus(classDeclaration)
+                .writeTo(codeGenerator, Dependencies(true))
         }
 
-        return symbols.filterNot { it.validate() }.toList()
+        return emptyList()
     }
 }
 
