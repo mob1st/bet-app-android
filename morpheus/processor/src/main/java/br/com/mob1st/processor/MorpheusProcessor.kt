@@ -1,6 +1,6 @@
 package br.com.mob1st.processor
 
-import br.com.mob1st.morpheus.annotation.UiState
+import br.com.mob1st.morpheus.annotation.Morpheus
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.Resolver
@@ -33,8 +33,13 @@ class MorpheusProcessor(
 }
 
 private fun Resolver.getSymbols() =
-    this.getSymbolsWithAnnotation(UiState::class.qualifiedName.orEmpty())
+    this.getSymbolsWithAnnotation(Morpheus::class.qualifiedName.orEmpty())
         .filterIsInstance<KSClassDeclaration>()
+        .filter { kClass ->
+            kClass.modifiers.any { modifier ->
+                modifier.name == "data"
+            }
+        }
 
 private operator fun OutputStream.plusAssign(str: String) {
     this.write(str.toByteArray())

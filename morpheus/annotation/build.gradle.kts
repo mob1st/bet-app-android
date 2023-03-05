@@ -2,7 +2,10 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+dependencies {
+    testImplementation(libs.kotest)
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

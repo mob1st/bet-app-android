@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-
     implementation(projects.morpheus.annotation)
     implementation(libs.ksp.symbol.processing)
+    testImplementation(libs.kotest)
 }
