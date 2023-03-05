@@ -10,6 +10,10 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.Modifier
 import com.google.devtools.ksp.validate
+import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.ksp.writeTo
 import java.io.OutputStream
 
 class MorpheusProcessor(
@@ -26,15 +30,16 @@ class MorpheusProcessor(
 
         symbols.forEach { classDeclaration ->
             val packageName = classDeclaration.packageName.getQualifier()
+            val className = "Morpheus${classDeclaration.simpleName.getShortName()}"
 
-            val file: OutputStream = codeGenerator.createNewFile(
-                dependencies = Dependencies(true),
-                packageName = packageName,
-                fileName = "Morpheus${classDeclaration.simpleName.getShortName()}"
-            )
-            classDeclaration.accept(Visitor(), Unit)
-            file += "package $packageName"
-            file.close()
+            val fileBuilder = FileSpec.builder(packageName, className)
+
+            val typeSpec = TypeSpec.classBuilder(className)
+                .addModifiers(KModifier.SEALED)
+                .build()
+            fileBuilder.addType(typeSpec)
+
+            fileBuilder.build().writeTo(codeGenerator, Dependencies(true))
         }
 
         return symbols.filterNot { it.validate() }.toList()
