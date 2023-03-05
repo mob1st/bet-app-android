@@ -13,38 +13,42 @@ import java.util.Locale
 fun morpheus(classDeclaration: KSClassDeclaration): FileSpec {
     return FileSpec.file(classDeclaration) { ->
         enumsFor(classDeclaration.getAnnotatedProperties<ConsumableEffect>()) { property ->
-            property.simpleName.getShortName().replaceFirstChar { char ->
-                if (char.isLowerCase()) {
-                    char.titlecase(Locale.getDefault())
-                } else {
-                    char.toString()
-                }
-            }
+            constant(property)
         }
     }
 }
 
 fun FileSpec.Companion.file(
     classDeclaration: KSClassDeclaration,
-    block: FileSpec.Builder.() -> TypeSpec
+    block: FileSpec.Builder.() -> Unit
 ): FileSpec = builder(
     packageName = classDeclaration.packageName.getQualifier(),
     fileName = "Morpheus${classDeclaration.simpleName.getShortName()}Key"
-).apply {
-    addType(block())
-}.build()
+).apply(block).build()
 
 fun FileSpec.Builder.enumsFor(
     properties: Sequence<KSPropertyDeclaration>,
-    block: (KSPropertyDeclaration) -> String
-) = TypeSpec.enumBuilder(name)
-    .apply {
-        properties.forEach { property ->
-            val constant = block(property)
-            addEnumConstant(constant)
+    block: TypeSpec.Builder.(KSPropertyDeclaration) -> Unit
+) {
+    val type = TypeSpec.enumBuilder(name)
+        .apply {
+            properties.forEach {
+                block(it)
+            }
+        }.build()
+    addType(type)
+}
+
+fun TypeSpec.Builder.constant(property: KSPropertyDeclaration) {
+    val name = property.simpleName.getShortName().replaceFirstChar { char ->
+        if (char.isLowerCase()) {
+            char.titlecase(Locale.getDefault())
+        } else {
+            char.toString()
         }
     }
-    .build()
+    addEnumConstant(name)
+}
 
 @OptIn(KspExperimental::class)
 inline fun <reified T : Annotation> KSClassDeclaration.getAnnotatedProperties() =
