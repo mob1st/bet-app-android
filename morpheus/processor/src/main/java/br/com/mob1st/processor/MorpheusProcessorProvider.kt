@@ -6,6 +6,9 @@ import com.google.devtools.ksp.processing.SymbolProcessorProvider
 
 class MorpheusProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return MorpheusProcessor(environment.codeGenerator)
+        return MorpheusProcessor(
+            codeGenerator = environment.codeGenerator,
+            logger = environment.logger
+        )
     }
 }

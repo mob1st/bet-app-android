@@ -1,8 +1,5 @@
 package br.com.mob1st.bet.features
 
-<<<<<<< Updated upstream
-data class UiState()
-=======
 import br.com.mob1st.morpheus.annotation.ConsumableEffect
 import br.com.mob1st.morpheus.annotation.Morpheus
 import br.com.mob1st.morpheus.annotation.strategy.QueueStrategy
@@ -13,7 +10,7 @@ data class UiState(
     @ConsumableEffect
     val errorMessage: List<String> = emptyList(),
     @ConsumableEffect
-    val dialogContent: String? = null,
+    val dialogContent: String? = null
 )
 
 // CODE TO BE GENERATED
@@ -22,11 +19,11 @@ sealed class UiStateConsumableKey<T> {
     abstract val value: T
 
     data class ErrorMessage(
-        override val value: List<String>,
+        override val value: List<String>
     ) : UiStateConsumableKey<List<String>>()
 
     data class DialogContent(
-        override val value: String?,
+        override val value: String?
     ) : UiStateConsumableKey<String?>()
 }
 
@@ -44,7 +41,7 @@ fun UiState.consume(
 fun UiState.errorMessage(
     value: List<String>
 ) = UiStateConsumableKey.ErrorMessage(
-    value = value,
+    value = value
 )
 
 fun UiState.dialogContent(
@@ -52,5 +49,3 @@ fun UiState.dialogContent(
 ) = UiStateConsumableKey.DialogContent(
     value = value
 )
-
->>>>>>> Stashed changes

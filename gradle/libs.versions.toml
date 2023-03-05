@@ -1,7 +1,7 @@
 [versions]
 compose-compiler = '1.4.3'
 compose = '1.4.0-beta02'
-kotlin = "1.8.0"
+kotlin = "1.8.10"
 koin = "3.3.3"
 koin-ksp = "1.1.1"
 kotest = "5.5.5"
@@ -13,6 +13,7 @@ gradle-plugin = "7.4.1"
 google-services = "4.3.15"
 detekt = "1.22.0"
 ktlint = "0.48.2"
+kotlin-poet = "1.12.0"
 
 [libraries]
 # androidx
@@ -51,8 +52,11 @@ koin-compose = "io.insert-koin:koin-androidx-compose:3.4.2"
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-ksp"}
 koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-ksp"}
 
-# ksp
+# code generation tools
 ksp-symbol-processing = "com.google.devtools.ksp:symbol-processing-api:1.8.20-Beta-1.0.9"
+kotlin-reflection = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" }
+kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }
 
 # firebase & play services ('com.google.firebase:firebase-bom:30.3.1')
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version = "18.3.5"}
@@ -113,6 +117,8 @@ firebase = [
 arrow = ["arrow-core", "arrow-optics"]
 
 serialization = ["serialization-json"]
+
+kotlin-poet = ["kotlin-poet", "kotlin-poet-ksp"]
 
 [plugins]
 # defaults

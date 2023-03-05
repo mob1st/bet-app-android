@@ -12,5 +12,7 @@ repositories {
 dependencies {
     implementation(projects.morpheus.annotation)
     implementation(libs.ksp.symbol.processing)
+    implementation(libs.kotlin.reflection)
+    implementation(libs.bundles.kotlin.poet)
     testImplementation(libs.kotest)
 }
