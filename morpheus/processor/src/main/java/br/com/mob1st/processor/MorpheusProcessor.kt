@@ -26,21 +26,6 @@ class MorpheusProcessor(
         }
 
         symbols.forEach { classDeclaration ->
-            // create file (original class and packa)
-            // create sealed class
-            // create subclasses by property
-            // create extension function by property
-            // create consume extension
-//            val packageName = classDeclaration.packageName.getQualifier()
-//            val className = "Morpheus${classDeclaration.simpleName.getShortName()}"
-//
-//            val fileBuilder = FileSpec.builder(packageName, className)
-//
-//            val typeSpec = TypeSpec.classBuilder(className)
-//                .addModifiers(KModifier.SEALED)
-//            fileBuilder.addType(typeSpec)
-//                .build()
-
             morpheus(classDeclaration)
                 .writeTo(codeGenerator, Dependencies(true))
         }

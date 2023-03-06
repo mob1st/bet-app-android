@@ -4,9 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
 }
 
-repositories {
-    mavenCentral()
-    google()
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 dependencies {
@@ -15,4 +14,6 @@ dependencies {
     implementation(libs.kotlin.reflection)
     implementation(libs.bundles.kotlin.poet)
     testImplementation(libs.kotest)
+    testImplementation(libs.kotlin.compiling.test)
+    testImplementation(projects.morpheus.annotation)
 }

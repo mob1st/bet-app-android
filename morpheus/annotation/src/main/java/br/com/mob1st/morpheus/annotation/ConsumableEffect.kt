@@ -1,7 +1,6 @@
 package br.com.mob1st.morpheus.annotation
 
 import br.com.mob1st.morpheus.annotation.strategy.ConsumptionStrategy
-import br.com.mob1st.morpheus.annotation.strategy.SetNullStrategy
 import kotlin.reflect.KClass
 
 /**
@@ -10,5 +9,5 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.PROPERTY)
 @Retention(AnnotationRetention.SOURCE)
 annotation class ConsumableEffect(
-    val value: KClass<out ConsumptionStrategy<*>> = SetNullStrategy::class
+    val value: KClass<out ConsumptionStrategy<*>> = ConsumptionStrategy::class
 )

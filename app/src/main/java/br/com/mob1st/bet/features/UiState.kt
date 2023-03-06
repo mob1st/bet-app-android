@@ -5,9 +5,9 @@ import br.com.mob1st.morpheus.annotation.Morpheus
 import br.com.mob1st.morpheus.annotation.strategy.QueueStrategy
 
 @Morpheus
+@kotlinx.serialization.Serializable
 data class UiState(
     val content: String = "",
-    @ConsumableEffect
     val errorMessage: List<String> = emptyList(),
     @ConsumableEffect
     val dialogContent: String? = null
@@ -37,15 +37,3 @@ fun UiState.consume(
         is UiStateConsumableKey.DialogContent -> copy(dialogContent = null)
     }
 }
-
-fun UiState.errorMessage(
-    value: List<String>
-) = UiStateConsumableKey.ErrorMessage(
-    value = value
-)
-
-fun UiState.dialogContent(
-    value: String?
-) = UiStateConsumableKey.DialogContent(
-    value = value
-)

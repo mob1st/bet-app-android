@@ -82,6 +82,7 @@ kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 
 # unit tests
 kotest = "io.kotest:kotest-runner-junit5:5.5.5"
+kotlin-compiling-test = "com.github.tschuchortdev:kotlin-compile-testing-ksp:1.5.0"
 
 # classpath plugins
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }

@@ -1,7 +1,5 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
-import com.android.build.gradle.internal.tasks.factory.dependsOn
-
 buildscript {
     dependencies {
         classpath(libs.plugin.gradle)
@@ -55,6 +53,12 @@ subprojects {
             txt.required.set(false)
             xml.required.set(false)
             html.required.set(true)
+        }
+    }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+        kotlinOptions.apply {
+            freeCompilerArgs = listOf("-Xcontext-receivers")
         }
     }
 }
