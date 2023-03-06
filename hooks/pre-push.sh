@@ -9,17 +9,12 @@
 #       i.e. - $ 'git commit --no-verify'
 
 # stash any unstaged changes
-git stash -q --keep-index
+echo "Running test..."
 
-# run the tests with the gradle wrapper
-./gradlew check -q
-# Another possibility could be to run an aggregate test report task and automatically open the generated html
+./gradlew app:check --daemon
 
-# store the last exit code in a variable
-RESULT=$?
+status=$?
 
-# unstash the unstashed changes
-git stash pop -q
-
-# return the './gradlew test' exit code
-exit $RESULT
+# return 1 exit code if running checks fails
+[ $status -ne 0 ] && exit 1
+exit 0
