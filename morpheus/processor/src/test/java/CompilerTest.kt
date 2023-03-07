@@ -1,8 +1,7 @@
-import br.com.mob1st.processor.MorpheusProcessorProvider
+
+import br.com.mob1st.processor.compilation
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
-import com.tschuchort.compiletesting.kspWithCompilation
-import com.tschuchort.compiletesting.symbolProcessorProviders
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
@@ -27,11 +26,3 @@ class CompilerTest : FunSpec({
         clazz.enumConstants.first().toString() shouldBe "Salame"
     }
 })
-
-fun compilation(vararg sourceFile: SourceFile) = KotlinCompilation().apply {
-    symbolProcessorProviders = listOf(MorpheusProcessorProvider())
-    sources = sourceFile.asList()
-    verbose = false
-    kspWithCompilation = true
-    inheritClassPath = true
-}
