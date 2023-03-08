@@ -13,7 +13,7 @@ class CleanExtensionCreationTest : BehaviorSpec({
         val morpheusClass = givenMorpheusClass("Sample")
         val prop1 = property(
             """
-        @ConsumableEffect val prop1: Int? = null
+                @ConsumableEffect val prop1: Int? = null
             """.trimIndent()
         )
 
