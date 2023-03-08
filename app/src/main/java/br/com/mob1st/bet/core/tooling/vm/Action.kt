@@ -46,7 +46,7 @@ private open class ActionImpl<I, O>(
     private val trigger = MutableSharedFlow<I>()
     private val asyncFlow = MutableStateFlow<AsyncData>(AsyncData.NotTriggeredYet)
 
-    override val loading: Flow<Boolean> = asyncFlow.mapNotNull { it.isLoading() }
+    override val loading: Flow<Boolean> = asyncFlow.map { it.isLoading() }
     override val failure: Flow<Throwable> = asyncFlow.mapNotNull { it.failure() }
     override val success: Flow<O> = asyncFlow.mapNotNull { it.data<O>() }
 

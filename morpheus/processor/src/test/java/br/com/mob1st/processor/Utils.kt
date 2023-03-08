@@ -6,14 +6,14 @@ import com.tschuchort.compiletesting.kspWithCompilation
 import com.tschuchort.compiletesting.symbolProcessorProviders
 import org.intellij.lang.annotations.Language
 
-enum class ClassModifier(val word: String) {
+internal enum class ClassModifier(val word: String) {
     NONE(""),
     DATA("data"),
     SEALED("sealed")
 }
 
 @Language("kotlin")
-fun givenClass(name: String, modifier: ClassModifier = ClassModifier.NONE) =
+internal fun givenClass(name: String, modifier: ClassModifier = ClassModifier.NONE) =
     """
         import br.com.mob1st.morpheus.annotation.ConsumableEffect
         import br.com.mob1st.morpheus.annotation.Morpheus
@@ -21,7 +21,7 @@ fun givenClass(name: String, modifier: ClassModifier = ClassModifier.NONE) =
         ${modifier.word} class $name
     """.trimIndent()
 
-fun String.constructor(
+internal fun String.constructor(
     @Language("kotlin")
     vararg properties: String
 ) = buildString {
@@ -35,7 +35,7 @@ fun String.constructor(
     append(")")
 }
 
-fun property(
+internal fun property(
     @Language("kotlin")
     valueAndType: String
 ) = buildString {
@@ -44,12 +44,12 @@ fun property(
     append("\n")
 }
 
-fun String.compile(fileName: String): KotlinCompilation.Result {
+internal fun String.compile(fileName: String): KotlinCompilation.Result {
     val source = SourceFile.kotlin(fileName, this)
     return compilation(source).compile()
 }
 
-fun compilation(vararg sourceFile: SourceFile) = KotlinCompilation().apply {
+internal fun compilation(vararg sourceFile: SourceFile) = KotlinCompilation().apply {
     symbolProcessorProviders = listOf(MorpheusProcessorProvider())
     sources = sourceFile.asList()
     verbose = false
