@@ -29,7 +29,7 @@ fun FileSpec.Companion.file(
     block: FileSpec.Builder.() -> Sequence<KSPropertyDeclaration>
 ): FileSpec = builder(
     packageName = classDeclaration.packageName.asString(),
-    fileName = "Morpheus${classDeclaration.simpleName.getShortName()}Key"
+    fileName = "${classDeclaration.simpleName.getShortName()}EffectKey"
 ).apply {
     var enumBuilder = TypeSpec.enumBuilder(name)
     val properties = block()

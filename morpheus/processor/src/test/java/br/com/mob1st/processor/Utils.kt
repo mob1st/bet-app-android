@@ -6,19 +6,13 @@ import com.tschuchort.compiletesting.kspWithCompilation
 import com.tschuchort.compiletesting.symbolProcessorProviders
 import org.intellij.lang.annotations.Language
 
-internal enum class ClassModifier(val word: String) {
-    NONE(""),
-    DATA("data"),
-    SEALED("sealed")
-}
-
 @Language("kotlin")
-internal fun givenClass(name: String, modifier: ClassModifier = ClassModifier.NONE) =
+internal fun givenMorpheusClass(name: String) =
     """
         import br.com.mob1st.morpheus.annotation.ConsumableEffect
         import br.com.mob1st.morpheus.annotation.Morpheus
         @Morpheus                
-        ${modifier.word} class $name
+        data class $name
     """.trimIndent()
 
 internal fun String.constructor(
