@@ -1,5 +1,9 @@
 package br.com.mob1st.processor
 
+import br.com.mob1st.processor.utils.compile
+import br.com.mob1st.processor.utils.constructor
+import br.com.mob1st.processor.utils.givenMorpheusClass
+import br.com.mob1st.processor.utils.property
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 
