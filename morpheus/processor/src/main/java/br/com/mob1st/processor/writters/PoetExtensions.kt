@@ -107,7 +107,7 @@ fun KSClassDeclaration.clearExtension(
     //        )
     //    )
 
-    val preWhen = FunSpec.builder("clear")
+    val preWhen = FunSpec.builder("clearEffect")
         .receiver(classType)
         .returns(classType)
         .addParameter(
