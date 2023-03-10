@@ -7,9 +7,9 @@ import io.kotest.matchers.should
 
 fun exitWith(result: KotlinCompilation.ExitCode) = Matcher<KotlinCompilation.ExitCode> { value ->
     MatcherResult(
-        value == result,
-        { "" },
-        { "" }
+        passed = value == result,
+        { "Expected exit code $result but was $value" },
+        { "Expected exit code $result but was $value" }
     )
 }
 

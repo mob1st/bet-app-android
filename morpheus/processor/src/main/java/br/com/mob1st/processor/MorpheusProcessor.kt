@@ -1,6 +1,8 @@
 package br.com.mob1st.processor
 
+import br.com.mob1st.morpheus.annotation.ConsumableEffect
 import br.com.mob1st.morpheus.annotation.Morpheus
+import br.com.mob1st.processor.writters.getAnnotatedProperties
 import br.com.mob1st.processor.writters.morpheus
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
@@ -37,8 +39,18 @@ class MorpheusProcessor(
 private fun Resolver.getSymbols() =
     this.getSymbolsWithAnnotation(Morpheus::class.qualifiedName.orEmpty())
         .filterIsInstance<KSClassDeclaration>()
-        .filter { kClass ->
-            kClass.modifiers.contains(Modifier.DATA)
+        .onEach { kClass ->
+            if (!kClass.modifiers.contains(Modifier.DATA)) {
+                error("class ${kClass.simpleName.asString()} with Morpheus annotation must be a data class")
+            }
+        }
+        .onEach { kClass ->
+            val annotations = kClass.getAnnotatedProperties<ConsumableEffect>()
+            if (!annotations.iterator().hasNext()) {
+                error(
+                    "no @ConsumableEffect found in data class ${kClass.simpleName.asString()} with Morpheus annotation"
+                )
+            }
         }
 
 private operator fun OutputStream.plusAssign(str: String) {

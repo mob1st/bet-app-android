@@ -87,13 +87,12 @@ class FileCreationTest : BehaviorSpec({
 
     Given("a non data class with @Morpheus annotation") {
         @Language("kotlin")
-        val clazz = """           
-            import br.com.mob1st.morpheus.annotation.ConsumableEffect
+        val clazz = """
             import br.com.mob1st.morpheus.annotation.Morpheus
             
             @Morpheus
             class Sample(
-                @ConsumableEffect val prop1: String?            
+                val prop1: String?            
             )
         """.trimIndent()
 
