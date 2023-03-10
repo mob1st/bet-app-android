@@ -27,9 +27,10 @@ data class UiState(
 )
 // CODE TO BE GENERATED
 
-class MyViewModel : ViewModel(), Consumer<MorpheusUiStateKey> {
+@Suppress("unused")
+class MyViewModel : ViewModel(), Consumer<UiStateEffectKey> {
 
-    private val consumableInput = MutableSharedFlow<Consumable<MorpheusUiStateKey, *>>()
+    private val consumableInput = MutableSharedFlow<Consumable<UiStateEffectKey, *>>()
     private val _uiState = MutableStateFlow(UiState())
 
     private val action = viewModelScope.actionFromFlow<String> {
@@ -82,13 +83,13 @@ class MyViewModel : ViewModel(), Consumer<MorpheusUiStateKey> {
 
         // side effects clean
         _uiState.update(consumableInput) { currentState, newData ->
-            currentState.clear(newData)
+            currentState.clearEffect(newData)
         }
 
         action.trigger()
     }
 
-    override suspend fun consume(consumable: Consumable<MorpheusUiStateKey, *>) {
+    override suspend fun consume(consumable: Consumable<UiStateEffectKey, *>) {
         consumableInput.emit(consumable)
     }
 }
