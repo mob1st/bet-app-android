@@ -5,5 +5,5 @@ import br.com.mob1st.bet.core.tooling.androidx.TextData
 
 data class IconState(
     @DrawableRes val resId: Int,
-    val contentDescription: TextData?
+    val contentDescription: TextData?,
 )

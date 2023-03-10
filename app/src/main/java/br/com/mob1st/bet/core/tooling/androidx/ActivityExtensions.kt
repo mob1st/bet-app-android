@@ -12,7 +12,7 @@ import android.os.Parcelable
  * Uses the [intentBlock] to customize the intent as needed
  */
 inline fun <reified T : Activity> Activity.intent(
-    intentBlock: Intent.() -> Unit = {}
+    intentBlock: Intent.() -> Unit = {},
 ): Intent {
     val intent = Intent(this, T::class.java)
     intent.intentBlock()

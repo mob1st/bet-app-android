@@ -16,7 +16,7 @@ data class Grid(
     val gutter: Dp,
     val margin: Dp,
     val column: Dp,
-    val line: Dp
+    val line: Dp,
 ) {
 
     fun columns(count: Int): Dp {

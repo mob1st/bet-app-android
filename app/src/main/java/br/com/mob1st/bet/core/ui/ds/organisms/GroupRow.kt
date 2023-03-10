@@ -22,7 +22,7 @@ fun GroupRow(
     groupName: String,
     currentMembersNumber: Int,
     maxMembers: Int,
-    onNavigateToGroupDetails: () -> Unit
+    onNavigateToGroupDetails: () -> Unit,
 ) {
     Divider(color = Color.White, thickness = 1.dp)
     Row(

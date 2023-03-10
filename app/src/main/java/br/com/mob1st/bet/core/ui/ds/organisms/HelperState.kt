@@ -7,7 +7,7 @@ import br.com.mob1st.bet.core.ui.ds.molecule.ButtonState
 data class HelperState(
     val title: TextData,
     val description: TextData,
-    val cta: ButtonState.Primary?
+    val cta: ButtonState.Primary?,
 ) {
     fun loading(loading: Boolean) = copy(
         cta = cta?.copy(loading = loading)

@@ -12,12 +12,12 @@ data class Confrontation(
     val allowBetsUntil: Date,
     val expectedDuration: Long,
     val status: ConfrontationStatus,
-    val contest: Node<Contest>
+    val contest: Node<Contest>,
 )
 
 enum class ConfrontationStatus {
     NOT_STARTED,
     IN_PROGRESS,
     FINISHED,
-    CANCELED
+    CANCELED,
 }

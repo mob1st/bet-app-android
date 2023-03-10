@@ -35,7 +35,7 @@ import kotlin.coroutines.cancellation.CancellationException
  */
 @Suppress("TooGenericExceptionCaught")
 abstract class StateViewModel<Data, UiEvent>(
-    initialState: AsyncState<Data>
+    initialState: AsyncState<Data>,
 ) : ViewModel(), KoinComponent {
 
     constructor(data: Data, loading: Boolean = true) : this(
@@ -75,7 +75,7 @@ abstract class StateViewModel<Data, UiEvent>(
      */
     open fun messageShown(
         message: SimpleMessage,
-        loading: Boolean = false
+        loading: Boolean = false,
     ) = viewModelState.update { current ->
         current.removeMessage(message, loading)
     }
@@ -115,7 +115,7 @@ abstract class StateViewModel<Data, UiEvent>(
      * @return The [Job] created in this operation. Use it to cancel this asynchonous operation
      */
     protected fun setAsync(
-        block: suspend CoroutineScope.(current: AsyncState<Data>) -> (AsyncState<Data>)
+        block: suspend CoroutineScope.(current: AsyncState<Data>) -> (AsyncState<Data>),
     ): Job = viewModelScope.launch {
         viewModelState.update { current ->
             try {

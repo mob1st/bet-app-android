@@ -28,7 +28,7 @@ interface TriggerableAction<I, O> : Action<O> {
 }
 
 fun <I, O> CoroutineScope.actionFromFlow(
-    source: (input: I) -> Flow<O>
+    source: (input: I) -> Flow<O>,
 ): TriggerableAction<I, O> {
     return ActionImpl(this, source)
 }
@@ -40,7 +40,7 @@ fun <O> CoroutineScope.actionFromFlow(source: () -> Flow<O>): TriggerableAction<
 @OptIn(ExperimentalCoroutinesApi::class)
 private open class ActionImpl<I, O>(
     private val scope: CoroutineScope,
-    private val source: (I) -> Flow<O>
+    private val source: (I) -> Flow<O>,
 ) : TriggerableAction<I, O> {
 
     private val trigger = MutableSharedFlow<I>()

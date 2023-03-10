@@ -16,14 +16,14 @@ class CreateGroupUseCase(
     private val userRepository: UserRepository,
     private val groupRepository: GroupRepository,
     private val competitionRepository: CompetitionRepository,
-    private val analyticsTool: AnalyticsTool
+    private val analyticsTool: AnalyticsTool,
 ) {
 
     /**
      * @param groupName the name of the group
      */
     suspend operator fun invoke(
-        groupName: String
+        groupName: String,
     ): GroupEntry {
         val user = userRepository.get()
 
@@ -56,7 +56,7 @@ class CreateGroupUseCase(
 }
 
 class MembershipLimitException(
-    private val currentCount: Int
+    private val currentCount: Int,
 ) : Exception(
     "a user can't have more then $MEMBERSHIP_LIMIT memberships. Your current value is $currentCount"
 ),

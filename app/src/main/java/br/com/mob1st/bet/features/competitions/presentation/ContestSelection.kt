@@ -14,7 +14,7 @@ import br.com.mob1st.bet.features.competitions.domain.MatchWinner
 fun NodeComponent(
     root: Node<Contest>,
     input: ConfrontationInput,
-    onInput: (ConfrontationInput) -> Unit
+    onInput: (ConfrontationInput) -> Unit,
 ) {
     val matchWinner = root.current as MatchWinner
 

@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 @Keep
 data class Bet<T>(
     val odds: Odds,
-    val subject: T
+    val subject: T,
 )
 
 /**

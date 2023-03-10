@@ -26,7 +26,7 @@ fun morpheus(classDeclaration: KSClassDeclaration): FileSpec {
 
 fun FileSpec.Companion.file(
     classDeclaration: KSClassDeclaration,
-    block: FileSpec.Builder.() -> Sequence<KSPropertyDeclaration>
+    block: FileSpec.Builder.() -> Sequence<KSPropertyDeclaration>,
 ): FileSpec = builder(
     packageName = classDeclaration.packageName.asString(),
     fileName = "${classDeclaration.simpleName.getShortName()}EffectKey"
@@ -64,7 +64,7 @@ fun KSPropertyDeclaration.asExtension(
     classDeclaration: KSClassDeclaration,
     packageName: String,
     enumTypeSpec: TypeSpec,
-    enumConstant: String
+    enumConstant: String,
 ): FunSpec {
     val classType = classDeclaration.asType(emptyList()).toTypeName()
     val returnType = Consumable::class.asClassName().parameterizedBy(
@@ -90,7 +90,7 @@ fun KSPropertyDeclaration.asExtension(
 fun KSClassDeclaration.clearExtension(
     packageName: String,
     enumTypeSpec: TypeSpec,
-    constants: Collection<String>
+    constants: Collection<String>,
 ): FunSpec {
     val classType = asType(emptyList()).toTypeName()
     val parameterType = Consumable::class.asClassName().parameterizedBy(

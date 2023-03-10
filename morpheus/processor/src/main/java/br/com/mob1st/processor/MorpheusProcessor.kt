@@ -15,7 +15,7 @@ import java.io.OutputStream
 
 class MorpheusProcessor(
     private val codeGenerator: CodeGenerator,
-    private val logger: KSPLogger
+    private val logger: KSPLogger,
 ) : SymbolProcessor {
     override fun process(resolver: Resolver): List<KSAnnotated> {
         logger.info("starting process for Morpheus code generation")

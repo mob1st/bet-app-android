@@ -7,7 +7,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
  */
 data class ScreenViewEvent(
     val screenName: String,
-    val params: Map<String, Any> = emptyMap()
+    val params: Map<String, Any> = emptyMap(),
 ) : AnalyticsEvent {
     override val name: String
         get() = FirebaseAnalytics.Event.SCREEN_VIEW
@@ -22,7 +22,7 @@ data class ScreenViewEvent(
  */
 data class ScreenDismissEvent(
     val screenName: String,
-    val params: Map<String, Any> = emptyMap()
+    val params: Map<String, Any> = emptyMap(),
 ) : AnalyticsEvent {
     override val name: String
         get() = FirebaseAnalytics.Event.SCREEN_VIEW

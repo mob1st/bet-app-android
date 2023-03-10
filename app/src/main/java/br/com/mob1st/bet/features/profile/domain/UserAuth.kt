@@ -8,7 +8,7 @@ import org.koin.core.annotation.Factory
 
 @Factory
 class UserAuth(
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
 ) {
 
     private val firebaseIso: Iso<FirebaseUser, User> = Iso(

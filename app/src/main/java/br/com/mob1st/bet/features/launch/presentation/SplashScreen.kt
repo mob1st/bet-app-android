@@ -28,7 +28,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SplashScreen(
-    onFinish: (Subscription) -> Unit
+    onFinish: (Subscription) -> Unit,
 ) {
     val viewModel = koinViewModel<LauncherViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -43,7 +43,7 @@ fun SplashScreen(
 fun SplashPage(
     state: AsyncState<LaunchData>,
     onFinish: (Subscription) -> Unit,
-    onTryAgain: (SimpleMessage) -> Unit
+    onTryAgain: (SimpleMessage) -> Unit,
 ) {
     val onFinishCallback by rememberUpdatedState(onFinish)
     ScreenViewLog(screenName = "splash")
@@ -71,7 +71,7 @@ fun SplashPage(
 @Composable
 fun SplashErrorMessageDialog(
     message: SimpleMessage,
-    onTryAgain: (SimpleMessage) -> Unit
+    onTryAgain: (SimpleMessage) -> Unit,
 ) {
     val activity = LocalActivity.current
     AlertDialog(

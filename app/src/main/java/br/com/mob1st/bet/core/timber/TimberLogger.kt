@@ -7,7 +7,7 @@ import timber.log.Timber
  * Timber implementation of [Logger]
  */
 class TimberLogger(
-    private val forest: Timber.Forest
+    private val forest: Timber.Forest,
 ) : Logger {
 
     override fun v(message: String, throwable: Throwable?) {

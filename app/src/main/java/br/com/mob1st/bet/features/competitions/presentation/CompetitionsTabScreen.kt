@@ -47,7 +47,7 @@ import br.com.mob1st.bet.features.competitions.domain.MatchWinner
 @Composable
 fun CompetitionsTabScreen(
     viewModel: ConfrontationListViewModel,
-    navigateTo: (Int) -> Unit
+    navigateTo: (Int) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val updatedNavigateTo by rememberUpdatedState(navigateTo)
@@ -69,7 +69,7 @@ fun ConfrontationsPage(
     state: AsyncState<ConfrontationData>,
     onTryAgain: (SimpleMessage) -> Unit,
     onSelect: (Int) -> Unit,
-    onDismiss: (SimpleMessage) -> Unit
+    onDismiss: (SimpleMessage) -> Unit,
 ) {
     Box(
         contentAlignment = Alignment.Center
@@ -113,7 +113,7 @@ fun ConfrontationsData(
     state: AsyncState<ConfrontationData>,
     onSelect: (Int) -> Unit,
     onTryAgain: (SimpleMessage) -> Unit,
-    onDismiss: (SimpleMessage) -> Unit
+    onDismiss: (SimpleMessage) -> Unit,
 ) {
     state.messages.ifNotEmpty {
         RetrySnackbar(
@@ -161,7 +161,7 @@ fun ConfrontationsData(
 private fun MatchWinnerItem(
     index: Int,
     matchWinner: MatchWinner,
-    onSelect: (Int) -> Unit
+    onSelect: (Int) -> Unit,
 ) {
     ListItem(
         modifier = Modifier.clickable { onSelect(index) },
@@ -178,7 +178,7 @@ private fun MatchWinnerItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun IntScoresItem(
-    intScores: IntScores
+    intScores: IntScores,
 ) {
     Row {
         intScores.contenders.forEachIndexed { _, bet ->

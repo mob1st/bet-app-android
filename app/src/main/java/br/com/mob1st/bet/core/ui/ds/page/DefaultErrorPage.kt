@@ -13,7 +13,7 @@ import br.com.mob1st.bet.core.ui.state.SimpleMessage
 @Composable
 fun DefaultErrorPage(
     message: SimpleMessage,
-    onTryAgain: (message: SimpleMessage) -> Unit
+    onTryAgain: (message: SimpleMessage) -> Unit,
 ) {
     InfoTemplate(
         icon = {

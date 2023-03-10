@@ -18,7 +18,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class CompetitionCollection(
     private val firestore: FirebaseFirestore,
-    private val json: Json
+    private val json: Json,
 ) {
 
     suspend fun getDefault(): Competition {

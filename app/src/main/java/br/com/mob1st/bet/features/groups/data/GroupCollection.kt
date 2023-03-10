@@ -11,11 +11,11 @@ import org.koin.core.annotation.Factory
 
 @Factory
 class GroupCollection(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
 ) {
     suspend fun create(
         founder: User,
-        group: Group
+        group: Group,
     ) {
         val batch = firestore.batch()
         val groupRef = firestore.groups.document()

@@ -23,7 +23,7 @@ data class UiState(
     val errorMessage: List<String> = emptyList(),
     val loaded: Boolean = false,
     @ConsumableEffect
-    val dialogContent: String? = null
+    val dialogContent: String? = null,
 )
 // CODE TO BE GENERATED
 

@@ -19,14 +19,14 @@ interface GroupRepository {
     suspend fun create(
         founder: User,
         name: String,
-        competitionEntry: CompetitionEntry
+        competitionEntry: CompetitionEntry,
     ): GroupEntry
 }
 
 class CreateGroupException(
     private val groupEntry: GroupEntry,
     private val competitionEntry: CompetitionEntry,
-    cause: Throwable
+    cause: Throwable,
 ) : Exception("unable to create the group", cause), Debuggable {
     override fun logProperties(): Map<String, Any> {
         return (groupEntry to competitionEntry).toLogMap()

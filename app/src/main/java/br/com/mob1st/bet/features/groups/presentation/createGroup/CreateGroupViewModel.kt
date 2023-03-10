@@ -14,7 +14,7 @@ data class GroupData(
     val name: String = "",
 
     // quando a UI receber esse valor NÃO NULO, tu pode fechar a tela e voltar para a lista de grupos
-    val createdGroup: GroupEntry? = null
+    val createdGroup: GroupEntry? = null,
 )
 
 sealed class GroupsUIEvent {
@@ -24,7 +24,7 @@ sealed class GroupsUIEvent {
 
 @KoinViewModel
 class CreateGroupViewModel(
-    private val createGroupUseCase: CreateGroupUseCase
+    private val createGroupUseCase: CreateGroupUseCase,
 ) : StateViewModel<GroupData, GroupsUIEvent>(GroupData(), loading = false) {
 
     override fun fromUi(uiEvent: GroupsUIEvent) {

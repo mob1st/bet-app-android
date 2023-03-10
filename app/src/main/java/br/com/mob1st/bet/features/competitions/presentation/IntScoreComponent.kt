@@ -93,7 +93,7 @@ fun ScoresChipComponent(
     modifier: Modifier = Modifier,
     scores: IntScores,
     selected: Duo<Int>? = null,
-    onSelect: (Duo<Int>?) -> Unit
+    onSelect: (Duo<Int>?) -> Unit,
 ) {
     var isOtherDialogOpened by remember {
         mutableStateOf(false)
@@ -164,7 +164,7 @@ fun ScoresChipComponent(
 fun ScoreChip(
     bet: Bet<Duo<Int>>,
     selected: Boolean,
-    onSelect: () -> Unit
+    onSelect: () -> Unit,
 ) {
     val subject = bet.subject
     InputChip(
@@ -180,7 +180,7 @@ fun ScoreChip(
 fun ScoreDialog(
     currentScore: Duo<Int>?,
     onDone: (Duo<Int>) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     val firstRequester = remember {
         FocusRequester()
@@ -246,7 +246,7 @@ private fun DialogConfirmButton(
     firstScore: String,
     secondScore: String,
     onDone: (Duo<Int>) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     TextButton(
         onClick = {
@@ -269,7 +269,7 @@ private fun DialogText(
     firstRequester: FocusRequester,
     secondRequester: FocusRequester,
     onFirstIme: (value: String) -> Unit,
-    onSecondIme: (value: String) -> Unit
+    onSecondIme: (value: String) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -309,7 +309,7 @@ private fun ScoreTextField(
     modifier: Modifier = Modifier,
     value: String,
     imeAction: ImeAction,
-    onIme: (value: String) -> Unit
+    onIme: (value: String) -> Unit,
 ) {
     var state by remember(value) {
         mutableStateOf(value)

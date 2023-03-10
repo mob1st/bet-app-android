@@ -26,7 +26,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateGroupScreen(
-    onCreateGroupAction: () -> Unit
+    onCreateGroupAction: () -> Unit,
 ) {
     val viewModel = koinViewModel<CreateGroupViewModel>()
 

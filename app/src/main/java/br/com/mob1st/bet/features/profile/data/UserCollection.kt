@@ -17,7 +17,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class UserCollection(
     private val firestore: FirebaseFirestore,
-    private val json: Json
+    private val json: Json,
 ) {
 
     /**

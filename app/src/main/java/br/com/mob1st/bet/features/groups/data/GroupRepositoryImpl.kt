@@ -18,7 +18,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class GroupRepositoryImpl(
     private val groupCollection: GroupCollection,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
 ) : GroupRepository {
 
     private val io get() = dispatcherProvider.io
@@ -26,7 +26,7 @@ class GroupRepositoryImpl(
     override suspend fun create(
         founder: User,
         name: String,
-        competitionEntry: CompetitionEntry
+        competitionEntry: CompetitionEntry,
     ): GroupEntry = withContext(io) {
         val group = Group(
             name = name,

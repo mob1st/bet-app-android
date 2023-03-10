@@ -9,12 +9,12 @@ import org.koin.core.annotation.Factory
 
 @Factory
 class GuessCollection(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
 ) {
 
     suspend fun createGuess(
         userId: String,
-        guess: Guess
+        guess: Guess,
     ) {
         val confrontation = guess.confrontation
         val params = mapOf(
@@ -35,7 +35,7 @@ class GuessCollection(
     }
 
     suspend fun updateGuess(
-        guess: Guess
+        guess: Guess,
     ) {
         firestore.guesses
             .document(guess.id)

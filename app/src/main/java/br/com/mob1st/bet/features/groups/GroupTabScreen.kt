@@ -15,7 +15,7 @@ import br.com.mob1st.bet.core.ui.ds.organisms.GroupRow
 @Composable
 fun GroupsTabScreen(
     onNavigateToCreateGroups: () -> Unit,
-    onNavigateToGroupDetails: () -> Unit
+    onNavigateToGroupDetails: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

@@ -30,7 +30,7 @@ import br.com.mob1st.bet.features.profile.data.Subscription
 @Composable
 fun HomeScreen(
     entry: Subscription,
-    homeUiState: HomeUiState = rememberHomeUiState()
+    homeUiState: HomeUiState = rememberHomeUiState(),
 ) {
     CompositionLocalProvider(LocalSnackbarState provides homeUiState.snackbarHostState) {
         Scaffold(
@@ -76,7 +76,7 @@ private fun HomeBottomBar(homeUiState: HomeUiState) {
 private fun RowScope.BottomTabItem(
     tab: BottomBarDestination,
     currentDestination: NavDestination?,
-    homeUiState: HomeUiState
+    homeUiState: HomeUiState,
 ) {
     val tabTitle = stringResource(id = tab.title)
     NavigationBarItem(

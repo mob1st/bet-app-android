@@ -25,7 +25,7 @@ import org.koin.core.parameter.parametersOf
 sealed class BottomBarDestination(
     val route: String,
     @StringRes val title: Int,
-    val icon: ImageVector
+    val icon: ImageVector,
 ) {
     /**
      * List of competitions and entry point for bet domain

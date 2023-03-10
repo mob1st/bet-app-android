@@ -32,7 +32,7 @@ fun InfoTemplate(
     icon: @Composable () -> Unit,
     title: @Composable () -> Unit,
     description: @Composable () -> Unit,
-    action: @Composable (() -> Unit)? = null
+    action: @Composable (() -> Unit)? = null,
 ) {
     Column(
         modifier = Modifier.fillMaxSize().padding(Dimens.grid.margin),

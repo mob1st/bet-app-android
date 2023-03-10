@@ -11,5 +11,5 @@ data class Team(
     @SerialName("ref")
     val id: String,
     val name: LocalizedText,
-    val url: String
+    val url: String,
 )

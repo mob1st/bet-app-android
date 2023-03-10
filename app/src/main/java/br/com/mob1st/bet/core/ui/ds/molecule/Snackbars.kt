@@ -16,7 +16,7 @@ fun SnackBar(
     state: SnackState?,
     snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
     onDismiss: (state: SnackState) -> Unit,
-    onActionPerformed: (state: SnackState) -> Unit
+    onActionPerformed: (state: SnackState) -> Unit,
 ) {
     state ?: return
     val currentOnDismiss by rememberUpdatedState(onDismiss)
@@ -37,7 +37,7 @@ fun SnackBar(
 fun DismissSnackbar(
     message: String,
     snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     val onDismissUpdated by rememberUpdatedState(onDismiss)
     LaunchedEffect(snackbarHostState, message) {
@@ -53,7 +53,7 @@ fun RetrySnackbar(
     message: String,
     snackbarHostState: SnackbarHostState = LocalSnackbarState.current,
     onDismiss: () -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
 ) {
     val onDismissUpdated by rememberUpdatedState(onDismiss)
     val onRetryUpdated by rememberUpdatedState(onRetry)
@@ -73,7 +73,7 @@ fun RetrySnackbar(
  */
 suspend fun SnackbarHostState.showDismissSnackbar(
     message: String,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     showSnackbar(
         message,
@@ -89,7 +89,7 @@ suspend fun SnackbarHostState.showRetrySnackbar(
     message: String,
     retryText: String,
     onRetry: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     val result = showSnackbar(
         message = message,

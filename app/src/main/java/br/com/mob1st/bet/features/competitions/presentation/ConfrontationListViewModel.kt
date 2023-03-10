@@ -36,7 +36,7 @@ data class ConfrontationData(
     val subscription: Subscription,
     val confrontations: List<Confrontation> = emptyList(),
     val hasFinished: Boolean = false,
-    val selected: Int? = null
+    val selected: Int? = null,
 ) : FetchedData {
 
     /*
@@ -64,7 +64,7 @@ sealed class ConfrontationUiEvent {
 @Parcelize
 data class ConfrontationInput(
     val winner: Duel.Selection? = null,
-    val score: Duo<Int>? = null
+    val score: Duo<Int>? = null,
 ) : Parcelable {
     val scoresVisible: Boolean get() = winner != null
 
@@ -78,7 +78,7 @@ data class ConfrontationInput(
     }
 
     fun toAnswers(
-        root: Node<Contest>
+        root: Node<Contest>,
     ): AnswerAggregation {
         checkNotNull(winner)
         val winnerAnswer = (root.current as MatchWinner).select(winner)
@@ -98,7 +98,7 @@ class ConfrontationListViewModel(
     subscription: Subscription,
     private val placeGuessUseCase: PlaceGuessUseCase,
     private val repository: CompetitionRepository,
-    private val savedState: SavedStateHandle
+    private val savedState: SavedStateHandle,
 ) : StateViewModel<ConfrontationData, ConfrontationUiEvent>(ConfrontationData(subscription)) {
 
     init {

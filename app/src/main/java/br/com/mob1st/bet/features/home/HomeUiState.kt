@@ -25,7 +25,7 @@ import androidx.navigation.compose.rememberNavController
 class HomeUiState(
     val navController: NavHostController,
     val snackbarHostState: SnackbarHostState,
-    val competitionsListLazyListState: LazyListState
+    val competitionsListLazyListState: LazyListState,
 ) {
 
     /**
@@ -71,7 +71,7 @@ class HomeUiState(
 fun rememberHomeUiState(
     navController: NavHostController = rememberNavController(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    lazyListState: LazyListState = rememberLazyListState()
+    lazyListState: LazyListState = rememberLazyListState(),
 ): HomeUiState = remember(navController, snackbarHostState) {
     HomeUiState(navController, snackbarHostState, lazyListState)
 }

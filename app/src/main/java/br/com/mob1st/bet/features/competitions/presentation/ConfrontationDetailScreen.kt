@@ -44,7 +44,7 @@ import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 @Composable
 fun ConfrontationDetailScreen(
     viewModel: ConfrontationListViewModel,
-    popBackStack: () -> Unit
+    popBackStack: () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val updatedNavigateBack by rememberUpdatedState(popBackStack)
@@ -75,7 +75,7 @@ private fun ConfrontationDetailPage(
     onEmpty: () -> Unit,
     onDismissSnackbar: (SimpleMessage) -> Unit,
     onButtonClicked: (ConfrontationInput) -> Unit,
-    onNullDetail: () -> Unit
+    onNullDetail: () -> Unit,
 ) {
     val onEmptyUpdated by rememberUpdatedState(onEmpty)
 
@@ -114,7 +114,7 @@ private fun ConfrontationDetailContent(
     state: AsyncState<ConfrontationData>,
     onDismissSnackbar: (SimpleMessage) -> Unit,
     onButtonClicked: (ConfrontationInput) -> Unit,
-    onNullDetail: () -> Unit
+    onNullDetail: () -> Unit,
 ) {
     state.messages.ifNotEmpty { message ->
         DismissSnackbar(
@@ -136,7 +136,7 @@ private fun ConfrontationDetailContent(
 @Composable
 private fun ConfrontationData(
     confrontationData: ConfrontationData,
-    onButtonClicked: (ConfrontationInput) -> Unit
+    onButtonClicked: (ConfrontationInput) -> Unit,
 ) {
     var input: ConfrontationInput by rememberSaveable {
         mutableStateOf(ConfrontationInput())
@@ -191,7 +191,7 @@ private fun ConfrontationData(
 private fun Header(
     modifier: Modifier = Modifier,
     competitionEntry: CompetitionEntry,
-    progress: Float
+    progress: Float,
 ) {
     val context = LocalContext.current
     Column(

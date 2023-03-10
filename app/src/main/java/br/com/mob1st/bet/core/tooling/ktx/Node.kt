@@ -10,5 +10,5 @@ import kotlinx.serialization.Serializable
 @Keep
 data class Node<out T>(
     val current: T,
-    val paths: List<Node<T>>
+    val paths: List<Node<T>>,
 )

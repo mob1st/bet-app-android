@@ -14,7 +14,7 @@ import org.koin.core.annotation.Factory
 internal class FeatureFlagRepositoryImpl(
     private val remoteConfig: FirebaseRemoteConfig,
     private val provider: DispatcherProvider,
-    private val logger: Logger
+    private val logger: Logger,
 ) : FeatureFlagRepository {
 
     private val io get() = provider.io

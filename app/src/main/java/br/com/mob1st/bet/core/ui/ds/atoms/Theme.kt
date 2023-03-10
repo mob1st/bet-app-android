@@ -33,7 +33,7 @@ private val LightColorScheme = lightColorScheme(
 fun BetTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     systemBars: @Composable () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
         darkTheme -> DarkColorScheme

@@ -20,7 +20,7 @@ fun ComponentActivity.setThemedContent(
     logger: Logger = get(),
     analyticsTool: AnalyticsTool = get(),
     systemBars: @Composable () -> Unit = { SystemBars() },
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     setContent {
         CompositionLocalProvider(

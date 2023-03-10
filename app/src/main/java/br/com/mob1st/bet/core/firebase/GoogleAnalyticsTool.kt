@@ -6,7 +6,7 @@ import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import com.google.firebase.analytics.FirebaseAnalytics
 
 class GoogleAnalyticsTool(
-    private val analytics: FirebaseAnalytics
+    private val analytics: FirebaseAnalytics,
 ) : AnalyticsTool {
 
     override fun registerUser(userId: String) {

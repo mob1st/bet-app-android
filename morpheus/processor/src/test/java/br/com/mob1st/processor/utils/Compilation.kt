@@ -18,7 +18,7 @@ internal fun givenMorpheusClass(name: String) =
 
 internal fun String.constructor(
     @Language("kotlin")
-    vararg properties: String
+    vararg properties: String,
 ) = buildString {
     append("${this@constructor}(")
     properties.forEachIndexed { index, p ->
@@ -32,7 +32,7 @@ internal fun String.constructor(
 
 internal fun property(
     @Language("kotlin")
-    valueAndType: String
+    valueAndType: String,
 ) = buildString {
     append("\n")
     append(valueAndType)

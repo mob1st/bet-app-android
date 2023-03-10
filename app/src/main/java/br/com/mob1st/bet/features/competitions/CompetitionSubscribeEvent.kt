@@ -9,7 +9,7 @@ import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
  */
 data class CompetitionSubscribeEvent(
     val entry: CompetitionEntry,
-    val method: Method
+    val method: Method,
 ) : AnalyticsEvent {
     override val name: String
         get() = "bet_competition_subscribe"
@@ -40,6 +40,6 @@ data class CompetitionSubscribeEvent(
         /**
          * The user searched and subscribed to a competition
          */
-        INTENTIONAL
+        INTENTIONAL,
     }
 }

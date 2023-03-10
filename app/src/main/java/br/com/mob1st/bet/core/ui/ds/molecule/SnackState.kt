@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SnackState(
     val message: TextData,
-    val action: TextData? = null
+    val action: TextData? = null,
 ) : Parcelable {
     companion object {
 

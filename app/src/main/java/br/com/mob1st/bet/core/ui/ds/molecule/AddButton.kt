@@ -21,7 +21,7 @@ import br.com.mob1st.bet.core.ui.ds.atoms.Purple40
 
 @Composable
 fun AddButton(
-    onAction: () -> Unit
+    onAction: () -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.Center,

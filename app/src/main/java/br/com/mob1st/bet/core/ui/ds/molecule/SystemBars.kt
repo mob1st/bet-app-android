@@ -19,7 +19,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun SystemBars(
     statusBarProperties: SystemBarProperties = SystemBarsDefaults.statusBar,
-    navigationBarProperties: SystemBarProperties = SystemBarsDefaults.navigationBar
+    navigationBarProperties: SystemBarProperties = SystemBarsDefaults.navigationBar,
 ) {
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -42,7 +42,7 @@ fun SystemBars(
  */
 data class SystemBarProperties(
     val color: Color,
-    val darkIcons: Boolean
+    val darkIcons: Boolean,
 )
 
 /**

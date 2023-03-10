@@ -17,5 +17,5 @@ data class Subscription(
     val id: String = "",
     val competition: CompetitionEntry,
     val points: Int = 0,
-    val active: Boolean = true
+    val active: Boolean = true,
 ) : Parcelable

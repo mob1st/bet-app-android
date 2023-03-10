@@ -10,7 +10,7 @@ import br.com.mob1st.bet.features.home.HomeUiState
  */
 fun NavGraphBuilder.competitionNavGraph(
     homeUiState: HomeUiState,
-    viewModel: ConfrontationListViewModel
+    viewModel: ConfrontationListViewModel,
 ) {
     composable(route = BottomBarDestination.Competitions.route) {
         CompetitionsTabScreen(viewModel) {

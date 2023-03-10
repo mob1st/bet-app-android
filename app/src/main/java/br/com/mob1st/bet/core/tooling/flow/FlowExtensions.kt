@@ -16,7 +16,7 @@ import timber.log.Timber
 
 fun <T> MutableSharedFlow<T>.next(
     scope: CoroutineScope,
-    value: T
+    value: T,
 ): Job = scope.launch {
     emit(value)
 }
@@ -24,7 +24,7 @@ fun <T> MutableSharedFlow<T>.next(
 fun <T, U> MutableStateFlow<T>.update(
     scope: CoroutineScope,
     source: Flow<U>,
-    combine: (currentState: T, newData: U) -> T
+    combine: (currentState: T, newData: U) -> T,
 ): Job {
     return source.onCollect(scope) { data ->
         update { currentState ->

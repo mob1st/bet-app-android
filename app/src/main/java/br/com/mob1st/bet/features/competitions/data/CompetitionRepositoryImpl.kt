@@ -13,7 +13,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class CompetitionRepositoryImpl(
     private val competitionCollection: CompetitionCollection,
-    private val provider: DispatcherProvider
+    private val provider: DispatcherProvider,
 ) : CompetitionRepository {
 
     private val io get() = provider.io
@@ -25,7 +25,7 @@ class CompetitionRepositoryImpl(
     }
 
     override suspend fun getConfrontationsBy(
-        competitionId: String
+        competitionId: String,
     ): List<Confrontation> = withContext(io) {
         suspendRunCatching {
             competitionCollection.getConfrontationsById(competitionId)

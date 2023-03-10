@@ -14,7 +14,7 @@ interface Duel<T> {
     enum class Selection(val pathIndex: Int) {
         CONTENDER_1(0),
         CONTENDER_2(1),
-        DRAW(2)
+        DRAW(2),
     }
 }
 

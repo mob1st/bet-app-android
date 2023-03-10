@@ -73,7 +73,7 @@ fun MatchWinnerComponentPreview() {
 fun MatchWinnerComponent(
     matchWinner: MatchWinner,
     selected: Duel.Selection? = null,
-    onSelectScore: (Duel.Selection?) -> Unit
+    onSelectScore: (Duel.Selection?) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -140,7 +140,7 @@ private fun ContenderText(team: Team) {
 
 @Composable
 private fun OddsText(
-    odds: Odds
+    odds: Odds,
 ) {
     Text(
         modifier = Modifier.fillMaxWidth(),

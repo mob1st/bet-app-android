@@ -5,7 +5,7 @@ import br.com.mob1st.bet.features.competitions.domain.CompetitionEntry
 
 data class CreateGroupEvent(
     val groupEntry: GroupEntry,
-    val competitionEntry: CompetitionEntry
+    val competitionEntry: CompetitionEntry,
 ) : AnalyticsEvent {
     override val name: String
         get() = "bet_group_creation"

@@ -29,20 +29,20 @@ sealed interface ButtonState {
         val text: TextData,
         @DrawableRes val trailing: Int? = null,
         override val loading: Boolean = false,
-        override val enabled: Boolean = true
+        override val enabled: Boolean = true,
     ) : ButtonState
 
     data class Icon(
         val icon: IconState,
         override val enabled: Boolean = true,
-        override val loading: Boolean = false
+        override val loading: Boolean = false,
     ) : ButtonState
 }
 
 @Composable
 fun PrimaryButton(
     state: ButtonState.Primary,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Button(onClick = onClick) {
         TextArea(state = state)
@@ -52,7 +52,7 @@ fun PrimaryButton(
 @Composable
 fun TextButton(
     state: ButtonState.Primary,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     TextButton(
         onClick = onClick,
@@ -64,7 +64,7 @@ fun TextButton(
 
 @Composable
 private fun TextArea(
-    state: ButtonState.Primary
+    state: ButtonState.Primary,
 ) {
     Text(text = state.text.resolve())
     if (state.trailing != null) {
@@ -88,7 +88,7 @@ private fun TextArea(
 fun IconButton(
     modifier: Modifier = Modifier,
     state: ButtonState.Icon,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     IconButton(
         modifier = modifier,

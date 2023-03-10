@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 @Composable
 fun <T> ReplaceAnimation(
     targetState: T,
-    content: @Composable (current: T) -> Unit
+    content: @Composable (current: T) -> Unit,
 ) {
     Crossfade(
         targetState = targetState
@@ -20,7 +20,7 @@ fun <T> ReplaceAnimation(
 @Composable
 fun VisibilityAnimation(
     visible: Boolean,
-    content: @Composable AnimatedVisibilityScope.() -> Unit
+    content: @Composable AnimatedVisibilityScope.() -> Unit,
 ) {
     AnimatedVisibility(
         visible = visible,

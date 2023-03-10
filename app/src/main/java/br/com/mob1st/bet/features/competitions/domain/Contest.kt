@@ -20,7 +20,7 @@ data class MatchWinner(
     override val contender1: Bet<Team>,
     override val contender2: Bet<Team>,
     override val draw: Bet<String>,
-    val scores: List<IntScores> = emptyList()
+    val scores: List<IntScores> = emptyList(),
 ) : Contest, Duel<Team>, Selector<Duel.Selection, DuelWinner> {
 
     override fun select(selection: Duel.Selection): DuelWinner {
@@ -44,7 +44,7 @@ data class MatchWinner(
 @Serializable
 @Keep
 data class IntScores(
-    override val contenders: List<Bet<Duo<Int>>>
+    override val contenders: List<Bet<Duo<Int>>>,
 ) : Contest, MultiChoice<Duo<Int>>, Selector<Duo<Int>, FinalScore> {
     override fun select(selection: Duo<Int>): FinalScore {
         val bet = contenders.firstOrNull { it.subject == selection } ?: contenders.maxBy { it.odds }

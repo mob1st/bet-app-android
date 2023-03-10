@@ -9,5 +9,5 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.PROPERTY)
 @Retention(AnnotationRetention.SOURCE)
 annotation class ConsumableEffect(
-    val value: KClass<out ConsumptionStrategy<*>> = ConsumptionStrategy::class
+    val value: KClass<out ConsumptionStrategy<*>> = ConsumptionStrategy::class,
 )

@@ -5,7 +5,7 @@ import br.com.mob1st.bet.features.profile.domain.AuthMethod
 import com.google.firebase.analytics.FirebaseAnalytics
 
 data class SignInEvent(
-    val method: AuthMethod
+    val method: AuthMethod,
 ) : AnalyticsEvent {
     override val name: String
         get() = FirebaseAnalytics.Event.LOGIN

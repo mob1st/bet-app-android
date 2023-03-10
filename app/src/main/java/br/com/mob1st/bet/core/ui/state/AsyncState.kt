@@ -22,7 +22,7 @@ import androidx.compose.runtime.Immutable
 data class AsyncState<T>(
     val data: T,
     val loading: Boolean = false,
-    val messages: List<SimpleMessage> = emptyList()
+    val messages: List<SimpleMessage> = emptyList(),
 ) {
 
     /**
@@ -56,7 +56,7 @@ data class AsyncState<T>(
      */
     fun failure(
         message: SimpleMessage = SimpleMessage.failure(),
-        loading: Boolean = false
+        loading: Boolean = false,
     ): AsyncState<T> {
         return copy(
             messages = messages + message,

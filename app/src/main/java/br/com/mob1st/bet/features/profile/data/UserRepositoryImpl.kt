@@ -19,7 +19,7 @@ import org.koin.core.annotation.Factory
 internal class UserRepositoryImpl(
     private val userAuth: UserAuth,
     private val userCollection: UserCollection,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
 ) : UserRepository {
 
     private val io get() = dispatcherProvider.io

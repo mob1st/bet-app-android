@@ -21,7 +21,7 @@ data class Guess(
     @Serializable(DateSerializer::class)
     val updatedAt: Date = createdAt,
     val confrontation: ConfrontationForGuess,
-    val aggregation: AnswerAggregation
+    val aggregation: AnswerAggregation,
 ) {
     /**
      * Indicates if the bet
@@ -48,7 +48,7 @@ data class ConfrontationForGuess(
     @Serializable
     val id: String,
     @Serializable(DateSerializer::class)
-    val allowBetsUntil: Date
+    val allowBetsUntil: Date,
 ) {
     constructor(competitionId: String, confrontation: Confrontation) : this(
         id = confrontation.id,

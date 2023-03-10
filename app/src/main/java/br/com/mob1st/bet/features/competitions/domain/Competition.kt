@@ -21,7 +21,7 @@ data class Competition(
     val startAt: Date,
     @Serializable(DateSerializer::class)
     val endAt: Date? = null,
-    val type: CompetitionType
+    val type: CompetitionType,
 ) {
     fun toEntry() = CompetitionEntry(id = id, name = name, type = type)
     companion object
@@ -39,12 +39,12 @@ data class CompetitionEntry(
     @SerialName("ref")
     val id: String,
     val name: LocalizedText,
-    val type: CompetitionType
+    val type: CompetitionType,
 ) : Parcelable {
     companion object
 }
 
 @Keep
 enum class CompetitionType {
-    FOOTBALL
+    FOOTBALL,
 }

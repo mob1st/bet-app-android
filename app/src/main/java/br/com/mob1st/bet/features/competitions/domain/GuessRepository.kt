@@ -15,13 +15,13 @@ interface GuessRepository {
      */
     suspend fun placeGuess(
         user: User,
-        guess: Guess
+        guess: Guess,
     )
 }
 
 class PlaceGuessException(
     private val guess: Guess,
-    cause: Throwable
+    cause: Throwable,
 ) : Exception("unable to create a guess", cause), Debuggable {
     override fun logProperties(): Map<String, Any?> {
         return mapOf(

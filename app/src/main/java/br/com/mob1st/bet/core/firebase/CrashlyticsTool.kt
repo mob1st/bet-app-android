@@ -9,7 +9,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import java.util.Date
 
 class CrashlyticsTool(
-    private val crashlytics: FirebaseCrashlytics
+    private val crashlytics: FirebaseCrashlytics,
 ) : CrashReportingTool {
     override fun registerUser(userId: String) {
         crashlytics.setUserId(userId)
@@ -34,7 +34,7 @@ class CrashlyticsTool(
 }
 
 private fun Map<String, Any?>.toCustomKeyValues(
-    builder: CustomKeysAndValues.Builder = CustomKeysAndValues.Builder()
+    builder: CustomKeysAndValues.Builder = CustomKeysAndValues.Builder(),
 ): CustomKeysAndValues.Builder {
     entries.forEach { (key, value) ->
         when (value) {
