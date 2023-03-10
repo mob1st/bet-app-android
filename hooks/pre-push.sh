@@ -11,7 +11,7 @@
 # stash any unstaged changes
 echo "Running test..."
 
-./gradlew app:check --daemon
+./gradlew check --daemon
 
 status=$?
 
