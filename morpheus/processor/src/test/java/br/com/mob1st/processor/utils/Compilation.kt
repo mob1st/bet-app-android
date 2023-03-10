@@ -44,7 +44,7 @@ internal fun String.compile(fileName: String): KotlinCompilation.Result {
     return compilation(source).compile()
 }
 
-internal fun compilation(vararg sourceFile: SourceFile) = KotlinCompilation().apply {
+fun compilation(vararg sourceFile: SourceFile) = KotlinCompilation().apply {
     symbolProcessorProviders = listOf(MorpheusProcessorProvider())
     sources = sourceFile.asList()
     verbose = false
