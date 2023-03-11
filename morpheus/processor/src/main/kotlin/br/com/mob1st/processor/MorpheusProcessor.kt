@@ -8,6 +8,9 @@ import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
 
+/**
+ * This class is responsible for processing the data classes annotated with @Morpheus.
+ */
 class MorpheusProcessor(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,

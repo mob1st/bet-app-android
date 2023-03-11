@@ -10,7 +10,7 @@ import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 
-class ClearEffectExtensionCreator(
+internal class ClearEffectExtensionCreator(
     private val logger: KSPLogger,
     classDeclaration: KSClassDeclaration,
     packageName: String,

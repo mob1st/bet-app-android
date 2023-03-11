@@ -7,7 +7,7 @@ import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.Modifier
 
-class AnnotationFilter(
+internal class AnnotationFilter(
     private val resolver: Resolver,
     private val logger: KSPLogger,
 ) {

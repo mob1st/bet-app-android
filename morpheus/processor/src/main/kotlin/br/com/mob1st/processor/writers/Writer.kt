@@ -8,7 +8,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.squareup.kotlinpoet.ksp.writeTo
 
-class Writer(
+internal class Writer(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
 ) {

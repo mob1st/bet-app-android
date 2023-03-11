@@ -8,5 +8,5 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 
 @OptIn(KspExperimental::class)
-fun KSClassDeclaration.getConsumableProperties(): Sequence<KSPropertyDeclaration> = getDeclaredProperties()
+internal fun KSClassDeclaration.getConsumableProperties(): Sequence<KSPropertyDeclaration> = getDeclaredProperties()
     .filter { it.isAnnotationPresent(ConsumableEffect::class) }

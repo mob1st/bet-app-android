@@ -11,7 +11,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 
-class ConsumeExtensionCreator(
+internal class ConsumeExtensionCreator(
     private val logger: KSPLogger,
     private val classDeclaration: KSClassDeclaration,
     private val enumName: String,

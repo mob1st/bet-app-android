@@ -5,7 +5,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.squareup.kotlinpoet.TypeSpec
 
-class EnumCreator(
+internal class EnumCreator(
     private val logger: KSPLogger,
     enumName: String,
 ) {
