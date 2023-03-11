@@ -71,7 +71,7 @@ class FileCreationTest : BehaviorSpec({
         val clazz = """           
             import br.com.mob1st.morpheus.annotation.ConsumableEffect
             data class Sample(
-                @ConsumableEffect val prop1: String            
+                @ConsumableEffect val prop1: String?          
             )
         """.trimIndent()
         When("compile") {
