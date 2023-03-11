@@ -1,4 +1,4 @@
-package br.com.mob1st.processor.writters
+package br.com.mob1st.processor.writers
 
 import br.com.mob1st.morpheus.annotation.Consumable
 import br.com.mob1st.morpheus.annotation.ConsumableEffect

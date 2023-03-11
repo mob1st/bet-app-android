@@ -87,7 +87,7 @@ class FileCreationTest : BehaviorSpec({
 
     Given("a non data class with @Morpheus annotation") {
         @Language("kotlin")
-        val clazz = """
+        val simpleClass = """
             import br.com.mob1st.morpheus.annotation.Morpheus
             
             @Morpheus
@@ -97,7 +97,7 @@ class FileCreationTest : BehaviorSpec({
         """.trimIndent()
 
         When("compile") {
-            val result = clazz.compile(FILE_NAME)
+            val result = simpleClass.compile(FILE_NAME)
             Then("compilation should fail") {
                 result.shouldExitWithCompilationError()
             }

@@ -73,13 +73,16 @@ class ConsumableExtensionsCreationTest : BehaviorSpec({
             val extensions = generated.methods.filter {
                 it.name.startsWith("consume") && Modifier.isStatic(it.modifiers)
             }
-            Then("two extension functions should be created") {
-                extensions.size shouldBe 2
+            And("get the extensions") {
+                Then("two extension functions should be created") {
+                    extensions.size shouldBe 2
+                }
             }
-
-            Then("the generated consumable functions should be named with the properties names") {
-                extensions[0].name shouldBe "consumeProp1"
-                extensions[1].name shouldBe "consumeProp2"
+            And("get the extenions names") {
+                Then("the generated consumable functions should be named with the properties names") {
+                    extensions[0].name shouldBe "consumeProp1"
+                    extensions[1].name shouldBe "consumeProp2"
+                }
             }
         }
     }

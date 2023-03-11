@@ -24,6 +24,8 @@ data class UiState(
     val loaded: Boolean = false,
     @ConsumableEffect
     val dialogContent: String? = null,
+    @ConsumableEffect
+    val dialogContent2: String? = null,
 )
 // CODE TO BE GENERATED
 
