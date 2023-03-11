@@ -17,7 +17,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
-    id("org.jetbrains.kotlin.jvm") version "1.7.21" apply false
+    alias(libs.plugins.kotlin.jvm) apply false
 }
 
 subprojects {
