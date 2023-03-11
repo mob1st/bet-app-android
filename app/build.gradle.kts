@@ -3,8 +3,8 @@
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.application")
+    kotlin("android")
     alias(libs.plugins.google.ksp)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")

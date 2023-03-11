@@ -91,6 +91,7 @@ plugin-google = { module = "com.google.gms:google-services", version = "4.3.15" 
 plugin-detekt-libraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
 plugin-detekt-twitter-compose = { module = "com.twitter.compose.rules:detekt", version = "0.0.22" }
 plugin-dokka-android = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "kotlin" }
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
 android = ["android-core", "android-startup"]

@@ -10,14 +10,10 @@ buildscript {
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
-    alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.dokka) apply false
 }
 
@@ -48,7 +44,7 @@ subprojects {
     }
 
     detekt {
-        config = files("$rootDir/quality/detekt/detekt.yml")
+        config = files("$rootDir/quality/detekt/config.yml")
         ignoreFailures = false
     }
 
