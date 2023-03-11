@@ -48,7 +48,7 @@ subprojects {
     }
 
     detekt {
-        config = files("$rootDir/config/detekt.yml")
+        config = files("$rootDir/quality/detekt/detekt.yml")
         ignoreFailures = false
     }
 
