@@ -1,6 +1,7 @@
 package br.com.mob1st.processor.writers
 
-import br.com.mob1st.morpheus.annotation.ConsumableEffect
+import br.com.mob1st.processor.utils.getConsumableProperties
+import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
@@ -12,6 +13,7 @@ class Writer(
     private val logger: KSPLogger,
 ) {
 
+    @OptIn(KspExperimental::class)
     operator fun invoke(classDeclaration: KSClassDeclaration) {
         val fileCreator = FileCreator(logger, classDeclaration)
         val enumCreator = EnumCreator(logger, fileCreator.fileName)
@@ -26,7 +28,7 @@ class Writer(
             packageName = fileCreator.packageName,
             enumName = fileCreator.fileName
         )
-        classDeclaration.getAnnotatedProperties<ConsumableEffect>().forEach {
+        classDeclaration.getConsumableProperties().forEach {
             val constantName = enumCreator.addConstant(it)
             fileCreator.addFunction(
                 consumeExtensionCreator.invoke(it, constantName)

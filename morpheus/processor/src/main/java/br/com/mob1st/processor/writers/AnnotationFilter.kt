@@ -1,7 +1,7 @@
 package br.com.mob1st.processor.writers
 
-import br.com.mob1st.morpheus.annotation.ConsumableEffect
 import br.com.mob1st.morpheus.annotation.Morpheus
+import br.com.mob1st.processor.utils.getConsumableProperties
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
@@ -27,10 +27,8 @@ private fun Resolver.getSymbols(logger: KSPLogger) = getSymbolsWithAnnotation(Mo
     }
     .onEach { kClass ->
         logger.info("class ${kClass.simpleName.asString()} with Morpheus annotation found")
-        val annotations = kClass.getAnnotatedProperties<ConsumableEffect>()
+        val annotations = kClass.getConsumableProperties()
         if (!annotations.iterator().hasNext()) {
-            error(
-                "no @ConsumableEffect found in data class ${kClass.simpleName.asString()} with Morpheus annotation"
-            )
+            error("no @ConsumableEffect found in data class ${kClass.simpleName.asString()} with Morpheus annotation")
         }
     }
