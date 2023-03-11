@@ -93,7 +93,7 @@ dependencies {
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.serialization)
 
-    // standalones
+    // standalone
     implementation(libs.coil)
     implementation(libs.kotlin.collections)
     implementation(libs.timber)
@@ -106,6 +106,8 @@ dependencies {
     ksp(libs.koin.compiler)
     ksp(libs.arrow.optics.compiler)
     ksp(projects.morpheus.processor)
+
+    dokkaPlugin(libs.plugin.dokka.android)
 
     testImplementation(libs.kotest)
     testImplementation(libs.koin.test)

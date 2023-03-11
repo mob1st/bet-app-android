@@ -18,6 +18,11 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.dokka) apply false
+}
+
+allprojects {
+    apply(plugin = rootProject.libs.plugins.dokka.get().pluginId)
 }
 
 subprojects {

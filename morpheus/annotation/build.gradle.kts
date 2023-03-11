@@ -1,5 +1,7 @@
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
-    id("org.jetbrains.kotlin.jvm")
+    id(libs.plugins.kotlin.jvm.get().pluginId)
 }
 
 dependencies {
