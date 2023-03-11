@@ -6,6 +6,9 @@ import br.com.mob1st.processor.utils.constructor
 import br.com.mob1st.processor.utils.givenMorpheusClass
 import br.com.mob1st.processor.utils.property
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import org.jetbrains.kotlin.descriptors.runtime.structure.parameterizedTypeArguments
 import java.lang.reflect.Modifier
@@ -70,19 +73,11 @@ class ConsumableExtensionsCreationTest : BehaviorSpec({
         When("compile") {
             val result = morpheusClass.constructor(prop1, prop2).compile(FILE_NAME)
             val generated = result.classLoader.loadClass(GENERATED_EXTENSION_CLASS_NAME)
-            val extensions = generated.methods.filter {
-                it.name.startsWith("consume") && Modifier.isStatic(it.modifiers)
-            }
-            And("get the extensions") {
-                Then("two extension functions should be created") {
-                    extensions.size shouldBe 2
+            Then("the generated file should contain a consume extension per property") {
+                val extensions = generated.methods.filter {
+                    it.name.startsWith("consume") && Modifier.isStatic(it.modifiers)
                 }
-            }
-            And("get the extenions names") {
-                Then("the generated consumable functions should be named with the properties names") {
-                    extensions[0].name shouldBe "consumeProp1"
-                    extensions[1].name shouldBe "consumeProp2"
-                }
+                extensions.map { it.name } shouldContainExactlyInAnyOrder listOf("consumeProp1", "consumeProp2")
             }
         }
     }
