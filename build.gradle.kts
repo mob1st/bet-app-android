@@ -1,5 +1,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
+import br.com.mob1st.buildsrc.JacocoFullReportTask
+
 buildscript {
     dependencies {
         classpath(libs.plugin.gradle)
@@ -17,6 +19,8 @@ plugins {
     alias(libs.plugins.dokka) apply false
 }
 
+apply(plugin = "jacocoReports")
+
 allprojects {
     apply(plugin = rootProject.libs.plugins.dokka.get().pluginId)
 }
@@ -24,7 +28,6 @@ allprojects {
 subprojects {
     apply(plugin = rootProject.libs.plugins.ktlint.get().pluginId)
     apply(plugin = rootProject.libs.plugins.detekt.get().pluginId)
-    apply(plugin = "jacocoReports")
 
     dependencies {
         detektPlugins(rootProject.libs.plugin.detekt.libraries)
@@ -96,3 +99,4 @@ val installGitHook by tasks.registering(Copy::class) {
 }
 
 tasks.getByPath("app:preBuild").dependsOn(installGitHook)
+tasks.register("jacocoFullReportTask", JacocoFullReportTask::class.java)

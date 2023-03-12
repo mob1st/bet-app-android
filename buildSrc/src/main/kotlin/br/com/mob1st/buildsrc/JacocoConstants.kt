@@ -35,7 +35,8 @@ internal object JacocoConstants {
     )
 
     val coverageIgnoredModules = mutableSetOf(
-        ":testing:test-utils"
+        ":testing:test-utils",
+        ":morpheus:annotation"
     )
 
 }

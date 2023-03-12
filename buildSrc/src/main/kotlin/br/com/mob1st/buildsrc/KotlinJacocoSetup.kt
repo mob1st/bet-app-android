@@ -13,12 +13,8 @@ internal object KotlinJacocoSetup: Action<Project> {
         project.tasks.withType(Test::class.java).configureEach {
             finalizedBy(TASK_NAME)
         }
-        project.tasks.register(TASK_NAME, JacocoReport::class.java) {
+        project.tasks.withType(JacocoReport::class.java).configureEach {
             dependsOn("test")
-
-            group = JacocoConstants.taskGroup
-            description = "Generates code coverage report for the test task."
-
             reports {
                 html.required.set(true)
                 xml.required.set(true)

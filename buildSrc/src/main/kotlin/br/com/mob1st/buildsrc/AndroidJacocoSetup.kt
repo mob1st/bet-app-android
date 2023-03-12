@@ -1,12 +1,16 @@
 package br.com.mob1st.buildsrc
 
 import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.gradle.api.Action
 import org.gradle.api.Project
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import java.util.Locale
 
-object AndroidJacocoSetup : Action<Project> {
+internal class AndroidJacocoSetup(private val root: Project) : Action<Project> {
+
+    private val jacocoTestReport = root.tasks.register("jacocoTestReport")
 
     private val Project.android: BaseExtension
         get() = extensions.findByName("android") as? BaseExtension
@@ -17,22 +21,23 @@ object AndroidJacocoSetup : Action<Project> {
         val productFlavors = project.android.productFlavors.map { flavor -> flavor.name }.ifEmpty {
             listOf("")
         }
-
         productFlavors.forEach { flavorName ->
             buildTypes.forEach { buildTypeName ->
-                project.forVariant(flavorName, buildTypeName)
+                jacocoTestReport.dependsOn(
+                    project.forVariant(flavorName, buildTypeName)
+                )
             }
         }
     }
 
-    private fun Project.forVariant(flavorName: String, buildTypeName: String) {
+    private fun Project.forVariant(flavorName: String, buildTypeName: String): TaskProvider<JacocoReport> {
         val (sourceName, sourcePath) = if(flavorName.isEmpty()) {
             buildTypeName to buildTypeName
         } else {
             "${flavorName}${buildTypeName.capitalize(Locale.ENGLISH)}" to "$flavorName/$buildTypeName"
         }
         val testTaskName = "test${sourceName.capitalize(Locale.ENGLISH)}UnitTest"
-        tasks.register("jacocoTestReport", JacocoReport::class.java) {
+        return tasks.register("${testTaskName}Coverage", JacocoReport::class.java) {
             registerReporting(
                 BuildVariantInfo(
                     testTaskName = testTaskName,
