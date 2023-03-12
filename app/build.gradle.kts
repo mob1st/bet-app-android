@@ -31,6 +31,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            enableUnitTestCoverage = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -39,7 +40,6 @@ android {
         getByName("debug") {
             isMinifyEnabled = false
             isDebuggable = true
-            enableUnitTestCoverage = true
             configure<CrashlyticsExtension> {
                 // speeds up the build times
                 mappingFileUploadEnabled = false

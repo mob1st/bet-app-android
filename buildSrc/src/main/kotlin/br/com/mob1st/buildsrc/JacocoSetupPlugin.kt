@@ -16,20 +16,13 @@ class JacocoSetupPlugin : Plugin<Project> {
             logger.info("Applying JacocoSetupPlugin to $path")
             pluginManager.apply(JacocoPlugin::class.java)
 
-            tasks.withType<Test>().configureEach {
-                configure<JacocoTaskExtension> {
-                    isIncludeNoLocationClasses = true
-                    excludes = listOf("jdk.internal.*")
-                }
-            }
-
             val setup = when {
                 isModuleExcluded() -> {
                     DummySetup
                 }
                 isAndroidModule() -> {
                     logger.info("project $path is an android module")
-                    AndroidJacocoSetup
+                    AndroidJacocoSetup(project)
                 }
                 else -> {
                     logger.info("project $path is a kotlin module")
@@ -37,7 +30,6 @@ class JacocoSetupPlugin : Plugin<Project> {
                 }
             }
             afterEvaluate(setup)
-
         }
     }
 
