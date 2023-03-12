@@ -1,4 +1,4 @@
-package br.com.mob1st.processor.utils
+package br.com.mob1st.morpheus.processor.utils
 
 import com.tschuchort.compiletesting.KotlinCompilation
 import io.kotest.matchers.Matcher

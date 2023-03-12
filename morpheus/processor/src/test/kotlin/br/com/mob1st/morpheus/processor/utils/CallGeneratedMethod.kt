@@ -1,4 +1,4 @@
-package br.com.mob1st.processor.utils
+package br.com.mob1st.morpheus.processor.utils
 
 import java.net.URLClassLoader
 

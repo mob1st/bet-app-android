@@ -1,4 +1,4 @@
-package br.com.mob1st.processor.utils
+package br.com.mob1st.morpheus.processor.utils
 
 import br.com.mob1st.processor.MorpheusProcessorProvider
 import com.tschuchort.compiletesting.KotlinCompilation

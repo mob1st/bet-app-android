@@ -1,9 +1,9 @@
-package br.com.mob1st.processor
+package br.com.mob1st.morpheus.processor
 
 import br.com.mob1st.morpheus.annotation.Consumable
-import br.com.mob1st.processor.utils.compilation
-import br.com.mob1st.processor.utils.createInstance
-import br.com.mob1st.processor.utils.shouldExitOk
+import br.com.mob1st.morpheus.processor.utils.compilation
+import br.com.mob1st.morpheus.processor.utils.createInstance
+import br.com.mob1st.morpheus.processor.utils.shouldExitOk
 import com.tschuchort.compiletesting.SourceFile
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
