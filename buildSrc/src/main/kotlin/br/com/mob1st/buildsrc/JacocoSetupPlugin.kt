@@ -22,7 +22,7 @@ class JacocoSetupPlugin : Plugin<Project> {
                 }
                 isAndroidModule() -> {
                     logger.info("project $path is an android module")
-                    AndroidJacocoSetup(project)
+                    AndroidJacocoSetup
                 }
                 else -> {
                     logger.info("project $path is a kotlin module")

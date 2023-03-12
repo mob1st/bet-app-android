@@ -9,18 +9,15 @@ import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import java.util.Locale
 
-internal class AndroidJacocoSetup(
-    root: Project
-) : Action<Project> {
+internal object AndroidJacocoSetup : Action<Project> {
 
-    private val jacocoTestReport = root.tasks.register("jacocoTestReport")
+
 
     override fun execute(project: Project) {
         project.logger.info("Applying set up for Android module to ${project.path}")
-        val androidJacocoTask = project.tasks.register("androidTestCoverage", JacocoReport::class.java) {
+        project.tasks.register("jacocoTestReport", JacocoReport::class.java) {
             config(project)
         }
-        jacocoTestReport.dependsOn(androidJacocoTask)
     }
 
     private fun JacocoReport.config(project: Project) {
