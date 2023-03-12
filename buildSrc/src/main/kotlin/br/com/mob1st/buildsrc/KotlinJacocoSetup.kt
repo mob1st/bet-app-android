@@ -10,6 +10,7 @@ internal object KotlinJacocoSetup : Action<Project> {
     private const val TASK_NAME = "jacocoTestReport"
 
     override fun execute(project: Project) {
+        project.logger.info("Applying set for Kotlin module to ${project.path}")
         project.tasks.withType(Test::class.java).configureEach {
             finalizedBy(TASK_NAME)
         }

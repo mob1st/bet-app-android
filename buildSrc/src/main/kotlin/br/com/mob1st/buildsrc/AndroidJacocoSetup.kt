@@ -1,96 +1,48 @@
 package br.com.mob1st.buildsrc
 
-import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
+import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import java.util.Locale
 
-internal class AndroidJacocoSetup(private val root: Project) : Action<Project> {
-
-    private val jacocoTestReport = root.tasks.register("jacocoTestReport")
-
-    private val Project.android: BaseExtension
-        get() = extensions.findByName("android") as? BaseExtension
-            ?: error("Not an Android module: $name")
+internal object AndroidJacocoSetup : Action<Project> {
 
     override fun execute(project: Project) {
-        val buildTypes = project.android.buildTypes.map { type -> type.name }
-        val productFlavors = project.android.productFlavors.map { flavor -> flavor.name }.ifEmpty {
-            listOf("")
-        }
-        productFlavors.forEach { flavorName ->
-            buildTypes.forEach { buildTypeName ->
-                jacocoTestReport.dependsOn(
-                    project.forVariant(flavorName, buildTypeName)
-                )
-            }
+        project.logger.info("Applying set up for Android module to ${project.path}")
+        project.tasks.register("jacocoTestReport", JacocoReport::class.java) {
+            config(project)
         }
     }
 
-    private fun Project.forVariant(flavorName: String, buildTypeName: String): TaskProvider<JacocoReport> {
-        val (sourceName, sourcePath) = if(flavorName.isEmpty()) {
-            buildTypeName to buildTypeName
-        } else {
-            "${flavorName}${buildTypeName.capitalize(Locale.ENGLISH)}" to "$flavorName/$buildTypeName"
-        }
-        val testTaskName = "test${sourceName.capitalize(Locale.ENGLISH)}UnitTest"
-        return tasks.register("${testTaskName}Coverage", JacocoReport::class.java) {
-            registerReporting(
-                BuildVariantInfo(
-                    testTaskName = testTaskName,
-                    sourceName = sourceName,
-                    sourcePath = sourcePath,
-                    flavorName = flavorName,
-                    buildTypeName = buildTypeName,
-                )
-            )
-        }
-    }
-
-    private fun JacocoReport.registerReporting(
-        info: BuildVariantInfo
-    ) {
-        dependsOn(info.testTaskName)
-
-        group = JacocoConstants.taskGroup
-        description = "Generate Jacoco coverage reports for the ${info.sourceName.capitalize(Locale.ENGLISH)} build."
-        val javaDirectories = project.fileTree(
-            "${project.buildDir}/intermediates/javac/${info.sourcePath}"
-        ) { exclude(JacocoConstants.excludedFiles) }
-
-        val kotlinDirectories = project.fileTree(
-            "${project.buildDir}/tmp/kotlin-classes/${info.sourcePath}"
-        ) { exclude(JacocoConstants.excludedFiles) }
-
-        val coverageSrcDirectories = listOf(
-            "src/main/java",
-            "src/${info.flavorName}/java",
-            "src/${info.buildTypeName}/java",
-            "src/main/kotlin",
-            "src/${info.flavorName}/kotlin",
-            "src/${info.buildTypeName}/kotlin"
-        )
-        classDirectories.setFrom(project.files(javaDirectories, kotlinDirectories))
-        additionalClassDirs.setFrom(project.files(coverageSrcDirectories))
-        sourceDirectories.setFrom(project.files(coverageSrcDirectories))
-        executionData.setFrom(
-            project.files("${project.buildDir}/jacoco/${info.testTaskName}.exec")
-        )
-
+    private fun JacocoReport.config(project: Project) {
+        dependsOn("testDebugUnitTest")
         reports {
             html.required.set(true)
             xml.required.set(true)
         }
+
+        val javaTree = project.fileTree(
+            "${project.buildDir}/intermediates/javac/debug",
+        ) { exclude(JacocoConstants.excludedFiles) }
+
+        val kotlinTree = project.fileTree(
+            "${project.buildDir}/tmp/kotlin-classes/debug",
+        ) { exclude(JacocoConstants.excludedFiles) }
+
+
+        val coverageSrcDirectories = listOf(
+            "${project.projectDir}/src/main/java",
+            "${project.projectDir}/src/main/kotlin"
+        )
+
+        classDirectories.setFrom(project.files(javaTree, kotlinTree))
+        additionalClassDirs.setFrom(project.files(coverageSrcDirectories))
+        sourceDirectories.setFrom(project.files(coverageSrcDirectories))
+        executionData.setFrom(
+            project.files("${project.buildDir}/jacoco/testDebugUnitTest.exec")
+        )
     }
 }
-
-private data class BuildVariantInfo(
-    val testTaskName: String,
-    val sourceName: String,
-    val sourcePath: String,
-    val flavorName: String,
-    val buildTypeName: String
-)

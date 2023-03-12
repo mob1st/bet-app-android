@@ -13,6 +13,7 @@ class JacocoSetupPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
+            logger.info("Applying JacocoSetupPlugin to $path")
             pluginManager.apply(JacocoPlugin::class.java)
 
             tasks.withType<Test>().configureEach {
@@ -27,11 +28,11 @@ class JacocoSetupPlugin : Plugin<Project> {
                     DummySetup
                 }
                 isAndroidModule() -> {
-                    println("project $path is an android module")
-                    AndroidJacocoSetup(this)
+                    logger.info("project $path is an android module")
+                    AndroidJacocoSetup
                 }
                 else -> {
-                    println("project $path is a kotlin module")
+                    logger.info("project $path is a kotlin module")
                     KotlinJacocoSetup
                 }
             }
@@ -45,9 +46,6 @@ class JacocoSetupPlugin : Plugin<Project> {
     }
 
     private fun Project.isAndroidModule(): Boolean {
-        println(
-            "project $path has plugins: ${plugins.map { it.javaClass.simpleName }}"
-        )
         return plugins.hasPlugin("com.android.library") ||
                 plugins.hasPlugin("com.android.application")
     }
