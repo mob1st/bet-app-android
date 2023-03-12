@@ -5,7 +5,7 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
-internal object KotlinJacocoSetup: Action<Project> {
+internal object KotlinJacocoSetup : Action<Project> {
 
     private const val TASK_NAME = "jacocoTestReport"
 

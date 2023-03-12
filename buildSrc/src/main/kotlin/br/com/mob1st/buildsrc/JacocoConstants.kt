@@ -20,9 +20,10 @@ internal object JacocoConstants {
         "**/BR.class",
         "**/*View.*",
         "**/*Application.*",
-        // Android
+        "**/*App.*",
         "**/*Activity*.*",
         "**/*Fragment*.*",
+        "**/*Initializer.*",
     )
 
     val limits = mapOf<String, Double>(

@@ -1,7 +1,5 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
-import br.com.mob1st.buildsrc.JacocoFullReportTask
-
 buildscript {
     dependencies {
         classpath(libs.plugin.gradle)
@@ -99,4 +97,3 @@ val installGitHook by tasks.registering(Copy::class) {
 }
 
 tasks.getByPath("app:preBuild").dependsOn(installGitHook)
-tasks.register("jacocoFullReportTask", JacocoFullReportTask::class.java)

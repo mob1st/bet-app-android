@@ -57,14 +57,8 @@ internal class AndroidJacocoSetup(private val root: Project) : Action<Project> {
 
         group = JacocoConstants.taskGroup
         description = "Generate Jacoco coverage reports for the ${info.sourceName.capitalize(Locale.ENGLISH)} build."
-
-        reports {
-            html.required.set(true)
-            xml.required.set(true)
-        }
-
         val javaDirectories = project.fileTree(
-            "${project.buildDir}/intermediates/classes/${info.sourcePath}"
+            "${project.buildDir}/intermediates/javac/${info.sourcePath}"
         ) { exclude(JacocoConstants.excludedFiles) }
 
         val kotlinDirectories = project.fileTree(
@@ -75,7 +69,7 @@ internal class AndroidJacocoSetup(private val root: Project) : Action<Project> {
             "src/main/java",
             "src/${info.flavorName}/java",
             "src/${info.buildTypeName}/java",
-            "src/kotlin/java",
+            "src/main/kotlin",
             "src/${info.flavorName}/kotlin",
             "src/${info.buildTypeName}/kotlin"
         )
@@ -85,6 +79,11 @@ internal class AndroidJacocoSetup(private val root: Project) : Action<Project> {
         executionData.setFrom(
             project.files("${project.buildDir}/jacoco/${info.testTaskName}.exec")
         )
+
+        reports {
+            html.required.set(true)
+            xml.required.set(true)
+        }
     }
 }
 

@@ -39,6 +39,7 @@ android {
         getByName("debug") {
             isMinifyEnabled = false
             isDebuggable = true
+            enableUnitTestCoverage = true
             configure<CrashlyticsExtension> {
                 // speeds up the build times
                 mappingFileUploadEnabled = false
