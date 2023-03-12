@@ -24,6 +24,7 @@ allprojects {
 subprojects {
     apply(plugin = rootProject.libs.plugins.ktlint.get().pluginId)
     apply(plugin = rootProject.libs.plugins.detekt.get().pluginId)
+    apply(plugin = "jacocoReports")
 
     dependencies {
         detektPlugins(rootProject.libs.plugin.detekt.libraries)
