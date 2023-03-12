@@ -1,7 +1,9 @@
 package br.com.mob1st.buildsrc
 
+import org.gradle.api.Project
 
-internal object JacocoConstants {
+
+object JacocoConstants {
 
     const val taskGroup = "Reporting"
 
@@ -39,5 +41,20 @@ internal object JacocoConstants {
         ":testing:test-utils",
         ":morpheus:annotation"
     )
+    fun excludedFiles(): List<String> {
+        return excludedFiles.toList()
+    }
+}
 
+fun excludedFiles(): List<String> {
+    return JacocoConstants.excludedFiles.toList()
+}
+
+fun Project.isModuleExcluded(): Boolean {
+    return !buildFile.exists() || JacocoConstants.coverageIgnoredModules.contains(path)
+}
+
+fun Project.isAndroidModule(): Boolean {
+    return plugins.hasPlugin("com.android.library") ||
+            plugins.hasPlugin("com.android.application")
 }

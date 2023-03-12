@@ -1,5 +1,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
+import org.sonarqube.gradle.SonarTask
+
 buildscript {
     dependencies {
         classpath(libs.plugin.gradle)
@@ -15,9 +17,11 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka) apply false
+    alias(libs.plugins.sonarqube) apply false
 }
 
 apply(plugin = "jacocoReports")
+apply(from = "quality/sonar/config.gradle")
 
 allprojects {
     apply(plugin = rootProject.libs.plugins.dokka.get().pluginId)
@@ -97,3 +101,6 @@ val installGitHook by tasks.registering(Copy::class) {
 }
 
 tasks.getByPath("app:preBuild").dependsOn(installGitHook)
+tasks.withType<SonarTask>().configureEach {
+    dependsOn("jacocoFullReport")
+}

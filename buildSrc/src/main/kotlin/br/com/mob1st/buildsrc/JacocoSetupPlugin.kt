@@ -41,15 +41,6 @@ class JacocoSetupPlugin : Plugin<Project> {
         }
     }
 
-    private fun Project.isModuleExcluded(): Boolean {
-        return !buildFile.exists() || JacocoConstants.coverageIgnoredModules.contains(path)
-    }
-
-    private fun Project.isAndroidModule(): Boolean {
-        return plugins.hasPlugin("com.android.library") ||
-                plugins.hasPlugin("com.android.application")
-    }
-
 
     private object DummySetup : Action<Project> {
         override fun execute(project: Project)  {
