@@ -18,7 +18,7 @@ import kotlin.math.pow
 fun <T> readFromCacheAndNetwork(
     readFromCache: () -> Flow<T>,
     readFromNetwork: suspend () -> Unit,
-    isCacheUpdated: suspend () -> Boolean
+    isCacheUpdated: suspend () -> Boolean,
 ): Flow<T> {
     return flow {
         if (!isCacheUpdated()) {
@@ -31,7 +31,7 @@ fun <T> readFromCacheAndNetwork(
 fun <T> Flow<T>.exponencialBackoff(
     initialDelay: Float = 0.0f,
     retryFactor: Float = 1.0f,
-    predicate: suspend FlowCollector<T>.(cause: Throwable, attempt: Long, delay: Long) -> Boolean
+    predicate: suspend FlowCollector<T>.(cause: Throwable, attempt: Long, delay: Long) -> Boolean,
 ): Flow<T> = retryWhen { cause, attempt ->
     val retryDelay = initialDelay * retryFactor.pow(attempt.toFloat())
     predicate(cause, attempt, retryDelay.toLong())
