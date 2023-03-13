@@ -26,9 +26,7 @@ internal class JacocoReportSetup private constructor(
             }
             val jacocoReportSetup = JacocoReportSetup()
             projects.forEach { project ->
-
                 project.tasks.withType(JacocoReport::class.java).forEach { jacocoReport ->
-                    println("ptest jacocoReport: ${jacocoReport.name} for project ${project.path}")
                     jacocoReportSetup.add(jacocoReport)
                 }
             }

@@ -1,4 +1,4 @@
-@file:Suppress("DSL_SCOPE_VIOLATION")
+@file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 
 plugins {
     id("com.android.library")
@@ -31,6 +31,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    sourceSets {
+        getByName("main") {
+            java.srcDir("src/main/kotlin")
+        }
     }
 }
 

@@ -73,6 +73,12 @@ android {
 
     namespace = "br.com.mob1st.bet"
 
+    sourceSets {
+        getByName("main") {
+            java.srcDir("src/main/kotlin")
+        }
+    }
+
     applicationVariants.configureEach {
         kotlin.sourceSets {
             getByName(name) {

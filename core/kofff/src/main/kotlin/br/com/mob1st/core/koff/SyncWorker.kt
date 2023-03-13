@@ -13,6 +13,7 @@ import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 /**
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit
  */
 abstract class SyncWorker(
     context: Context,
-    workerParameters: WorkerParameters
+    workerParameters: WorkerParameters,
 ) : CoroutineWorker(context, workerParameters) {
 
     abstract val syncer: Syncer
@@ -30,6 +31,7 @@ abstract class SyncWorker(
             syncer.sync()
             Result.success()
         } catch (e: Exception) {
+            Timber.e(e)
             Result.retry()
         }
     }
@@ -63,11 +65,11 @@ abstract class SyncWorker(
 }
 
 fun Context.launchSyncWorker(
-    workRequest: OneTimeWorkRequest = SyncWorker.workRequest()
+    workRequest: OneTimeWorkRequest = SyncWorker.workRequest(),
 ) = WorkManager
     .getInstance(this)
     .enqueueUniqueWork(
         "aaa",
         ExistingWorkPolicy.KEEP,
-        workRequest,
+        workRequest
     )
