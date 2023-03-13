@@ -3,7 +3,12 @@ import br.com.mob1st.buildsrc.JacocoConstantsKt
 apply plugin: "org.sonarqube"
 
 def p = new Properties()
-p.load(project.rootProject.file('local.properties').newDataInputStream())
+def propertiesFile = project.rootProject.file('local.properties')
+
+if (propertiesFile.exists()) {
+    p.load(propertiesFile.newDataInputStream())
+}
+
 
 sonarqube {
     properties {
