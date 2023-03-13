@@ -113,7 +113,6 @@ dependencies {
     testImplementation(libs.kotest)
     testImplementation(libs.koin.test)
 
-    androidTestImplementation(libs.android.test)
-    androidTestImplementation(libs.espresso)
+    androidTestImplementation(libs.bundles.android.test)
     androidTestImplementation(libs.compose.test)
 }

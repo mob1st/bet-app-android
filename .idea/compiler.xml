@@ -6,6 +6,7 @@
       <module name="Bet.buildSrc" target="17" />
       <module name="Bet.buildSrc.main" target="17" />
       <module name="Bet.buildSrc.test" target="17" />
+      <module name="Bet.core.kofff" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -14,6 +14,7 @@ google-services = "4.3.15"
 detekt = "1.22.0"
 ktlint = "0.48.2"
 kotlin-poet = "1.12.0"
+work-manager = "2.8.0"
 
 [libraries]
 # androidx
@@ -66,6 +67,10 @@ firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version = "2
 firebase-config = { module = "com.google.firebase:firebase-config-ktx", version = "21.2.1" }
 kotlin-playservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
 
+#work manager
+workmanager-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-manager" }
+workmanager-test = { module = "androidx.work:work-testing", version.ref = "work-manager" }
+
 # timber
 timber = "com.jakewharton.timber:timber:5.0.1"
 
@@ -95,6 +100,8 @@ plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 
 [bundles]
 android = ["android-core", "android-startup"]
+android-test = ["android-test", "espresso"]
+
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]
 koin = ["koin-android", "koin-compose", "koin-annotations"]
 compose = [

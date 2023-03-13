@@ -21,3 +21,4 @@ rootProject.name = "Bet"
 include(":app")
 include(":morpheus:annotation")
 include(":morpheus:processor")
+include(":core:kofff")
