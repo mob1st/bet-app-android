@@ -26,8 +26,6 @@ subprojects { project ->
         properties {
             if (!JacocoConstantsKt.isModuleExcluded(project)) {
                 property "sonar.junit.reportPaths", getJUnitReportPath(project)
-                property "sonar.sources", ["src/main/java", "src/main/kotlin"]
-                property "sonar.tests", ["src/test/java", "src/test/kotlin"]
             }
         }
     }
