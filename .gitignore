@@ -87,3 +87,5 @@ lint/tmp/
 app/google-services.json
 .DS_Store
 .idea/sonarlint/*
+.idea/sonarlint.xml
+.idea/sonarlint-state.xml

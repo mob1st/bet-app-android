@@ -93,7 +93,7 @@ android {
 
 dependencies {
 
-    // bunldes
+    // bundles
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
     implementation(libs.bundles.arrow)
