@@ -14,10 +14,7 @@ object JacocoConstants {
         "**/*\$ViewBinder*.*",
         "**/BuildConfig.*",
         "**/Manifest*.*",
-        "**/*Factory*",
         "**/*_MembersInjector*",
-        "**/*Module*",
-        "**/*Component*",
         "**android**",
         "**/BR.class",
         "**/*View.*",
@@ -26,6 +23,8 @@ object JacocoConstants {
         "**/*Activity*.*",
         "**/*Fragment*.*",
         "**/*Initializer.*",
+        "**/ui/ds/**",
+        "**/*Screen.*",
     )
 
     val limits = mapOf<String, Double>(
