@@ -30,12 +30,17 @@ jobs:
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
 
-    - name: create google-services.json
-      run: cat /home/runner/work/bet-app-android/bet-app-android/app/google-services.json | base64
-    - name: fill google-services.json
+    - name: Import GPG key
+      id: import_gpg
+      uses: crazy-max/ghaction-import-gpg@v5
+      with:
+        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+        passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+    - name: decrypt google-services.json
       env:
-        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      run: echo $GOOGLE_SERVICES_JSON > /home/runner/work/bet-app-android/bet-app-android/app/google-services.json
+        GPG_ENCRYPT_KEY: ${{ secrets.GPG_ENCRYPT_KEY }}
+      run: sh keys/decrypt.sh
         
     - name: Upload Code Coverage to SonarCloud
       env:
