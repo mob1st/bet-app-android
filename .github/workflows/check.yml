@@ -31,7 +31,7 @@ jobs:
         restore-keys: ${{ runner.os }}-sonar
 
     - name: decrypt keys
-      run: ./keys/decrypt-secrets.sh
+      run: git update-index --chmod=+x ./keys/decrypt-secrets.sh
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
