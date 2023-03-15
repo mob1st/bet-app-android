@@ -11,5 +11,3 @@ if [[ ! -z "$GPG_ENCRYPT_KEY" ]]; then
 else
   echo "GPG_ENCRYPT_KEY is empty"
 fi
-
-chmod +x app/google-services.json
