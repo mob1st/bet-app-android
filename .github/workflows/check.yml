@@ -37,9 +37,9 @@ jobs:
         gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
         passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-    - name: decrypt google-services.json
+    - name: decrypt keys
       env:
-        GPG_ENCRYPT_KEY: ${{ secrets.GPG_ENCRYPT_KEY }}
+        GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       run: sh keys/decrypt-secrets.sh
         
     - name: Upload Code Coverage to SonarCloud
