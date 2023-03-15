@@ -26,8 +26,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     sourceSets.getByName("main") {
@@ -37,10 +37,6 @@ android {
     sourceSets.getByName("test") {
         java.srcDir("src/test/java")
         java.srcDir("src/test/kotlin")
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 

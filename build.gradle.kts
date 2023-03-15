@@ -102,9 +102,6 @@ val installGitHook by tasks.registering(Copy::class) {
 
 tasks.getByPath("app:preBuild").dependsOn(installGitHook)
 
-afterEvaluate {
-    tasks.withType<SonarTask> {
-        dependsOn(getTasksByName("check", true))
-        dependsOn("jacocoFullReport")
-    }
+tasks.withType<SonarTask> {
+    dependsOn("jacocoFullReport")
 }

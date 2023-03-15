@@ -8,12 +8,14 @@ import br.com.mob1st.bet.core.tooling.vm.update
 import br.com.mob1st.morpheus.annotation.Consumable
 import br.com.mob1st.morpheus.annotation.ConsumableEffect
 import br.com.mob1st.morpheus.annotation.Morpheus
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.launch
 
 @Morpheus
 @kotlinx.serialization.Serializable
@@ -58,19 +60,6 @@ class MyViewModel : ViewModel(), Consumer<UiStateEffectKey> {
             currentState.copy(content = data, loading = loading)
         }
 
-        merge(
-            merge(action.failure, clickAction.failure)
-                .map { "error message" }
-                .map {
-                    UiState.serializer()
-                },
-            clickAction.success
-                .map { true }
-                .map {
-                    UiState.serializer()
-                }
-        )
-
         // side effects
         _uiState.update(
             merge(action.failure, clickAction.failure).map { "error message" }
@@ -91,11 +80,11 @@ class MyViewModel : ViewModel(), Consumer<UiStateEffectKey> {
         action.trigger()
     }
 
-    override suspend fun consume(consumable: Consumable<UiStateEffectKey, *>) {
+    override fun consume(consumable: Consumable<UiStateEffectKey, *>) = viewModelScope.launch {
         consumableInput.emit(consumable)
     }
 }
 
 interface Consumer<T> {
-    suspend fun consume(consumable: Consumable<T, *>)
+    fun consume(consumable: Consumable<T, *>): Job
 }
