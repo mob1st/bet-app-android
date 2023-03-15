@@ -35,6 +35,16 @@ jobs:
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
+    - name: Check file existence
+      id: check_files
+      uses: andstor/file-existence-action@v2
+      with:
+        files: "app/google-services.json"
+
+    - name: File exists
+      if: steps.check_files.outputs.files_exists == 'true'
+      run: echo "It exists !"
+
     - name: check code quality
       run: ./gradlew check
 
