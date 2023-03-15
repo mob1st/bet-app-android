@@ -30,11 +30,8 @@ jobs:
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
 
-    - name: Decrypt secrets 2
-      uses: zgosalvez/github-actions-decrypt-secrets@v2
-      with:
-        secrets_file: keys/google-services.gpg
-        map: 'GPG_PRIVATE_KEY=passphrase'
+    - name: decrypt keys
+      run: chmod=+x ./keys/decrypt-secrets.sh
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
