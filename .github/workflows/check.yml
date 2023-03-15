@@ -35,8 +35,10 @@ jobs:
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
+    - name: check code quality
+      run: ./gradlew check
 
-    - name: Upload Code Coverage to SonarCloud
+    - name: upload code report to SonarCloud
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
