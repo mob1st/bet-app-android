@@ -30,8 +30,11 @@ jobs:
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
 
-    - name: decrypt keys
-      run: git update-index --chmod=+x ./keys/decrypt-secrets.sh
+    - name: Decrypt secrets 2
+      uses: zgosalvez/github-actions-decrypt-secrets@v2
+      with:
+        secrets_file: keys/google-services.gpg
+        map: 'GPG_PRIVATE_KEY=passphrase'
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
