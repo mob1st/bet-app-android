@@ -10,6 +10,7 @@ jobs:
   check:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
     - uses: actions/checkout@v3
@@ -31,7 +32,7 @@ jobs:
         restore-keys: ${{ runner.os }}-sonar
 
     - name: decrypt keys
-      run: chmod=+x ./keys/decrypt-secrets.sh
+      run: chmod +x ./keys/decrypt-secrets.sh
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
