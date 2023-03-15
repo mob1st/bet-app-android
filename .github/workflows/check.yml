@@ -45,6 +45,10 @@ jobs:
       if: steps.check_files.outputs.files_exists == 'true'
       run: echo "It exists !"
 
+    - name: File dont exists
+      if: steps.check_files.outputs.files_exists == 'false'
+      run: echo "It DONT exists !"
+
     - name: check code quality
       run: ./gradlew check
 
