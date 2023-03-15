@@ -32,7 +32,7 @@ jobs:
         restore-keys: ${{ runner.os }}-sonar
 
     - name: decrypt keys
-      run: sh keys/decrypt-secrets.sh
+      run: ./keys/decrypt-secrets.sh
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
