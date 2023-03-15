@@ -40,7 +40,7 @@ jobs:
     - name: decrypt google-services.json
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_ENCRYPT_KEY }}
-      run: sh keys/decrypt.sh
+      run: sh keys/decrypt-secrets.sh
         
     - name: Upload Code Coverage to SonarCloud
       env:
