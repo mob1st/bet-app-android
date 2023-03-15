@@ -30,17 +30,11 @@ jobs:
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
 
-    - name: Import GPG key
-      id: import_gpg
-      uses: crazy-max/ghaction-import-gpg@v5
-      with:
-        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-        passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
     - name: decrypt keys
+      run: ./keys/decrypt-secrets.sh
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-      run: sh keys/decrypt-secrets.sh
+
 
     - name: Upload Code Coverage to SonarCloud
       env:
