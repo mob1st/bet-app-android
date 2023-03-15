@@ -32,7 +32,7 @@ jobs:
         restore-keys: ${{ runner.os }}-sonar
 
     - name: decrypt keys
-      run: ./keys/decrypt-secrets.sh
+      run: gpg --quiet --batch --yes --decrypt --passphrase="$GPG_ENCRYPT_KEY" --output keys/google-services.gpg app/google-services.json
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
