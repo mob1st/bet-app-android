@@ -41,7 +41,7 @@ jobs:
       env:
         GPG_ENCRYPT_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       run: sh keys/decrypt-secrets.sh
-        
+
     - name: Upload Code Coverage to SonarCloud
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
