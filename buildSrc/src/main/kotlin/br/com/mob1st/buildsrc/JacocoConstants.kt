@@ -23,8 +23,8 @@ object JacocoConstants {
         "**/*Activity*.*",
         "**/*Fragment*.*",
         "**/*Initializer.*",
-        "**/ui/ds/**",
         "**/*Screen.*",
+        "**/ui/ds/**",
     )
 
     val limits = mapOf<String, Double>(
