@@ -112,6 +112,8 @@ dependencies {
 
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)
+    debugImplementation(libs.leakcanary.debug)
+    releaseImplementation(libs.leakcanary.release)
 
     ksp(libs.koin.compiler)
     ksp(libs.arrow.optics.compiler)
@@ -124,4 +126,5 @@ dependencies {
 
     androidTestImplementation(libs.bundles.android.test)
     androidTestImplementation(libs.compose.test)
+    androidTestImplementation(libs.leakcanary.test)
 }

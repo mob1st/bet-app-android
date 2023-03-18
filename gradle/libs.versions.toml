@@ -15,6 +15,7 @@ detekt = "1.22.0"
 ktlint = "0.48.2"
 kotlin-poet = "1.12.0"
 work-manager = "2.8.0"
+leakcanary = "2.10"
 
 [libraries]
 # androidx
@@ -42,6 +43,9 @@ compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "
 
 # accompanist
 accompanist-systemcontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompaninst" }
+leakcanary-debug = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+leakcanary-release = { module = "com.squareup.leakcanary:leakcanary-android-release", version.ref = "leakcanary" }
+leakcanary-test = { module = "com.squareup.leakcanary:leakcanary-android-instrumentation", version.ref = "leakcanary" }
 
 # coil
 coil = "io.coil-kt:coil-compose:2.2.2"
