@@ -45,6 +45,7 @@ compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "
 accompanist-systemcontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompaninst" }
 leakcanary-debug = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-release = { module = "com.squareup.leakcanary:leakcanary-android-release", version.ref = "leakcanary" }
+leakcanary-watcher = { module = "com.squareup.leakcanary:leakcanary-object-watcher-android", version.ref = "leakcanary" }
 leakcanary-test = { module = "com.squareup.leakcanary:leakcanary-android-instrumentation", version.ref = "leakcanary" }
 
 # coil

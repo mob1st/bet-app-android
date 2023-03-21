@@ -1,96 +1,49 @@
 @file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 
-import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
-
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
     alias(libs.plugins.google.ksp)
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
 }
 
 android {
-
-    namespace = "br.com.mob1st.bet"
+    namespace = "br.com.mob1st.bet.features.home.impl"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "br.com.mob1st.bet"
         minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            enableUnitTestCoverage = true
+        release {
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        getByName("debug") {
-            isMinifyEnabled = false
-            isDebuggable = true
-            configure<CrashlyticsExtension> {
-                // speeds up the build times
-                mappingFileUploadEnabled = false
-            }
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     buildFeatures {
         compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-
-    testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-        }
-    }
-
-    sourceSets.getByName("main") {
-        java.srcDir("src/main/java")
-        java.srcDir("src/main/kotlin")
-    }
-    sourceSets.getByName("test") {
-        java.srcDir("src/test/java")
-        java.srcDir("src/test/kotlin")
-    }
-
-    applicationVariants.configureEach {
-        kotlin.sourceSets {
-            getByName(name) {
-                kotlin.srcDir("build/generated/ksp/$name/kotlin")
-            }
-        }
-    }
 }
 
 dependencies {
-
     // bundles
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
@@ -99,23 +52,19 @@ dependencies {
     implementation(libs.bundles.koin)
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.serialization)
-    implementation(libs.bundles.arrow)
 
     // standalone
     implementation(libs.coil)
     implementation(libs.kotlin.collections)
     implementation(libs.timber)
 
-    // projects
     implementation(projects.morpheus.annotation)
-    implementation(projects.features.home.impl)
-
-    // debug only
+    implementation(libs.leakcanary.watcher)
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)
     debugImplementation(libs.leakcanary.debug)
+    releaseImplementation(libs.leakcanary.release)
 
-    // ksp
     ksp(libs.koin.compiler)
     ksp(libs.arrow.optics.compiler)
     ksp(projects.morpheus.processor)

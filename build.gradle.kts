@@ -65,6 +65,7 @@ subprojects {
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
         kotlinOptions.apply {
+            jvmTarget = "11"
             freeCompilerArgs = listOf("-Xcontext-receivers")
         }
     }
