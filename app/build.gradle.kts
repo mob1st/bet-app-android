@@ -31,8 +31,10 @@ android {
     }
 
     buildTypes {
+
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             enableUnitTestCoverage = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -46,6 +48,13 @@ android {
                 // speeds up the build times
                 mappingFileUploadEnabled = false
             }
+        }
+        create("benchmark") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            proguardFiles("benchmark-rules.pro")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
         }
     }
     compileOptions {
@@ -109,6 +118,8 @@ dependencies {
     // projects
     implementation(projects.morpheus.annotation)
     implementation(projects.features.home.impl)
+
+    implementation("androidx.profileinstaller:profileinstaller:1.3.0-rc01")
 
     // debug only
     debugImplementation(libs.compose.manifest)

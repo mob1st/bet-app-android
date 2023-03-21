@@ -55,7 +55,7 @@ subprojects {
     }
 
     tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
         reports {
             txt.required.set(false)
             xml.required.set(false)

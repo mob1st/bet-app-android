@@ -1,5 +1,6 @@
 package br.com.mob1st.bet.features.home.impl.presentation
 
+import androidx.activity.compose.ReportDrawn
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,4 +17,5 @@ fun HomePage() {
 @Composable
 private fun HomePagePreview() {
     HomePage()
+    ReportDrawn()
 }
