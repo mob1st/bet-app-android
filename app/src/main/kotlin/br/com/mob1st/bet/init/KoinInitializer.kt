@@ -15,7 +15,7 @@ class KoinInitializer : Initializer<KoinApplication> {
     override fun dependencies(): List<Class<out Initializer<*>>> {
         return listOf(
             CoilInitializer::class.java,
-            LeakInitializer::class.java
+            TimberInitializer::class.java
         )
     }
 }

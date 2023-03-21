@@ -59,14 +59,11 @@ dependencies {
     implementation(libs.timber)
 
     implementation(projects.morpheus.annotation)
-    implementation(libs.leakcanary.watcher)
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)
     debugImplementation(libs.leakcanary.debug)
-    releaseImplementation(libs.leakcanary.release)
 
     ksp(libs.koin.compiler)
-    ksp(libs.arrow.optics.compiler)
     ksp(projects.morpheus.processor)
 
     dokkaPlugin(libs.plugin.dokka.android)
