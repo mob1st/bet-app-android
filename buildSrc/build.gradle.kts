@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.plugin.gradle)
-    implementation(libs.plugin.kotlin)
+    compileOnly(libs.plugin.gradle)
+    compileOnly(libs.plugin.kotlin)
     compileOnly(gradleApi())
 }
