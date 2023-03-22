@@ -1,4 +1,4 @@
-import br.com.mob1st.buildsrc.JacocoConstantsKt
+import br.com.mob1st.buildsrc.jacoco.JacocoConstantsKt
 
 apply plugin: "org.sonarqube"
 

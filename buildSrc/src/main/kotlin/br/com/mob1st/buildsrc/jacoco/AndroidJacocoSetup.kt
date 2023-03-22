@@ -1,13 +1,8 @@
-package br.com.mob1st.buildsrc
+package br.com.mob1st.buildsrc.jacoco
 
-import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.gradle.api.Action
 import org.gradle.api.Project
-import org.gradle.api.tasks.TaskProvider
-import org.gradle.kotlin.dsl.register
-import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.jacoco.tasks.JacocoReport
-import java.util.Locale
 
 internal object AndroidJacocoSetup : Action<Project> {
 

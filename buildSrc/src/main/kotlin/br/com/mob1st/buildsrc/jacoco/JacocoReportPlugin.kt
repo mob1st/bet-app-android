@@ -1,4 +1,4 @@
-package br.com.mob1st.buildsrc
+package br.com.mob1st.buildsrc.jacoco
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

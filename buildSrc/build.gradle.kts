@@ -6,7 +6,7 @@ gradlePlugin {
     plugins {
         register("jacocoReports") {
             id = "jacocoReports"
-            implementationClass = "br.com.mob1st.buildsrc.JacocoReportPlugin"
+            implementationClass = "br.com.mob1st.buildsrc.jacoco.JacocoReportPlugin"
         }
     }
 }
