@@ -8,6 +8,10 @@ gradlePlugin {
             id = "jacocoReports"
             implementationClass = "br.com.mob1st.buildsrc.jacoco.JacocoReportPlugin"
         }
+        register("commonSetup") {
+            id = "commonSetup"
+            implementationClass = "br.com.mob1st.buildsrc.common.CommonSetupPlugin"
+        }
     }
 }
 

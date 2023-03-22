@@ -8,11 +8,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
 dependencies {
     implementation(projects.morpheus.annotation)
     implementation(libs.ksp.symbol.processing)
