@@ -11,11 +11,11 @@ fun HomePage() {
     Column {
         Text("Home")
     }
+    ReportDrawn()
 }
 
 @Preview
 @Composable
 private fun HomePagePreview() {
     HomePage()
-    ReportDrawn()
 }

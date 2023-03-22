@@ -88,3 +88,4 @@ app/google-services.json
 .DS_Store
 .idea/sonarlint/*
 .idea/sonarlint*
+.idea/androidTestResultsUserPreferences.xml
