@@ -6,10 +6,13 @@ import org.gradle.api.JavaVersion
 internal fun BaseExtension.defaultSetup() {
     compileSdkVersion(33)
     buildToolsVersion("33.0.1")
+
     defaultConfig {
         minSdk = AndroidProjectConfig.MIN_SDK
         targetSdk = AndroidProjectConfig.TARGET_SDK
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

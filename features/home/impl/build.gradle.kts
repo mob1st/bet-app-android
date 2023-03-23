@@ -6,29 +6,16 @@ plugins {
     alias(libs.plugins.google.ksp)
     id("kotlin-parcelize")
     id("kotlinx-serialization")
+    id("commonSetup")
 }
 
 android {
     namespace = "br.com.mob1st.bet.features.home.impl"
-    compileSdk = 33
 
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         compose = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
@@ -52,7 +39,6 @@ dependencies {
     implementation(projects.morpheus.annotation)
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)
-    debugImplementation(libs.leakcanary.debug)
 
     ksp(libs.koin.compiler)
     ksp(projects.morpheus.processor)

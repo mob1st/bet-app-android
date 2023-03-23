@@ -13,9 +13,8 @@ plugins {
 }
 
 android {
-
-    namespace = "br.com.mob1st.bet"
     compileSdk = 33
+    namespace = "br.com.mob1st.bet"
 
     defaultConfig {
         applicationId = "br.com.mob1st.bet"
@@ -24,14 +23,12 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
 
     buildTypes {
-
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -57,10 +54,6 @@ android {
             isDebuggable = false
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 
     buildFeatures {
         compose = true
@@ -78,15 +71,6 @@ android {
         unitTests.all {
             it.useJUnitPlatform()
         }
-    }
-
-    sourceSets.getByName("main") {
-        java.srcDir("src/main/java")
-        java.srcDir("src/main/kotlin")
-    }
-    sourceSets.getByName("test") {
-        java.srcDir("src/test/java")
-        java.srcDir("src/test/kotlin")
     }
 
     applicationVariants.configureEach {
@@ -114,12 +98,12 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.kotlin.collections)
     implementation(libs.timber)
+    implementation(libs.android.startup)
+    implementation(libs.android.profileinstaller)
 
     // projects
     implementation(projects.morpheus.annotation)
     implementation(projects.features.home.impl)
-
-    implementation("androidx.profileinstaller:profileinstaller:1.3.0-rc01")
 
     // debug only
     debugImplementation(libs.compose.manifest)

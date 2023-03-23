@@ -21,8 +21,11 @@ leakcanary = "2.10"
 # androidx
 android-core = "androidx.core:core-ktx:1.9.0"
 android-startup = "androidx.startup:startup-runtime:1.1.1"
-android-test = "androidx.test.ext:junit:1.1.5"
-espresso = "androidx.test.espresso:espresso-core:3.5.1"
+android-profileinstaller = "androidx.profileinstaller:profileinstaller:1.3.0-rc01"
+android-test-junit = "androidx.test.ext:junit:1.1.5"
+android-test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
+android-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
+android-test-macrobenchmark = "androidx.benchmark:benchmark-macro-junit4:1.2.0-alpha11"
 
 # lifecycle
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -102,8 +105,8 @@ plugin-dokka-android = { module = "org.jetbrains.dokka:android-documentation-plu
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
-android = ["android-core", "android-startup"]
-android-test = ["android-test", "espresso"]
+android = ["android-core"]
+android-test = ["android-test-junit", "android-test-espresso"]
 
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]
 koin = ["koin-android", "koin-compose", "koin-annotations"]
