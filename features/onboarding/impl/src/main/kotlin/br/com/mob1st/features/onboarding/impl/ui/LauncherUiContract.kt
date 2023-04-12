@@ -2,6 +2,7 @@ package br.com.mob1st.features.onboarding.impl.ui
 
 import br.com.mob1st.core.state.contracts.HelperClickManager
 import br.com.mob1st.core.state.contracts.Navigable
+import br.com.mob1st.core.state.contracts.SideEffectManager
 import br.com.mob1st.core.state.contracts.StateOutputManager
 import br.com.mob1st.morpheus.annotation.ConsumableEffect
 import br.com.mob1st.morpheus.annotation.Morpheus
@@ -12,7 +13,7 @@ import javax.annotation.concurrent.Immutable
  */
 interface LauncherUiContract :
     StateOutputManager<LauncherUiState>,
-    // SideEffectManager<LauncherUiStateEffectKey>,
+    SideEffectManager<LauncherUiStateEffectKey>,
     HelperClickManager
 
 /**

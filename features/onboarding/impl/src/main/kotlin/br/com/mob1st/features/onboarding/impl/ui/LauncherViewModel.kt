@@ -1,8 +1,6 @@
 package br.com.mob1st.features.onboarding.impl.ui
 
 import androidx.lifecycle.ViewModel
-import br.com.mob1st.bet.features.onboarding.impl.ui.LauncherUiStateEffectKey
-import br.com.mob1st.bet.features.onboarding.impl.ui.clearEffect
 import br.com.mob1st.core.state.async.Async
 import br.com.mob1st.core.state.async.launch
 import br.com.mob1st.core.state.extensions.collectUpdate
