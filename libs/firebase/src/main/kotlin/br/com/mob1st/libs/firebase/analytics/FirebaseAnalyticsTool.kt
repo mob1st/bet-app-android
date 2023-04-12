@@ -16,4 +16,5 @@ class FirebaseAnalyticsTool(private val firebaseAnalytics: FirebaseAnalytics) : 
     }
 }
 
+@Suppress("SpreadOperator")
 private fun Map<String, Any?>.toBundle(): Bundle = bundleOf(*this.toList().toTypedArray())
