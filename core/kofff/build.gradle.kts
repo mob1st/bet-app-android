@@ -26,8 +26,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     sourceSets.getByName("main") {
@@ -45,7 +45,7 @@ dependencies {
     implementation(libs.workmanager.ktx)
     implementation(libs.timber)
 
-    testImplementation(libs.kotest)
+    testImplementation(libs.kotest.runner)
     androidTestImplementation(libs.bundles.android.test)
     androidTestImplementation(libs.workmanager.test)
 }

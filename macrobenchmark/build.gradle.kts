@@ -8,16 +8,16 @@ plugins {
 }
 
 android {
-    namespace = "br.com.mob1st.bet.macrobenchmark"
+    namespace = "br.com.mob1st.macrobenchmark"
     compileSdk = 33
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
 
     defaultConfig {

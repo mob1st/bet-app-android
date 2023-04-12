@@ -13,7 +13,7 @@ dependencies {
     implementation(libs.ksp.symbol.processing)
     implementation(libs.kotlin.reflection)
     implementation(libs.bundles.kotlin.poet)
-    testImplementation(libs.kotest)
+    testImplementation(libs.kotest.runner)
     testImplementation(libs.kotlin.compiling.test)
     testImplementation(projects.morpheus.annotation)
 }

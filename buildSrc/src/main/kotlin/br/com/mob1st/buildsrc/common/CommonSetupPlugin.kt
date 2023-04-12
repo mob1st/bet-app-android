@@ -8,7 +8,8 @@ import com.android.build.gradle.TestExtension
 import com.android.build.gradle.TestPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalog
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper
 import org.gradle.kotlin.dsl.getByType
 
@@ -28,6 +29,10 @@ class CommonSetupPlugin : Plugin<Project> {
                     target.logger.info("Configuring ${target.path} as an Android Test module")
                     target.configureAndroidTest()
                 }
+                is KotlinBasePluginWrapper -> {
+                    target.logger.info("Configuring ${target.path} as a Kotlin module")
+                    target.configureKotlin()
+                }
             }
         }
     }
@@ -44,4 +49,11 @@ class CommonSetupPlugin : Plugin<Project> {
         extensions.getByType<TestExtension>().defaultSetup()
     }
 
+    private fun Project.configureKotlin() {
+        extensions.getByType<JavaPluginExtension>().apply {
+            toolchain {
+                JavaLanguageVersion.of(17)
+            }
+        }
+    }
 }

@@ -16,6 +16,7 @@ ktlint = "0.48.2"
 kotlin-poet = "1.12.0"
 work-manager = "2.8.0"
 leakcanary = "2.10"
+mockk = "1.13.4"
 
 [libraries]
 # androidx
@@ -65,12 +66,13 @@ kotlin-reflection = { module = "org.jetbrains.kotlin:kotlin-reflect", version.re
 kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" }
 kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }
 
-# firebase & play services ('com.google.firebase:firebase-bom:30.3.1')
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version = "18.3.5"}
-firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version = "21.2.0" }
-firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version = "24.4.3" }
-firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version = "21.1.0" }
-firebase-config = { module = "com.google.firebase:firebase-config-ktx", version = "21.2.1" }
+# firebase & play services
+firebase-bom = "com.google.firebase:firebase-bom:31.3.0"
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
 kotlin-playservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
 
 #work manager
@@ -92,8 +94,13 @@ serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
 kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 
 # unit tests
-kotest = "io.kotest:kotest-runner-junit5:5.5.5"
+kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotlin-compiling-test = "com.github.tschuchortdev:kotlin-compile-testing-ksp:1.5.0"
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+mockk-kotlin = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
+mockk-agent = { module = "io.mockk:mockk-agent-jvm", version.ref = "mockk" }
 
 # classpath plugins
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
@@ -107,6 +114,8 @@ plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 [bundles]
 android = ["android-core"]
 android-test = ["android-test-junit", "android-test-espresso"]
+unittest-kotlin = ["kotest-runner", "mockk-kotlin", "kotlin-test"]
+unittest-android = ["kotest-runner", "kotest-assertions", "mockk-android", "mockk-agent", "kotlin-reflection", "kotlin-test"]
 
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]
 koin = ["koin-android", "koin-compose", "koin-annotations"]

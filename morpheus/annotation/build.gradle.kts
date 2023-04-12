@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    testImplementation(libs.kotest)
+    testImplementation(libs.kotest.runner)
 }
 
 tasks.withType<Test> {

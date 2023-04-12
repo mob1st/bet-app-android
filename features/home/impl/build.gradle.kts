@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "br.com.mob1st.bet.features.home.impl"
+    namespace = "br.com.mob1st.features.home.impl"
 
     buildFeatures {
         compose = true
@@ -26,6 +26,7 @@ dependencies {
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
     implementation(libs.bundles.compose)
+    implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.lifecycle)
@@ -45,7 +46,7 @@ dependencies {
 
     dokkaPlugin(libs.plugin.dokka.android)
 
-    testImplementation(libs.kotest)
+    testImplementation(libs.kotest.runner)
     testImplementation(libs.koin.test)
 
     androidTestImplementation(libs.bundles.android.test)

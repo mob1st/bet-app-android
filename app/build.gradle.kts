@@ -67,12 +67,6 @@ android {
         }
     }
 
-    testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-        }
-    }
-
     applicationVariants.configureEach {
         kotlin.sourceSets {
             getByName(name) {
@@ -83,6 +77,8 @@ android {
 }
 
 dependencies {
+
+    implementation(platform(libs.firebase.bom))
 
     // bundles
     implementation(libs.bundles.accompanist)
@@ -117,7 +113,7 @@ dependencies {
 
     dokkaPlugin(libs.plugin.dokka.android)
 
-    testImplementation(libs.kotest)
+    testImplementation(libs.kotest.runner)
     testImplementation(libs.koin.test)
 
     androidTestImplementation(libs.bundles.android.test)

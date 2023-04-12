@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "br.com.mob1st.bet.features.onboarding.impl"
+    namespace = "br.com.mob1st.features.onboarding.impl"
     buildFeatures {
         compose = true
     }
@@ -24,6 +24,7 @@ dependencies {
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
     implementation(libs.bundles.compose)
+    implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.lifecycle)
@@ -34,6 +35,7 @@ dependencies {
     implementation(libs.kotlin.collections)
     implementation(libs.timber)
 
+    implementation(projects.core.state)
     implementation(projects.morpheus.annotation)
 
     debugImplementation(libs.compose.manifest)
@@ -44,7 +46,7 @@ dependencies {
 
     dokkaPlugin(libs.plugin.dokka.android)
 
-    testImplementation(libs.kotest)
+    testImplementation(libs.kotest.runner)
     testImplementation(libs.koin.test)
 
     androidTestImplementation(libs.bundles.android.test)

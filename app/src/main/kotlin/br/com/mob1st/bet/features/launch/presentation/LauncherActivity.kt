@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import br.com.mob1st.bet.core.ui.compose.setThemedContent
 import br.com.mob1st.bet.core.ui.ds.molecule.SystemBarProperties
 import br.com.mob1st.bet.core.ui.ds.molecule.SystemBars
-import br.com.mob1st.bet.features.home.impl.presentation.HomePage
+import br.com.mob1st.features.home.impl.presentation.HomePage
 
 class LauncherActivity : ComponentActivity() {
 

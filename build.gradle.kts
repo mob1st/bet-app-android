@@ -18,8 +18,6 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka) apply false
     alias(libs.plugins.sonarqube) apply false
-    // alias(libs.plugins.android.application) apply false
-    // alias(libs.plugins.android.library) apply false
 }
 
 apply(plugin = "jacocoReports")
@@ -57,7 +55,7 @@ subprojects {
     }
 
     tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
-        jvmTarget = "17"
+        jvmTarget = "11"
         reports {
             txt.required.set(false)
             xml.required.set(false)
@@ -67,7 +65,7 @@ subprojects {
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
         kotlinOptions.apply {
-            jvmTarget = "17"
+            jvmTarget = "11"
             freeCompilerArgs = listOf("-Xcontext-receivers")
         }
     }
