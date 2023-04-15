@@ -42,11 +42,16 @@ class CommonSetupPlugin : Plugin<Project> {
     }
 
     private fun Project.configureAndroidLibrary() {
-        extensions.getByType<LibraryExtension>().defaultSetup()
+        extensions.getByType<LibraryExtension>().apply {
+            defaultSetup()
+            librarySetup(this)
+        }
     }
 
     private fun Project.configureAndroidTest() {
-        extensions.getByType<TestExtension>().defaultSetup()
+        extensions.getByType<TestExtension>().apply {
+            defaultSetup()
+        }
     }
 
     private fun Project.configureKotlin() {

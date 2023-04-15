@@ -11,12 +11,14 @@ android {
 }
 
 dependencies {
-    implementation(libs.android.core)
-    implementation(libs.timber)
-    implementation(libs.serialization.json)
-
-    implementation(libs.bundles.lifecycle)
     api(platform(libs.firebase.bom))
     api(libs.bundles.firebase)
     api(projects.core.observability)
+
+    implementation(libs.android.core)
+    implementation(libs.android.startup)
+    implementation(libs.serialization.json)
+    implementation(libs.timber)
+
+    implementation(libs.bundles.lifecycle)
 }

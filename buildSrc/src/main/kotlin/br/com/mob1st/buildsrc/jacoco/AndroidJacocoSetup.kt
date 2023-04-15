@@ -6,8 +6,6 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 
 internal object AndroidJacocoSetup : Action<Project> {
 
-
-
     override fun execute(project: Project) {
         project.logger.info("Applying set up for Android module to ${project.path}")
         project.tasks.register("jacocoTestReport", JacocoReport::class.java) {
