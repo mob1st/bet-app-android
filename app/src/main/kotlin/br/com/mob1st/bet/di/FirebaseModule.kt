@@ -3,9 +3,13 @@ package br.com.mob1st.bet.di
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
 import br.com.mob1st.bet.core.firebase.CrashlyticsTool
 import br.com.mob1st.bet.core.firebase.GoogleAnalyticsTool
-import br.com.mob1st.bet.core.firebase.firestoreSettings
-import br.com.mob1st.bet.core.firebase.remoteConfigSettings
 import br.com.mob1st.bet.core.logs.CrashReportingTool
+import br.com.mob1st.core.observability.crashes.CrashReporter
+import br.com.mob1st.core.observability.events.AnalyticsReporter
+import br.com.mob1st.libs.firebase.analytics.FirebaseAnalyticsReporter
+import br.com.mob1st.libs.firebase.crashlytics.FirebaseCrashReporter
+import br.com.mob1st.libs.firebase.firestore.firestoreSettings
+import br.com.mob1st.libs.firebase.remoteconfig.remoteConfigSettings
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.ktx.crashlytics
@@ -32,14 +36,17 @@ val firebaseModule = module {
     }
     single {
         Firebase.firestore.also {
-            it.firestoreSettings = firestoreSettings
+            it.firestoreSettings = firestoreSettings()
         }
     }
     single {
         Firebase.remoteConfig.also {
-            it.setConfigSettingsAsync(remoteConfigSettings)
+            it.setConfigSettingsAsync(remoteConfigSettings())
         }
     }
+    factoryOf(::FirebaseAnalyticsReporter).bind<AnalyticsReporter>()
+    factoryOf(::FirebaseCrashReporter).bind<CrashReporter>()
+
     factoryOf(::GoogleAnalyticsTool).bind<AnalyticsTool>()
     factoryOf(::CrashlyticsTool).bind<CrashReportingTool>()
 }

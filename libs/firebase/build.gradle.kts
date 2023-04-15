@@ -18,6 +18,5 @@ dependencies {
     implementation(libs.bundles.lifecycle)
     api(platform(libs.firebase.bom))
     api(libs.bundles.firebase)
-
-    implementation(projects.core.observability)
+    api(projects.core.observability)
 }

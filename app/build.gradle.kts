@@ -77,14 +77,10 @@ android {
 }
 
 dependencies {
-
-    implementation(platform(libs.firebase.bom))
-
     // bundles
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
     implementation(libs.bundles.compose)
-    implementation(libs.bundles.firebase)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.serialization)
@@ -100,6 +96,7 @@ dependencies {
     // projects
     implementation(projects.morpheus.annotation)
     implementation(projects.features.home.impl)
+    implementation(projects.libs.firebase)
 
     // debug only
     debugImplementation(libs.compose.manifest)
