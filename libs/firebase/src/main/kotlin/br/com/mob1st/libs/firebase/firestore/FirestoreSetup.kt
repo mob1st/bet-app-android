@@ -5,6 +5,6 @@ import com.google.firebase.firestore.ktx.firestoreSettings
 /**
  * Firestore settings.
  */
-val firestoreSettings = firestoreSettings {
+fun firestoreSettings() = firestoreSettings {
     isPersistenceEnabled = false
 }

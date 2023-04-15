@@ -38,7 +38,8 @@ object JacocoConstants {
 
     val coverageIgnoredModules = mutableSetOf(
         ":testing:test-utils",
-        ":morpheus:annotation"
+        ":morpheus:annotation",
+        ":libs:firebase"
     )
     fun excludedFiles(): List<String> {
         return excludedFiles.toList()

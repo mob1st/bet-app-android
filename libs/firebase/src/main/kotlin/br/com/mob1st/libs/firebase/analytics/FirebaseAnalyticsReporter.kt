@@ -9,12 +9,12 @@ import com.google.firebase.analytics.FirebaseAnalytics
 /**
  * Analytics tool implementation for Firebase.
  */
-class FirebaseAnalyticsTool(private val firebaseAnalytics: FirebaseAnalytics) : AnalyticsReporter {
+class FirebaseAnalyticsReporter(private val firebaseAnalytics: FirebaseAnalytics) : AnalyticsReporter {
 
     override fun log(event: AnalyticsEvent) {
         firebaseAnalytics.logEvent(event.name, event.logInfo.toBundle())
     }
-}
 
-@Suppress("SpreadOperator")
-private fun Map<String, Any?>.toBundle(): Bundle = bundleOf(*this.toList().toTypedArray())
+    @Suppress("SpreadOperator")
+    private fun Map<String, Any?>.toBundle(): Bundle = bundleOf(*this.toList().toTypedArray())
+}

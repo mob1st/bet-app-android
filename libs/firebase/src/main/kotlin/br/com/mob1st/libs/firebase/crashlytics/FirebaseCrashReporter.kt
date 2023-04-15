@@ -1,20 +1,20 @@
 package br.com.mob1st.libs.firebase.crashlytics
 
-import br.com.mob1st.core.observability.crashes.CrashReportingTool
+import br.com.mob1st.core.observability.crashes.CrashReporter
 import br.com.mob1st.core.observability.crashes.getRootLogProperties
 import br.com.mob1st.core.observability.debug.Debuggable
 import com.google.firebase.crashlytics.CustomKeysAndValues
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale as Locale1
+import java.util.Locale
 
 /**
  * Crash reporting tool implementation for Firebase Crashlytics.
  */
-class FirebaseCrashlyticsReportingTool(
+class FirebaseCrashReporter(
     private val crashlytics: FirebaseCrashlytics,
-) : CrashReportingTool {
+) : CrashReporter {
 
     override fun crash(throwable: Throwable) {
         val logProperties = throwable.getRootLogProperties()
@@ -36,7 +36,7 @@ private fun Map<String, Any?>.toCustomKeyValues(
             is Float -> builder.putFloat(key, value)
             is Boolean -> builder.putBoolean(key, value)
             is Date -> {
-                val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale1.getDefault())
+                val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
                 builder.putString(key, sdf.format(value))
             }
             is Debuggable -> value.logInfo.toCustomKeyValues(builder)

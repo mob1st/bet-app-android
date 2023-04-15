@@ -16,11 +16,8 @@ dependencies {
     implementation(libs.serialization.json)
 
     implementation(libs.bundles.lifecycle)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.bundles.firebase)
+    api(platform(libs.firebase.bom))
+    api(libs.bundles.firebase)
 
     implementation(projects.core.observability)
-
-    testImplementation(libs.bundles.unittest.android)
-    testImplementation(projects.tests.unit)
 }

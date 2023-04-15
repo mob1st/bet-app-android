@@ -96,6 +96,7 @@ kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 # unit tests
 kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotlin-compiling-test = "com.github.tschuchortdev:kotlin-compile-testing-ksp:1.5.0"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 mockk-kotlin = { module = "io.mockk:mockk", version.ref = "mockk" }
@@ -114,8 +115,8 @@ plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 [bundles]
 android = ["android-core"]
 android-test = ["android-test-junit", "android-test-espresso"]
-unittest-kotlin = ["kotest-runner", "mockk-kotlin", "kotlin-test"]
-unittest-android = ["kotest-runner", "kotest-assertions", "mockk-android", "mockk-agent", "kotlin-reflection", "kotlin-test"]
+unittest-kotlin = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-kotlin", "kotlin-test"]
+unittest-android = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-android", "mockk-agent", "kotlin-reflection", "kotlin-test"]
 
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]
 koin = ["koin-android", "koin-compose", "koin-annotations"]
