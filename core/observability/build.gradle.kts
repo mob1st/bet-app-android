@@ -2,6 +2,7 @@
 
 plugins {
     id(libs.plugins.kotlin.jvm.get().pluginId)
+    id("commonSetup")
 }
 
 tasks.withType<Test> {

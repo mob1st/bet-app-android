@@ -2,18 +2,11 @@
 
 plugins {
     id(libs.plugins.kotlin.jvm.get().pluginId)
+    id("commonSetup")
 }
 
 dependencies {
     testImplementation(libs.kotest.runner)
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
 }
 
 tasks.withType<Test> {
