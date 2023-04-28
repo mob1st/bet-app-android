@@ -3,6 +3,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.google.ksp)
     id("commonSetup")
 }
 
@@ -21,4 +22,6 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.bundles.lifecycle)
+
+    ksp(libs.koin.compiler)
 }

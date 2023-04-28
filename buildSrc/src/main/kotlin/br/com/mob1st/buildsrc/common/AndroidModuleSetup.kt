@@ -22,8 +22,8 @@ internal fun BaseExtension.defaultSetup() {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = AndroidProjectConfig.JAVA_VERSION
+        targetCompatibility = AndroidProjectConfig.JAVA_VERSION
     }
 
     testOptions {

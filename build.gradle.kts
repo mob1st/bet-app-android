@@ -55,7 +55,7 @@ subprojects {
     }
 
     tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
-        jvmTarget = "11"
+        jvmTarget = "17"
         reports {
             txt.required.set(false)
             xml.required.set(false)
@@ -65,7 +65,7 @@ subprojects {
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
         kotlinOptions.apply {
-            jvmTarget = "11"
+            jvmTarget = "17"
             freeCompilerArgs = listOf("-Xcontext-receivers")
         }
     }
