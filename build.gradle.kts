@@ -40,7 +40,7 @@ subprojects {
         android.set(true)
         enableExperimentalRules.set(true)
         ignoreFailures.set(false)
-        version.set(rootProject.libs.versions.ktlint.get())
+
         filter {
             exclude("**/generated/**", "**/build/**")
         }

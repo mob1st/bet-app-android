@@ -15,9 +15,7 @@ class MorpheusProcessor(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
 ) : SymbolProcessor {
-    override fun process(
-        resolver: Resolver,
-    ): List<KSAnnotated> {
+    override fun process(resolver: Resolver): List<KSAnnotated> {
         logger.info("Morpheus processor started")
         val filter = AnnotationFilter(resolver, logger)
         val symbols = filter()

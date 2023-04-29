@@ -17,10 +17,7 @@ internal class ConsumeExtensionCreator(
     private val enumName: String,
 ) {
 
-    operator fun invoke(
-        propertyDeclaration: KSPropertyDeclaration,
-        enumConstant: String,
-    ): FunSpec {
+    operator fun invoke(propertyDeclaration: KSPropertyDeclaration, enumConstant: String): FunSpec {
         val propName = propertyDeclaration.simpleName.asString()
         logger.info("creating consume extension for property $propName")
         val extensionName = "consume${propName.upperCaseFirstChar()}"

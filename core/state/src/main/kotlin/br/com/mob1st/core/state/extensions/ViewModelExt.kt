@@ -17,9 +17,7 @@ import timber.log.Timber
  * Calls the [MutableSharedFlow.emit] method using the [viewModelScope] to create a new coroutine.
  */
 context(ViewModel)
-fun <T> MutableSharedFlow<T>.launchEmit(
-    value: T,
-): Job = viewModelScope.launch {
+fun <T> MutableSharedFlow<T>.launchEmit(value: T): Job = viewModelScope.launch {
     emit(value)
 }
 

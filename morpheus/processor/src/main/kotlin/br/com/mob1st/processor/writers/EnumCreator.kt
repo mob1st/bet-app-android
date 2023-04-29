@@ -16,9 +16,7 @@ internal class EnumCreator(
         logger.info("creating enum $enumName")
     }
 
-    fun addConstant(
-        propertyDeclaration: KSPropertyDeclaration,
-    ): String {
+    fun addConstant(propertyDeclaration: KSPropertyDeclaration): String {
         val propName = propertyDeclaration.simpleName.asString()
         logger.info("creating enum constant for property $propName")
         val constant = propName.upperCaseFirstChar()

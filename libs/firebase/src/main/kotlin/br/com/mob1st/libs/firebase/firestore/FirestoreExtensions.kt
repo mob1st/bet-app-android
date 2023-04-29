@@ -34,10 +34,7 @@ val defaultJson = Json {
  * @param json the json serializer
  * @param durationInMillis the timeout duration in milliseconds
  */
-suspend inline fun <reified T> Query.fetchFirst(
-    json: Json = defaultJson,
-    durationInMillis: Long = TIMEOUT,
-): T {
+suspend inline fun <reified T> Query.fetchFirst(json: Json = defaultJson, durationInMillis: Long = TIMEOUT): T {
     return get().awaitWithTimeout(durationInMillis).first().let { doc ->
         val jsonObj = doc.asJson()
         json.decodeFromJsonElement(jsonObj)
@@ -51,10 +48,7 @@ suspend inline fun <reified T> Query.fetchFirst(
  * @param json the json serializer
  * @param durationInMillis the timeout duration in milliseconds
  */
-suspend inline fun <reified T> Query.fetchAll(
-    json: Json = defaultJson,
-    durationInMillis: Long = TIMEOUT,
-): List<T> {
+suspend inline fun <reified T> Query.fetchAll(json: Json = defaultJson, durationInMillis: Long = TIMEOUT): List<T> {
     return get().awaitWithTimeout(durationInMillis).map { doc ->
         val jsonObj = doc.asJson()
         json.decodeFromJsonElement(jsonObj)

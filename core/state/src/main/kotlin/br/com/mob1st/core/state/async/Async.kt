@@ -105,9 +105,7 @@ fun <O> Async<Unit, O>.launch(): Job = launch(Unit)
  * @param source provides the [Flow] that will be executed when the action is triggered
  */
 @Suppress("FunctionName")
-fun <O> ViewModel.Async(
-    source: () -> Flow<O>,
-): Async<Unit, O> {
+fun <O> ViewModel.Async(source: () -> Flow<O>): Async<Unit, O> {
     return Async<Unit, O> { source() }
 }
 
@@ -119,8 +117,6 @@ fun <O> ViewModel.Async(
  * @param source provides the [Flow] that will be executed when the action is triggered
  */
 @Suppress("FunctionName")
-fun <I, O> ViewModel.Async(
-    source: (input: I) -> Flow<O>,
-): Async<I, O> {
+fun <I, O> ViewModel.Async(source: (input: I) -> Flow<O>): Async<I, O> {
     return AsyncImpl(viewModelScope, source)
 }

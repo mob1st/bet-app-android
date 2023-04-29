@@ -64,9 +64,7 @@ abstract class SyncWorker(
     }
 }
 
-fun Context.launchSyncWorker(
-    workRequest: OneTimeWorkRequest = SyncWorker.workRequest(),
-) = WorkManager
+fun Context.launchSyncWorker(workRequest: OneTimeWorkRequest = SyncWorker.workRequest()) = WorkManager
     .getInstance(this)
     .enqueueUniqueWork(
         "aaa",
