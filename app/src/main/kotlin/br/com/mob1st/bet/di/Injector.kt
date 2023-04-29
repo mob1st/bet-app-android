@@ -1,6 +1,7 @@
 package br.com.mob1st.bet.di
 
 import android.content.Context
+import br.com.mob1st.libs.firebase.dependencies.FirebaseComponent
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.KoinApplication
@@ -16,6 +17,8 @@ object Injector {
             modules(
                 // core module
                 firebaseModule,
+                FirebaseComponent().module,
+
                 coroutinesModule,
                 timberModule,
                 serializationModule,

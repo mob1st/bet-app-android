@@ -5,6 +5,7 @@ import br.com.mob1st.core.observability.crashes.getRootLogProperties
 import br.com.mob1st.core.observability.debug.Debuggable
 import com.google.firebase.crashlytics.CustomKeysAndValues
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import org.koin.core.annotation.Factory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -12,6 +13,7 @@ import java.util.Locale
 /**
  * Crash reporting tool implementation for Firebase Crashlytics.
  */
+@Factory
 class FirebaseCrashReporter(
     private val crashlytics: FirebaseCrashlytics,
 ) : CrashReporter {
