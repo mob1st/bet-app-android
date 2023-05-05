@@ -20,8 +20,8 @@ dependencies {
     implementation(libs.android.startup)
     implementation(libs.koin.annotations)
     implementation(libs.koin.android)
-    implementation(libs.serialization.json)
     implementation(libs.timber)
+    implementation(libs.kotlin.serialization.json)
 
     implementation(libs.bundles.lifecycle)
 

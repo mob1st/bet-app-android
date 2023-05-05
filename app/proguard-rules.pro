@@ -45,3 +45,9 @@
     public static <1> INSTANCE;
     kotlinx.serialization.KSerializer serializer(...);
 }
+
+# OkHttp 3 rules
+-dontwarn org.bouncycastle.jsse.**
+-dontwarn org.conscrypt.**
+-dontwarn org.openjsse.javax.net.ssl.**
+-dontwarn org.openjsse.net.ssl.**

@@ -87,11 +87,11 @@ arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
 arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
 
-# serialization
-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
-
-# collections
+# kotlin
 kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0"
+kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+
 
 # unit tests
 kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
@@ -141,8 +141,6 @@ firebase = [
 ]
 
 arrow = ["arrow-core", "arrow-optics"]
-
-serialization = ["serialization-json"]
 
 kotlin-poet = ["kotlin-poet", "kotlin-poet-ksp"]
 

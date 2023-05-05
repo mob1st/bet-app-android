@@ -30,7 +30,6 @@ dependencies {
     implementation(libs.bundles.firebase)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.lifecycle)
-    implementation(libs.bundles.serialization)
 
     // standalone
     implementation(libs.coil)

@@ -94,7 +94,6 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.lifecycle)
-    implementation(libs.bundles.serialization)
     implementation(libs.bundles.arrow)
 
     // standalone
@@ -103,6 +102,7 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.android.startup)
     implementation(libs.android.profileinstaller)
+    implementation(libs.kotlin.serialization.json)
 
     // projects
     implementation(projects.morpheus.annotation)

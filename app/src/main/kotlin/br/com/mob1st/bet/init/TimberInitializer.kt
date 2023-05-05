@@ -5,6 +5,8 @@ import androidx.startup.Initializer
 import br.com.mob1st.bet.BuildConfig
 import br.com.mob1st.bet.core.firebase.CrashlyticsTool
 import br.com.mob1st.bet.core.timber.CrashReportingTree
+import br.com.mob1st.libs.firebase.crashlytics.FirebaseCrashReporter
+import br.com.mob1st.libs.firebase.crashlytics.FirebaseTimberTree
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
@@ -13,8 +15,7 @@ class TimberInitializer : Initializer<Timber.Forest> {
         return if (BuildConfig.DEBUG) {
             Timber.DebugTree()
         } else {
-            val crt = CrashlyticsTool(FirebaseCrashlytics.getInstance())
-            CrashReportingTree(crt)
+            FirebaseTimberTree()
         }.let {
             Timber.plant(it)
             Timber
