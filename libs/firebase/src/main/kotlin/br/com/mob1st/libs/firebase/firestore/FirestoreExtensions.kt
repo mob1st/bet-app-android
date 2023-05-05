@@ -6,7 +6,6 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -18,23 +17,13 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 /**
- * Default json serializer for firestore
- */
-@OptIn(ExperimentalSerializationApi::class)
-val defaultJson = Json {
-    ignoreUnknownKeys = true
-    explicitNulls = false
-    prettyPrint = true
-}
-
-/**
  * Run the query and uses json serialization to return the first result as a [T] object.
  *
  * Useful to work with Firestore nested objects
  * @param json the json serializer
  * @param durationInMillis the timeout duration in milliseconds
  */
-suspend inline fun <reified T> Query.fetchFirst(json: Json = defaultJson, durationInMillis: Long = TIMEOUT): T {
+suspend inline fun <reified T> Query.fetchFirst(json: Json, durationInMillis: Long = TIMEOUT): T {
     return get().awaitWithTimeout(durationInMillis).first().let { doc ->
         val jsonObj = doc.asJson()
         json.decodeFromJsonElement(jsonObj)
@@ -48,7 +37,7 @@ suspend inline fun <reified T> Query.fetchFirst(json: Json = defaultJson, durati
  * @param json the json serializer
  * @param durationInMillis the timeout duration in milliseconds
  */
-suspend inline fun <reified T> Query.fetchAll(json: Json = defaultJson, durationInMillis: Long = TIMEOUT): List<T> {
+suspend inline fun <reified T> Query.fetchAll(json: Json, durationInMillis: Long = TIMEOUT): List<T> {
     return get().awaitWithTimeout(durationInMillis).map { doc ->
         val jsonObj = doc.asJson()
         json.decodeFromJsonElement(jsonObj)

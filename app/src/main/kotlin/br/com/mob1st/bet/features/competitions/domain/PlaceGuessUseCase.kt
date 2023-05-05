@@ -1,12 +1,12 @@
 package br.com.mob1st.bet.features.competitions.domain
 
 import br.com.mob1st.bet.core.analytics.AnalyticsTool
-import br.com.mob1st.bet.core.coroutines.AppScopeProvider
 import br.com.mob1st.bet.core.logs.Debuggable
 import br.com.mob1st.bet.core.logs.Logger
 import br.com.mob1st.bet.features.profile.domain.LoggedOut
 import br.com.mob1st.bet.features.profile.domain.User
 import br.com.mob1st.bet.features.profile.domain.UserRepository
+import br.com.mob1st.core.kotlinx.coroutines.AppScopeProvider
 import kotlinx.coroutines.launch
 import org.koin.core.annotation.Factory
 

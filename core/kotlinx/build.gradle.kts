@@ -10,6 +10,8 @@ tasks.withType<Test> {
 }
 
 dependencies {
-    implementation(libs.kotlin.collections)
+    api(libs.kotlin.collections)
+    api(libs.kotlin.coroutines)
+    api(libs.kotlin.serialization.json)
     testImplementation(libs.bundles.unittest.kotlin)
 }

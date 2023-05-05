@@ -108,6 +108,7 @@ dependencies {
     implementation(projects.morpheus.annotation)
     implementation(projects.features.home.impl)
     implementation(projects.libs.firebase)
+    implementation(projects.core.kotlinx)
 
     // debug only
     debugImplementation(libs.compose.manifest)

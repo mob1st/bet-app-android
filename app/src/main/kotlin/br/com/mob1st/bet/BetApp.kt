@@ -1,7 +1,7 @@
 package br.com.mob1st.bet
 
 import android.app.Application
-import br.com.mob1st.bet.core.coroutines.AppScopeProvider
+import br.com.mob1st.core.kotlinx.coroutines.AppScopeProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
