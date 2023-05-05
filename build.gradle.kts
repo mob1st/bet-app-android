@@ -90,7 +90,7 @@ val installGitHook by tasks.registering(Copy::class) {
     group = "utils"
     description = "Adding githook to local working copy, this must be run manually"
     dependsOn(deletePreviousGitHook)
-    from("${rootProject.rootDir}/hooks/pre-commit.sh", "${rootProject.rootDir}/hooks/pre-push.sh")
+    from("${rootProject.rootDir}/hooks/pre-commit.sh")
     into("${rootProject.rootDir}/.git/hooks")
     rename {
         it.replace(".sh", "")
