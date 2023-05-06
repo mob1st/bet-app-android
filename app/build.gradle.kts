@@ -95,6 +95,8 @@ dependencies {
     implementation(libs.bundles.koin)
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.arrow)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.bundles.firebase)
 
     // standalone
     implementation(libs.coil)

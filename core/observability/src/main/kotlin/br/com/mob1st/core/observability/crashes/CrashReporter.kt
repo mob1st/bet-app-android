@@ -9,7 +9,6 @@ interface CrashReporter {
 
     /**
      * Log a crash in the reporting tool.
-     * Prefer to use [DebuggableException] in order to provide more context to the logs
      */
     fun crash(throwable: Throwable)
 }

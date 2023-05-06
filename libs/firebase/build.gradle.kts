@@ -12,9 +12,9 @@ android {
 }
 
 dependencies {
-    api(platform(libs.firebase.bom))
-    api(libs.bundles.firebase)
     api(projects.core.observability)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.bundles.firebase)
 
     implementation(libs.android.core)
     implementation(libs.android.startup)

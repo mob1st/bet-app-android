@@ -4,6 +4,7 @@ import br.com.mob1st.core.state.contracts.HelperClickManager
 import br.com.mob1st.core.state.contracts.Navigable
 import br.com.mob1st.core.state.contracts.SideEffectManager
 import br.com.mob1st.core.state.contracts.StateOutputManager
+import br.com.mob1st.features.onboarding.impl.domain.SplashDestination
 import br.com.mob1st.morpheus.annotation.ConsumableEffect
 import br.com.mob1st.morpheus.annotation.Morpheus
 import javax.annotation.concurrent.Immutable
@@ -27,24 +28,7 @@ interface LauncherUiContract :
 data class LauncherUiState(
     val isLoading: Boolean = false,
     @ConsumableEffect
-    override val navTarget: NavTarget? = null,
+    override val navTarget: SplashDestination? = null,
     @ConsumableEffect
     val errorMessage: String? = null,
-) : Navigable<LauncherUiState.NavTarget> {
-
-    /**
-     * Possible navigation targets from this screen.
-     */
-    @Immutable
-    sealed interface NavTarget {
-        /**
-         * Navigate to the login screen.
-         */
-        object Login : NavTarget
-
-        /**
-         * Navigate to the home screen.
-         */
-        object Home : NavTarget
-    }
-}
+) : Navigable<SplashDestination>

@@ -35,6 +35,9 @@ dependencies {
     implementation(libs.timber)
 
     implementation(projects.core.state)
+    implementation(projects.core.kotlinx)
+    implementation(projects.core.observability)
+    implementation(projects.features.auth.publicApi)
     implementation(projects.morpheus.annotation)
 
     debugImplementation(libs.compose.manifest)

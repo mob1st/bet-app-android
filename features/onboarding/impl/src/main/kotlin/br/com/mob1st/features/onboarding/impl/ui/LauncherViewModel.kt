@@ -7,19 +7,21 @@ import br.com.mob1st.core.state.extensions.collectUpdate
 import br.com.mob1st.core.state.extensions.launchEmit
 import br.com.mob1st.core.state.extensions.onCollect
 import br.com.mob1st.features.onboarding.impl.domain.OpenAppUseCase
+import br.com.mob1st.features.onboarding.impl.domain.SplashDestination
 import br.com.mob1st.morpheus.annotation.Consumable
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
+import org.koin.android.annotation.KoinViewModel
 
 /**
  * A ViewModel that manages of the Launcher screen.
  *
  * @param openAppUseCase A use case triggered when the app opens.
  */
+@KoinViewModel
 class LauncherViewModel(
     openAppUseCase: OpenAppUseCase,
 ) : ViewModel(), LauncherUiContract {
@@ -32,10 +34,8 @@ class LauncherViewModel(
     private val helperPrimaryActionInput = MutableSharedFlow<Unit>()
 
     // actions
-    private val openAppAction = Async<OpenAppUseCase.Destination> {
-        flow {
-            emit(openAppUseCase())
-        }
+    private val openAppAction = Async<SplashDestination> {
+        openAppUseCase()
     }
 
     init {
@@ -48,8 +48,8 @@ class LauncherViewModel(
             currentState.copy(errorMessage = newData.message)
         }
 
-        _output.collectUpdate(openAppAction.success) { currentState, _ ->
-            currentState.copy(navTarget = LauncherUiState.NavTarget.Login)
+        _output.collectUpdate(openAppAction.success) { currentState, navTarget ->
+            currentState.copy(navTarget = navTarget)
         }
 
         helperPrimaryActionInput.onCollect {
