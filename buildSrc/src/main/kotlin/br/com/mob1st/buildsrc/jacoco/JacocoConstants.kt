@@ -24,7 +24,7 @@ object JacocoConstants {
         "**/*Fragment*.*",
         "**/*Initializer.*",
         "**/*Screen.*",
-        "**/ui/ds/**",
+        "**/ui/ds/**"
     )
 
     val limits = mapOf<String, Double>(
@@ -39,7 +39,8 @@ object JacocoConstants {
     val coverageIgnoredModules = mutableSetOf(
         ":testing:test-utils",
         ":morpheus:annotation",
-        ":libs:firebase"
+        ":libs:firebase",
+        ":public-api"
     )
     fun excludedFiles(): List<String> {
         return excludedFiles.toList()
@@ -51,7 +52,9 @@ fun excludedFiles(): List<String> {
 }
 
 fun Project.isModuleExcluded(): Boolean {
-    return !buildFile.exists() || JacocoConstants.coverageIgnoredModules.contains(path)
+    return !buildFile.exists() || JacocoConstants.coverageIgnoredModules.any {
+        path.contains(it)
+    }
 }
 
 fun Project.isAndroidModule(): Boolean {

@@ -8,12 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "br.com.mob1st.features.auth.publicapi"
+    namespace = "br.com.mob1st.features.dev.publicapi"
 }
 
 dependencies {
     // bundles
-    implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
 
     // standalone

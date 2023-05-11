@@ -17,6 +17,11 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -38,6 +43,7 @@ dependencies {
     implementation(projects.core.kotlinx)
     implementation(projects.core.observability)
     implementation(projects.features.auth.publicApi)
+    implementation(projects.features.dev.publicApi)
     implementation(projects.morpheus.annotation)
 
     debugImplementation(libs.compose.manifest)
@@ -48,8 +54,8 @@ dependencies {
 
     dokkaPlugin(libs.plugin.dokka.android)
 
-    testImplementation(libs.kotest.runner)
-    testImplementation(libs.koin.test)
+    testImplementation(libs.bundles.unittest.android)
+    testImplementation(projects.tests.unit)
 
     androidTestImplementation(libs.bundles.android.test)
     androidTestImplementation(libs.compose.test)
