@@ -108,9 +108,11 @@ dependencies {
 
     // projects
     implementation(projects.morpheus.annotation)
-    implementation(projects.features.home.impl)
     implementation(projects.libs.firebase)
     implementation(projects.core.kotlinx)
+    implementation(projects.core.navigation)
+    implementation(projects.features.home.impl)
+    implementation(projects.features.onboarding.impl)
 
     // debug only
     debugImplementation(libs.compose.manifest)

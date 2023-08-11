@@ -1,7 +1,7 @@
 package br.com.mob1st.features.onboarding.impl.ui
 
+import br.com.mob1st.core.navigation.NavTarget
 import br.com.mob1st.core.state.contracts.HelperClickManager
-import br.com.mob1st.core.state.contracts.Navigable
 import br.com.mob1st.core.state.contracts.SideEffectManager
 import br.com.mob1st.core.state.contracts.StateOutputManager
 import br.com.mob1st.features.onboarding.impl.domain.SplashDestination
@@ -28,7 +28,24 @@ interface LauncherUiContract :
 data class LauncherUiState(
     val isLoading: Boolean = false,
     @ConsumableEffect
-    override val navTarget: SplashDestination? = null,
+    val navTarget: LauncherNavTarget? = null,
     @ConsumableEffect
     val errorMessage: String? = null,
-) : Navigable<SplashDestination>
+)
+sealed class LauncherNavTarget : NavTarget() {
+
+    object Home : LauncherNavTarget() {
+        override val screenName: String = "home"
+    }
+
+    object Onboarding : LauncherNavTarget() {
+        override val screenName: String = "init-onboarding"
+    }
+
+    companion object {
+        fun of(splashDestination: SplashDestination) = when (splashDestination) {
+            SplashDestination.Home -> Home
+            SplashDestination.Onboarding -> Onboarding
+        }
+    }
+}

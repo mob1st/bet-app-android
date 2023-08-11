@@ -22,6 +22,8 @@ android {
 }
 
 dependencies {
+    api(projects.features.home.publicApi)
+
     // bundles
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
@@ -37,6 +39,7 @@ dependencies {
     implementation(libs.timber)
 
     implementation(projects.morpheus.annotation)
+    implementation(projects.core.navigation)
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)
 

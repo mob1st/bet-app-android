@@ -48,8 +48,8 @@ class LauncherViewModel(
             currentState.copy(errorMessage = newData.message)
         }
 
-        _output.collectUpdate(openAppAction.success) { currentState, navTarget ->
-            currentState.copy(navTarget = navTarget)
+        _output.collectUpdate(openAppAction.success) { currentState, splashDestination ->
+            currentState.copy(navTarget = LauncherNavTarget.of(splashDestination))
         }
 
         helperPrimaryActionInput.onCollect {

@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "br.com.mob1st.features.auth.publicapi"
+    namespace = "br.com.mob1st.features.home.publicapi"
 }
 
 dependencies {

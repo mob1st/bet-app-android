@@ -4,18 +4,29 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import br.com.mob1st.bet.core.ui.compose.setThemedContent
 import br.com.mob1st.bet.core.ui.ds.molecule.SystemBarProperties
 import br.com.mob1st.bet.core.ui.ds.molecule.SystemBars
-import br.com.mob1st.features.home.impl.presentation.HomePage
+import br.com.mob1st.features.home.impl.ui.HomeNavRoot
+import br.com.mob1st.features.home.publicapi.ui.HomeNavTarget
 
 class LauncherActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setThemedContent {
-            HomePage()
+            NavigationGraph()
         }
+    }
+}
+
+@Composable
+fun NavigationGraph() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = HomeNavTarget.ROUTE) {
+        HomeNavRoot.graph(navController = navController)
     }
 }
 

@@ -39,11 +39,13 @@ dependencies {
     implementation(libs.kotlin.collections)
     implementation(libs.timber)
 
-    implementation(projects.core.state)
     implementation(projects.core.kotlinx)
+    implementation(projects.core.navigation)
     implementation(projects.core.observability)
+    implementation(projects.core.state)
     implementation(projects.features.auth.publicApi)
     implementation(projects.features.dev.publicApi)
+    implementation(projects.features.home.publicApi)
     implementation(projects.morpheus.annotation)
 
     debugImplementation(libs.compose.manifest)
