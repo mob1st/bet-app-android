@@ -23,7 +23,7 @@ class LauncherActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationGraph() {
+internal fun NavigationGraph() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = HomeNavTarget.ROUTE) {
         HomeNavRoot.graph(navController = navController)

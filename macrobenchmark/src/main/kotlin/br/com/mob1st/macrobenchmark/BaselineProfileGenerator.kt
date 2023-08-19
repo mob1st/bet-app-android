@@ -10,7 +10,7 @@ class BaselineProfileGenerator {
     val baselineProfileRule = BaselineProfileRule()
 
     @Test
-    fun startup() = baselineProfileRule.collectBaselineProfile(
+    fun startup() = baselineProfileRule.collect(
         packageName = "br.com.mob1st.bet",
         profileBlock = {
             startActivityAndWait()

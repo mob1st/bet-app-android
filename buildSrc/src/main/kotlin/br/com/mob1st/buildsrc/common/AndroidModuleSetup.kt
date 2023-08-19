@@ -3,21 +3,19 @@ package br.com.mob1st.buildsrc.common
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Action
-import org.gradle.api.JavaVersion
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 internal fun BaseExtension.defaultSetup() {
-    compileSdkVersion(33)
-    buildToolsVersion("33.0.1")
+    compileSdkVersion(AndroidProjectConfig.COMPILE_SDK)
+    buildToolsVersion(AndroidProjectConfig.BUILD_TOOLS)
 
     defaultConfig {
         minSdk = AndroidProjectConfig.MIN_SDK
-        targetSdk = AndroidProjectConfig.TARGET_SDK
+        targetSdk = AndroidProjectConfig.COMPILE_SDK
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

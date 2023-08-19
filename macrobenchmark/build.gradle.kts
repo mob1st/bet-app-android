@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage", "DSL_SCOPE_VIOLATION")
 
+import br.com.mob1st.buildsrc.common.AndroidProjectConfig
 import com.android.build.api.dsl.ManagedVirtualDevice
 
 plugins {
@@ -9,7 +10,7 @@ plugins {
 
 android {
     namespace = "br.com.mob1st.macrobenchmark"
-    compileSdk = 33
+    compileSdk = AndroidProjectConfig.COMPILE_SDK
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -22,7 +23,7 @@ android {
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 33
+        targetSdk = AndroidProjectConfig.COMPILE_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

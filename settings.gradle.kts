@@ -21,6 +21,7 @@ rootProject.name = "Bet"
 include(":app")
 include(":morpheus:annotation")
 include(":morpheus:processor")
+include(":core:design")
 include(":core:kofff")
 include(":core:kotlinx")
 include(":core:navigation")

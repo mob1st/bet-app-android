@@ -165,7 +165,7 @@ private fun MatchWinnerItem(
 ) {
     ListItem(
         modifier = Modifier.clickable { onSelect(index) },
-        headlineText = {
+        headlineContent = {
             val context = LocalContext.current
             val team1 = context.getText(matchWinner.contender1.subject.name)
             val team2 = context.getText(matchWinner.contender2.subject.name)

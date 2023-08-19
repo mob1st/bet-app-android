@@ -17,7 +17,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 
 @OptIn(ExperimentalStdlibApi::class, ExperimentalCoroutinesApi::class)
 class OpenAppUseCaseTest : BehaviorSpec({
@@ -29,7 +28,6 @@ class OpenAppUseCaseTest : BehaviorSpec({
         every { analyticsReporter.log(any()) } just runs
         coEvery { featureFlagRepository.sync() } just runs
         val useCase = OpenAppUseCase(
-            default = UnconfinedTestDispatcher(testCoroutineScheduler),
             analyticsReporter = analyticsReporter,
             authRepository = authRepository,
             featureFlagRepository = featureFlagRepository

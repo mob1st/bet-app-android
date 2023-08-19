@@ -1,13 +1,10 @@
 package br.com.mob1st.buildsrc.common
 
 import org.gradle.api.JavaVersion
-import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalog
-import org.gradle.api.artifacts.VersionCatalogsExtension
-import org.gradle.kotlin.dsl.getByType
 
 object AndroidProjectConfig {
     const val MIN_SDK = 24
-    const val TARGET_SDK = 33
+    const val COMPILE_SDK = 34
+    const val BUILD_TOOLS = "34.0.0"
     val JAVA_VERSION = JavaVersion.VERSION_17
 }

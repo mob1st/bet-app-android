@@ -1,5 +1,6 @@
 @file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 
+import br.com.mob1st.buildsrc.common.AndroidProjectConfig
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 
 plugins {
@@ -13,13 +14,13 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = AndroidProjectConfig.COMPILE_SDK
     namespace = "br.com.mob1st.bet"
 
     defaultConfig {
         applicationId = "br.com.mob1st.bet"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = AndroidProjectConfig.COMPILE_SDK
         versionCode = 1
         versionName = "1.0"
 
