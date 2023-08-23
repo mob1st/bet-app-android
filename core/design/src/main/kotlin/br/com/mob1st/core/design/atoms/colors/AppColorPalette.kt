@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 
 /**
  * A tons of colors organized in a Material Design 3 palette.
+ * Avoid uses the constructor directly. Use the [AppColorPalette.Default] factory method instead.
  * @see [https://m3.material.io/styles/color/overview]
  */
 @Immutable
@@ -17,9 +18,10 @@ internal data class AppColorPalette constructor(
 ) {
     companion object {
         /**
-         * Creates a [AppColorPalette] with the default colors.
+         * Factory method for the default [AppColorPalette].
+         * It uses function instead of instantiation to avoid creating too much instances during app startup.
          */
-        fun default() = AppColorPalette(
+        fun Default() = AppColorPalette(
             primary = TonalPalette.TropicalIndigo(),
             secondary = TonalPalette.Periwinkle(),
             tertiary = TonalPalette.AntiqueWhite(),

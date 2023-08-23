@@ -9,9 +9,11 @@ internal object AppSchemeFactory {
 
     /**
      * Creates a [ColorScheme] based on the current device theme.
+     * It uses the default usage of tokens for each theme recommended by Material Design guidelines.
+     * @see [https://m3.material.io/styles/color/the-color-system/tokens]
      */
     fun create(isDark: Boolean): ColorScheme {
-        return AppColorPalette.default().run {
+        return AppColorPalette.Default().run {
             if (isDark) {
                 dark()
             } else {

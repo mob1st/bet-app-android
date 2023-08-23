@@ -27,8 +27,12 @@ internal data class TonalPalette constructor(
     val x100: Color = Color.Unspecified,
 ) {
     @Suppress("MagicNumber")
-    /*
-      Color names from https://coolors.co/
+    /**
+     * Each function represents one color tone palette we have in our design system.
+     * It uses function instead of instantiation to avoid creating too much instances during app startup.
+     *
+     * For the base color palette & color names @see [Color names from https://coolors.co/]
+     * For color tones generation @see [https://m3.material.io/theme-builder#/custom]
      */
     companion object {
 
