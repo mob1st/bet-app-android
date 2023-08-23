@@ -11,7 +11,7 @@ internal object AppSchemeFactory {
      * Creates a [ColorScheme] based on the current device theme.
      */
     fun create(isDark: Boolean): ColorScheme {
-        return AppColorPalette.init().run {
+        return AppColorPalette.default().run {
             if (isDark) {
                 dark()
             } else {

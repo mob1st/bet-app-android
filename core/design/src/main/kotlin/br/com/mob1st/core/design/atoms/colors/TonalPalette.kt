@@ -1,9 +1,11 @@
 package br.com.mob1st.core.design.atoms.colors
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 /**
  * A tons of colors organized in a Material Design 3 palette.
  */
+@Immutable
 internal data class TonalPalette constructor(
     val x0: Color = Color.Unspecified,
     val x5: Color = Color.Unspecified,
