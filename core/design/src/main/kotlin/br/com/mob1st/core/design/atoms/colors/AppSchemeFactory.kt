@@ -45,11 +45,11 @@ private fun AppColorPalette.dark(): ColorScheme {
 
         background = neutral.x10,
         onBackground = neutral.x90,
-
         surface = neutral.x10,
         onSurface = neutral.x90,
-        surfaceVariant = neutralVariant.x90,
-        onSurfaceVariant = neutralVariant.x30,
+
+        surfaceVariant = neutralVariant.x30,
+        onSurfaceVariant = neutralVariant.x80,
         surfaceTint = primary.x80,
 
         outline = neutralVariant.x60,
@@ -91,12 +91,12 @@ private fun AppColorPalette.light(): ColorScheme {
 
         surface = neutral.x99,
         onSurface = neutral.x10,
-        surfaceVariant = neutralVariant.x90,
-        onSurfaceVariant = neutralVariant.x30,
         surfaceTint = primary.x40,
 
         outline = neutralVariant.x50,
         outlineVariant = neutralVariant.x80,
+        surfaceVariant = neutralVariant.x90,
+        onSurfaceVariant = neutralVariant.x30,
 
         inverseSurface = neutral.x20,
         inverseOnSurface = neutral.x95,

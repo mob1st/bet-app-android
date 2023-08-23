@@ -4,7 +4,7 @@ package br.com.mob1st.core.design.atoms.colors
  * A tons of colors organized in a Material Design 3 palette.
  * @see [https://m3.material.io/styles/color/overview]
  */
-internal class AppColorPalette private constructor(
+internal data class AppColorPalette constructor(
     val primary: TonalPalette,
     val secondary: TonalPalette,
     val tertiary: TonalPalette,
@@ -19,7 +19,7 @@ internal class AppColorPalette private constructor(
             tertiary = TonalPalette.AntiqueWhite(),
             neutral = TonalPalette.GhostWhite(),
             neutralVariant = TonalPalette.Gray(),
-            error = TonalPalette.LightRed()
+            error = TonalPalette.SalmonPink()
         )
     }
 }

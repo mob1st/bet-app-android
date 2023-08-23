@@ -106,21 +106,19 @@ internal data class TonalPalette constructor(
             x100 = Color(0xffffffff)
         )
 
-        fun LightRed() = TonalPalette(
+        fun SalmonPink() = TonalPalette(
             x0 = Color(0xff000000),
-            x5 = Color(0xff2c0004),
-            x10 = Color(0xff410008),
-            x15 = Color(0xff54000d),
-            x20 = Color(0xff680012),
-            x25 = Color(0xff780e1c),
-            x30 = Color(0xff891c26),
-            x35 = Color(0xff992830),
-            x40 = Color(0xffa9343b),
-            x50 = Color(0xffca4d51),
-            x60 = Color(0xffeb6569),
-            x70 = Color(0xffff8889),
-            x80 = Color(0xffffb3b2),
-            x90 = Color(0xffffdad8),
+            x10 = Color(0xff40000d),
+            x20 = Color(0xff5f121f),
+            x25 = Color(0xff6e1e29),
+            x30 = Color(0xff7d2934),
+            x35 = Color(0xff8d353f),
+            x40 = Color(0xff9c404a),
+            x50 = Color(0xffbb5861),
+            x60 = Color(0xffda717a),
+            x70 = Color(0xfffa8a93),
+            x80 = Color(0xffffb2b6),
+            x90 = Color(0xffffdadb),
             x95 = Color(0xffffedec),
             x98 = Color(0xfffff8f7),
             x99 = Color(0xfffffbff),
