@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun HomePage(onClick: () -> Unit = {}) {
+internal fun HomePage() {
     Column {
         Text("Home")
     }

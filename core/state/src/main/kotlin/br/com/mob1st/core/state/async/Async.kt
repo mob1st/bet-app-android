@@ -3,20 +3,16 @@ package br.com.mob1st.core.state.async
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -53,27 +49,16 @@ interface Async<I, O> {
     fun launch(input: I): Job
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal open class AsyncImpl<I, O>(
     private val scope: CoroutineScope,
     private val source: (I) -> Flow<O>,
 ) : Async<I, O> {
 
-    private val actionInput = MutableSharedFlow<I>()
     private val asyncFlow = MutableStateFlow<AsyncState>(AsyncState.NotLaunchedYet)
 
     override val loading: Flow<Boolean> = asyncFlow.map { it.isLoading() }
     override val failure: Flow<Throwable> = asyncFlow.mapNotNull { it.failure() }
     override val success: Flow<O> = asyncFlow.mapNotNull { it.data<O>() }
-
-    init {
-        actionInput
-            .flatMapLatest(::sourceFlow)
-            .onEach { async ->
-                asyncFlow.update { async }
-            }
-            .launchIn(scope)
-    }
 
     private fun sourceFlow(input: I): Flow<AsyncState> = source(input)
         .map<O, AsyncState> {
@@ -86,10 +71,11 @@ internal open class AsyncImpl<I, O>(
         .onStart {
             emit(AsyncState.Loading)
         }
+        .onEach { async ->
+            asyncFlow.update { async }
+        }
 
-    override fun launch(input: I): Job = scope.launch {
-        actionInput.emit(input)
-    }
+    override fun launch(input: I): Job = sourceFlow(input).launchIn(scope)
 }
 
 /**

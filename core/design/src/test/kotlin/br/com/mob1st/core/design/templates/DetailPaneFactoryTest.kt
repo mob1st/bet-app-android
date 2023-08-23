@@ -8,7 +8,7 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 
 class DetailPaneFactoryTest : BehaviorSpec({
-    Given("a detaile pane factory") {
+    Given("a detail pane factory") {
         val detailPaneFactory = DetailPaneFactory
         And("a window width class size is compact") {
             When("create") {

@@ -2,7 +2,6 @@ package br.com.mob1st.core.design.templates
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 /**
  * A pane that can be used to display content in a specif part of the layout.
@@ -34,16 +33,4 @@ data class Pane(
      * The maximum width of the pane.
      */
     val maxWidth: Dp,
-) {
-
-    val columnsWidth: Dp get() {
-        return 0.dp
-    }
-
-    /**
-     * Calculates the width of the columns based on the given [count], the gutters and the horizontal paddings.
-     */
-    fun columns(count: Int): Dp {
-        return 0.dp
-    }
-}
+)
