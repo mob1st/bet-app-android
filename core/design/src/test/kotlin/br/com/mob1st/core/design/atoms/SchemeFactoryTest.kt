@@ -4,29 +4,26 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
 import br.com.mob1st.core.design.atoms.colors.AppSchemeFactory
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.data.forAll
+import io.kotest.data.headers
+import io.kotest.data.row
+import io.kotest.data.table
 import io.kotest.matchers.shouldBe
 
 class SchemeFactoryTest : BehaviorSpec({
-    Given("a light theme") {
-        val isDark = false
+    Given("a device theme setup where true is dark and false is light") {
         When("create") {
-            val actual = AppSchemeFactory.create(isDark)
-            Then("actual should be the expected light theme") {
-                actual.toString() shouldBe lightTheme.toString()
-            }
-        }
-    }
-    Given("a dark theme") {
-        val isDark = true
-        When("create") {
-            val actual = AppSchemeFactory.create(isDark)
-            Then("actual should be the expected dark theme") {
-                actual.toString() shouldBe darkTheme.toString()
+            Then("result should be the expected") {
+                forAll(deviceSetupToExpected) { (isDark, expected) ->
+                    val actual = AppSchemeFactory.create(isDark)
+                    actual.toString() shouldBe expected.toString()
+                }
             }
         }
     }
 }) {
     private companion object Expected {
+
         val lightTheme = ColorScheme(
             primary = Color(0xFF5d4ac5),
             onPrimary = Color(0xFFffffff),
@@ -101,6 +98,12 @@ class SchemeFactoryTest : BehaviorSpec({
             inverseSurface = Color(0xFFDBE1FF),
             inverseOnSurface = Color(0xFF001849),
             scrim = Color(0xFF000000)
+        )
+
+        val deviceSetupToExpected = table(
+            headers("what is a header"),
+            row(false to lightTheme),
+            row(true to darkTheme)
         )
     }
 }

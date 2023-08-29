@@ -4,7 +4,7 @@ compose = '1.5.0'
 kotlin = "1.9.0"
 koin = "3.3.3"
 koin-ksp = "1.1.1"
-kotest = "5.5.5"
+kotest = "5.6.2"
 lifecycle = "2.6.1"
 arrow = "1.1.5"
 ksp = "1.8.10-1.0.9"
@@ -28,7 +28,7 @@ android-profileinstaller = "androidx.profileinstaller:profileinstaller:1.3.1"
 android-test-junit = "androidx.test.ext:junit:1.1.5"
 android-test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
 android-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
-android-test-macrobenchmark = "androidx.benchmark:benchmark-macro-junit4:1.2.0-beta03"
+android-test-macrobenchmark = "androidx.benchmark:benchmark-macro-junit4:1.2.0-beta04"
 
 # lifecycle
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -44,7 +44,7 @@ compose-util = "androidx.compose.ui:ui-util:1.5.0"
 compose-material3 = "androidx.compose.material3:material3:1.1.1"
 compose-windowclass = "androidx.compose.material3:material3-window-size-class:1.1.1"
 compose-activity = "androidx.activity:activity-compose:1.7.2"
-compose-navigation = "androidx.navigation:navigation-compose:2.7.0"
+compose-navigation = "androidx.navigation:navigation-compose:2.7.1"
 compose-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 
@@ -77,7 +77,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
-kotlin-playservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.1"
+kotlin-playservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.2"
 
 #work manager
 workmanager-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-manager" }
@@ -93,7 +93,7 @@ arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", versio
 
 # kotlin
 kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
-kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0"
+kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2"
 kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
 
 
@@ -119,7 +119,7 @@ plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 [bundles]
 android = ["android-core"]
 android-test = ["android-test-junit", "android-test-espresso"]
-unittest-kotlin = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-kotlin", "kotlin-test"]
+unittest-kotlin = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-kotlin", "kotlin-reflection", "kotlin-test"]
 unittest-android = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-android", "mockk-agent", "kotlin-reflection", "kotlin-test"]
 
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]

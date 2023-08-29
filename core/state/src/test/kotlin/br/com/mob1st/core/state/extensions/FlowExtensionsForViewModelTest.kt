@@ -6,14 +6,12 @@ import br.com.mob1st.core.state.async.launch
 import br.com.mob1st.tests.unit.MainCoroutineListener
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class FlowExtensionsForViewModelTest : FunSpec({
 
     val dispatcher = StandardTestDispatcher()
