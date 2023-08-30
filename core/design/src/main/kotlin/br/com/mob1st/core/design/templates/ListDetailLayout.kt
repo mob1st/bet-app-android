@@ -16,13 +16,11 @@ data class ListDetailLayout(
     val useSingleWhenMedium: Boolean,
 ) : CanonicalLayout(), CanonicalLayout.Multipane {
 
-    private val isSingleMedium = layoutSpec == LayoutSpec.Medium && useSingleWhenMedium
-
     /**
      * Creates a [Pane] for the list pane of this layout.
      */
     fun list(width: Dp): Pane {
-        val isSingle = layoutSpec == LayoutSpec.Compact || isSingleMedium
+        val isSingle = layoutSpec == LayoutSpec.Compact || (layoutSpec == LayoutSpec.Medium && useSingleWhenMedium)
         return Pane(
             layoutSpec = layoutSpec,
             maxWidth = width,
@@ -39,7 +37,7 @@ data class ListDetailLayout(
      * Creates a [Pane] for the detail pane of this layout.
      */
     fun detail(width: Dp): Pane {
-        require(layoutSpec != LayoutSpec.Compact || !isSingleMedium) {
+        require(layoutSpec != LayoutSpec.Compact && !useSingleWhenMedium) {
             "Detail pane is only available for medium and expanded layouts."
         }
 
