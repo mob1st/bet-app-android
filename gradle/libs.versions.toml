@@ -9,14 +9,14 @@ lifecycle = "2.6.1"
 arrow = "1.1.5"
 ksp = "1.8.10-1.0.9"
 accompaninst = "0.31.6-rc"
-gradle-plugin = "8.1.0"
+gradle-plugin = "8.1.1"
 google-services = "4.3.15"
-detekt = "1.22.0"
-ktlint = "0.49.0"
+detekt = "1.23.1"
+ktlint = "0.50.0"
 kotlin-poet = "1.14.2"
 work-manager = "2.8.1"
 leakcanary = "2.10"
-mockk = "1.13.4"
+mockk = "1.13.7"
 dokka = "1.8.20"
 
 [libraries]
@@ -65,7 +65,7 @@ koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "
 koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-ksp"}
 
 # code generation tools
-ksp-symbol-processing = "com.google.devtools.ksp:symbol-processing-api:1.8.21-1.0.11"
+ksp-symbol-processing = "com.google.devtools.ksp:symbol-processing-api:1.9.0-1.0.11"
 kotlin-reflection = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" }
 kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }
@@ -77,7 +77,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
-kotlin-playservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.2"
+kotlin-playservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3"
 
 #work manager
 workmanager-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-manager" }
@@ -93,7 +93,7 @@ arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", versio
 
 # kotlin
 kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
-kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2"
+kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
 kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
 
 

@@ -12,14 +12,10 @@ import br.com.mob1st.core.design.atoms.spacing.Dimension
 data class Pane(
     val layoutSpec: LayoutSpec,
     val columnsLimit: ColumnsLimit,
-    val isSingle: Boolean,
-    /**
-     * The maximum width of the pane.
-     */
     val maxWidth: Dp,
 ) {
 
-    val horizontalMargins = if (layoutSpec == LayoutSpec.Compact) {
+    private val horizontalMargins = if (layoutSpec == LayoutSpec.Compact) {
         LayoutSpec.Compact.horizontalSpacing
     } else {
         0.dp
@@ -38,11 +34,11 @@ data class Pane(
      * Calculates the width of a column based on the number of columns in this pane.
      */
     fun columns(count: Int): Dimension = when {
-        count in 1..columnsLimit.value -> {
+        count in 1.rangeUntil(columnsLimit.value) -> {
             val dp = (columnWidth * count) + (gutter * (count - 1))
             Dimension.Literal(dp)
         }
-        count > columnsLimit.value -> Dimension.FillMax()
+        count >= columnsLimit.value -> Dimension.FillMax()
         else -> error("count must be greater than 0. Current is $count.")
     }
 
@@ -50,8 +46,7 @@ data class Pane(
         fun single(layoutSpec: LayoutSpec, width: Dp): Pane = Pane(
             layoutSpec = layoutSpec,
             maxWidth = width,
-            columnsLimit = layoutSpec.columnsLimit,
-            isSingle = true
+            columnsLimit = layoutSpec.columnsLimit
         )
     }
 }

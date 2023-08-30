@@ -14,15 +14,12 @@ data class SupportingLayout(
     override val layoutSpec: LayoutSpec,
 ) : CanonicalLayout(), CanonicalLayout.Multipane {
 
-    private val isSinglePane = layoutSpec == LayoutSpec.Compact
-
     /**
      * The primary pane of this layout, used as the focus and most important area.
      */
     fun primary(width: Dp): Pane = Pane(
         layoutSpec = layoutSpec,
         maxWidth = width,
-        isSingle = isSinglePane,
         columnsLimit = if (layoutSpec != LayoutSpec.Expanded) {
             layoutSpec.columnsLimit
         } else {
@@ -36,7 +33,6 @@ data class SupportingLayout(
     fun secondary(width: Dp): Pane = Pane(
         layoutSpec = layoutSpec,
         maxWidth = width,
-        isSingle = isSinglePane,
         columnsLimit = if (layoutSpec == LayoutSpec.Medium) {
             layoutSpec.columnsLimit
         } else {

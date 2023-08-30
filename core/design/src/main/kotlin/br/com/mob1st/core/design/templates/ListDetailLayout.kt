@@ -24,7 +24,6 @@ data class ListDetailLayout(
         return Pane(
             layoutSpec = layoutSpec,
             maxWidth = width,
-            isSingle = isSingle,
             columnsLimit = if (isSingle) {
                 layoutSpec.columnsLimit
             } else {
@@ -37,14 +36,15 @@ data class ListDetailLayout(
      * Creates a [Pane] for the detail pane of this layout.
      */
     fun detail(width: Dp): Pane {
-        require(layoutSpec != LayoutSpec.Compact && !useSingleWhenMedium) {
+        val isCompact = layoutSpec == LayoutSpec.Compact
+        val isSingleOnMedium = layoutSpec == LayoutSpec.Medium && useSingleWhenMedium
+        require(!isCompact && !isSingleOnMedium) {
             "Detail pane is only available for medium and expanded layouts."
         }
 
         return Pane(
             layoutSpec = layoutSpec,
             maxWidth = width,
-            isSingle = false,
             columnsLimit = if (layoutSpec == LayoutSpec.Medium) {
                 LayoutSpec.Compact.columnsLimit
             } else {
