@@ -18,11 +18,7 @@ object HomeNavRoot : NavRoot {
             route = HomeNavTarget.ROUTE
         ) {
             composable(HomeNavTarget.Home.screenName) {
-                HomePage(
-                    onClick = {
-                        navController.navigate(HomeNavTarget.Home.screenName)
-                    }
-                )
+                HomePage()
             }
         }
     }
