@@ -24,7 +24,7 @@ sealed class Dimension {
 
     data class Resource(@DimenRes val id: Int) : Dimension()
 
-    data class Literal(val value: Dp) : Dimension()
+    data class Fixed(val value: Dp) : Dimension()
     data class WrapContent(
         val horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
         val verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
@@ -36,14 +36,14 @@ sealed class Dimension {
     ) : Dimension()
 }
 
-val Dp.dimension get() = Dimension.Literal(this)
-val Int.dimension get() = Dimension.Literal(dp)
+val Dp.dimension get() = Dimension.Fixed(this)
+val Int.dimension get() = Dimension.Fixed(dp)
 
 fun Modifier.width(dimension: Dimension) = when (dimension) {
     is Dimension.Resource -> composed {
         width(dimensionResource(id = dimension.id))
     }
-    is Dimension.Literal -> width(dimension.value)
+    is Dimension.Fixed -> width(dimension.value)
     is Dimension.WrapContent -> wrapContentWidth(dimension.horizontalAlignment, dimension.unbounded)
     is Dimension.FillMax -> fillMaxWidth(dimension.fraction)
 }
@@ -52,7 +52,7 @@ fun Modifier.height(dimension: Dimension) = when (dimension) {
     is Dimension.Resource -> composed {
         height(dimensionResource(id = dimension.id))
     }
-    is Dimension.Literal -> height(dimension.value)
+    is Dimension.Fixed -> height(dimension.value)
     is Dimension.WrapContent -> wrapContentHeight(dimension.verticalAlignment, dimension.unbounded)
     is Dimension.FillMax -> fillMaxHeight(dimension.fraction)
 }
@@ -61,7 +61,7 @@ fun Modifier.size(dimension: Dimension) = when (dimension) {
     is Dimension.Resource -> composed {
         size(dimensionResource(id = dimension.id))
     }
-    is Dimension.Literal -> size(dimension.value)
+    is Dimension.Fixed -> size(dimension.value)
     is Dimension.WrapContent -> wrapContentSize(dimension.alignment, dimension.unbounded)
     is Dimension.FillMax -> fillMaxSize(dimension.fraction)
 }

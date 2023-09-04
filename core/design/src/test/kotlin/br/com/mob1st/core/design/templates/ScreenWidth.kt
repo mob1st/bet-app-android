@@ -6,7 +6,8 @@ import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.map
 
 object ScreenWidth {
+    const val mediumMin = 600
     val compact = Arb.int(360, 599).map { it.dp }
-    val medium = Arb.int(600, 859).map { it.dp }
+    val medium = Arb.int(mediumMin, 859).map { it.dp }
     val expanded = Arb.int(860, 1920).map { it.dp }
 }

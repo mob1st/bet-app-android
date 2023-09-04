@@ -15,31 +15,29 @@ data class Pane(
     val maxWidth: Dp,
 ) {
 
-    private val horizontalMargins = if (layoutSpec == LayoutSpec.Compact) {
+    val horizontalMargins = if (layoutSpec == LayoutSpec.Compact) {
         LayoutSpec.Compact.horizontalSpacing
     } else {
         0.dp
     }
 
-    private val gutter = when (columnsLimit) {
-        ColumnsLimit.Four -> LayoutSpec.Compact.horizontalSpacing
-        ColumnsLimit.Eight -> LayoutSpec.Medium.horizontalSpacing
-        ColumnsLimit.Twelve -> LayoutSpec.Expanded.horizontalSpacing
-        else -> error("Unsupported columns limit: $columnsLimit.")
-    }
-    private val emptyWidth = horizontalMargins * 2 + gutter * (columnsLimit.value - 1)
+    private val gutter = layoutSpec.horizontalSpacing
+    private val emptyWidth = (horizontalMargins * 2) + gutter * (columnsLimit.value - 1)
     private val columnWidth: Dp = (maxWidth - emptyWidth) / columnsLimit.value
 
     /**
      * Calculates the width of a column based on the number of columns in this pane.
+     * @throws [IllegalArgumentException] if the number of columns is not in the range
      */
     fun columns(count: Int): Dimension = when {
         count in 1.rangeUntil(columnsLimit.value) -> {
             val dp = (columnWidth * count) + (gutter * (count - 1))
-            Dimension.Literal(dp)
+            Dimension.Fixed(dp)
         }
         count >= columnsLimit.value -> Dimension.FillMax()
-        else -> error("count must be greater than 0. Current is $count.")
+        else -> throw IllegalArgumentException(
+            "Invalid column count: $count. Current range is 1..${columnsLimit.value}."
+        )
     }
 
     companion object {
