@@ -1,7 +1,7 @@
 package br.com.mob1st.core.design.templates
 
 import androidx.compose.ui.unit.dp
-import br.com.mob1st.core.design.atoms.spacing.Dimension
+import br.com.mob1st.core.design.atoms.properties.Dimension
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe

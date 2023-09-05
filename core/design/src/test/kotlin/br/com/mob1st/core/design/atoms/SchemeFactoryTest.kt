@@ -2,7 +2,7 @@ package br.com.mob1st.core.design.atoms
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
-import br.com.mob1st.core.design.atoms.colors.AppSchemeFactory
+import br.com.mob1st.core.design.atoms.colors.ColorSchemeFactory
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.data.forAll
 import io.kotest.data.headers
@@ -15,7 +15,7 @@ class SchemeFactoryTest : BehaviorSpec({
         When("create") {
             Then("result should be the expected") {
                 forAll(deviceSetupToExpected) { (isDark, expected) ->
-                    val actual = AppSchemeFactory.create(isDark)
+                    val actual = ColorSchemeFactory.create(isDark)
                     actual.toString() shouldBe expected.toString()
                 }
             }
