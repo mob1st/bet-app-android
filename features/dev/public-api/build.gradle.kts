@@ -18,6 +18,9 @@ dependencies {
     // standalone
     implementation(libs.timber)
     implementation(libs.kotlin.coroutines)
+    implementation(libs.timber)
+
+    implementation(projects.core.state)
 
     dokkaPlugin(libs.plugin.dokka.android)
 }

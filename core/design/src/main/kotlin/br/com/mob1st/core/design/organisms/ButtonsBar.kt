@@ -12,7 +12,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import br.com.mob1st.core.design.atoms.properties.rememberAnnotedString
+import br.com.mob1st.core.design.atoms.properties.rememberAnnotatedString
 import br.com.mob1st.core.design.atoms.properties.width
 import br.com.mob1st.core.design.atoms.spacing.Spacings
 import br.com.mob1st.core.design.atoms.theme.LocalPane
@@ -39,7 +39,7 @@ fun ButtonsBar(
             this@Row.AnimatedVisibility(visible = secondary != null) {
                 requireNotNull(secondary)
                 requireNotNull(onSecondaryClick)
-                val secondaryText = rememberAnnotedString(text = secondary.text)
+                val secondaryText = rememberAnnotatedString(text = secondary.text)
                 TextButton(
                     onClick = onSecondaryClick,
                     modifier = Modifier.fillMaxWidth()

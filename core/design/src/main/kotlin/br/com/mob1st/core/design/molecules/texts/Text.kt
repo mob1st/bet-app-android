@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import br.com.mob1st.core.design.atoms.properties.Text
-import br.com.mob1st.core.design.atoms.properties.rememberAnnotedString
+import br.com.mob1st.core.design.atoms.properties.rememberAnnotatedString
 
 @Composable
 fun Display(text: Text, textSize: TextSize = TextSize.Medium, modifier: Modifier = Modifier) {
@@ -61,7 +61,7 @@ fun Label(text: Text, textSize: TextSize = TextSize.Medium, modifier: Modifier =
 @Composable
 internal fun BaseText(text: Text, textSize: TextSize, textStyleProvider: TextStyleProvider, modifier: Modifier) {
     val typography = MaterialTheme.typography
-    val annotatedString = rememberAnnotedString(text)
+    val annotatedString = rememberAnnotatedString(text)
     val style = remember(textSize) {
         textStyleProvider.of(typography, textSize)
     }

@@ -20,7 +20,7 @@ sealed interface Text {
 }
 
 @Composable
-fun rememberAnnotedString(text: Text): AnnotatedString {
+fun rememberAnnotatedString(text: Text): AnnotatedString {
     val resources = LocalContext.current.resources
     return remember(text) {
         text.resolve(resources)

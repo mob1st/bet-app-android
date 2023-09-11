@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.transformLatest
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-object WhileSubscribedOrRetained : SharingStarted {
+data object WhileSubscribedOrRetained : SharingStarted {
     private val handler = Handler(Looper.getMainLooper())
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -42,7 +42,6 @@ object WhileSubscribedOrRetained : SharingStarted {
         .dropWhile { it != SharingCommand.START }
         .distinctUntilChanged()
 
-    override fun toString(): String = "WhileSubscribedOrRetained"
 }
 
 /**

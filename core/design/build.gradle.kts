@@ -24,6 +24,7 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.bundles.accompanist)
     implementation(libs.timber)
+    implementation(libs.coil)
 
     // debug only
     debugImplementation(libs.compose.tooling)

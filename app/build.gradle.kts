@@ -105,13 +105,16 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.android.startup)
     implementation(libs.android.profileinstaller)
+    implementation(libs.datastore.preferences)
     implementation(libs.kotlin.serialization.json)
 
     // projects
     implementation(projects.morpheus.annotation)
+    implementation(projects.core.androidx)
     implementation(projects.libs.firebase)
     implementation(projects.core.kotlinx)
     implementation(projects.core.navigation)
+    implementation(projects.features.dev.impl)
     implementation(projects.features.home.impl)
     implementation(projects.features.onboarding.impl)
 
