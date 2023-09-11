@@ -1,7 +1,7 @@
 package br.com.mob1st.bet.features.dev
 
 import br.com.mob1st.bet.BuildConfig
-import br.com.mob1st.features.dev.impl.data.BuildInfoDataSource
+import br.com.mob1st.features.dev.impl.menu.data.BuildInfoDataSource
 import br.com.mob1st.features.dev.publicapi.domain.AppVersion
 import br.com.mob1st.features.dev.publicapi.domain.BuildInfo
 

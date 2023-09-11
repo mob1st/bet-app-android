@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.data
+package br.com.mob1st.features.dev.impl.menu.data
 
 import android.content.Context
 import androidx.datastore.preferences.core.MutablePreferences

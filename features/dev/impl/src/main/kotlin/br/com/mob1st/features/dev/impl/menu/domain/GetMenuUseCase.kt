@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.domain
+package br.com.mob1st.features.dev.impl.menu.domain
 
 import br.com.mob1st.features.dev.publicapi.domain.ProjectSettingsRepository
 import kotlinx.coroutines.flow.map

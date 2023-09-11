@@ -1,7 +1,5 @@
 package br.com.mob1st.core.kotlinx.monad
 
-import java.util.Queue
-
 @Suppress("UNCHECKED_CAST")
 @JvmInline
 value class Either<out L, out R> private constructor(
@@ -41,7 +39,3 @@ inline fun <L, R> Either<L, R>.onRight(block: (R) -> Unit): Either<L, R> {
     }
     return this
 }
-
-inline fun <reified L, reified R> Queue<Either<L, R>>.offer(value: L) = offer(Either.left(value))
-
-inline fun <reified L, reified R> Queue<Either<L, R>>.offer(value: R) = offer(Either.right(value))

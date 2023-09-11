@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.data
+package br.com.mob1st.features.dev.impl.menu.data
 
 import br.com.mob1st.features.dev.publicapi.domain.BuildInfo
 

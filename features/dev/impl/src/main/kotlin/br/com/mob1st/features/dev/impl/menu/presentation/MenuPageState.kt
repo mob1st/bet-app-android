@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.presentation
+package br.com.mob1st.features.dev.impl.menu.presentation
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.Text

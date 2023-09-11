@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.presentation
+package br.com.mob1st.features.dev.impl.menu.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,10 +8,10 @@ import br.com.mob1st.core.state.contracts.NavigationConsumeManager
 import br.com.mob1st.core.state.contracts.PrimaryCtaManager
 import br.com.mob1st.core.state.contracts.SnackbarManager
 import br.com.mob1st.core.state.contracts.StateOutputManager
-import br.com.mob1st.features.dev.impl.domain.GetMenuUseCase
+import br.com.mob1st.features.dev.impl.menu.domain.GetMenuUseCase
 import br.com.mob1st.features.utils.errors.CommonError
-import br.com.mob1st.features.utils.errors.DefaultSnackManager
 import br.com.mob1st.features.utils.errors.LogExceptionHandler
+import br.com.mob1st.features.utils.errors.QueueSnackManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,8 +27,8 @@ import org.koin.android.annotation.KoinViewModel
 @KoinViewModel
 internal class MenuViewModel(
     getMenuUseCase: GetMenuUseCase,
-    private val snackManager: DefaultSnackManager,
-) : ViewModel(),
+    private val snackManager: QueueSnackManager,
+) : ViewModel(snackManager),
     StateOutputManager<MenuPageState>,
     ListSelectionManager,
     NavigationConsumeManager,
@@ -36,19 +36,18 @@ internal class MenuViewModel(
     SnackbarManager by snackManager {
 
     // inputs
-
-    private val retries = MutableSharedFlow<Unit>()
+    private val retryInput = MutableSharedFlow<Unit>()
 
     // outputs
-    private val selectedItemState = MutableStateFlow<Int?>(null)
-    private val commonErrorsState = MutableStateFlow<CommonError?>(null)
+    private val selectedItemOutput = MutableStateFlow<Int?>(null)
+    private val commonErrorOutput = MutableStateFlow<CommonError?>(null)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override val output: StateFlow<MenuPageState> = combine(
-        retries.onStart { emit(Unit) }.flatMapLatest { getMenuUseCase() },
-        commonErrorsState,
+        retryInput.onStart { emit(Unit) }.flatMapLatest { getMenuUseCase() },
+        commonErrorOutput,
         snackManager.peeks,
-        selectedItemState,
+        selectedItemOutput,
         ::MenuPageState
     ).stateInRetained(
         scope = viewModelScope + LogExceptionHandler(::handleError),
@@ -56,26 +55,26 @@ internal class MenuViewModel(
     )
 
     private fun handleError(throwable: Throwable) {
-        commonErrorsState.update {
+        commonErrorOutput.update {
             CommonError.from(throwable)
         }
     }
 
     override fun selectItem(position: Int) {
         if (position == MenuPageState.GALLERY_POSITION) {
-            selectedItemState.update { position }
+            selectedItemOutput.update { position }
         } else {
             snackManager.offer(MenuPageState.todoSnack)
         }
     }
 
     override fun consumeNavigation() {
-        selectedItemState.update { null }
+        selectedItemOutput.update { null }
     }
 
     override fun primaryAction() {
         viewModelScope.launch {
-            retries.emit(Unit)
+            retryInput.emit(Unit)
         }
     }
 }

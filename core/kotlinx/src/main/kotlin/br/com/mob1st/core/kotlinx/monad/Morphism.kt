@@ -24,16 +24,6 @@ fun interface Isomorphism<L, R> {
      * Returns the pair of morphisms.
      */
     operator fun invoke(): Pair<Morphism<L, R>, Morphism<R, L>>
-
-    /**
-     * Maps an element of the left set to an element of the right set.
-     */
-    operator fun get(left: L): R = invoke().first[left]
-
-    /**
-     * Maps an element of the right set to an element of the left set.
-     */
-    operator fun get(right: R): L = invoke().second[right]
 }
 
 /**

@@ -8,9 +8,11 @@ import br.com.mob1st.core.kotlinx.coroutines.DEFAULT
 import br.com.mob1st.core.kotlinx.coroutines.IO
 import br.com.mob1st.core.kotlinx.coroutines.MAIN
 import br.com.mob1st.core.kotlinx.serialization.defaultJson
-import br.com.mob1st.features.dev.impl.data.BuildInfoDataSource
+import br.com.mob1st.features.dev.impl.menu.data.BuildInfoDataSource
+import br.com.mob1st.features.utils.errors.QueueSnackManager
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
@@ -40,4 +42,7 @@ class AppModule {
 
     @Single
     fun buildInfoDataSource(): BuildInfoDataSource = AppBuildInfoDataSource
+
+    @Factory
+    fun queueSnackManager():  QueueSnackManager = QueueSnackManager()
 }

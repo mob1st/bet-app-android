@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.data
+package br.com.mob1st.features.dev.impl.menu.data
 
 import br.com.mob1st.core.kotlinx.coroutines.IO
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
@@ -24,18 +24,19 @@ internal class ProjectSettingsRepositoryImpl(
     private val beEnvIsomorphism = BackendEnvironmentIsomorphism(
         buildInfoDataSource.data.isReleaseBuild
     )
+
     override fun get(): Flow<ProjectSettings> = backendEnvironmentDataSource
         .get()
         .map { backendEnvironment ->
             val buildInfo = buildInfoDataSource.data
             ProjectSettings(
                 buildInfo = buildInfo,
-                backendEnvironment = beEnvIsomorphism[backendEnvironment]
+                backendEnvironment = beEnvIsomorphism().second[backendEnvironment]
             )
         }
         .flowOn(io)
 
     override suspend fun set(backendEnvironment: BackendEnvironment) = withContext(io) {
-        backendEnvironmentDataSource.set(beEnvIsomorphism[backendEnvironment])
+        backendEnvironmentDataSource.set(beEnvIsomorphism().first[backendEnvironment])
     }
 }
