@@ -17,7 +17,7 @@ fun ListItem(state: ListItemState, modifier: Modifier = Modifier) {
     }
     val leading: @Composable (() -> Unit)? = state.leading?.let { avatarState ->
         @Composable {
-            LeadingAvatar(avatarState = avatarState)
+            // LeadingAvatar(avatarState = avatarState)
         }
     }
     ListItem(

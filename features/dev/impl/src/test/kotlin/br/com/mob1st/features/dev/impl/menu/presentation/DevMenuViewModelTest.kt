@@ -130,23 +130,4 @@ class DevMenuViewModelTest {
             )
         }
     }
-
-    object SelectOptionArguments : ArgumentsProvider {
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
-            val devMenu = DevMenu(BackendEnvironment.values().random())
-            val position = (0..devMenu.entries.lastIndex).random()
-            return Stream.of(
-                Arguments.of(
-                    position,
-                    true,
-                    devMenu
-                ),
-                Arguments.of(
-                    position,
-                    false,
-                    devMenu
-                )
-            )
-        }
-    }
 }
