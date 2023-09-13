@@ -28,7 +28,6 @@ dependencies {
     api(projects.features.dev.publicApi)
 
     // bundles
-    implementation(libs.bundles.arrow)
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
     implementation(libs.bundles.compose)
@@ -51,12 +50,10 @@ dependencies {
     dokkaPlugin(libs.plugin.dokka.android)
     ksp(libs.koin.compiler)
 
-    testImplementation(libs.kotest.runner)
     testImplementation(libs.bundles.unittest.android)
     testImplementation(projects.tests.unit)
     testImplementation(projects.tests.featuresUtils)
     testImplementation(libs.bundles.junit5)
-    // testImplementation(libs.android.test.arch)
 
     androidTestImplementation(libs.bundles.android.test)
     androidTestImplementation(libs.compose.test)

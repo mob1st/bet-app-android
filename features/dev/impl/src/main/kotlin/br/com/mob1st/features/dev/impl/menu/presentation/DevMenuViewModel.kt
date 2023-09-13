@@ -40,7 +40,7 @@ internal class DevMenuViewModel(
         selectedItemOutput,
         MenuPageState::transform
     ).stateInRetained(
-        scope = viewModelScope, // + LogExceptionHandler(),
+        scope = viewModelScope,
         initialValue = MenuPageState.Empty
     )
 
