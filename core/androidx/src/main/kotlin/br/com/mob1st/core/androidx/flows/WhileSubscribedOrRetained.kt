@@ -77,6 +77,7 @@ data object WhileSubscribedOrRetained : SharingStarted {
  */
 fun <T> Flow<T>.stateInRetained(scope: CoroutineScope, initialValue: T) = stateIn(
     scope = scope,
+    // started = SharingStarted.WhileSubscribed(),
     started = WhileSubscribedOrRetained,
     initialValue = initialValue
 )

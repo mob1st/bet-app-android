@@ -1,22 +1,18 @@
 package br.com.mob1st.features.dev.impl.menu.data
 
-import br.com.mob1st.core.kotlinx.coroutines.IO
+import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
 import br.com.mob1st.features.dev.publicapi.domain.ProjectSettings
 import br.com.mob1st.features.dev.publicapi.domain.ProjectSettingsRepository
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
-import org.koin.core.annotation.Named
 
 @Factory
 internal class ProjectSettingsRepositoryImpl(
-    @Named(IO)
-    private val io: CoroutineDispatcher = Dispatchers.IO,
+    private val io: IoCoroutineDispatcher,
     private val buildInfoDataSource: BuildInfoDataSource,
     private val backendEnvironmentDataSource: BackendEnvironmentDataSource,
 ) : ProjectSettingsRepository {

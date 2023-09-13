@@ -79,6 +79,7 @@ private data class PluralString(
     override fun resolve(resources: Resources): AnnotatedString {
         val params = parameters.toStrings(resources)
         params.copyOf(params.size)
+        @Suppress("SpreadOperator")
         return resources.getQuantityString(id, quantity, *params).let(::AnnotatedString)
     }
 }

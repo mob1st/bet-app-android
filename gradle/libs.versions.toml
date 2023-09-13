@@ -18,6 +18,9 @@ leakcanary = "2.10"
 mockk = "1.13.7"
 dokka = "1.8.20"
 datastore = "1.0.0"
+junit5-plugin = "1.9.3.0"
+junit5 = "5.9.3"
+coroutines = "1.7.3"
 
 [libraries]
 # androidx
@@ -29,6 +32,7 @@ android-test-junit = "androidx.test.ext:junit:1.1.5"
 android-test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
 android-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
 android-test-macrobenchmark = "androidx.benchmark:benchmark-macro-junit4:1.2.0-beta05"
+android-test-arch = "androidx.arch.core:core-testing:2.2.0"
 
 # lifecycle
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -96,7 +100,8 @@ arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", versio
 
 # kotlin
 kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
-kotlin-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
+kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
 
 
@@ -109,19 +114,24 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 mockk-kotlin = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 mockk-agent = { module = "io.mockk:mockk-agent-jvm", version.ref = "mockk" }
+junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
+junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
+junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
 
 # classpath plugins
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
-plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.8" }
+plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
 plugin-google = { module = "com.google.gms:google-services", version = "4.3.15" }
 plugin-detekt-libraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
 plugin-detekt-twitter-compose = { module = "com.twitter.compose.rules:detekt", version = "0.0.22" }
 plugin-dokka-android = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokka" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plugin-junit5 = { module = "de.mannodermaus.gradle.plugins:android-junit5", version.ref = "junit5-plugin" }
 
 [bundles]
 android = ["android-core"]
 android-test = ["android-test-junit", "android-test-espresso"]
+junit5 = ["junit5-api", "junit5-engine", "junit5-params"]
 unittest-kotlin = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-kotlin", "kotlin-reflection", "kotlin-test"]
 unittest-android = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-android", "mockk-agent", "kotlin-reflection", "kotlin-test"]
 
@@ -166,4 +176,5 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "11.5.1" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 sonarqube = { id = "org.sonarqube", version = "4.0.0.2929" }
+junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5-plugin" }
 

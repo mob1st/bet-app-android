@@ -19,7 +19,7 @@ dependencies {
 
     // standalone
     implementation(libs.timber)
-    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.core)
     implementation(project(mapOf("path" to ":core:navigation")))
 
     dokkaPlugin(libs.plugin.dokka.android)

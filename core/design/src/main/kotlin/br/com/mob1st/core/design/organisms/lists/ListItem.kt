@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import br.com.mob1st.core.design.atoms.properties.Text
 import br.com.mob1st.core.design.atoms.properties.rememberAnnotatedString
-import br.com.mob1st.core.design.molecules.avatar.AvatarState
 
 @Composable
 fun ListItem(state: ListItemState, modifier: Modifier = Modifier) {
@@ -35,8 +34,4 @@ fun ListItem(state: ListItemState, modifier: Modifier = Modifier) {
 private fun SupportingText(text: Text) {
     val supporting = rememberAnnotatedString(text = text)
     Text(text = supporting)
-}
-
-@Composable
-private fun LeadingAvatar(avatarState: AvatarState) {
 }

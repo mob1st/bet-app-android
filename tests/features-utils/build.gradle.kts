@@ -4,11 +4,10 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("commonSetup")
-    alias(libs.plugins.junit5)
 }
 
 android {
-    namespace = "br.com.mob1st.tests.unit"
+    namespace = "br.com.mob1st.tests.featuresutils"
 }
 
 dependencies {
@@ -16,8 +15,10 @@ dependencies {
     implementation(libs.kotlin.test)
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.unittest.android)
-    implementation(libs.bundles.unittest.kotlin)
-    implementation(libs.bundles.junit5)
-    implementation(libs.android.test.arch)
+
+    implementation(projects.core.androidx)
+    implementation(projects.core.design)
+    implementation(projects.core.state)
+    implementation(projects.features.utils)
     implementation(libs.kotlin.coroutines.test)
 }

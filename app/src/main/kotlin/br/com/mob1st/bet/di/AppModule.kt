@@ -2,19 +2,18 @@ package br.com.mob1st.bet.di
 
 import android.app.Application
 import br.com.mob1st.bet.features.dev.AppBuildInfoDataSource
-import br.com.mob1st.core.kotlinx.coroutines.APP_SCOPE
 import br.com.mob1st.core.kotlinx.coroutines.AppScopeProvider
-import br.com.mob1st.core.kotlinx.coroutines.DEFAULT
-import br.com.mob1st.core.kotlinx.coroutines.IO
-import br.com.mob1st.core.kotlinx.coroutines.MAIN
+import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
+import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
+import br.com.mob1st.core.kotlinx.coroutines.MainCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.serialization.defaultJson
 import br.com.mob1st.features.dev.impl.menu.data.BuildInfoDataSource
+import br.com.mob1st.features.utils.errors.QueueSnackDismissManager
 import br.com.mob1st.features.utils.errors.QueueSnackManager
-import kotlinx.coroutines.Dispatchers
+import br.com.mob1st.features.utils.navigation.SettingsNavigationEventBus
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
-import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 @Module
@@ -25,24 +24,25 @@ class AppModule {
     fun json() = defaultJson()
 
     @Single
-    @Named(IO)
-    fun dispatcherIO() = Dispatchers.IO
-
-    @Single
-    @Named(MAIN)
-    fun dispatcherMain() = Dispatchers.Main
-
-    @Single
-    @Named(DEFAULT)
-    fun dispatcherDefault() = Dispatchers.Default
-
-    @Single
-    @Named(APP_SCOPE)
     fun appScope(application: Application) = (application as AppScopeProvider).appScope
 
     @Single
     fun buildInfoDataSource(): BuildInfoDataSource = AppBuildInfoDataSource
 
+    @Single
+    fun ioDispatcher() = IoCoroutineDispatcher()
+
+    @Single
+    fun mainDispatcher() = MainCoroutineDispatcher()
+
+    @Single
+    fun defaultDispatcher() = DefaultCoroutineDispatcher()
+
+    @Single
+    fun settingsNavigationEventBus() = SettingsNavigationEventBus()
+
     @Factory
-    fun queueSnackManager():  QueueSnackManager = QueueSnackManager()
+    fun queueSnackManager(
+        settingsNavigationEventBus: SettingsNavigationEventBus
+    ):  QueueSnackDismissManager = QueueSnackManager(settingsNavigationEventBus)
 }

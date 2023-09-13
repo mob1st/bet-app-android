@@ -2,9 +2,7 @@
 
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-parcelize")
-    id("kotlinx-serialization")
+    kotlin("android")
     id("commonSetup")
 }
 
@@ -45,6 +43,7 @@ dependencies {
 
     testImplementation(libs.bundles.unittest.android)
     testImplementation(projects.tests.unit)
+    testImplementation(projects.tests.featuresUtils)
 
     androidTestImplementation(libs.bundles.android.test)
     androidTestImplementation(libs.compose.test)

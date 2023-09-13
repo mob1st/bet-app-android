@@ -11,29 +11,29 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.mob1st.core.design.organisms.lists.ListItem
 import br.com.mob1st.core.design.organisms.snack.Snackbar
 
 @Composable
 fun MenuPage() {
-    val vm = viewModel<MenuViewModel>()
-    val state by vm.output.collectAsState()
+    val vm = viewModel<DevMenuViewModel>()
+    val state by vm.output.collectAsStateWithLifecycle()
     MenuPageView(
-        state = state,
+        pageState = state,
         onSelectItem = vm::selectItem,
         onDismissSnackbar = vm::dismissSnack
     )
 }
 
 @Composable
-private fun MenuPageView(state: MenuPageState, onSelectItem: (Int) -> Unit, onDismissSnackbar: () -> Unit) {
+private fun MenuPageView(pageState: MenuPageState, onSelectItem: (Int) -> Unit, onDismissSnackbar: () -> Unit) {
     val snackbarHostState = remember { SnackbarHostState() }
-
+    val state = pageState as? MenuPageState.Loaded ?: return
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {

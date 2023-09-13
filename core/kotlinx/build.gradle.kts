@@ -11,7 +11,7 @@ tasks.withType<Test> {
 
 dependencies {
     api(libs.kotlin.collections)
-    api(libs.kotlin.coroutines)
+    api(libs.kotlin.coroutines.core)
     api(libs.kotlin.serialization.json)
     testImplementation(libs.bundles.unittest.kotlin)
 }

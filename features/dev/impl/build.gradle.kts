@@ -2,10 +2,9 @@
 
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android")
     alias(libs.plugins.google.ksp)
-    id("kotlin-parcelize")
-    id("kotlinx-serialization")
+    alias(libs.plugins.junit5)
     id("commonSetup")
 }
 
@@ -19,6 +18,10 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -29,6 +32,7 @@ dependencies {
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
     implementation(libs.bundles.compose)
+    implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.koin)
 
     // standalone
@@ -48,7 +52,11 @@ dependencies {
     ksp(libs.koin.compiler)
 
     testImplementation(libs.kotest.runner)
-    testImplementation(libs.koin.test)
+    testImplementation(libs.bundles.unittest.android)
+    testImplementation(projects.tests.unit)
+    testImplementation(projects.tests.featuresUtils)
+    testImplementation(libs.bundles.junit5)
+    // testImplementation(libs.android.test.arch)
 
     androidTestImplementation(libs.bundles.android.test)
     androidTestImplementation(libs.compose.test)

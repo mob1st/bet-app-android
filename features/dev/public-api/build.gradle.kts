@@ -17,7 +17,7 @@ dependencies {
 
     // standalone
     implementation(libs.timber)
-    implementation(libs.kotlin.coroutines)
+    implementation(libs.kotlin.coroutines.core)
     implementation(libs.timber)
 
     implementation(projects.core.state)
