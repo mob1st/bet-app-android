@@ -1,7 +1,7 @@
-package br.com.mob1st.features.dev.impl.menu.presentation
+package br.com.mob1st.features.dev.impl.presentation.menu
 
-import br.com.mob1st.features.dev.impl.menu.domain.DevMenu
-import br.com.mob1st.features.dev.impl.menu.domain.GetDevMenuUseCase
+import br.com.mob1st.features.dev.impl.domain.DevMenu
+import br.com.mob1st.features.dev.impl.domain.GetDevMenuUseCase
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.tests.featuresutils.FakeQueueSnackDismissManager

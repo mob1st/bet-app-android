@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.menu.presentation
+package br.com.mob1st.features.dev.impl.presentation.menu
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize

@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.menu.data
+package br.com.mob1st.features.dev.impl.data
 
 import br.com.mob1st.core.kotlinx.monad.Isomorphism
 import br.com.mob1st.core.kotlinx.monad.Morphism

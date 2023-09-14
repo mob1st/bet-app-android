@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import br.com.mob1st.core.navigation.NavRoot
-import br.com.mob1st.features.dev.impl.menu.presentation.DevMenuPage
+import br.com.mob1st.features.dev.impl.presentation.menu.DevMenuPage
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 
 object DevSettingsNavRoot : NavRoot {

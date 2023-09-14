@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.menu.presentation
+package br.com.mob1st.features.dev.impl.presentation.menu
 
 import br.com.mob1st.core.design.atoms.properties.Text
 import br.com.mob1st.core.design.organisms.helper.HelperState
@@ -6,8 +6,8 @@ import br.com.mob1st.core.design.organisms.lists.ListItemState
 import br.com.mob1st.core.design.organisms.snack.SnackState
 import br.com.mob1st.core.kotlinx.errors.NoConnectivityException
 import br.com.mob1st.features.dev.impl.R
-import br.com.mob1st.features.dev.impl.menu.domain.DevMenu
-import br.com.mob1st.features.dev.impl.menu.domain.DevMenuEntry
+import br.com.mob1st.features.dev.impl.domain.DevMenu
+import br.com.mob1st.features.dev.impl.domain.DevMenuEntry
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.utils.errors.CommonError
@@ -69,7 +69,10 @@ internal class DevMenuPageStateTest {
             supporting = Text(randomString()),
             action = Text(randomString())
         )
-        val actual = DevMenuPageState.transform(result = result, snack = expected) as DevMenuPageState.Loaded
+        val actual = DevMenuPageState.transform(
+            result = result,
+            snack = expected
+        ) as DevMenuPageState.Loaded
         assertEquals(
             expected = expected,
             actual = actual.snack
@@ -83,7 +86,10 @@ internal class DevMenuPageStateTest {
         expected: DevSettingsNavTarget?,
     ) {
         val result = devMenu()
-        val actual = DevMenuPageState.transform(result = result, selectedItem = selectedItem) as DevMenuPageState.Loaded
+        val actual = DevMenuPageState.transform(
+            result = result,
+            selectedItem = selectedItem
+        ) as DevMenuPageState.Loaded
         assertEquals(
             expected = expected,
             actual = actual.navigationTarget

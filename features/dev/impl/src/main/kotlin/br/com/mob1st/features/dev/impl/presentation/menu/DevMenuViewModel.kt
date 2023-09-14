@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.menu.presentation
+package br.com.mob1st.features.dev.impl.presentation.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +9,7 @@ import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.core.state.contracts.ListSelectionManager
 import br.com.mob1st.core.state.contracts.SnackbarDismissManager
 import br.com.mob1st.core.state.contracts.StateOutputManager
-import br.com.mob1st.features.dev.impl.menu.domain.GetDevMenuUseCase
+import br.com.mob1st.features.dev.impl.domain.GetDevMenuUseCase
 import br.com.mob1st.features.utils.errors.QueueSnackDismissManager
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +38,7 @@ internal class DevMenuViewModel(
         retryInput.trigger { getMenuUseCase().asResultFlow() },
         snackManager.output(viewModelScope),
         selectedItemOutput,
-        DevMenuPageState::transform
+        DevMenuPageState.Companion::transform
     ).stateInRetained(
         scope = viewModelScope,
         initialValue = DevMenuPageState.Empty

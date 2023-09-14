@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.menu.domain
+package br.com.mob1st.features.dev.impl.domain
 
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
 
