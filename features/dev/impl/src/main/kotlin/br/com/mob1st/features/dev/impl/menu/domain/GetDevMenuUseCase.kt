@@ -9,7 +9,7 @@ import org.koin.core.annotation.Factory
  * Use case to get the menu data
  */
 @Factory
-class GetDevMenuUseCase(
+internal class GetDevMenuUseCase(
     private val projectSettingsRepository: ProjectSettingsRepository,
 ) {
     operator fun invoke(): Flow<DevMenu> = projectSettingsRepository

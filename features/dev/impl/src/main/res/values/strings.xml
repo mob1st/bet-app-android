@@ -9,5 +9,7 @@
     <string name="dev_menu_list_item_gallery_supporting">Explore the design system</string>
     <string name="dev_menu_list_item_featureflags_headline">Feature Flags</string>
     <string name="dev_menu_list_item_featureflags_supporting">Toggle feature flags</string>
+    <string name="dev_menu_list_item_entrypoints_headline">Entries Points</string>
+    <string name="dev_menu_list_item_entrypoints_supporting">Get easy access to a feature</string>
     <string name="dev_menu_snack_todo_supporting">Feature not implemented yet</string>
 </resources>

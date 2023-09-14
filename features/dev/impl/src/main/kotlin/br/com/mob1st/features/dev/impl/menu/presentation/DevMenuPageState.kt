@@ -11,19 +11,19 @@ import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
 import br.com.mob1st.features.utils.errors.CommonError
 
 /**
- * Represents the state of the menu page.
+ * The state of the menu page.
  */
 @Immutable
-sealed class MenuPageState {
+internal sealed class DevMenuPageState {
 
     /**
-     * Represents the state of the menu page when it's loaded.
+     * The state of the menu page when it's loaded.
      */
     data class Loaded(
         val menu: DevMenu,
         val snack: SnackState? = null,
         val selectedItem: Int? = null,
-    ) : MenuPageState() {
+    ) : DevMenuPageState() {
         val items: List<ListItemState> = menu.entries.map(::toListItem)
         val navigationTarget = selectedItem?.let {
             when (menu.entries[selectedItem]) {
@@ -34,21 +34,26 @@ sealed class MenuPageState {
     }
 
     /**
-     * Represents the state of the menu page when it's failed to load.
+     * The state of the menu page when it's failed to load.
      */
-    data class Failed(val commonError: CommonError) : MenuPageState() {
+    data class Failed(val commonError: CommonError) : DevMenuPageState() {
         val helper = commonError.helper
     }
 
     /**
      * Represents the state of the menu page when it's empty.
      */
-    data object Empty : MenuPageState()
+    data object Empty : DevMenuPageState()
 
     companion object {
 
         /**
-         * Transforms the result of the use case into a [MenuPageState].
+         * Transforms the result of the use case into a [DevMenuPageState].
+         *
+         * If result is [Result.isSuccess] it will be transformed into [Loaded], otherwise it will be transformed into
+         * @param result the result of the fetch operation.
+         * @param snack the snack to be displayed.
+         * @param selectedItem the selected item of the list.
          */
         fun transform(result: Result<DevMenu>, snack: SnackState? = null, selectedItem: Int? = null) = result.map {
             Loaded(it, snack, selectedItem)
@@ -60,8 +65,7 @@ sealed class MenuPageState {
          * The snack displayed when the selected feature is not implemented yet.
          */
         fun TodoSnack(): SnackState = SnackState(
-            supporting = Text("TODO"),
-            action = Text("TODO")
+            supporting = Text(R.string.dev_menu_snack_todo_supporting)
         )
     }
 
@@ -100,8 +104,8 @@ private fun toListItem(entry: DevMenuEntry): ListItemState {
             supporting = Text(R.string.dev_menu_list_item_gallery_supporting)
         )
         DevMenuEntry.EntryPoint -> ListItemState(
-            headline = Text(R.string.dev_menu_list_item_featureflags_headline),
-            supporting = Text(R.string.dev_menu_list_item_gallery_supporting)
+            headline = Text(R.string.dev_menu_list_item_entrypoints_headline),
+            supporting = Text(R.string.dev_menu_list_item_entrypoints_supporting)
         )
     }
 }

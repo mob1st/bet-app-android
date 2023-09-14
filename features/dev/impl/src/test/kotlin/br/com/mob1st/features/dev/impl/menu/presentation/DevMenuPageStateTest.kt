@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
 import kotlin.test.assertEquals
 
-class MenuPageStateTest {
+internal class DevMenuPageStateTest {
 
     @ParameterizedTest
     @ArgumentsSource(TestFailureArguments::class)
@@ -30,7 +30,7 @@ class MenuPageStateTest {
         expected: HelperState,
     ) {
         val result = Result.failure<DevMenu>(failure)
-        val actual = MenuPageState.transform(result = result) as MenuPageState.Failed
+        val actual = DevMenuPageState.transform(result = result) as DevMenuPageState.Failed
         assertEquals(
             expected = expected,
             actual = actual.helper
@@ -39,12 +39,12 @@ class MenuPageStateTest {
 
     @ParameterizedTest
     @ArgumentsSource(TestListItemsArguments::class)
-    fun `GIVEN a dev menu WHEN transform THEN assert state loaded list`(
+    internal fun `GIVEN a dev menu WHEN transform THEN assert state loaded list`(
         entry: DevMenuEntry,
         expected: ListItemState,
     ) {
         val result = Result.success(DevMenu(entries = listOf(entry)))
-        val actual = MenuPageState.transform(result = result) as MenuPageState.Loaded
+        val actual = DevMenuPageState.transform(result = result) as DevMenuPageState.Loaded
         assertEquals(
             expected = expected,
             actual = actual.items.first()
@@ -54,7 +54,7 @@ class MenuPageStateTest {
     @Test
     fun `GIVEN a dev menu WHEN transform THEN assert all items were mapped`() {
         val result = devMenu()
-        val actual = MenuPageState.transform(result = result) as MenuPageState.Loaded
+        val actual = DevMenuPageState.transform(result = result) as DevMenuPageState.Loaded
         assertEquals(
             expected = result.getOrThrow().entries.size,
             actual = actual.items.size
@@ -68,7 +68,7 @@ class MenuPageStateTest {
             supporting = Text(randomString()),
             action = Text(randomString())
         )
-        val actual = MenuPageState.transform(result = result, snack = expected) as MenuPageState.Loaded
+        val actual = DevMenuPageState.transform(result = result, snack = expected) as DevMenuPageState.Loaded
         assertEquals(
             expected = expected,
             actual = actual.snack
@@ -79,10 +79,10 @@ class MenuPageStateTest {
     @ArgumentsSource(TestNavigationTargetArguments::class)
     fun `GIVEN a dev menu And a any selected item WHEN transform THEN assert state navigation target`(
         selectedItem: Int,
-        expected: MenuPageState.NavigationTarget?,
+        expected: DevMenuPageState.NavigationTarget?,
     ) {
         val result = devMenu()
-        val actual = MenuPageState.transform(result = result, selectedItem = selectedItem) as MenuPageState.Loaded
+        val actual = DevMenuPageState.transform(result = result, selectedItem = selectedItem) as DevMenuPageState.Loaded
         assertEquals(
             expected = expected,
             actual = actual.navigationTarget
@@ -161,8 +161,8 @@ class MenuPageStateTest {
                 Arguments.of(
                     DevMenuEntry.EntryPoint,
                     ListItemState(
-                        headline = Text(R.string.dev_menu_list_item_featureflags_headline),
-                        supporting = Text(R.string.dev_menu_list_item_gallery_supporting)
+                        headline = Text(R.string.dev_menu_list_item_entrypoints_headline),
+                        supporting = Text(R.string.dev_menu_list_item_entrypoints_supporting)
                     )
                 )
             )
@@ -181,7 +181,7 @@ class MenuPageStateTest {
                 ),
                 Arguments.of(
                     2,
-                    MenuPageState.NavigationTarget.Gallery
+                    DevMenuPageState.NavigationTarget.Gallery
                 ),
                 Arguments.of(
                     3,

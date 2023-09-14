@@ -32,7 +32,7 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(ViewModelTestExtension::class)
-class DevMenuViewModelTest {
+internal class DevMenuViewModelTest {
 
     private lateinit var getDevMenuUseCase: GetDevMenuUseCase
     private lateinit var snackDismissManager: FakeQueueSnackDismissManager
@@ -47,7 +47,7 @@ class DevMenuViewModelTest {
     @ArgumentsSource(InitialStateArguments::class)
     fun `GIVEN a dev menu WHEN collect THEN assert the expected state`(
         devMenuFlow: Flow<DevMenu>,
-        expectedState: MenuPageState,
+        expectedState: DevMenuPageState,
     ) = runTest {
         givenDevMenu(devMenuFlow)
         val viewModel = initViewModel()
@@ -70,7 +70,7 @@ class DevMenuViewModelTest {
         viewModel.selectItem(position)
 
         assertEquals(
-            MenuPageState.Loaded(
+            DevMenuPageState.Loaded(
                 menu = DevMenu(backendEnvironment),
                 selectedItem = position
             ),
@@ -94,9 +94,9 @@ class DevMenuViewModelTest {
         viewModel.selectItem(position)
 
         assertEquals(
-            MenuPageState.Loaded(
+            DevMenuPageState.Loaded(
                 menu = DevMenu(backendEnvironment),
-                snack = MenuPageState.TodoSnack()
+                snack = DevMenuPageState.TodoSnack()
             ),
             viewModel.output.value
         )
@@ -118,7 +118,7 @@ class DevMenuViewModelTest {
         viewModel.consumeNavigation()
 
         assertEquals(
-            MenuPageState.Loaded(devMenu),
+            DevMenuPageState.Loaded(devMenu),
             viewModel.output.value
         )
     }
@@ -138,15 +138,15 @@ class DevMenuViewModelTest {
             return Stream.of(
                 Arguments.of(
                     emptyFlow<DevMenu>(),
-                    MenuPageState.Empty
+                    DevMenuPageState.Empty
                 ),
                 Arguments.of(
                     flow<DevMenu> { error("Unknown") },
-                    MenuPageState.Failed(commonError = CommonError.Unknown)
+                    DevMenuPageState.Failed(commonError = CommonError.Unknown)
                 ),
                 Arguments.of(
                     flowOf(DevMenu(backendEnvironment)),
-                    MenuPageState.Loaded(DevMenu(backendEnvironment))
+                    DevMenuPageState.Loaded(DevMenu(backendEnvironment))
                 )
             )
         }

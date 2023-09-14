@@ -1,6 +1,7 @@
 package br.com.mob1st.features.dev.impl.menu.domain
 
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
+import br.com.mob1st.tests.unit.randomEnum
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -33,7 +34,7 @@ class DevMenuTest {
 
     @Test
     fun `GIVEN a non gallery position WHEN check if it's allowed THEN returns false`() {
-        val devMenu = DevMenu(BackendEnvironment.values().random())
+        val devMenu = DevMenu(currentEnv = randomEnum())
         val noGalleryEntries = devMenu.entries - DevMenuEntry.Gallery
         val nonGalleryIndex = List(noGalleryEntries.size) { index -> index }.random()
         assertEquals(

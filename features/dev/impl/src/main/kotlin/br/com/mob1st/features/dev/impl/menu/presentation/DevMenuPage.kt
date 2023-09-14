@@ -20,10 +20,10 @@ import br.com.mob1st.core.design.organisms.lists.ListItem
 import br.com.mob1st.core.design.organisms.snack.Snackbar
 
 @Composable
-fun MenuPage() {
+fun DevMenuPage() {
     val vm = viewModel<DevMenuViewModel>()
     val state by vm.output.collectAsStateWithLifecycle()
-    MenuPageView(
+    DevMenuPageView(
         pageState = state,
         onSelectItem = vm::selectItem,
         onDismissSnackbar = vm::dismissSnack
@@ -31,9 +31,9 @@ fun MenuPage() {
 }
 
 @Composable
-private fun MenuPageView(pageState: MenuPageState, onSelectItem: (Int) -> Unit, onDismissSnackbar: () -> Unit) {
+private fun DevMenuPageView(pageState: DevMenuPageState, onSelectItem: (Int) -> Unit, onDismissSnackbar: () -> Unit) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val state = pageState as? MenuPageState.Loaded ?: return
+    val state = pageState as? DevMenuPageState.Loaded ?: return
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {

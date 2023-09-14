@@ -24,7 +24,7 @@ internal class DevMenuViewModel(
     getMenuUseCase: GetDevMenuUseCase,
     private val snackManager: QueueSnackDismissManager,
 ) : ViewModel(),
-    StateOutputManager<MenuPageState>,
+    StateOutputManager<DevMenuPageState>,
     ListSelectionManager,
     SnackbarDismissManager by snackManager {
 
@@ -34,22 +34,22 @@ internal class DevMenuViewModel(
     // outputs
     private val selectedItemOutput = MutableStateFlow<Int?>(null)
 
-    override val output: StateFlow<MenuPageState> = combine(
+    override val output: StateFlow<DevMenuPageState> = combine(
         retryInput.trigger { getMenuUseCase().asResultFlow() },
         snackManager.output(viewModelScope),
         selectedItemOutput,
-        MenuPageState::transform
+        DevMenuPageState::transform
     ).stateInRetained(
         scope = viewModelScope,
-        initialValue = MenuPageState.Empty
+        initialValue = DevMenuPageState.Empty
     )
 
     override fun selectItem(position: Int) {
-        val value = checkIs<MenuPageState.Loaded>(output.value)
+        val value = checkIs<DevMenuPageState.Loaded>(output.value)
         if (value.menu.isAllowed(position)) {
             selectedItemOutput.update { position }
         } else {
-            snackManager.offer(MenuPageState.TodoSnack())
+            snackManager.offer(DevMenuPageState.TodoSnack())
         }
     }
 
