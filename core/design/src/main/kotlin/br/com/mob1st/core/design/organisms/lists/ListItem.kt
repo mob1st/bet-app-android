@@ -15,7 +15,7 @@ fun ListItem(state: ListItemState, modifier: Modifier = Modifier) {
             SupportingText(text = text)
         }
     }
-    val leading: @Composable (() -> Unit)? = state.leading?.let { avatarState ->
+    val leading: @Composable (() -> Unit)? = state.leading?.let {
         @Composable {
             // LeadingAvatar(avatarState = avatarState)
         }

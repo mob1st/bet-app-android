@@ -9,10 +9,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import java.util.LinkedList
-import java.util.Queue
 
 /**
  * Provides state management for [SnackState]s using a Queue strategy to add/remove snacks.
@@ -47,11 +46,17 @@ private class QueueSnackManagerImpl(
     private val settingsEventBus: SettingsNavigationEventBus,
 ) : QueueSnackDismissManager {
 
-    private val _output: MutableStateFlow<Queue<SnackSource>> = MutableStateFlow(LinkedList())
+    private val _output: MutableStateFlow<List<SnackSource>> = MutableStateFlow(emptyList())
 
     override fun output(scope: CoroutineScope): StateFlow<SnackState?> {
         return _output
+            .onEach {
+                it.firstOrNull()?.first
+            }
             .map { it.firstOrNull()?.first }
+            .onEach {
+                it?.action
+            }
             .stateIn(
                 scope = scope,
                 started = SharingStarted.WhileSubscribed(),
@@ -61,8 +66,7 @@ private class QueueSnackManagerImpl(
 
     override fun dismissSnack() {
         _output.update {
-            it.poll()
-            it
+            it - it.first()
         }
     }
 
@@ -97,16 +101,16 @@ private class QueueSnackManagerImpl(
                 val action: SnackPerformAction = suspend {
                     pollAndInvoke(snack, performAction)
                 }
-                list.offer(snack to action)
+                list + (snack to action)
+            } else {
+                list
             }
-            list
         }
     }
 
     private suspend fun pollAndInvoke(snack: SnackState, performAction: SnackPerformAction?) {
         _output.update { list ->
-            list -= list.first { it.first == snack }
-            list
+            list - list.first { it.first == snack }
         }
         performAction?.invoke()
     }
