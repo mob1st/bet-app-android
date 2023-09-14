@@ -9,6 +9,7 @@ import br.com.mob1st.features.dev.impl.R
 import br.com.mob1st.features.dev.impl.menu.domain.DevMenu
 import br.com.mob1st.features.dev.impl.menu.domain.DevMenuEntry
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
+import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.tests.unit.randomEnum
 import br.com.mob1st.tests.unit.randomString
@@ -79,7 +80,7 @@ internal class DevMenuPageStateTest {
     @ArgumentsSource(TestNavigationTargetArguments::class)
     fun `GIVEN a dev menu And a any selected item WHEN transform THEN assert state navigation target`(
         selectedItem: Int,
-        expected: DevMenuPageState.NavigationTarget?,
+        expected: DevSettingsNavTarget?,
     ) {
         val result = devMenu()
         val actual = DevMenuPageState.transform(result = result, selectedItem = selectedItem) as DevMenuPageState.Loaded
@@ -181,7 +182,7 @@ internal class DevMenuPageStateTest {
                 ),
                 Arguments.of(
                     2,
-                    DevMenuPageState.NavigationTarget.Gallery
+                    DevSettingsNavTarget.Gallery
                 ),
                 Arguments.of(
                     3,
