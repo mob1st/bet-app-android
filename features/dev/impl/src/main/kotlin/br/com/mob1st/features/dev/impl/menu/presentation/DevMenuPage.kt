@@ -18,7 +18,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.design.organisms.lists.ListItem
 import br.com.mob1st.core.design.organisms.snack.Snackbar
 import org.koin.androidx.compose.koinViewModel
-import timber.log.Timber
 
 @Composable
 internal fun DevMenuPage() {
@@ -48,7 +47,6 @@ private fun DevMenuPageView(pageState: DevMenuPageState, onSelectItem: (Int) -> 
                     state = item,
                     modifier = Modifier
                         .clickable {
-                            Timber.d("ptest compose click $index")
                             onSelectItem(index)
                         }
                 )

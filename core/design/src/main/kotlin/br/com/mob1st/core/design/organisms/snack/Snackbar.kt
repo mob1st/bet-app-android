@@ -9,7 +9,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import br.com.mob1st.core.design.atoms.properties.rememberAnnotatedString
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Composable
 fun Snackbar(
@@ -28,7 +27,6 @@ fun Snackbar(
     val currentOnDismiss by rememberUpdatedState(newValue = onDismiss)
     val currentOnPerformAction by rememberUpdatedState(newValue = onPerformAction)
     LaunchedEffect(key1 = snackbarHostState, key2 = snackState) {
-        Timber.d("ptest Showing snackbar: $snackState")
         snackState?.let {
             scope.launch {
                 val result = snackbarHostState.showSnackbar(

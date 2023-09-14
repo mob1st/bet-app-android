@@ -10,7 +10,6 @@ import br.com.mob1st.features.dev.impl.menu.domain.DevMenuEntry
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.utils.errors.CommonError
-import timber.log.Timber
 
 /**
  * The state of the menu page.
@@ -58,7 +57,6 @@ internal sealed class DevMenuPageState {
          * @param selectedItem the selected item of the list.
          */
         fun transform(result: Result<DevMenu>, snack: SnackState? = null, selectedItem: Int? = null) = result.map {
-            Timber.d("ptest transform $snack")
             Loaded(it, snack, selectedItem)
         }.getOrElse {
             Failed(CommonError.from(it))
@@ -84,7 +82,7 @@ private fun toListItem(entry: DevMenuEntry): ListItemState {
             ListItemState(
                 headline = Text(R.string.dev_menu_list_ite_environment_headline),
                 supporting = Text(R.string.dev_menu_list_item_featureflags_supporting),
-                trailing = ListItemState.SupportingText(Text(envResId))
+                trailing = ListItemState.Text(Text(envResId))
             )
         }
         DevMenuEntry.FeatureFlags -> ListItemState(

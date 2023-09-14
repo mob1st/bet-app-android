@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
-import timber.log.Timber
 
 @KoinViewModel
 internal class DevMenuViewModel(
@@ -46,7 +45,6 @@ internal class DevMenuViewModel(
     )
 
     override fun selectItem(position: Int) {
-        Timber.d("ptest select item $position")
         val value = checkIs<DevMenuPageState.Loaded>(output.value)
         if (value.menu.isAllowed(position)) {
             selectedItemOutput.update { position }

@@ -119,7 +119,7 @@ internal class DevMenuPageStateTest {
                     ListItemState(
                         headline = Text(R.string.dev_menu_list_ite_environment_headline),
                         supporting = Text(R.string.dev_menu_list_item_featureflags_supporting),
-                        trailing = ListItemState.SupportingText(
+                        trailing = ListItemState.Text(
                             Text(R.string.dev_menu_list_item_environment_trailing_qa)
                         )
                     )
@@ -129,7 +129,7 @@ internal class DevMenuPageStateTest {
                     ListItemState(
                         headline = Text(R.string.dev_menu_list_ite_environment_headline),
                         supporting = Text(R.string.dev_menu_list_item_featureflags_supporting),
-                        trailing = ListItemState.SupportingText(
+                        trailing = ListItemState.Text(
                             Text(R.string.dev_menu_list_item_environment_trailing_staging)
                         )
                     )
@@ -139,7 +139,7 @@ internal class DevMenuPageStateTest {
                     ListItemState(
                         headline = Text(R.string.dev_menu_list_ite_environment_headline),
                         supporting = Text(R.string.dev_menu_list_item_featureflags_supporting),
-                        trailing = ListItemState.SupportingText(
+                        trailing = ListItemState.Text(
                             Text(R.string.dev_menu_list_item_environment_trailing_production)
                         )
                     )
