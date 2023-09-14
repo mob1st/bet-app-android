@@ -33,7 +33,7 @@ internal class BackendEnvironmentIsomorphism(
 
     companion object {
         private const val QA = "qa"
-        private const val PRODUCTION = "production"
         private const val STAGING = "staging"
+        private const val PRODUCTION = "production"
     }
 }

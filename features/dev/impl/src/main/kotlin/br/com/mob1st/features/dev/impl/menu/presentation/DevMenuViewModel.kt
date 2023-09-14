@@ -49,7 +49,7 @@ internal class DevMenuViewModel(
         if (value.menu.isAllowed(position)) {
             selectedItemOutput.update { position }
         } else {
-            snackManager.offer(MenuPageState.todoSnack)
+            snackManager.offer(MenuPageState.TodoSnack())
         }
     }
 

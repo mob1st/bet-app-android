@@ -2,7 +2,6 @@ package br.com.mob1st.features.dev.impl.menu.presentation
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.Text
-import br.com.mob1st.core.design.molecules.buttons.ButtonState
 import br.com.mob1st.core.design.organisms.lists.ListItemState
 import br.com.mob1st.core.design.organisms.snack.SnackState
 import br.com.mob1st.features.dev.impl.R
@@ -37,8 +36,8 @@ sealed class MenuPageState {
     /**
      * Represents the state of the menu page when it's failed to load.
      */
-    data class Failed(val commonError: CommonError?) : MenuPageState() {
-        val helper = Helper(commonError == CommonError.NoConnectivity)
+    data class Failed(val commonError: CommonError) : MenuPageState() {
+        val helper = commonError.helper
     }
 
     /**
@@ -57,18 +56,25 @@ sealed class MenuPageState {
             Failed(CommonError.from(it))
         }
 
-        val todoSnack: SnackState get() = SnackState(
+        /**
+         * The snack displayed when the selected feature is not implemented yet.
+         */
+        fun TodoSnack(): SnackState = SnackState(
             supporting = Text("TODO"),
             action = Text("TODO")
         )
     }
-}
 
-/**
- * Represents the navigation target of the menu page.
- */
-sealed interface NavigationTarget {
-    data object Gallery : NavigationTarget
+    /**
+     * Represents the navigation target of the menu page.
+     */
+    sealed interface NavigationTarget {
+
+        /**
+         * Navigates to the gallery page.
+         */
+        data object Gallery : NavigationTarget
+    }
 }
 
 private fun toListItem(entry: DevMenuEntry): ListItemState {
@@ -98,12 +104,4 @@ private fun toListItem(entry: DevMenuEntry): ListItemState {
             supporting = Text(R.string.dev_menu_list_item_gallery_supporting)
         )
     }
-}
-
-data class Helper(val isNoConnectivity: Boolean) {
-    val title: Text = Text(R.string.dev_menu_list_ite_environment_headline)
-    val subtitle: Text = Text(R.string.dev_menu_list_item_environment_supporting)
-    val button: ButtonState = ButtonState(
-        text = Text(R.string.dev_menu_list_item_featureflags_headline)
-    )
 }

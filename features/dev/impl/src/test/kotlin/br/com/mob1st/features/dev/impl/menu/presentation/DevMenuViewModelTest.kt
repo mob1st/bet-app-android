@@ -38,7 +38,7 @@ class DevMenuViewModelTest {
     private lateinit var snackDismissManager: FakeQueueSnackDismissManager
 
     @BeforeEach
-    fun before() {
+    fun setUp() {
         getDevMenuUseCase = mockk()
         snackDismissManager = FakeQueueSnackDismissManager()
     }
@@ -96,8 +96,29 @@ class DevMenuViewModelTest {
         assertEquals(
             MenuPageState.Loaded(
                 menu = DevMenu(backendEnvironment),
-                snack = MenuPageState.todoSnack
+                snack = MenuPageState.TodoSnack()
             ),
+            viewModel.output.value
+        )
+    }
+
+    @Test
+    fun `GIVEN a navigation event WHEN consume THEN remove navigation from state`() = runTest {
+        val backendEnvironment = BackendEnvironment.values().random()
+        val devMenu = spyk(DevMenu(backendEnvironment))
+        every { devMenu.isAllowed(any()) } returns true
+
+        givenDevMenu(flowOf(devMenu))
+        val viewModel = initViewModel()
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.output.collect()
+        }
+
+        viewModel.selectItem(1)
+        viewModel.consumeNavigation()
+
+        assertEquals(
+            MenuPageState.Loaded(devMenu),
             viewModel.output.value
         )
     }

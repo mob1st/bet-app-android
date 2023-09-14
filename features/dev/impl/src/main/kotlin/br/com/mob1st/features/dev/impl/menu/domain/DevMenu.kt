@@ -8,8 +8,8 @@ data class DevMenu(
     constructor(currentEnv: BackendEnvironment) : this(
         entries = listOf(
             DevMenuEntry.Environment(currentEnv),
-            DevMenuEntry.Gallery,
             DevMenuEntry.FeatureFlags,
+            DevMenuEntry.Gallery,
             DevMenuEntry.EntryPoint
         )
     )

@@ -102,7 +102,7 @@ arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", versio
 kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
 
 
 # unit tests
@@ -117,6 +117,7 @@ mockk-agent = { module = "io.mockk:mockk-agent-jvm", version.ref = "mockk" }
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
+easyrandom = "org.jeasy:easy-random-core:5.0.0"
 
 # classpath plugins
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
@@ -132,8 +133,17 @@ plugin-junit5 = { module = "de.mannodermaus.gradle.plugins:android-junit5", vers
 android = ["android-core"]
 android-test = ["android-test-junit", "android-test-espresso"]
 junit5 = ["junit5-api", "junit5-engine", "junit5-params"]
-unittest-kotlin = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-kotlin", "kotlin-reflection", "kotlin-test"]
-unittest-android = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-android", "mockk-agent", "kotlin-reflection", "kotlin-test"]
+unittest-kotlin = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-kotlin", "kotlin-reflection", "kotlin-test", "easyrandom"]
+unittest-android = [
+    "kotest-runner",
+    "kotest-property",
+    "kotest-assertions",
+    "mockk-android",
+    "mockk-agent",
+    "kotlin-reflection",
+    "kotlin-test",
+    "easyrandom"
+]
 
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]
 koin = ["koin-android", "koin-compose", "koin-annotations"]

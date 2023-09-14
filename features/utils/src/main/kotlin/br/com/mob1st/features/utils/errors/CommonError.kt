@@ -2,6 +2,8 @@ package br.com.mob1st.features.utils.errors
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.Text
+import br.com.mob1st.core.design.molecules.buttons.ButtonState
+import br.com.mob1st.core.design.organisms.helper.HelperState
 import br.com.mob1st.core.design.organisms.snack.SnackState
 import br.com.mob1st.core.kotlinx.errors.NoConnectivityException
 import br.com.mob1st.features.utils.errors.CommonError.NoConnectivity
@@ -17,6 +19,7 @@ import br.com.mob1st.features.utils.errors.CommonError.Unknown
 sealed interface CommonError {
 
     val snack: SnackState
+    val helper: HelperState
 
     /**
      * Represents an unknown error
@@ -25,6 +28,13 @@ sealed interface CommonError {
         override val snack: SnackState = SnackState(
             supporting = Text("Unknown error"),
             action = Text("Retry")
+        )
+        override val helper: HelperState = HelperState(
+            title = Text("Unknown error"),
+            subtitle = Text("Something went wrong"),
+            buttonState = ButtonState(
+                text = Text("Retry")
+            )
         )
     }
 
@@ -35,6 +45,14 @@ sealed interface CommonError {
         override val snack: SnackState = SnackState(
             supporting = Text("No connectivity"),
             action = Text("Settings")
+        )
+
+        override val helper: HelperState = HelperState(
+            title = Text("No connectivity"),
+            subtitle = Text("Please check your internet connection"),
+            buttonState = ButtonState(
+                text = Text("Settings")
+            )
         )
     }
 
