@@ -16,10 +16,12 @@ dependencies {
     implementation(libs.bundles.android)
 
     // standalone
+    implementation(libs.compose.navigation)
     implementation(libs.timber)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.timber)
 
+    implementation(projects.core.navigation)
     implementation(projects.core.state)
 
     dokkaPlugin(libs.plugin.dokka.android)

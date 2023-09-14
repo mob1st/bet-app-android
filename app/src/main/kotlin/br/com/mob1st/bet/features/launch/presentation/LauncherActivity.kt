@@ -9,8 +9,9 @@ import androidx.navigation.compose.rememberNavController
 import br.com.mob1st.bet.core.ui.compose.setThemedContent
 import br.com.mob1st.bet.core.ui.ds.molecule.SystemBarProperties
 import br.com.mob1st.bet.core.ui.ds.molecule.SystemBars
+import br.com.mob1st.features.dev.impl.DevSettingsNavRoot
+import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.home.impl.ui.HomeNavRoot
-import br.com.mob1st.features.home.publicapi.ui.HomeNavTarget
 
 class LauncherActivity : ComponentActivity() {
 
@@ -25,8 +26,9 @@ class LauncherActivity : ComponentActivity() {
 @Composable
 internal fun NavigationGraph() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = HomeNavTarget.ROUTE) {
+    NavHost(navController = navController, startDestination = DevSettingsNavTarget.ROUTE) {
         HomeNavRoot.graph(navController = navController)
+        DevSettingsNavRoot.graph(navController = navController)
     }
 }
 

@@ -15,13 +15,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.mob1st.core.design.organisms.lists.ListItem
 import br.com.mob1st.core.design.organisms.snack.Snackbar
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun DevMenuPage() {
-    val vm = viewModel<DevMenuViewModel>()
+internal fun DevMenuPage() {
+    val vm = koinViewModel<DevMenuViewModel>()
     val state by vm.output.collectAsStateWithLifecycle()
     DevMenuPageView(
         pageState = state,

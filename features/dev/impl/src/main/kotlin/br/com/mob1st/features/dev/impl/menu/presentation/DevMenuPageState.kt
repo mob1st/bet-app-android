@@ -8,6 +8,7 @@ import br.com.mob1st.features.dev.impl.R
 import br.com.mob1st.features.dev.impl.menu.domain.DevMenu
 import br.com.mob1st.features.dev.impl.menu.domain.DevMenuEntry
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
+import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.utils.errors.CommonError
 
 /**
@@ -25,9 +26,9 @@ internal sealed class DevMenuPageState {
         val selectedItem: Int? = null,
     ) : DevMenuPageState() {
         val items: List<ListItemState> = menu.entries.map(::toListItem)
-        val navigationTarget = selectedItem?.let {
+        val navigationTarget: DevSettingsNavTarget? = selectedItem?.let {
             when (menu.entries[selectedItem]) {
-                DevMenuEntry.Gallery -> NavigationTarget.Gallery
+                DevMenuEntry.Gallery -> DevSettingsNavTarget.Gallery
                 else -> null
             }
         }
@@ -67,17 +68,6 @@ internal sealed class DevMenuPageState {
         fun TodoSnack(): SnackState = SnackState(
             supporting = Text(R.string.dev_menu_snack_todo_supporting)
         )
-    }
-
-    /**
-     * Represents the navigation target of the menu page.
-     */
-    sealed interface NavigationTarget {
-
-        /**
-         * Navigates to the gallery page.
-         */
-        data object Gallery : NavigationTarget
     }
 }
 

@@ -10,7 +10,7 @@ sealed class HomeNavTarget : NavTarget() {
     /**
      * Home screen.
      */
-    object Home : HomeNavTarget() {
+    data object Home : HomeNavTarget() {
         override val screenName: String = "home"
     }
 
