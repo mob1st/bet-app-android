@@ -1,5 +1,9 @@
 package design.templates
 
+import br.com.mob1st.core.design.templates.ColumnsLimit
+import br.com.mob1st.core.design.templates.LayoutSpec
+import br.com.mob1st.core.design.templates.ListDetailLayout
+import br.com.mob1st.core.design.templates.Pane
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe

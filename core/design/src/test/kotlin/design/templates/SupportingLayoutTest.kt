@@ -1,5 +1,9 @@
 package design.templates
 
+import br.com.mob1st.core.design.templates.ColumnsLimit
+import br.com.mob1st.core.design.templates.LayoutSpec
+import br.com.mob1st.core.design.templates.Pane
+import br.com.mob1st.core.design.templates.SupportingLayout
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.checkAll

@@ -2,6 +2,9 @@ package design.templates
 
 import androidx.compose.ui.unit.dp
 import br.com.mob1st.core.design.atoms.properties.Dimension
+import br.com.mob1st.core.design.templates.ColumnsLimit
+import br.com.mob1st.core.design.templates.LayoutSpec
+import br.com.mob1st.core.design.templates.Pane
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe

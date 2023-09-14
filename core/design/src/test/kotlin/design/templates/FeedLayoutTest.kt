@@ -1,5 +1,8 @@
 package design.templates
 
+import br.com.mob1st.core.design.templates.FeedLayout
+import br.com.mob1st.core.design.templates.LayoutSpec
+import br.com.mob1st.core.design.templates.Pane
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Exhaustive
