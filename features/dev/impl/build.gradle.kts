@@ -3,7 +3,6 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    alias(libs.plugins.google.ksp)
     alias(libs.plugins.junit5)
     id("commonSetup")
 }
@@ -49,7 +48,6 @@ dependencies {
     debugImplementation(libs.compose.tooling)
 
     dokkaPlugin(libs.plugin.dokka.android)
-    ksp(libs.koin.compiler)
 
     testImplementation(libs.bundles.unittest.android)
     testImplementation(projects.tests.unit)

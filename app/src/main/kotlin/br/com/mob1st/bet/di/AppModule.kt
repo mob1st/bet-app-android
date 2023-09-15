@@ -8,8 +8,7 @@ import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.coroutines.MainCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.serialization.defaultJson
 import br.com.mob1st.features.dev.impl.data.BuildInfoDataSource
-import br.com.mob1st.features.utils.errors.QueueSnackDismissManager
-import br.com.mob1st.features.utils.errors.QueueSnackManager
+import br.com.mob1st.features.utils.errors.SnackDismissManagerDelegate
 import br.com.mob1st.features.utils.navigation.SettingsNavigationEventBus
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Factory
@@ -44,5 +43,5 @@ class AppModule {
     @Factory
     fun queueSnackManager(
         settingsNavigationEventBus: SettingsNavigationEventBus
-    ):  QueueSnackDismissManager = QueueSnackManager(settingsNavigationEventBus)
+    ):  SnackDismissManagerDelegate = SnackDismissManagerDelegate(settingsNavigationEventBus)
 }

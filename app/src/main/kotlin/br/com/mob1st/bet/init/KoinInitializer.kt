@@ -7,7 +7,7 @@ import br.com.mob1st.bet.di.coroutinesModule
 import br.com.mob1st.bet.di.firebaseModule
 import br.com.mob1st.bet.di.serializationModule
 import br.com.mob1st.bet.di.timberModule
-import br.com.mob1st.features.dev.impl.DevSettingsModule
+import br.com.mob1st.features.dev.impl.injection.devSettingsModule
 import br.com.mob1st.libs.firebase.dependencies.FirebaseComponent
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -40,6 +40,6 @@ private fun Context.createDependencyGraph() = startKoin {
         timberModule,
         serializationModule,
         AppModule().module,
-        DevSettingsModule().module,
+        devSettingsModule,
     )
 }

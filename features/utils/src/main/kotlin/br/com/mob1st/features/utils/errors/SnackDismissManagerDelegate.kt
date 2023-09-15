@@ -13,12 +13,15 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
+private typealias SnackSource = Pair<SnackState, suspend () -> Unit?>
+private typealias SnackPerformAction = suspend () -> Unit
+
 /**
  * Provides state management for [SnackState]s using a Queue strategy to add/remove snacks.
  * It's useful for ViewModels to implement common snack state management and some default actions that should be
  * like triggering navigation into the device's network settings when a [CommonError.NoConnectivity] is sent.
  */
-interface QueueSnackDismissManager : ViewModelDelegate<SnackState?>, SnackbarDismissManager {
+interface SnackDismissManagerDelegate : ViewModelDelegate<SnackState?>, SnackbarDismissManager {
 
     /**
      * Dismisses the current snack
@@ -37,14 +40,14 @@ interface QueueSnackDismissManager : ViewModelDelegate<SnackState?>, SnackbarDis
 }
 
 /**
- * Creates a [QueueSnackDismissManager] instance using the default implementation.
+ * Creates a [SnackDismissManagerDelegate] instance using the default implementation.
  */
-fun QueueSnackManager(settingsEventBus: SettingsNavigationEventBus): QueueSnackDismissManager =
-    QueueSnackManagerImpl(settingsEventBus)
+fun SnackDismissManagerDelegate(settingsEventBus: SettingsNavigationEventBus): SnackDismissManagerDelegate =
+    SnackDismissManagerImplDelegate(settingsEventBus)
 
-private class QueueSnackManagerImpl(
+private class SnackDismissManagerImplDelegate(
     private val settingsEventBus: SettingsNavigationEventBus,
-) : QueueSnackDismissManager {
+) : SnackDismissManagerDelegate {
 
     private val _output: MutableStateFlow<List<SnackSource>> = MutableStateFlow(emptyList())
 
@@ -121,6 +124,3 @@ private class QueueSnackManagerImpl(
         }
     }
 }
-
-private typealias SnackSource = Pair<SnackState, suspend () -> Unit?>
-private typealias SnackPerformAction = suspend () -> Unit

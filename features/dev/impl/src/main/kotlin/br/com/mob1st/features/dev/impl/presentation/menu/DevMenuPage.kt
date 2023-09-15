@@ -11,27 +11,35 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.design.organisms.lists.ListItem
 import br.com.mob1st.core.design.organisms.snack.Snackbar
+import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun DevMenuPage() {
+internal fun DevMenuPage(next: (DevSettingsNavTarget) -> Unit) {
     val vm = koinViewModel<DevMenuViewModel>()
     val state by vm.output.collectAsStateWithLifecycle()
     DevMenuPageView(
         pageState = state,
         onSelectItem = vm::selectItem,
-        onDismissSnackbar = vm::dismissSnack
+        onDismissSnackbar = vm::dismissSnack,
+        onNavigate = next
     )
 }
 
 @Composable
-private fun DevMenuPageView(pageState: DevMenuPageState, onSelectItem: (Int) -> Unit, onDismissSnackbar: () -> Unit) {
+private fun DevMenuPageView(
+    pageState: DevMenuPageState,
+    onSelectItem: (Int) -> Unit,
+    onDismissSnackbar: () -> Unit,
+    onNavigate: (DevSettingsNavTarget) -> Unit,
+) {
     val snackbarHostState = remember { SnackbarHostState() }
     val state = pageState as? DevMenuPageState.Loaded ?: return
     Scaffold(
@@ -61,4 +69,9 @@ private fun DevMenuPageView(pageState: DevMenuPageState, onSelectItem: (Int) -> 
         onDismiss = onDismissSnackbar,
         onPerformAction = { }
     )
+    if (state.navigationTarget != null) {
+        LaunchedEffect(state.navigationTarget) {
+            onNavigate(state.navigationTarget)
+        }
+    }
 }

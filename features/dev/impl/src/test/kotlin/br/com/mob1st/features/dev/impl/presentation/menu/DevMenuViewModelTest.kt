@@ -4,7 +4,8 @@ import br.com.mob1st.features.dev.impl.domain.DevMenu
 import br.com.mob1st.features.dev.impl.domain.GetDevMenuUseCase
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
 import br.com.mob1st.features.utils.errors.CommonError
-import br.com.mob1st.tests.featuresutils.FakeQueueSnackDismissManager
+import br.com.mob1st.tests.featuresutils.FakeNavigationManagerDelegate
+import br.com.mob1st.tests.featuresutils.FakeSnackDismissManagerDelegate
 import br.com.mob1st.tests.featuresutils.ViewModelTestExtension
 import br.com.mob1st.tests.unit.assertStateOnCollect
 import io.mockk.every
@@ -35,12 +36,14 @@ import kotlin.test.assertEquals
 internal class DevMenuViewModelTest {
 
     private lateinit var getDevMenuUseCase: GetDevMenuUseCase
-    private lateinit var snackDismissManager: FakeQueueSnackDismissManager
+    private lateinit var snackDismissManager: FakeSnackDismissManagerDelegate
+    private lateinit var navigationManagerDelegate: FakeNavigationManagerDelegate<Int>
 
     @BeforeEach
     fun setUp() {
         getDevMenuUseCase = mockk()
-        snackDismissManager = FakeQueueSnackDismissManager()
+        snackDismissManager = FakeSnackDismissManagerDelegate()
+        navigationManagerDelegate = FakeNavigationManagerDelegate()
     }
 
     @ParameterizedTest
@@ -102,34 +105,14 @@ internal class DevMenuViewModelTest {
         )
     }
 
-    @Test
-    fun `GIVEN a navigation event WHEN consume THEN remove navigation from state`() = runTest {
-        val backendEnvironment = BackendEnvironment.values().random()
-        val devMenu = spyk(DevMenu(backendEnvironment))
-        every { devMenu.isAllowed(any()) } returns true
-
-        givenDevMenu(flowOf(devMenu))
-        val viewModel = initViewModel()
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.output.collect()
-        }
-
-        viewModel.selectItem(1)
-        viewModel.consumeNavigation()
-
-        assertEquals(
-            DevMenuPageState.Loaded(devMenu),
-            viewModel.output.value
-        )
-    }
-
     private fun givenDevMenu(expected: Flow<DevMenu>) {
         every { getDevMenuUseCase() } returns expected
     }
 
     private fun initViewModel() = DevMenuViewModel(
         getMenuUseCase = getDevMenuUseCase,
-        snackManager = snackDismissManager
+        snackManager = snackDismissManager,
+        navigationManager = navigationManagerDelegate
     )
 
     object InitialStateArguments : ArgumentsProvider {

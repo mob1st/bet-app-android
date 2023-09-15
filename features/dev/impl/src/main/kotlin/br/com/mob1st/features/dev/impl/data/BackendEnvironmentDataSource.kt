@@ -7,9 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import br.com.mob1st.core.androidx.datastore.DataStoreFile
 import br.com.mob1st.core.androidx.datastore.PreferencesDataSource
 import br.com.mob1st.core.androidx.datastore.set
-import org.koin.core.annotation.Factory
 
-@Factory
 internal class BackendEnvironmentDataSource(
     context: Context,
 ) : PreferencesDataSource<String?>(context, DataStoreFile.BE_ENV) {

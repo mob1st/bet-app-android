@@ -8,9 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import org.koin.core.annotation.Factory
 
-@Factory
 internal class ProjectSettingsRepositoryImpl(
     private val io: IoCoroutineDispatcher,
     private val buildInfoDataSource: BuildInfoDataSource,

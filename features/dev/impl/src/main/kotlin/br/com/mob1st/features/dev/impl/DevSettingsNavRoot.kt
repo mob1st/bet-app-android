@@ -15,7 +15,9 @@ object DevSettingsNavRoot : NavRoot {
             route = DevSettingsNavTarget.ROUTE
         ) {
             composable(DevSettingsNavTarget.DevMenu.screenName) {
-                DevMenuPage()
+                DevMenuPage {
+                    // navController.navig(it)
+                }
             }
             composable(DevSettingsNavTarget.BackendEnvironment.screenName) {
                 // TODO implement backend environment page
