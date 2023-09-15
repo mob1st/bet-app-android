@@ -1,10 +1,9 @@
-package br.com.mob1st.features.utils.navigation
+package br.com.mob1st.core.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
-import br.com.mob1st.core.navigation.NavTarget
 
 /**
  * Launches navigation when the target is not null.
