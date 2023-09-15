@@ -11,7 +11,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -19,6 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.design.organisms.lists.ListItem
 import br.com.mob1st.core.design.organisms.snack.Snackbar
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
+import br.com.mob1st.features.utils.navigation.SideEffectNavigation
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -29,7 +29,8 @@ internal fun DevMenuPage(next: (DevSettingsNavTarget) -> Unit) {
         pageState = state,
         onSelectItem = vm::selectItem,
         onDismissSnackbar = vm::dismissSnack,
-        onNavigate = next
+        onNavigate = next,
+        onConsumeNavigation = vm::consumeNavigation
     )
 }
 
@@ -39,6 +40,7 @@ private fun DevMenuPageView(
     onSelectItem: (Int) -> Unit,
     onDismissSnackbar: () -> Unit,
     onNavigate: (DevSettingsNavTarget) -> Unit,
+    onConsumeNavigation: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val state = pageState as? DevMenuPageState.Loaded ?: return
@@ -53,25 +55,21 @@ private fun DevMenuPageView(
             itemsIndexed(state.items) { index, item ->
                 ListItem(
                     state = item,
-                    modifier = Modifier
-                        .clickable {
-                            onSelectItem(index)
-                        }
+                    modifier = Modifier.clickable { onSelectItem(index) }
                 )
                 Divider(modifier = Modifier.fillMaxWidth())
             }
         }
     }
-
     Snackbar(
         snackbarHostState = snackbarHostState,
         snackState = state.snack,
         onDismiss = onDismissSnackbar,
         onPerformAction = { }
     )
-    if (state.navigationTarget != null) {
-        LaunchedEffect(state.navigationTarget) {
-            onNavigate(state.navigationTarget)
-        }
-    }
+    SideEffectNavigation(
+        target = state.navTarget,
+        onNavigate = onNavigate,
+        onConsumeNavigation = onConsumeNavigation
+    )
 }

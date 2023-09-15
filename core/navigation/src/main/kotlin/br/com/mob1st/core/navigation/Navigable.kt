@@ -11,5 +11,8 @@ import androidx.compose.runtime.Immutable
 @Immutable
 interface Navigable<T : NavTarget> {
 
-    val navTarget: T
+    /**
+     * The navigation target.
+     */
+    val navTarget: T?
 }

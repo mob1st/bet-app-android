@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.Text
 import br.com.mob1st.core.design.organisms.lists.ListItemState
 import br.com.mob1st.core.design.organisms.snack.SnackState
+import br.com.mob1st.core.navigation.Navigable
 import br.com.mob1st.features.dev.impl.R
 import br.com.mob1st.features.dev.impl.domain.DevMenu
 import br.com.mob1st.features.dev.impl.domain.DevMenuEntry
@@ -24,9 +25,10 @@ internal sealed class DevMenuPageState {
         val menu: DevMenu,
         val snack: SnackState? = null,
         val selectedItem: Int? = null,
-    ) : DevMenuPageState() {
+    ) : DevMenuPageState(), Navigable<DevSettingsNavTarget> {
         val items: List<ListItemState> = menu.entries.map(::toListItem)
-        val navigationTarget: DevSettingsNavTarget? = selectedItem?.let {
+
+        override val navTarget: DevSettingsNavTarget? = selectedItem?.let {
             when (menu.entries[selectedItem]) {
                 DevMenuEntry.Gallery -> DevSettingsNavTarget.Gallery
                 else -> null

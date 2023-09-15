@@ -5,9 +5,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import br.com.mob1st.core.navigation.NavRoot
+import br.com.mob1st.core.navigation.navigate
+import br.com.mob1st.features.dev.impl.presentation.gallery.GalleryNavRoot
 import br.com.mob1st.features.dev.impl.presentation.menu.DevMenuPage
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 
+/**
+ * Navigation root for the dev settings feature.
+ */
 object DevSettingsNavRoot : NavRoot {
     context(NavGraphBuilder) override fun graph(navController: NavController) {
         navigation(
@@ -15,13 +20,9 @@ object DevSettingsNavRoot : NavRoot {
             route = DevSettingsNavTarget.ROUTE
         ) {
             composable(DevSettingsNavTarget.DevMenu.screenName) {
-                DevMenuPage {
-                    // navController.navig(it)
-                }
+                DevMenuPage(navController::navigate)
             }
-            composable(DevSettingsNavTarget.BackendEnvironment.screenName) {
-                // TODO implement backend environment page
-            }
+            GalleryNavRoot.graph(navController)
         }
     }
 }
