@@ -1,4 +1,4 @@
-package br.com.mob1st.core.design.atoms.properties
+package br.com.mob1st.core.design.atoms.properties.icons
 
 import androidx.annotation.DrawableRes
 import androidx.core.R

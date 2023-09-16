@@ -1,6 +1,6 @@
 package br.com.mob1st.features.home.publicapi.ui
 
-import br.com.mob1st.core.navigation.NavTarget
+import br.com.mob1st.core.design.atoms.properties.navigations.NavTarget
 
 /**
  * Home navigation targets.

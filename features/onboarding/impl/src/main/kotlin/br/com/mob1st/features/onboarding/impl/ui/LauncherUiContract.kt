@@ -1,6 +1,6 @@
 package br.com.mob1st.features.onboarding.impl.ui
 
-import br.com.mob1st.core.navigation.NavTarget
+import br.com.mob1st.core.design.atoms.properties.navigations.NavTarget
 import br.com.mob1st.core.state.contracts.HelperClickManager
 import br.com.mob1st.core.state.contracts.SideEffectManager
 import br.com.mob1st.core.state.contracts.StateOutputManager
@@ -32,7 +32,7 @@ data class LauncherUiState(
     @ConsumableEffect
     val errorMessage: String? = null,
 )
-sealed class LauncherNavTarget : NavTarget() {
+sealed class LauncherNavTarget : br.com.mob1st.core.design.atoms.properties.navigations.NavTarget() {
 
     object Home : LauncherNavTarget() {
         override val screenName: String = "home"

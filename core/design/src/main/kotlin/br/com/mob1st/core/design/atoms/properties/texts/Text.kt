@@ -1,4 +1,4 @@
-package br.com.mob1st.core.design.atoms.properties
+package br.com.mob1st.core.design.atoms.properties.texts
 
 import android.content.res.Configuration
 import android.content.res.Resources

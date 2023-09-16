@@ -3,7 +3,7 @@ package br.com.mob1st.core.design.templates
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import br.com.mob1st.core.design.atoms.properties.Dimension
+import br.com.mob1st.core.design.atoms.properties.dimensions.Dimension
 
 /**
  * A pane that can be used to display content in a specif part of the layout.

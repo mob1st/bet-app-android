@@ -39,7 +39,6 @@ dependencies {
     implementation(projects.core.androidx)
     implementation(projects.core.design)
     implementation(projects.core.kotlinx)
-    implementation(projects.core.navigation)
     implementation(projects.core.state)
 
     implementation(projects.features.utils)

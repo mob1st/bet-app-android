@@ -1,4 +1,4 @@
-package br.com.mob1st.core.navigation
+package br.com.mob1st.features.utils.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,7 +14,11 @@ import androidx.compose.runtime.rememberUpdatedState
  * @param onConsumeNavigation The function to consume the navigation state.
  */
 @Composable
-fun <T : NavTarget> SideEffectNavigation(target: T?, onNavigate: (T) -> Unit, onConsumeNavigation: () -> Unit) {
+fun <T : br.com.mob1st.core.design.atoms.properties.navigations.NavTarget> SideEffectNavigation(
+    target: T?,
+    onNavigate: (T) -> Unit,
+    onConsumeNavigation: () -> Unit,
+) {
     val currentNavigation by rememberUpdatedState(newValue = onNavigate)
     val currentConsumeNavigation by rememberUpdatedState(newValue = onConsumeNavigation)
     LaunchedEffect(target) {

@@ -1,7 +1,7 @@
 package br.com.mob1st.core.design.organisms.snack
 
-import br.com.mob1st.core.design.atoms.properties.Icon
-import br.com.mob1st.core.design.atoms.properties.Text
+import br.com.mob1st.core.design.atoms.properties.icons.Icon
+import br.com.mob1st.core.design.atoms.properties.texts.Text
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 

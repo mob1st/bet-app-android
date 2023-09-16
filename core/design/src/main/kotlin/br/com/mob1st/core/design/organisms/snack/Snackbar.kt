@@ -7,7 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
-import br.com.mob1st.core.design.atoms.properties.rememberAnnotatedString
+import br.com.mob1st.core.design.atoms.properties.texts.rememberAnnotatedString
 import kotlinx.coroutines.launch
 
 @Composable

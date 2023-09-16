@@ -1,6 +1,6 @@
 package br.com.mob1st.core.design.molecules.avatar
 
-import br.com.mob1st.core.design.atoms.properties.Icon
+import br.com.mob1st.core.design.atoms.properties.icons.Icon
 
 sealed interface AvatarState {
 

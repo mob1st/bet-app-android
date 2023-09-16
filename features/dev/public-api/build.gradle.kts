@@ -21,7 +21,7 @@ dependencies {
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.timber)
 
-    implementation(projects.core.navigation)
+    implementation(projects.core.design)
     implementation(projects.core.state)
 
     dokkaPlugin(libs.plugin.dokka.android)

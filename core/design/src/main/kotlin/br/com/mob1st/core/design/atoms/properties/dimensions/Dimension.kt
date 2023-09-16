@@ -1,4 +1,4 @@
-package br.com.mob1st.core.design.atoms.properties
+package br.com.mob1st.core.design.atoms.properties.dimensions
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize

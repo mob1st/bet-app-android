@@ -38,8 +38,10 @@ dependencies {
     implementation(libs.kotlin.collections)
     implementation(libs.timber)
 
+    implementation(projects.core.design)
+    implementation(projects.features.utils)
     implementation(projects.morpheus.annotation)
-    implementation(projects.core.navigation)
+
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)
 

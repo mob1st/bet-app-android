@@ -1,4 +1,4 @@
-package br.com.mob1st.core.navigation
+package br.com.mob1st.core.design.atoms.properties.navigations
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptionsBuilder

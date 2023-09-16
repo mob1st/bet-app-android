@@ -1,6 +1,6 @@
 package br.com.mob1st.features.dev.impl.presentation.menu
 
-import br.com.mob1st.core.design.atoms.properties.Text
+import br.com.mob1st.core.design.atoms.properties.texts.Text
 import br.com.mob1st.core.design.organisms.helper.HelperState
 import br.com.mob1st.core.design.organisms.lists.ListItemState
 import br.com.mob1st.core.design.organisms.snack.SnackState

@@ -12,8 +12,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import br.com.mob1st.core.design.atoms.properties.rememberAnnotatedString
-import br.com.mob1st.core.design.atoms.properties.width
+import br.com.mob1st.core.design.atoms.properties.dimensions.width
+import br.com.mob1st.core.design.atoms.properties.texts.rememberAnnotatedString
 import br.com.mob1st.core.design.atoms.spacing.Spacings
 import br.com.mob1st.core.design.atoms.theme.LocalPane
 import br.com.mob1st.core.design.molecules.buttons.ButtonState

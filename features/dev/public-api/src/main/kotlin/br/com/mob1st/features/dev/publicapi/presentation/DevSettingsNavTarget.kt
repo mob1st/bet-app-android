@@ -1,6 +1,6 @@
 package br.com.mob1st.features.dev.publicapi.presentation
 
-import br.com.mob1st.core.navigation.NavTarget
+import br.com.mob1st.core.design.atoms.properties.navigations.NavTarget
 
 /**
  * Dev settings navigation targets.

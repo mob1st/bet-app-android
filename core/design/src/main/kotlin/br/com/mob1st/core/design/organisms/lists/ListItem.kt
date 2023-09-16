@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import br.com.mob1st.core.design.atoms.properties.Text
-import br.com.mob1st.core.design.atoms.properties.rememberAnnotatedString
+import br.com.mob1st.core.design.atoms.properties.texts.Text
+import br.com.mob1st.core.design.atoms.properties.texts.rememberAnnotatedString
 import br.com.mob1st.core.design.atoms.theme.BetTheme
 import br.com.mob1st.core.design.molecules.loading.Loading
 import br.com.mob1st.core.design.utils.ThemedPreview

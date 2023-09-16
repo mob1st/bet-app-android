@@ -2,7 +2,7 @@ package br.com.mob1st.features.auth.publicapi.ui
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import br.com.mob1st.core.navigation.NavTarget
+import br.com.mob1st.core.design.atoms.properties.navigations.NavTarget
 
 /**
  * Create the navigation graph for the authentication feature.

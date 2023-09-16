@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.design.organisms.lists.ListItem
 import br.com.mob1st.core.design.organisms.snack.Snackbar
-import br.com.mob1st.core.navigation.SideEffectNavigation
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
+import br.com.mob1st.features.utils.navigation.SideEffectNavigation
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
