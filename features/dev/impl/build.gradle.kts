@@ -51,7 +51,6 @@ dependencies {
     testImplementation(libs.bundles.unittest.android)
     testImplementation(projects.tests.unit)
     testImplementation(projects.tests.featuresUtils)
-    testImplementation(libs.bundles.junit5)
 
     androidTestImplementation(libs.bundles.android.test)
     androidTestImplementation(libs.compose.test)

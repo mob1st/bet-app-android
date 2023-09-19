@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 @Composable
 internal fun GalleryPage() {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(), // .background(color = MaterialTheme.colorScheme.primaryContainer),
         contentAlignment = Alignment.Center
     ) {
         Text(text = "Gallery")

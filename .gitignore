@@ -89,3 +89,4 @@ app/google-services.json
 .idea/sonarlint/*
 .idea/sonarlint*
 .idea/androidTestResultsUserPreferences.xml
+.idea/deploymentTargetDropDown.xml

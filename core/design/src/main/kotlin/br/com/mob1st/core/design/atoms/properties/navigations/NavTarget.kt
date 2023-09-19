@@ -2,7 +2,9 @@ package br.com.mob1st.core.design.atoms.properties.navigations
 
 import androidx.compose.runtime.Immutable
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavController
 import androidx.navigation.NavDeepLink
+import androidx.navigation.NavOptionsBuilder
 
 /**
  * A target to provide the Composable navigation api the information needed to navigate to a specific screen.
@@ -18,10 +20,24 @@ abstract class NavTarget {
     /**
      * The arguments to be passed to the screen.
      */
-    open val arguments: List<NamedNavArgument> = emptyList()
+    val arguments: List<NamedNavArgument> = emptyList()
 
     /**
      * The deep links to be used to navigate to the screen.
      */
-    open val deepLinks: List<NavDeepLink> = emptyList()
+    val deepLinks: List<NavDeepLink> = emptyList()
+}
+
+/**
+ * Navigates a given [navTarget] with the given [builder] to configure the navigation options.
+ */
+fun NavController.navigate(navTarget: NavTarget, builder: NavOptionsBuilder.() -> Unit) {
+    navigate(navTarget.screenName, builder)
+}
+
+/**
+ * Navigates a given [navTarget].
+ */
+fun NavController.navigate(navTarget: NavTarget) {
+    navigate(navTarget.screenName)
 }
