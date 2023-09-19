@@ -6,49 +6,50 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.runtime.Immutable
 import androidx.navigation.NavBackStackEntry
 import br.com.mob1st.core.design.atoms.properties.navigations.NavTarget
 
 /**
  * Implements the Forward and Backward [TransitionPattern] from Material 3.
- * @see <a href="https://m3.material.io/styles/motion/transitions/transition-patterns#df9c7d76-1454-47f3-ad1c-268a31f58bad">
- *     Transitions
- *     </a>
+ *
+ * @see <a href="https://m3.material.io/styles/motion/transitions/transition-patterns">Transitions</a>
  */
-@Immutable
 data class ForwardAndBackward(
     val first: NavTarget,
     val second: NavTarget,
-) : EnterExitSet {
+    val slideOrientation: SlideOrientation = SlideOrientation.Horizontal,
+) : TransitionPattern {
+
+    private val forwardNavigationMatches = NavigationMatches(first, second)
+    private val backwardNavigationMatches = NavigationMatches(second, first)
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.enter(): EnterTransition? {
-        return if (first matches initialState && second matches targetState) {
-            enter(towards = AnimatedContentTransitionScope.SlideDirection.Left)
+        return if (forwardNavigationMatches(initialState, targetState)) {
+            enter(towards = slideOrientation.forwardDirection)
         } else {
             null
         }
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.exit(): ExitTransition? {
-        return if (first matches initialState && second matches targetState) {
-            exit(towards = AnimatedContentTransitionScope.SlideDirection.Left)
+        return if (forwardNavigationMatches(initialState, targetState)) {
+            exit(towards = slideOrientation.forwardDirection)
         } else {
             null
         }
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnter(): EnterTransition? {
-        return if (first matches targetState && second matches initialState) {
-            enter(towards = AnimatedContentTransitionScope.SlideDirection.Right)
+        return if (backwardNavigationMatches(initialState, targetState)) {
+            enter(towards = slideOrientation.backwardDirection)
         } else {
             null
         }
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.popExit(): ExitTransition? {
-        return if (first matches targetState && second matches initialState) {
-            exit(towards = AnimatedContentTransitionScope.SlideDirection.Right)
+        return if (backwardNavigationMatches(initialState, targetState)) {
+            exit(towards = slideOrientation.backwardDirection)
         } else {
             null
         }
@@ -87,8 +88,40 @@ data class ForwardAndBackward(
             )
         }
     }
-}
 
-infix fun NavTarget.matches(entry: NavBackStackEntry): Boolean {
-    return screenName == entry.destination.route
+    /**
+     * The direction of the transition.
+     */
+    sealed interface SlideOrientation {
+
+        /**
+         * The direction of the transition when navigating forward.
+         */
+        val forwardDirection: AnimatedContentTransitionScope.SlideDirection
+
+        /**
+         * The direction of the transition when navigating backward.
+         */
+        val backwardDirection: AnimatedContentTransitionScope.SlideDirection
+
+        /**
+         * The transition direction is vertical.
+         *
+         * It moves down when navigating forward and up when navigating backward.
+         */
+        data object Vertical : SlideOrientation {
+            override val forwardDirection = AnimatedContentTransitionScope.SlideDirection.Down
+            override val backwardDirection = AnimatedContentTransitionScope.SlideDirection.Up
+        }
+
+        /**
+         * The transition direction is horizontal.
+         *
+         * It moves left when navigating forward and right when navigating backward.
+         */
+        data object Horizontal : SlideOrientation {
+            override val forwardDirection = AnimatedContentTransitionScope.SlideDirection.Left
+            override val backwardDirection = AnimatedContentTransitionScope.SlideDirection.Right
+        }
+    }
 }

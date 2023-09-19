@@ -35,6 +35,10 @@ sealed class DevSettingsNavTarget : NavTarget() {
         override val screenName: String = "featureFlags"
     }
 
+    data object EntryPoints : DevSettingsNavTarget() {
+        override val screenName: String = "entryPoints"
+    }
+
     companion object {
         /**
          * Route for the dev settings navigation.

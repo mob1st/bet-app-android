@@ -8,11 +8,16 @@ import androidx.navigation.compose.composable
 import br.com.mob1st.core.design.atoms.properties.navigations.NavTarget
 
 /**
+ * Create a [composable] with the list of [TransitionPattern]s to animate the navigation.
  *
+ * It will use the given [NavTarget.screenName] as route, its [NavTarget.arguments] and [NavTarget.deepLinks].
+ * @param current The [NavTarget] to create the [composable].
+ * @param list The list of [TransitionPattern]s to animate the navigation.
+ * @param content The content of the [composable].
  */
 fun NavGraphBuilder.composable(
     current: NavTarget,
-    list: List<EnterExitSet>,
+    list: List<TransitionPattern>,
     content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
 ) {
     composable(
@@ -20,31 +25,23 @@ fun NavGraphBuilder.composable(
         arguments = current.arguments,
         deepLinks = current.deepLinks,
         enterTransition = {
-            list.firstNotNullOfOrNull { pattern ->
-                pattern.run {
-                    enter()
-                }
+            list.firstNotNullEnter {
+                enter()
             }
         },
         exitTransition = {
-            list.firstNotNullOfOrNull { pattern ->
-                pattern.run {
-                    exit()
-                }
+            list.firstNotNullExit {
+                exit()
             }
         },
         popEnterTransition = {
-            list.firstNotNullOfOrNull { pattern ->
-                pattern.run {
-                    popEnter()
-                }
+            list.firstNotNullEnter {
+                popEnter()
             }
         },
         popExitTransition = {
-            list.firstNotNullOfOrNull { pattern ->
-                pattern.run {
-                    popExit()
-                }
+            list.firstNotNullExit {
+                popExit()
             }
         },
         content = content
