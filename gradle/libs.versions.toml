@@ -1,37 +1,37 @@
 [versions]
 compose-compiler = '1.5.1'
-compose = '1.5.1'
+compose = '1.5.4'
 kotlin = "1.9.0"
-koin = "3.3.3"
+koin = "3.5.0"
 koin-ksp = "1.1.1"
 kotest = "5.6.2"
 lifecycle = "2.6.2"
 arrow = "1.2.0"
 ksp = "1.8.10-1.0.9"
-accompaninst = "0.31.6-rc"
-gradle-plugin = "8.1.1"
+accompaninst = "0.32.0"
+gradle-plugin = "8.2.1"
 google-services = "4.3.15"
 detekt = "1.23.1"
 kotlin-poet = "1.14.2"
-work-manager = "2.8.1"
+work-manager = "2.9.0"
 leakcanary = "2.10"
 mockk = "1.13.7"
 dokka = "1.8.20"
 datastore = "1.0.0"
-junit5-plugin = "1.9.3.0"
-junit5 = "5.9.3"
+junit5-plugin = "1.10.0.0"
+junit5 = "5.10.1"
 coroutines = "1.7.3"
 
 [libraries]
 # androidx
 android-core = "androidx.core:core-ktx:1.12.0"
-android-window = "androidx.window:window:1.1.0"
+android-window = "androidx.window:window:1.2.0"
 android-startup = "androidx.startup:startup-runtime:1.1.1"
 android-profileinstaller = "androidx.profileinstaller:profileinstaller:1.3.1"
 android-test-junit = "androidx.test.ext:junit:1.1.5"
 android-test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
 android-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
-android-test-macrobenchmark = "androidx.benchmark:benchmark-macro-junit4:1.2.0-beta05"
+android-test-macrobenchmark = "androidx.benchmark:benchmark-macro-junit4:1.2.2"
 android-test-arch = "androidx.arch.core:core-testing:2.2.0"
 
 # lifecycle
@@ -48,10 +48,10 @@ compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.r
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 compose-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
-compose-material3 = "androidx.compose.material3:material3:1.1.1"
-compose-windowclass = "androidx.compose.material3:material3-window-size-class:1.1.1"
-compose-activity = "androidx.activity:activity-compose:1.7.2"
-compose-navigation = "androidx.navigation:navigation-compose:2.7.2"
+compose-material3 = "androidx.compose.material3:material3:1.1.2"
+compose-windowclass = "androidx.compose.material3:material3-window-size-class:1.1.2"
+compose-activity = "androidx.activity:activity-compose:1.8.2"
+compose-navigation = "androidx.navigation:navigation-compose:2.7.6"
 compose-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 
@@ -67,7 +67,8 @@ coil = "io.coil-kt:coil-compose:2.4.0"
 # koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin-compose = "io.insert-koin:koin-androidx-compose:3.4.2"
+koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation", version.ref = "koin" }
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-ksp"}
 koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-ksp"}
 
@@ -78,7 +79,7 @@ kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" 
 kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }
 
 # firebase & play services
-firebase-bom = "com.google.firebase:firebase-bom:32.3.1"
+firebase-bom = "com.google.firebase:firebase-bom:32.7.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
