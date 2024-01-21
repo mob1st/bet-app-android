@@ -13,5 +13,6 @@ dependencies {
     api(libs.kotlin.collections)
     api(libs.kotlin.coroutines.core)
     api(libs.kotlin.serialization.json)
+    api(libs.kotlin.datetime)
     testImplementation(libs.bundles.unittest.kotlin)
 }

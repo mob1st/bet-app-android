@@ -1,0 +1,98 @@
+/**
+* A recurrence type is a type of recurrence of a balance movement.
+*/
+CREATE TABLE RecurrenceType(
+    id INTEGER PRIMARY KEY,
+    description TEXT NOT NULL UNIQUE CHECK(
+        description IN ('fixed', 'variable', 'seasonal')
+    )
+);
+CREATE INDEX idx_recurrence_type_description ON RecurrenceType(description);
+INSERT INTO RecurrenceType(description)
+VALUES ('fixed'), ('variable'), ('seasonal');
+
+/**
+* A category is a group of balance movements.
+*/
+CREATE TABLE Category(
+    id INTEGER PRIMARY KEY,
+    description TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT
+);
+CREATE INDEX idx_category_description ON Category(description);
+
+/**
+* A recurrent category is a category associated to a recurrence type.
+* eg: restaurant has a variable recurrence type, salary has a fixed recurrence type, etc.
+*/
+CREATE TABLE RecurrentCategory(
+    id INTEGER PRIMARY KEY,
+    category_id INTEGER NOT NULL,
+    recurrence_type_id INTEGER NOT NULL,
+    amount INTEGER NOT NULL,
+    is_expense INTEGER NOT NULL CHECK (is_expense IN (0, 1)),
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT,
+    FOREIGN KEY(category_id) REFERENCES Category(id),
+    FOREIGN KEY(recurrence_type_id) REFERENCES RecurrenceType(id)
+);
+CREATE INDEX idx_recurrent_category_category_id ON RecurrentCategory(category_id);
+CREATE INDEX idx_recurrent_category_recurrence_type_id ON RecurrentCategory(recurrence_type_id);
+CREATE INDEX idx_recurrent_category_is_expense ON RecurrentCategory(is_expense);
+
+/**
+* A fixed balance movement is a balance movement that happens every month.
+* eg: salary, rent, etc.
+*/
+CREATE TABLE FixedRecurrentCategory(
+    id INTEGER PRIMARY KEY,
+    recurrent_category_id INTEGER NOT NULL,
+    day_of_month INTEGER NOT NULL,
+    FOREIGN KEY(recurrent_category_id) REFERENCES FixedRecurrentCategory(id)
+);
+CREATE INDEX idx_fixed_recurrent_category_recurrent_category_id ON FixedRecurrentCategory(recurrent_category_id);
+CREATE INDEX idx_fixed_recurrent_category_day_of_month ON FixedRecurrentCategory(day_of_month);
+
+/**
+* A variable balance movement is a balance movement that happens every week.
+* eg: food, transport, etc.
+*/
+CREATE TABLE VariableRecurrentCategory(
+    id INTEGER PRIMARY KEY,
+    recurrent_category_id INTEGER NOT NULL,
+    day_of_week INTEGER NOT NULL,
+    FOREIGN KEY (recurrent_category_id) REFERENCES RecurrentCategory(id)
+);
+CREATE INDEX idx_variable_balance_movement_recurrent_category_id ON VariableRecurrentCategory(recurrent_category_id);
+
+/**
+* A seasonal balance movement is a balance movement that happens every year.
+* eg: christmas, holidays, etc.
+*/
+CREATE TABLE SeasonalRecurrentCategory(
+    id INTEGER PRIMARY KEY,
+    recurrent_category_id INTEGER NOT NULL,
+    month_and_day TEXT NOT NULL CHECK (length(month_and_day) = 4),
+    FOREIGN KEY(recurrent_category_id) REFERENCES RecurrentCategory(id)
+);
+CREATE INDEX idx_seasonal_balance_movement_recurrent_category_id ON SeasonalRecurrentCategory(recurrent_category_id);
+CREATE INDEX idx_seasonal_balance_movement_month_and_day ON SeasonalRecurrentCategory(month_and_day);
+
+/**
+* A balance movement is a movement of money that happens in the budget balance.
+* eg: a gift, a fine, etc.
+*/
+CREATE TABLE BalanceMovement(
+    id INTEGER PRIMARY KEY,
+    description TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    is_expense INTEGER NOT NULL CHECK (is_expense IN (0, 1)),
+    date TEXT NOT NULL CHECK (length(date) = 10),
+    category_id INTEGER,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT,
+    FOREIGN KEY(category_id) REFERENCES Category(id)
+);
+CREATE INDEX idx_expordic_balance_movement_category_id ON BalanceMovement(category_id);
+CREATE INDEX idx_expordic_balance_movement_date ON BalanceMovement(date);

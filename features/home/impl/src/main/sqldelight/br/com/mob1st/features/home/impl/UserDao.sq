@@ -1,0 +1,2 @@
+insert: INSERT INTO BalanceMovement (amount, description, is_expense) VALUES (:amount,:description, :is_expense);
+selectAll: SELECT * FROM BalanceMovement;

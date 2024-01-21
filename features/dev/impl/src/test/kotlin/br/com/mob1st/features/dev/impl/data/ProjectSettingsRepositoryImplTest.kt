@@ -4,9 +4,8 @@ import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
 import br.com.mob1st.features.dev.publicapi.domain.BuildInfo
 import br.com.mob1st.features.dev.publicapi.domain.ProjectSettings
-import br.com.mob1st.tests.unit.randomEnum
-import br.com.mob1st.tests.unit.randomObj
-import br.com.mob1st.tests.unit.randomString
+import br.com.mob1st.tests.featuresutils.fixture
+import br.com.mob1st.tests.featuresutils.randomEnum
 import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.every
@@ -42,7 +41,7 @@ class ProjectSettingsRepositoryImplTest {
     @Test
     fun `GIVEN a build info And a backend environment WHEN get THEN assert the result`() = runTest {
         val expected = ProjectSettings(
-            buildInfo = randomObj(),
+            buildInfo = fixture(),
             backendEnvironment = randomEnum()
         )
         givenBuildInfo(expected.buildInfo)
@@ -66,7 +65,7 @@ class ProjectSettingsRepositoryImplTest {
         currentBackendEnvironment: String?,
         expectedFallback: BackendEnvironment,
     ) = runTest {
-        val buildInfo = randomObj<BuildInfo>().copy(isReleaseBuild = isReleaseBuild)
+        val buildInfo = fixture<BuildInfo>().copy(isReleaseBuild = isReleaseBuild)
         givenBuildInfo(buildInfo)
         givenBackendEnvironment(currentBackendEnvironment)
         val repo = initRepo(UnconfinedTestDispatcher())
@@ -89,7 +88,7 @@ class ProjectSettingsRepositoryImplTest {
         expected: String,
     ) = runTest {
         givenBackendEnvironment(null)
-        givenBuildInfo(randomObj())
+        givenBuildInfo(fixture())
         coJustRun {
             backendEnvironmentDataSource.set(expected)
         }
@@ -107,7 +106,7 @@ class ProjectSettingsRepositoryImplTest {
     }
 
     private fun givenBackendEnvironment(result: String?) {
-        every { backendEnvironmentDataSource.get() } returns flowOf(result)
+        every { backendEnvironmentDataSource.data } returns flowOf(result)
     }
 
     private fun initRepo(
@@ -124,16 +123,15 @@ class ProjectSettingsRepositoryImplTest {
 
     private object InvalidBackendEnvironmentArguments : ArgumentsProvider {
         override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
-            val excludeRandomList = BackendEnvironment.values().map { it.name }
             return Stream.of(
                 Arguments.of(
                     true,
-                    randomString(exclude = excludeRandomList),
+                    "any",
                     BackendEnvironment.PRODUCTION
                 ),
                 Arguments.of(
                     false,
-                    randomString(exclude = excludeRandomList),
+                    "any",
                     BackendEnvironment.STAGING
                 ),
                 Arguments.of(

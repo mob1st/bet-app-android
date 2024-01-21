@@ -19,6 +19,7 @@ dependencies {
     implementation(libs.bundles.lifecycle)
     implementation(libs.timber)
     implementation(libs.datastore.preferences)
+    implementation(projects.core.database)
 
     testImplementation(libs.bundles.unittest.android)
     testImplementation(libs.bundles.unittest.kotlin)

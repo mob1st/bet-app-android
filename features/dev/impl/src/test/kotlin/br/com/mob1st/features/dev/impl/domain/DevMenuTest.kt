@@ -1,7 +1,7 @@
 package br.com.mob1st.features.dev.impl.domain
 
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
-import br.com.mob1st.tests.unit.randomEnum
+import br.com.mob1st.tests.featuresutils.randomEnum
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

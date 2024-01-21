@@ -18,6 +18,7 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.dokka) apply false
     alias(libs.plugins.sonarqube) apply false
+    id("app.cash.sqldelight") version "2.0.1" apply false
 }
 
 apply(plugin = "jacocoReports")

@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId = "br.com.mob1st.bet"
-        minSdk = 24
+        minSdk = AndroidProjectConfig.MIN_SDK
         targetSdk = AndroidProjectConfig.COMPILE_SDK
         versionCode = 1
         versionName = "1.0"

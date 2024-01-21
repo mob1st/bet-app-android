@@ -17,7 +17,10 @@ dependencies {
     implementation(libs.bundles.unittest.android)
 
     implementation(projects.core.androidx)
+    implementation(projects.core.database)
     implementation(projects.core.design)
+    implementation(projects.core.kotlinx)
+    implementation(projects.core.observability)
     implementation(projects.core.state)
     implementation(projects.features.utils)
     implementation(libs.kotlin.coroutines.test)

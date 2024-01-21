@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.datastore.preferences)
     implementation(libs.timber)
     implementation(projects.core.androidx)
+    implementation(projects.core.database)
     implementation(projects.core.design)
     implementation(projects.core.kotlinx)
     implementation(projects.core.state)

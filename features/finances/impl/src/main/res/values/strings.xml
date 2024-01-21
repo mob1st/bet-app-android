@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="finances_builder_fixed_suggestions_header">Fixed Expanses</string>
+    <string name="finances_builder_fixed_suggestions_subheader">Enter the approximate amounts of expenses that you know you will have to pay every month.</string>
+    <string name="finances_builder_fixed_suggestions_list_header">Suggestions</string>
+    <string name="finances_builder_fixed_suggestions_item_rent">Rent</string>
+    <string name="finances_builder_fixed_suggestions_item_mortgage">Mortgage</string>
+    <string name="finances_builder_fixed_suggestions_item_energy">Energy</string>
+    <string name="finances_builder_fixed_suggestions_item_water">Water</string>
+    <string name="finances_builder_fixed_suggestions_item_internet">Internet</string>
+    <string name="finances_builder_fixed_suggestions_item_phone">Phone</string>
+    <string name="finances_builder_fixed_suggestions_item_tv">TV Streaming</string>
+    <string name="finances_builder_fixed_suggestions_item_music">Music Streaming</string>
+    <string name="finances_builder_fixed_suggestions_item_insurances">Insurances</string>
+    <string name="finances_builder_fixed_suggestions_item_education">Education</string>
+    <string name="finances_builder_fixed_suggestions_item_transport">Transport</string>
+    <string name="finances_builder_fixed_suggestions_item_gym">Gym</string>
+
+    <string name="finances_builder_variable_suggestions_header">Variable Expanses</string>
+    <string name="finances_builder_variable_suggestions_subheader">Enter the approximate amounts of expenses that you know you will have to pay every month.</string>
+    <string name="finances_builder_variable_suggestions_list_header">Suggestions</string>
+</resources>

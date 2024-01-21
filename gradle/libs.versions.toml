@@ -5,14 +5,15 @@ kotlin = "1.9.0"
 koin = "3.5.0"
 koin-ksp = "1.1.1"
 kotest = "5.6.2"
-lifecycle = "2.6.2"
+lifecycle = "2.7.0"
 arrow = "1.2.0"
 ksp = "1.8.10-1.0.9"
 accompaninst = "0.32.0"
 gradle-plugin = "8.2.1"
+sqldelight = "2.0.1"
 google-services = "4.3.15"
 detekt = "1.23.1"
-kotlin-poet = "1.14.2"
+kotlin-poet = "1.15.2"
 work-manager = "2.9.0"
 leakcanary = "2.10"
 mockk = "1.13.7"
@@ -64,6 +65,10 @@ leakcanary-test = { module = "com.squareup.leakcanary:leakcanary-android-instrum
 # coil
 coil = "io.coil-kt:coil-compose:2.4.0"
 
+# sqldelight
+sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions-jvm", version.ref = "sqldelight" }
+
 # koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
@@ -104,6 +109,7 @@ kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
+kotlin-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.5.0"
 
 
 # unit tests
@@ -118,7 +124,7 @@ mockk-agent = { module = "io.mockk:mockk-agent-jvm", version.ref = "mockk" }
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
-easyrandom = "org.jeasy:easy-random-core:5.0.0"
+kotlinfixture = "com.appmattus.fixture:fixture:1.2.0"
 
 # classpath plugins
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
@@ -133,8 +139,9 @@ plugin-junit5 = { module = "de.mannodermaus.gradle.plugins:android-junit5", vers
 [bundles]
 android = ["android-core"]
 android-test = ["android-test-junit", "android-test-espresso"]
+sqldelight = ["sqldelight-android", "sqldelight-coroutines"]
 junit5 = ["junit5-api", "junit5-engine", "junit5-params"]
-unittest-kotlin = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-kotlin", "kotlin-reflection", "kotlin-test", "easyrandom"]
+unittest-kotlin = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-kotlin", "kotlin-reflection", "kotlin-test", "kotlinfixture"]
 unittest-android = [
     "kotest-runner",
     "kotest-property",
@@ -143,7 +150,7 @@ unittest-android = [
     "mockk-agent",
     "kotlin-reflection",
     "kotlin-test",
-    "easyrandom",
+    "kotlinfixture",
     "junit5-api",
     "junit5-engine",
     "junit5-params"
@@ -189,6 +196,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "11.5.1" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-sonarqube = { id = "org.sonarqube", version = "4.0.0.2929" }
+sonarqube = { id = "org.sonarqube", version = "4.4.1.3373" }
 junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5-plugin" }
-

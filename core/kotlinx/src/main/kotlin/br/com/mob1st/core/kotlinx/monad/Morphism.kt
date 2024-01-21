@@ -2,64 +2,15 @@ package br.com.mob1st.core.kotlinx.monad
 
 /**
  * Morphism is a function that maps elements of one set to another set.
- * @param L the left set.
- * @param R the right set.
+ * @param From the original set.
+ * @param To the target set.
  */
-fun interface Morphism<L, R> {
+fun interface Morphism<From, To> {
 
     /**
      * Maps an element of the left set to an element of the right set.
+     * @param from the element to be mapped.
+     * @return the mapped element.
      */
-    operator fun get(l: L): R
-}
-
-/**
- * Isomorphism is a pair of morphisms that map elements of one set to another set in opposite directions.
- * @param L the left set.
- * @param R the right set.
- */
-fun interface Isomorphism<L, R> {
-
-    /**
-     * Returns the pair of morphisms.
-     */
-    operator fun invoke(): Pair<Morphism<L, R>, Morphism<R, L>>
-}
-
-/**
- * Chain the given [Morphism] to the current one and generate a longer path of mapping.
- * ```
- * this: (A) -> B
- * other: (B) -> C
- * result: (A) -> C = this + other
- * ```
- */
-operator fun <A, B, C> Morphism<A, B>.plus(other: Morphism<B, C>): Morphism<A, C> = Morphism { a ->
-    other[get(a)]
-}
-
-/**
- * Combine all possibilities between two [Morphism] to generate an [Isomorphism].
- * ```
- * this: (A) -> B
- * other: (B) -> A
- * result: (A) -> B to (B) -> A = this * other
- * ```
- */
-operator fun <A, B> Morphism<A, B>.times(other: Morphism<B, A>): Isomorphism<A, B> = Isomorphism {
-    this to other
-}
-
-/**
- * Chain the given [Isomorphism] to the current one and generate a longer path of mapping.
- * ```
- * this: (A) -> B to (B) -> A
- * other: (B) -> C to (C) -> B
- * result: (A) -> C to (C) -> A = this + other
- * ```
- */
-operator fun <A, B, C> Isomorphism<A, B>.plus(other: Isomorphism<B, C>): Isomorphism<A, C> = Isomorphism {
-    val (aToB, bToA) = invoke()
-    val (bToC, cToB) = other()
-    aToB + bToC to cToB + bToA
+    operator fun get(from: From): To
 }

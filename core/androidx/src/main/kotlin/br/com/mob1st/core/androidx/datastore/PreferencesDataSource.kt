@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import br.com.mob1st.core.data.UnitaryDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -18,19 +19,19 @@ import kotlinx.coroutines.flow.map
 abstract class PreferencesDataSource<T>(
     private val context: Context,
     dataStoreFile: DataStoreFile,
-) {
+) : UnitaryDataSource<T> {
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(dataStoreFile.name)
 
     /**
      * Get data from [DataStore].
      */
-    fun get(): Flow<T> = context.dataStore.data.map(::get)
+    override val data: Flow<T> = context.dataStore.data.map(::get)
 
     /**
      * Set data in [DataStore].
      */
-    suspend fun set(data: T) {
+    override suspend fun set(data: T) {
         context.dataStore.edit { set(it, data) }
     }
 

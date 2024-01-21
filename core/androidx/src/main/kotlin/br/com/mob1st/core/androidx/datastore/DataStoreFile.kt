@@ -9,4 +9,9 @@ enum class DataStoreFile {
      * File name for the [androidx.datastore.core.DataStore] that persists the backend environment.
      */
     BE_ENV,
+
+    /**
+     * The current step in the builder for recurrences to present to user.
+     */
+    RECURRENCE_BUILDER_STEP,
 }

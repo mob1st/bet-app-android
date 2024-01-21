@@ -11,8 +11,8 @@ import br.com.mob1st.features.dev.impl.domain.DevMenuEntry
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.utils.errors.CommonError
-import br.com.mob1st.tests.unit.randomEnum
-import br.com.mob1st.tests.unit.randomString
+import br.com.mob1st.tests.featuresutils.fixture
+import br.com.mob1st.tests.featuresutils.randomEnum
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -66,8 +66,8 @@ internal class DevMenuPageStateTest {
     fun `GIVEN a dev menu And a snackbar WHEN transform THEN assert state snackbar`() {
         val result = devMenu()
         val expected = SnackState(
-            supporting = Text(randomString()),
-            action = Text(randomString())
+            supporting = Text("a"),
+            action = Text("b")
         )
         val actual = DevMenuPageState.transform(
             result = result,
@@ -92,7 +92,7 @@ internal class DevMenuPageStateTest {
         ) as DevMenuPageState.Loaded
         assertEquals(
             expected = expected,
-            actual = actual.navigationTarget
+            actual = actual.navTarget
         )
     }
 
@@ -111,7 +111,7 @@ internal class DevMenuPageStateTest {
                     CommonError.Unknown.helper
                 ),
                 Arguments.of(
-                    NoConnectivityException(randomString(), Throwable()),
+                    NoConnectivityException(fixture(), Throwable()),
                     CommonError.NoConnectivity.helper
                 )
             )
