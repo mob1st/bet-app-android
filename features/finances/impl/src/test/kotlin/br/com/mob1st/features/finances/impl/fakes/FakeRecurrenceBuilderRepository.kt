@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.mapNotNull
  * Fake implementation of [RecurrenceBuilderRepository]
  */
 internal class FakeRecurrenceBuilderRepository(
-    val setState: MutableStateFlow<RecurrenceBuilder?> = MutableStateFlow(null),
+    val getSetState: MutableStateFlow<RecurrenceBuilder?> = MutableStateFlow(null),
 ) : RecurrenceBuilderRepository {
     override fun get(): Flow<RecurrenceBuilder> {
-        return setState.mapNotNull { it }
+        return getSetState.mapNotNull { it }
     }
 
     override suspend fun set(builder: RecurrenceBuilder) {
-        setState.value = builder
+        getSetState.value = builder
     }
 }

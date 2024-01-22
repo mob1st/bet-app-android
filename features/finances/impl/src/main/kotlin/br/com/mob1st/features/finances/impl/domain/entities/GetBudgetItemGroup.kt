@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
  * @param getStep block to select the step
  * @param T type of recurrent category
  */
-internal fun <T : RecurrentCategory> RecurrenceBuilderRepository.getRecurrentCategoryGroupBy(
+internal fun <T : RecurrentCategory> RecurrenceBuilderRepository.getBudgetItemGroup(
     getStep: (RecurrenceBuilder) -> RecurrenceBuilder.Step<T>,
 ): Flow<BudgetItemGroup<T>> = get()
     .map { builder: RecurrenceBuilder -> getStep(builder) }

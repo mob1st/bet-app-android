@@ -2,7 +2,7 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.core.observability.events.ScreenViewEvent
-import br.com.mob1st.features.finances.impl.domain.entities.getRecurrentCategoryGroupBy
+import br.com.mob1st.features.finances.impl.domain.entities.getBudgetItemGroup
 import br.com.mob1st.features.finances.impl.domain.repositories.RecurrenceBuilderRepository
 import br.com.mob1st.features.finances.publicapi.domain.entities.BudgetItemGroup
 import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCategory
@@ -19,7 +19,7 @@ internal class GetFixedExpensesUseCaseImpl(
 ) : GetFixedExpensesUseCase {
     override operator fun invoke(): Flow<BudgetItemGroup<RecurrentCategory.Fixed>> {
         return recurrenceBuilderRepository
-            .getRecurrentCategoryGroupBy {
+            .getBudgetItemGroup {
                 it.fixedExpensesStep
             }
             .onStart {
