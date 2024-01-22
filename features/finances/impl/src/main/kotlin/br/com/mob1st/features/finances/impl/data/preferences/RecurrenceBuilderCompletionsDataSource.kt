@@ -7,6 +7,10 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import br.com.mob1st.core.androidx.datastore.DataStoreFile
 import br.com.mob1st.core.androidx.datastore.PreferencesDataSource
 
+/**
+ * Data source for [RecurrenceBuilderCompletions].
+ * It uses DataStore API to store the data in a [Preferences] style structure.
+ */
 internal class RecurrenceBuilderCompletionsDataSource(
     context: Context,
 ) : PreferencesDataSource<RecurrenceBuilderCompletions>(context, DataStoreFile.RECURRENCE_BUILDER_STEP_COMPLETION) {

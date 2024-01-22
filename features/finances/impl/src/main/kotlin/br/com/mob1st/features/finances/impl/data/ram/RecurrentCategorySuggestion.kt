@@ -1,7 +1,7 @@
 package br.com.mob1st.features.finances.impl.data.ram
 
 /**
- * Suggestions for recurrent transactions
+ * Hardcoded suggestions for recurrent categories. Use these enums to identify which description to use.
  */
 internal enum class RecurrentCategorySuggestion {
     RENT,

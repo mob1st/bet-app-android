@@ -22,29 +22,28 @@ internal data class RecurrenceBuilderCache(
 internal fun RecurrenceBuilderCache.toDomain() = RecurrenceBuilder(
     fixedExpensesStep = RecurrenceBuilder.Step(
         isCompleted = completions.isFixedExpansesCompleted,
-        list = lists.fixedExpensesList,
+        list = lists.fixedExpensesList
     ),
     variableExpensesStep = RecurrenceBuilder.Step(
         isCompleted = completions.isVariableExpansesCompleted,
-        list = lists.variableExpensesList,
+        list = lists.variableExpensesList
     ),
     seasonalExpensesStep = RecurrenceBuilder.Step(
         isCompleted = completions.isSeasonalExpansesCompleted,
-        list = lists.seasonalExpensesList,
+        list = lists.seasonalExpensesList
     ),
     incomesStep = RecurrenceBuilder.Step(
         isCompleted = completions.isIncomesCompleted,
-        list = lists.incomesList,
+        list = lists.incomesList
     )
 )
-
 
 /**
  * Convert [RecurrenceBuilder] to [RecurrenceBuilderCache]
  */
 internal fun RecurrenceBuilder.toData() = RecurrenceBuilderCache(
     completions = toPreferences(),
-    lists = toLists(),
+    lists = toLists()
 )
 
 private fun RecurrenceBuilder.toLists(): RecurrenceBuilderLists {

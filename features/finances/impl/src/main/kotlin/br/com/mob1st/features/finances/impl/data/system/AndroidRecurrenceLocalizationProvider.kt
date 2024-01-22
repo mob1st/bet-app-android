@@ -3,7 +3,6 @@ package br.com.mob1st.features.finances.impl.data.system
 import android.content.Context
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.data.ram.RecurrentCategorySuggestion
-import br.com.mob1st.features.finances.impl.domain.providers.RecurrenceLocalizationProvider
 
 /**
  * Implementation of [RecurrenceLocalizationProvider] for Android using [Context.getString]

@@ -4,6 +4,10 @@ import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCatego
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
+/**
+ * Holds the lists of [RecurrentCategory] that are being built by the user for each step in the builder.
+ * It uses a [PersistentList] to ensure immutability and allow edition.
+ */
 internal data class RecurrenceBuilderLists(
     val fixedExpensesList: PersistentList<RecurrentCategory.Fixed> = persistentListOf(),
     val variableExpensesList: PersistentList<RecurrentCategory.Variable> = persistentListOf(),

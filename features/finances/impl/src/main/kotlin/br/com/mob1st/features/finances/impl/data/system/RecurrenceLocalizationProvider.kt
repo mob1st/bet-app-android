@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.domain.providers
+package br.com.mob1st.features.finances.impl.data.system
 
 import br.com.mob1st.features.finances.impl.data.ram.RecurrentCategorySuggestion
 
