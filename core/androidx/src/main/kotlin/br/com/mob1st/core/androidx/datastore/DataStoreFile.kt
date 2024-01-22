@@ -13,5 +13,5 @@ enum class DataStoreFile {
     /**
      * The current step in the builder for recurrences to present to user.
      */
-    RECURRENCE_BUILDER_STEP,
+    RECURRENCE_BUILDER_STEP_COMPLETION,
 }
