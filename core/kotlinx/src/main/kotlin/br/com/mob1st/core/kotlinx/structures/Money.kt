@@ -7,10 +7,6 @@ package br.com.mob1st.core.kotlinx.structures
 @JvmInline
 value class Money(val cents: Int) : Comparable<Money> {
 
-    init {
-        require(cents >= 0) { "Money cannot be negative" }
-    }
-
     /**
      * Adds two [Money] values generating a new one.
      */
@@ -20,16 +16,6 @@ value class Money(val cents: Int) : Comparable<Money> {
      * Subtracts two [Money] values generating a new one.
      */
     operator fun minus(other: Money) = Money(cents - other.cents)
-
-    /**
-     * Multiplies two [Money] values generating a new one.
-     */
-    operator fun times(other: Money) = Money(cents * other.cents)
-
-    /**
-     * Divides two [Money] values generating a new one.
-     */
-    operator fun div(other: Money) = Money(cents / other.cents)
 
     /**
      * Compares two [Money] values.

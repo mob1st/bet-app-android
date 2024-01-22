@@ -1,7 +1,7 @@
 package br.com.mob1st.features.finances.publicapi.domain.usecases
 
+import br.com.mob1st.features.finances.publicapi.domain.entities.BudgetItemGroup
 import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCategory
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCategoryGroup
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -12,5 +12,5 @@ interface GetFixedExpensesUseCase {
     /**
      * Invoke the use case
      */
-    operator fun invoke(): Flow<RecurrentCategoryGroup<RecurrentCategory.Fixed>>
+    operator fun invoke(): Flow<BudgetItemGroup<RecurrentCategory.Fixed>>
 }

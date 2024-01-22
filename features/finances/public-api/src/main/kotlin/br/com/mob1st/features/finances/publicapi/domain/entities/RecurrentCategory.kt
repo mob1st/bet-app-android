@@ -7,7 +7,7 @@ import kotlinx.datetime.Month
 /**
  * A type of transaction that happens recurrently, every month, week or year.
  */
-sealed interface RecurrentCategory : Identifiable {
+sealed interface RecurrentCategory : Identifiable, BudgetItem {
 
     /**
      * The movement of money that happens recurrently
@@ -23,7 +23,7 @@ sealed interface RecurrentCategory : Identifiable {
         override val recurrentTransaction: RecurrentTransaction,
         override val id: Id = Id(),
         val dayOfMonth: Int = DEFAULT_DAY_OF_MONTH,
-    ) : RecurrentCategory
+    ) : RecurrentCategory, BudgetItem by recurrentTransaction
 
     /**
      * A variable recurrent transaction.
@@ -32,13 +32,13 @@ sealed interface RecurrentCategory : Identifiable {
     data class Variable(
         override val recurrentTransaction: RecurrentTransaction,
         override val id: Id = Id(),
-    ) : RecurrentCategory
+    ) : RecurrentCategory, BudgetItem by recurrentTransaction
     data class Seasonal(
         override val recurrentTransaction: RecurrentTransaction,
         val month: Month,
         val day: Int = DEFAULT_DAY_OF_MONTH,
         override val id: Id = Id(),
-    ) : RecurrentCategory
+    ) : RecurrentCategory, BudgetItem by recurrentTransaction
 
     companion object {
         const val DEFAULT_DAY_OF_MONTH = 5

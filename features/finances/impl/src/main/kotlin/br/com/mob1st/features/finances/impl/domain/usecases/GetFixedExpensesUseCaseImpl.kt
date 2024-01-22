@@ -4,8 +4,8 @@ import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.core.observability.events.ScreenViewEvent
 import br.com.mob1st.features.finances.impl.domain.entities.getRecurrentCategoryGroupBy
 import br.com.mob1st.features.finances.impl.domain.repositories.RecurrenceBuilderRepository
+import br.com.mob1st.features.finances.publicapi.domain.entities.BudgetItemGroup
 import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCategory
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCategoryGroup
 import br.com.mob1st.features.finances.publicapi.domain.usecases.GetFixedExpensesUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onStart
@@ -17,7 +17,7 @@ internal class GetFixedExpensesUseCaseImpl(
     private val recurrenceBuilderRepository: RecurrenceBuilderRepository,
     private val analyticsReporter: AnalyticsReporter,
 ) : GetFixedExpensesUseCase {
-    override operator fun invoke(): Flow<RecurrentCategoryGroup<RecurrentCategory.Fixed>> {
+    override operator fun invoke(): Flow<BudgetItemGroup<RecurrentCategory.Fixed>> {
         return recurrenceBuilderRepository
             .getRecurrentCategoryGroupBy {
                 it.fixedExpensesStep

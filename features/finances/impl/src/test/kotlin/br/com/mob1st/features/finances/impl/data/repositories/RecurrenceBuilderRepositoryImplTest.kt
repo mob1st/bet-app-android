@@ -44,20 +44,20 @@ class RecurrenceBuilderRepositoryImplTest {
         assertEquals(
             expected = RecurrenceBuilder(
                 fixedExpensesStep = RecurrenceBuilder.Step(
-                    list = listsDataSource.setState.value.fixedExpensesList,
-                    isCompleted = completionsDataSource.setState.value.isFixedExpansesCompleted
+                    list = listsDataSource.setState.value!!.fixedExpensesList,
+                    isCompleted = completionsDataSource.setState.value!!.isFixedExpansesCompleted
                 ),
                 variableExpensesStep = RecurrenceBuilder.Step(
-                    list = listsDataSource.setState.value.variableExpensesList,
-                    isCompleted = completionsDataSource.setState.value.isVariableExpansesCompleted
+                    list = listsDataSource.setState.value!!.variableExpensesList,
+                    isCompleted = completionsDataSource.setState.value!!.isVariableExpansesCompleted
                 ),
                 seasonalExpensesStep = RecurrenceBuilder.Step(
-                    list = listsDataSource.setState.value.seasonalExpensesList,
-                    isCompleted = completionsDataSource.setState.value.isSeasonalExpansesCompleted
+                    list = listsDataSource.setState.value!!.seasonalExpensesList,
+                    isCompleted = completionsDataSource.setState.value!!.isSeasonalExpansesCompleted
                 ),
                 incomesStep = RecurrenceBuilder.Step(
-                    list = listsDataSource.setState.value.incomesList,
-                    isCompleted = completionsDataSource.setState.value.isIncomesCompleted
+                    list = listsDataSource.setState.value!!.incomesList,
+                    isCompleted = completionsDataSource.setState.value!!.isIncomesCompleted
                 )
             ),
             actual = actual
