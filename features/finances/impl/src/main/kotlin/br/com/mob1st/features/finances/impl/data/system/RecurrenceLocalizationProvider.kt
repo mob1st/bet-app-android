@@ -5,7 +5,7 @@ import br.com.mob1st.features.finances.impl.data.ram.RecurrentCategorySuggestion
 /**
  * Provides localized strings for recurrence suggestions
  */
-internal interface RecurrenceLocalizationProvider {
+internal fun interface RecurrenceLocalizationProvider {
 
     /**
      * Get the localized description for the given [suggestion]

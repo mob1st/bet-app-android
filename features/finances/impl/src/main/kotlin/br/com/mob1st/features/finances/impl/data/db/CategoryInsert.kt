@@ -1,6 +1,7 @@
 package br.com.mob1st.features.finances.impl.data.db
 
 import br.com.mob1st.features.finances.impl.PorkyDb
+import br.com.mob1st.features.finances.publicapi.domain.entities.Recurrence
 import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCategory
 
 class CategoryInsert(private val porkyDb: PorkyDb) {
@@ -34,26 +35,26 @@ class CategoryInsert(private val porkyDb: PorkyDb) {
         return recurrentCategoryQueries.selectLastInsertedId().executeAsOne()
     }
 
-    private fun RecurrentCategory.insertRecurrenceType(recurrenceCategoryId: Long) = when (this) {
-        is RecurrentCategory.Fixed -> recurrentCategoryQueries.insertFixedRecurrence(
+    private fun RecurrentCategory.insertRecurrenceType(recurrenceCategoryId: Long) = when (val rec = recurrence) {
+        is Recurrence.Fixed -> recurrentCategoryQueries.insertFixedRecurrence(
             recurrent_category_id = recurrenceCategoryId,
-            day_of_month = dayOfMonth.toLong()
+            day_of_month = rec.dayOfMonth.toLong()
         )
 
-        is RecurrentCategory.Seasonal -> recurrentCategoryQueries.insertSeasonalRecurrence(
+        is Recurrence.Seasonal -> recurrentCategoryQueries.insertSeasonalRecurrence(
             recurrent_category_id = recurrenceCategoryId,
             month_and_day = ""
         )
 
-        is RecurrentCategory.Variable -> recurrentCategoryQueries.insertVariableRecurrence(
+        is Recurrence.Variable -> recurrentCategoryQueries.insertVariableRecurrence(
             recurrent_category_id = recurrenceCategoryId,
             day_of_week = 0L
         )
     }
 }
 
-private fun RecurrentCategory.asRow(): String = when (this) {
-    is RecurrentCategory.Fixed -> "fixed"
-    is RecurrentCategory.Seasonal -> "seasonal"
-    is RecurrentCategory.Variable -> "variable"
+private fun RecurrentCategory.asRow(): String = when (recurrence) {
+    is Recurrence.Fixed -> "fixed"
+    is Recurrence.Seasonal -> "seasonal"
+    is Recurrence.Variable -> "variable"
 }

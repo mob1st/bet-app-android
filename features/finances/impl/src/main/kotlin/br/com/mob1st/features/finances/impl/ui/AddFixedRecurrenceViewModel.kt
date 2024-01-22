@@ -36,12 +36,12 @@ internal sealed interface AddFixedRecurrenceUiState :
 
     data class Empty(val failed: Boolean = false) : AddFixedRecurrenceUiState
     data class Filled(
-        val recurrenceSuggestion: ImmutableList<BudgetItemGroup.ProportionalItem<RecurrentCategory.Fixed>>,
+        val recurrenceSuggestion: ImmutableList<BudgetItemGroup.ProportionalItem<RecurrentCategory>>,
         val selectedManualInput: FixedRecurrenceManualInput? = null,
     ) : AddFixedRecurrenceUiState
 
     companion object {
-        fun transform(suggestionsResult: Result<BudgetItemGroup<RecurrentCategory.Fixed>>) = suggestionsResult
+        fun transform(suggestionsResult: Result<BudgetItemGroup<RecurrentCategory>>) = suggestionsResult
             .fold(
                 onSuccess = {
                     Filled(it.items.toImmutableList())

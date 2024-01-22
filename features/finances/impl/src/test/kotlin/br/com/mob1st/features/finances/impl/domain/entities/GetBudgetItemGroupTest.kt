@@ -5,7 +5,6 @@ import br.com.mob1st.features.finances.impl.fakes.FakeRecurrenceBuilderRepositor
 import br.com.mob1st.features.finances.publicapi.domain.entities.BudgetItem
 import br.com.mob1st.features.finances.publicapi.domain.entities.BudgetItemGroup
 import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCategory
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentTransaction
 import br.com.mob1st.tests.featuresutils.fixture
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,11 +29,9 @@ class GetBudgetItemGroupTest {
     @Test
     fun `GIVEN a builder WHEN get THEN return the list of fixed expenses`() = runTest {
         // GIVEN
-        val fixture = fixture<RecurrentCategory.Variable>().copy(
-            recurrentTransaction = fixture<RecurrentTransaction>().copy(
-                amount = Money(100),
-                type = BudgetItem.Type.EXPENSE
-            )
+        val fixture = fixture<RecurrentCategory>().copy(
+            amount = Money(100),
+            type = BudgetItem.Type.EXPENSE
         )
         val expected = BudgetItemGroup(
             items = listOf(
@@ -71,10 +68,8 @@ class GetBudgetItemGroupTest {
         // this test ensures that the distinctUntilChanged operator is applied in the flow to avoid unnecessary emissions
 
         // GIVEN
-        val item = fixture<RecurrentCategory.Seasonal>().copy(
-            recurrentTransaction = fixture<RecurrentTransaction>().copy(
-                type = BudgetItem.Type.INCOME
-            )
+        val item = fixture<RecurrentCategory>().copy(
+            type = BudgetItem.Type.INCOME
         )
         val builder = fixture<RecurrenceBuilder>().copy(
             incomesStep = RecurrenceBuilder.Step(

@@ -10,12 +10,11 @@ import kotlinx.coroutines.flow.map
 /**
  * Get the step content for the field selected in the builder
  * @param getStep block to select the step
- * @param T type of recurrent category
  */
-internal fun <T : RecurrentCategory> RecurrenceBuilderRepository.getBudgetItemGroup(
-    getStep: (RecurrenceBuilder) -> RecurrenceBuilder.Step<T>,
-): Flow<BudgetItemGroup<T>> = get()
+internal fun RecurrenceBuilderRepository.getBudgetItemGroup(
+    getStep: (RecurrenceBuilder) -> RecurrenceBuilder.Step,
+): Flow<BudgetItemGroup<RecurrentCategory>> = get()
     .map { builder: RecurrenceBuilder -> getStep(builder) }
-    .map { step: RecurrenceBuilder.Step<T> -> step.list }
+    .map { step: RecurrenceBuilder.Step -> step.list }
     .distinctUntilChanged()
-    .map { list: List<T> -> list.toBudgetItemGroup() }
+    .map { list: List<RecurrentCategory> -> list.toBudgetItemGroup() }

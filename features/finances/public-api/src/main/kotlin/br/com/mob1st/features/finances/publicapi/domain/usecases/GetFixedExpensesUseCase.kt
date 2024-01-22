@@ -12,5 +12,5 @@ interface GetFixedExpensesUseCase {
     /**
      * Invoke the use case
      */
-    operator fun invoke(): Flow<BudgetItemGroup<RecurrentCategory.Fixed>>
+    operator fun invoke(): Flow<BudgetItemGroup<RecurrentCategory>>
 }

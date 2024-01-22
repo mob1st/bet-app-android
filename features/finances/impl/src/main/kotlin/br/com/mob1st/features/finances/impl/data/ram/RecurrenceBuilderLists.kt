@@ -9,8 +9,8 @@ import kotlinx.collections.immutable.persistentListOf
  * It uses a [PersistentList] to ensure immutability and allow edition.
  */
 internal data class RecurrenceBuilderLists(
-    val fixedExpensesList: PersistentList<RecurrentCategory.Fixed> = persistentListOf(),
-    val variableExpensesList: PersistentList<RecurrentCategory.Variable> = persistentListOf(),
-    val seasonalExpensesList: PersistentList<RecurrentCategory.Seasonal> = persistentListOf(),
+    val fixedExpensesList: PersistentList<RecurrentCategory> = persistentListOf(),
+    val variableExpensesList: PersistentList<RecurrentCategory> = persistentListOf(),
+    val seasonalExpensesList: PersistentList<RecurrentCategory> = persistentListOf(),
     val incomesList: PersistentList<RecurrentCategory> = persistentListOf(),
 )

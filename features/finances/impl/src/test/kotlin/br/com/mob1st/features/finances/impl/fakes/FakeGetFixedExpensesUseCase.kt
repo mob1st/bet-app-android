@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.mapNotNull
 
 class FakeGetFixedExpensesUseCase(
-    val invokeState: MutableStateFlow<BudgetItemGroup<RecurrentCategory.Fixed>?> = MutableStateFlow(null),
+    val invokeState: MutableStateFlow<BudgetItemGroup<RecurrentCategory>?> = MutableStateFlow(null),
 ) : GetFixedExpensesUseCase {
-    override fun invoke(): Flow<BudgetItemGroup<RecurrentCategory.Fixed>> {
+    override fun invoke(): Flow<BudgetItemGroup<RecurrentCategory>> {
         return invokeState.mapNotNull { it }
     }
 }

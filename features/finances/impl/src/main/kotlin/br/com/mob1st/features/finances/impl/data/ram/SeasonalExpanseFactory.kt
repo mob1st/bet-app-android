@@ -4,14 +4,14 @@ import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.impl.data.ram.SeasonalExpanseFactory.suggestions
 import br.com.mob1st.features.finances.impl.data.system.RecurrenceLocalizationProvider
 import br.com.mob1st.features.finances.publicapi.domain.entities.BudgetItem
+import br.com.mob1st.features.finances.publicapi.domain.entities.Recurrence
 import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCategory
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentTransaction
 import kotlinx.datetime.Month
 
 /**
- * Factory for [RecurrentCategory.Seasonal] from hardcoded [suggestions].
+ * Factory for [RecurrentCategory] from hardcoded [suggestions].
  */
-internal object SeasonalExpanseFactory : RecurrenceSuggestionFactory<RecurrentCategory.Seasonal>() {
+internal object SeasonalExpanseFactory : RecurrenceSuggestionFactory() {
 
     override val suggestions: List<RecurrentCategorySuggestion> = listOf(
         RecurrentCategorySuggestion.HOLIDAYS,
@@ -22,16 +22,16 @@ internal object SeasonalExpanseFactory : RecurrenceSuggestionFactory<RecurrentCa
         RecurrentCategorySuggestion.FURNITURE
     )
 
-    override fun invoke(localizationProvider: RecurrenceLocalizationProvider): List<RecurrentCategory.Seasonal> {
+    override fun invoke(localizationProvider: RecurrenceLocalizationProvider): List<RecurrentCategory> {
         return suggestions.map { suggestion ->
-            RecurrentCategory.Seasonal(
-                recurrentTransaction = RecurrentTransaction(
-                    description = localizationProvider[suggestion],
-                    amount = Money.Zero,
-                    type = BudgetItem.Type.EXPENSE
-                ),
-                month = Month.JANUARY,
-                day = RecurrentCategory.DEFAULT_DAY_OF_MONTH
+            RecurrentCategory(
+                description = localizationProvider[suggestion],
+                amount = Money.Zero,
+                type = BudgetItem.Type.EXPENSE,
+                recurrence = Recurrence.Seasonal(
+                    month = Month.JANUARY,
+                    day = 1
+                )
             )
         }
     }

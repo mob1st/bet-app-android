@@ -17,7 +17,7 @@ internal class GetFixedExpensesUseCaseImpl(
     private val recurrenceBuilderRepository: RecurrenceBuilderRepository,
     private val analyticsReporter: AnalyticsReporter,
 ) : GetFixedExpensesUseCase {
-    override operator fun invoke(): Flow<BudgetItemGroup<RecurrentCategory.Fixed>> {
+    override operator fun invoke(): Flow<BudgetItemGroup<RecurrentCategory>> {
         return recurrenceBuilderRepository
             .getBudgetItemGroup {
                 it.fixedExpensesStep

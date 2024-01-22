@@ -4,13 +4,13 @@ import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.impl.data.ram.VariableExpanseFactory.suggestions
 import br.com.mob1st.features.finances.impl.data.system.RecurrenceLocalizationProvider
 import br.com.mob1st.features.finances.publicapi.domain.entities.BudgetItem
+import br.com.mob1st.features.finances.publicapi.domain.entities.Recurrence
 import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCategory
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentTransaction
 
 /**
- * Factory for [RecurrentCategory.Variable] from hardcoded [suggestions].
+ * Factory for [RecurrentCategory] from hardcoded [suggestions].
  */
-internal object VariableExpanseFactory : RecurrenceSuggestionFactory<RecurrentCategory.Variable>() {
+internal object VariableExpanseFactory : RecurrenceSuggestionFactory() {
     override val suggestions: List<RecurrentCategorySuggestion> = listOf(
         RecurrentCategorySuggestion.LUNCH,
         RecurrentCategorySuggestion.WEEKEND_RESTAURANT,
@@ -20,15 +20,14 @@ internal object VariableExpanseFactory : RecurrenceSuggestionFactory<RecurrentCa
         RecurrentCategorySuggestion.BEAUTY
     )
 
-    override fun invoke(localizationProvider: RecurrenceLocalizationProvider): List<RecurrentCategory.Variable> {
+    override fun invoke(localizationProvider: RecurrenceLocalizationProvider): List<RecurrentCategory> {
         return suggestions
             .map { suggestion ->
-                RecurrentCategory.Variable(
-                    recurrentTransaction = RecurrentTransaction(
-                        description = localizationProvider[suggestion],
-                        amount = Money.Zero,
-                        type = BudgetItem.Type.EXPENSE
-                    )
+                RecurrentCategory(
+                    description = localizationProvider[suggestion],
+                    amount = Money.Zero,
+                    type = BudgetItem.Type.EXPENSE,
+                    recurrence = Recurrence.Variable
                 )
             }
     }
