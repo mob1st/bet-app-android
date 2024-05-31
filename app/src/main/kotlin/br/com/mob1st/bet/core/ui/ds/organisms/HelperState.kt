@@ -9,15 +9,17 @@ data class HelperState(
     val description: TextData,
     val cta: ButtonState.Primary?,
 ) {
-    fun loading(loading: Boolean) = copy(
-        cta = cta?.copy(loading = loading)
-    )
+    fun loading(loading: Boolean) =
+        copy(
+            cta = cta?.copy(loading = loading),
+        )
 
     companion object {
-        fun generalFailure(cta: ButtonState.Primary?) = HelperState(
-            title = TextData(R.string.general_message_error_title),
-            description = TextData(R.string.general_message_error_description),
-            cta = cta
-        )
+        fun generalFailure(cta: ButtonState.Primary?) =
+            HelperState(
+                title = TextData(R.string.general_message_error_title),
+                description = TextData(R.string.general_message_error_description),
+                cta = cta,
+            )
     }
 }

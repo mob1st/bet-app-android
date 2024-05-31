@@ -6,7 +6,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 object Dimens {
-
     val grid: Grid @Composable get() = LocalCompositionGrid.current
 }
 
@@ -18,7 +17,6 @@ data class Grid(
     val column: Dp,
     val line: Dp,
 ) {
-
     fun columns(count: Int): Dp {
         require(count > 1) {
             "count should be greater then or equals 1, so the value $count you used is invalid"
@@ -27,11 +25,12 @@ data class Grid(
     }
 
     companion object {
-        val Small = Grid(
-            gutter = 16.dp,
-            margin = 16.dp,
-            column = 64.dp,
-            line = 8.dp
-        )
+        val Small =
+            Grid(
+                gutter = 16.dp,
+                margin = 16.dp,
+                column = 64.dp,
+                line = 8.dp,
+            )
     }
 }

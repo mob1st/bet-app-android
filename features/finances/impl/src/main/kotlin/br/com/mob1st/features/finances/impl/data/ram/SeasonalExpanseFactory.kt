@@ -12,15 +12,15 @@ import kotlinx.datetime.Month
  * Factory for [RecurrentCategory] from hardcoded [suggestions].
  */
 internal object SeasonalExpanseFactory : RecurrenceSuggestionFactory() {
-
-    override val suggestions: List<RecurrentCategorySuggestion> = listOf(
-        RecurrentCategorySuggestion.HOLIDAYS,
-        RecurrentCategorySuggestion.CHRISTMAS,
-        RecurrentCategorySuggestion.GIFTS,
-        RecurrentCategorySuggestion.CLOTHES,
-        RecurrentCategorySuggestion.ELECTRONICS,
-        RecurrentCategorySuggestion.FURNITURE
-    )
+    override val suggestions: List<RecurrentCategorySuggestion> =
+        listOf(
+            RecurrentCategorySuggestion.HOLIDAYS,
+            RecurrentCategorySuggestion.CHRISTMAS,
+            RecurrentCategorySuggestion.GIFTS,
+            RecurrentCategorySuggestion.CLOTHES,
+            RecurrentCategorySuggestion.ELECTRONICS,
+            RecurrentCategorySuggestion.FURNITURE,
+        )
 
     override fun invoke(localizationProvider: RecurrenceLocalizationProvider): List<RecurrentCategory> {
         return suggestions.map { suggestion ->
@@ -28,10 +28,11 @@ internal object SeasonalExpanseFactory : RecurrenceSuggestionFactory() {
                 description = localizationProvider[suggestion],
                 amount = Money.Zero,
                 type = BudgetItem.Type.EXPENSE,
-                recurrence = Recurrence.Seasonal(
-                    month = Month.JANUARY,
-                    day = 1
-                )
+                recurrence =
+                    Recurrence.Seasonal(
+                        month = Month.JANUARY,
+                        day = 1,
+                    ),
             )
         }
     }

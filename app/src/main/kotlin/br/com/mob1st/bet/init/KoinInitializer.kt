@@ -17,7 +17,6 @@ import org.koin.ksp.generated.module
 
 @Suppress("unused")
 class KoinInitializer : Initializer<KoinApplication> {
-
     override fun create(context: Context): KoinApplication {
         return context.createDependencyGraph()
     }
@@ -25,21 +24,22 @@ class KoinInitializer : Initializer<KoinApplication> {
     override fun dependencies(): List<Class<out Initializer<*>>> {
         return listOf(
             TimberInitializer::class.java,
-            CoilInitializer::class.java
+            CoilInitializer::class.java,
         )
     }
 }
 
-private fun Context.createDependencyGraph() = startKoin {
-    androidLogger()
-    androidContext(this@createDependencyGraph)
-    modules(
-        FirebaseComponent().module,
-        firebaseModule,
-        coroutinesModule,
-        timberModule,
-        serializationModule,
-        AppModule().module,
-        devSettingsModule,
-    )
-}
+private fun Context.createDependencyGraph() =
+    startKoin {
+        androidLogger()
+        androidContext(this@createDependencyGraph)
+        modules(
+            FirebaseComponent().module,
+            firebaseModule,
+            coroutinesModule,
+            timberModule,
+            serializationModule,
+            AppModule().module,
+            devSettingsModule,
+        )
+    }

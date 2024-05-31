@@ -23,27 +23,27 @@ fun FirebaseFirestoreException.loggedProperties(): Map<String, Any> {
     return mapOf(
         "errorCode" to code.value(),
         "errorName" to code.name,
-        "errorSource" to "firestore"
+        "errorSource" to "firestore",
     )
 }
 
 private fun FirebaseAuthException.loggedProperties(): Map<String, Any> {
     return mapOf(
         "errorCode" to errorCode,
-        "errorSource" to "authentication"
+        "errorSource" to "authentication",
     )
 }
 
 private fun FirebaseRemoteConfigFetchThrottledException.loggedProperties(): Map<String, Any> {
     return mapOf(
         "throttleEndTimeMillis" to throttleEndTimeMillis,
-        "errorSource" to "remoteConfig"
+        "errorSource" to "remoteConfig",
     )
 }
 
 private fun FirebaseRemoteConfigServerException.loggedProperties(): Map<String, Any> {
     return mapOf(
         "httpStatusCode" to httpStatusCode,
-        "errorSource" to "remoteConfig"
+        "errorSource" to "remoteConfig",
     )
 }

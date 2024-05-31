@@ -5,15 +5,16 @@ package br.com.mob1st.core.kotlinx.monad
 value class Either<out L, out R> private constructor(
     private val value: Any,
 ) {
-
     val isLeft: Boolean get() = left() != null
     val isRight: Boolean get() = !isLeft
 
     fun left(): L? = value as? L
+
     fun right(): R? = value as? R
 
     companion object {
         fun <L, R> left(value: L) = Either<L, R>(value as Any)
+
         fun <L, R> right(value: R) = Either<L, R>(value as Any)
     }
 }

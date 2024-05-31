@@ -7,7 +7,6 @@ import kotlinx.datetime.Instant
  * An entity that can be written and have its changes tracked.
  */
 interface Writable {
-
     /**
      * The registry of the last write operation.
      */

@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.coroutineScope
 
 class DevSettingsActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycle.coroutineScope

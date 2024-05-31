@@ -4,7 +4,6 @@ package br.com.mob1st.bet.core.logs
  * Provides log properties to be displayed in the logs tools
  */
 interface Debuggable {
-
     /**
      * Key-value map used top log properties by keys
      *

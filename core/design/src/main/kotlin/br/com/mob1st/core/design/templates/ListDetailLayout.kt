@@ -9,13 +9,11 @@ import com.google.accompanist.adaptive.TwoPaneStrategy
  */
 data class ListDetailLayout(
     override val layoutSpec: LayoutSpec,
-
     /**
      * Whether to use a single pane when the window is medium.
      */
     val useSingleWhenMedium: Boolean,
 ) : CanonicalLayout(), CanonicalLayout.Multipane {
-
     /**
      * Creates a [Pane] for the list pane of this layout.
      */
@@ -24,11 +22,12 @@ data class ListDetailLayout(
         return Pane(
             layoutSpec = layoutSpec,
             maxWidth = width,
-            columnsLimit = if (isSingle) {
-                layoutSpec.columnsLimit
-            } else {
-                ColumnsLimit.Four
-            }
+            columnsLimit =
+                if (isSingle) {
+                    layoutSpec.columnsLimit
+                } else {
+                    ColumnsLimit.Four
+                },
         )
     }
 
@@ -45,11 +44,12 @@ data class ListDetailLayout(
         return Pane(
             layoutSpec = layoutSpec,
             maxWidth = width,
-            columnsLimit = if (layoutSpec == LayoutSpec.Medium) {
-                LayoutSpec.Compact.columnsLimit
-            } else {
-                LayoutSpec.Medium.columnsLimit
-            }
+            columnsLimit =
+                if (layoutSpec == LayoutSpec.Medium) {
+                    LayoutSpec.Compact.columnsLimit
+                } else {
+                    LayoutSpec.Medium.columnsLimit
+                },
         )
     }
 
@@ -58,12 +58,13 @@ data class ListDetailLayout(
             "Window must be medium or expanded. Current is $layoutSpec."
         }
         return HorizontalTwoPaneStrategy(
-            splitFraction = if (layoutSpec == LayoutSpec.Expanded) {
-                0.35f
-            } else {
-                0.50f
-            },
-            gapWidth = layoutSpec.horizontalSpacing
+            splitFraction =
+                if (layoutSpec == LayoutSpec.Expanded) {
+                    0.35f
+                } else {
+                    0.50f
+                },
+            gapWidth = layoutSpec.horizontalSpacing,
         )
     }
 }

@@ -7,7 +7,6 @@ package br.com.mob1st.bet.core.logs
  * write
  */
 interface Logger {
-
     /**
      * Verbose logs
      *
@@ -15,7 +14,10 @@ interface Logger {
      * specifically.
      * This type of logs should never be sent to production
      */
-    fun v(message: String, throwable: Throwable? = null)
+    fun v(
+        message: String,
+        throwable: Throwable? = null,
+    )
 
     /**
      * Debug logs
@@ -24,7 +26,10 @@ interface Logger {
      *  (IT, sysadmins, etc.).
      * This type of logs should never be sent to production
      */
-    fun d(message: String, throwable: Throwable? = null)
+    fun d(
+        message: String,
+        throwable: Throwable? = null,
+    )
 
     /**
      * Info logs
@@ -35,7 +40,10 @@ interface Logger {
      *
      * These type of logs is sent to production
      */
-    fun i(message: String, throwable: Throwable? = null)
+    fun i(
+        message: String,
+        throwable: Throwable? = null,
+    )
 
     /**
      * Warning logs
@@ -46,7 +54,10 @@ interface Logger {
      *
      * These type of logs is sent to production
      */
-    fun w(message: String, throwable: Throwable? = null)
+    fun w(
+        message: String,
+        throwable: Throwable? = null,
+    )
 
     /**
      * Error logs
@@ -58,5 +69,8 @@ interface Logger {
      *
      * These type of logs is sent to production
      */
-    fun e(message: String, throwable: Throwable)
+    fun e(
+        message: String,
+        throwable: Throwable,
+    )
 }

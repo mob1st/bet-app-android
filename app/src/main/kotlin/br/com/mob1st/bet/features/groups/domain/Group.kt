@@ -17,7 +17,6 @@ data class Group(
     val imageUrl: String? = null,
     val memberCount: Int = 0,
 ) {
-
     fun toEntry() = GroupEntry(id, name, imageUrl)
 }
 
@@ -30,11 +29,11 @@ data class GroupEntry(
     val imageUrl: String? = null,
 )
 
-fun Pair<GroupEntry, CompetitionEntry>.toLogMap() = mapOf(
-    "groupId" to first.id,
-    "groupName" to first.name,
-
-    "competitionId" to second.id,
-    "competitionName" to second.name.default,
-    "competitionType" to second.type.name.lowercase()
-)
+fun Pair<GroupEntry, CompetitionEntry>.toLogMap() =
+    mapOf(
+        "groupId" to first.id,
+        "groupName" to first.name,
+        "competitionId" to second.id,
+        "competitionName" to second.name.default,
+        "competitionType" to second.type.name.lowercase(),
+    )

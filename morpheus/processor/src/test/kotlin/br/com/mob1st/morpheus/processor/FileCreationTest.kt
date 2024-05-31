@@ -18,11 +18,12 @@ class FileCreationTest : BehaviorSpec({
         val dataClass = givenMorpheusClass("Sample")
 
         And("a nullable property is annotated with @ConsumableEffect") {
-            val prop = property(
-                """
-                @ConsumableEffect val prop: String?
-                """.trimIndent()
-            )
+            val prop =
+                property(
+                    """
+                    @ConsumableEffect val prop: String?
+                    """.trimIndent(),
+                )
 
             When("compile") {
                 val result = dataClass.constructor(prop).compile(FILE_NAME)
@@ -39,11 +40,12 @@ class FileCreationTest : BehaviorSpec({
         }
 
         And("a non nullable property is annotated with @ConsumableEffect") {
-            val prop = property(
-                """
-                @ConsumableEffect val prop: String
-                """.trimIndent()
-            )
+            val prop =
+                property(
+                    """
+                    @ConsumableEffect val prop: String
+                    """.trimIndent(),
+                )
             When("compile") {
                 val result = dataClass.constructor(prop).compile(FILE_NAME)
                 Then("compilation should exit with error") {
@@ -52,11 +54,12 @@ class FileCreationTest : BehaviorSpec({
             }
         }
         And("no property is annotated with @ConsumableEffect") {
-            val prop = property(
-                """
-                val prop1: String?
-                """.trimIndent()
-            )
+            val prop =
+                property(
+                    """
+                    val prop1: String?
+                    """.trimIndent(),
+                )
             When("compile") {
                 val result = dataClass.constructor(prop).compile(FILE_NAME)
                 Then("compilation should fail") {
@@ -68,12 +71,13 @@ class FileCreationTest : BehaviorSpec({
 
     Given("a data class without @Morpheus annotation") {
         @Language("kotlin")
-        val clazz = """           
+        val clazz =
+            """           
             import br.com.mob1st.morpheus.annotation.ConsumableEffect
             data class Sample(
                 @ConsumableEffect val prop1: String?          
             )
-        """.trimIndent()
+            """.trimIndent()
         When("compile") {
             val result = clazz.compile(FILE_NAME)
             Then("no file should be generated And a log message should be present") {
@@ -87,14 +91,15 @@ class FileCreationTest : BehaviorSpec({
 
     Given("a non data class with @Morpheus annotation") {
         @Language("kotlin")
-        val simpleClass = """
+        val simpleClass =
+            """
             import br.com.mob1st.morpheus.annotation.Morpheus
             
             @Morpheus
             class Sample(
                 val prop1: String?            
             )
-        """.trimIndent()
+            """.trimIndent()
 
         When("compile") {
             val result = simpleClass.compile(FILE_NAME)

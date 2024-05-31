@@ -13,18 +13,21 @@ import java.util.Date
  * Default date serializer for ISO date time format
  */
 object DateSerializer : KSerializer<Date> {
-
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(
-        serialName = "Date",
-        kind = PrimitiveKind.STRING
-    )
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor(
+            serialName = "Date",
+            kind = PrimitiveKind.STRING,
+        )
 
     override fun deserialize(decoder: Decoder): Date {
         val strDate = decoder.decodeString()
         return dateTimeIso.reverseGet(strDate)
     }
 
-    override fun serialize(encoder: Encoder, value: Date) {
+    override fun serialize(
+        encoder: Encoder,
+        value: Date,
+    ) {
         encoder.encodeString(dateTimeIso.get(value))
     }
 }

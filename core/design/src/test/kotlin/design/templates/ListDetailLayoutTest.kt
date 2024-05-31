@@ -15,21 +15,23 @@ import io.kotest.property.exhaustive.map
 class ListDetailLayoutTest : BehaviorSpec({
 
     Given("a compact window") {
-        val layout = Exhaustive.boolean().map {
-            ListDetailLayout(
-                layoutSpec = LayoutSpec.Compact,
-                useSingleWhenMedium = it
-            )
-        }
+        val layout =
+            Exhaustive.boolean().map {
+                ListDetailLayout(
+                    layoutSpec = LayoutSpec.Compact,
+                    useSingleWhenMedium = it,
+                )
+            }
 
         When("create a list pane") {
             Then("pane should be the expected") {
                 checkAll(layout, ScreenWidth.compact) { layout, width ->
-                    layout.list(width) shouldBe Pane(
-                        maxWidth = width,
-                        layoutSpec = LayoutSpec.Compact,
-                        columnsLimit = ColumnsLimit.Four
-                    )
+                    layout.list(width) shouldBe
+                        Pane(
+                            maxWidth = width,
+                            layoutSpec = LayoutSpec.Compact,
+                            columnsLimit = ColumnsLimit.Four,
+                        )
                 }
             }
         }
@@ -52,12 +54,13 @@ class ListDetailLayoutTest : BehaviorSpec({
                     checkAll(ScreenWidth.medium) {
                         ListDetailLayout(
                             layoutSpec = LayoutSpec.Medium,
-                            useSingleWhenMedium = true
-                        ).list(it) shouldBe Pane(
-                            maxWidth = it,
-                            layoutSpec = LayoutSpec.Medium,
-                            columnsLimit = ColumnsLimit.Eight
-                        )
+                            useSingleWhenMedium = true,
+                        ).list(it) shouldBe
+                            Pane(
+                                maxWidth = it,
+                                layoutSpec = LayoutSpec.Medium,
+                                columnsLimit = ColumnsLimit.Eight,
+                            )
                     }
                 }
             }
@@ -66,12 +69,13 @@ class ListDetailLayoutTest : BehaviorSpec({
                     checkAll(ScreenWidth.medium) {
                         ListDetailLayout(
                             layoutSpec = LayoutSpec.Medium,
-                            useSingleWhenMedium = false
-                        ).list(it) shouldBe Pane(
-                            maxWidth = it,
-                            layoutSpec = LayoutSpec.Medium,
-                            columnsLimit = ColumnsLimit.Four
-                        )
+                            useSingleWhenMedium = false,
+                        ).list(it) shouldBe
+                            Pane(
+                                maxWidth = it,
+                                layoutSpec = LayoutSpec.Medium,
+                                columnsLimit = ColumnsLimit.Four,
+                            )
                     }
                 }
             }
@@ -84,7 +88,7 @@ class ListDetailLayoutTest : BehaviorSpec({
                         shouldThrow<IllegalArgumentException> {
                             ListDetailLayout(
                                 layoutSpec = LayoutSpec.Medium,
-                                useSingleWhenMedium = true
+                                useSingleWhenMedium = true,
                             ).detail(width)
                         }
                     }
@@ -96,12 +100,13 @@ class ListDetailLayoutTest : BehaviorSpec({
                     checkAll(ScreenWidth.medium) { width ->
                         ListDetailLayout(
                             layoutSpec = LayoutSpec.Medium,
-                            useSingleWhenMedium = false
-                        ).detail(width) shouldBe Pane(
-                            maxWidth = width,
-                            layoutSpec = LayoutSpec.Medium,
-                            columnsLimit = ColumnsLimit.Four
-                        )
+                            useSingleWhenMedium = false,
+                        ).detail(width) shouldBe
+                            Pane(
+                                maxWidth = width,
+                                layoutSpec = LayoutSpec.Medium,
+                                columnsLimit = ColumnsLimit.Four,
+                            )
                     }
                 }
             }
@@ -114,12 +119,13 @@ class ListDetailLayoutTest : BehaviorSpec({
                 checkAll(ScreenWidth.expanded, Exhaustive.boolean()) { width, useSingle ->
                     ListDetailLayout(
                         layoutSpec = LayoutSpec.Expanded,
-                        useSingleWhenMedium = useSingle
-                    ).list(width) shouldBe Pane(
-                        maxWidth = width,
-                        layoutSpec = LayoutSpec.Expanded,
-                        columnsLimit = ColumnsLimit.Four
-                    )
+                        useSingleWhenMedium = useSingle,
+                    ).list(width) shouldBe
+                        Pane(
+                            maxWidth = width,
+                            layoutSpec = LayoutSpec.Expanded,
+                            columnsLimit = ColumnsLimit.Four,
+                        )
                 }
             }
         }
@@ -129,12 +135,13 @@ class ListDetailLayoutTest : BehaviorSpec({
                 checkAll(ScreenWidth.expanded) { width ->
                     ListDetailLayout(
                         layoutSpec = LayoutSpec.Expanded,
-                        useSingleWhenMedium = true
-                    ).detail(width) shouldBe Pane(
-                        maxWidth = width,
-                        layoutSpec = LayoutSpec.Expanded,
-                        columnsLimit = ColumnsLimit.Eight
-                    )
+                        useSingleWhenMedium = true,
+                    ).detail(width) shouldBe
+                        Pane(
+                            maxWidth = width,
+                            layoutSpec = LayoutSpec.Expanded,
+                            columnsLimit = ColumnsLimit.Eight,
+                        )
                 }
             }
         }

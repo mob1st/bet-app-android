@@ -24,7 +24,7 @@ internal class GetFixedExpensesUseCaseImpl(
             }
             .onStart {
                 analyticsReporter.log(
-                    ScreenViewEvent("fin_builder_fixed_expenses")
+                    ScreenViewEvent("fin_builder_fixed_expenses"),
                 )
             }
     }

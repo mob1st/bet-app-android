@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
  * Provides the project settings data.
  */
 interface ProjectSettingsRepository {
-
     /**
      * The project settings data.
      */

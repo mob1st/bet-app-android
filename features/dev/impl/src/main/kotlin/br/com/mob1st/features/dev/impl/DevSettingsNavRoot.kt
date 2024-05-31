@@ -17,56 +17,65 @@ import br.com.mob1st.features.utils.navigation.NavRoot
  * Navigation root for the dev settings feature.
  */
 object DevSettingsNavRoot : NavRoot {
-    context(NavGraphBuilder) override fun graph(navController: NavController, patterns: List<TransitionPattern>) {
+    context(NavGraphBuilder)
+    override fun graph(
+        navController: NavController,
+        patterns: List<TransitionPattern>,
+    ) {
         navigation(
             startDestination = DevSettingsNavTarget.DevMenu.screenName,
-            route = DevSettingsNavTarget.ROUTE
+            route = DevSettingsNavTarget.ROUTE,
         ) {
             composable(
                 DevSettingsNavTarget.DevMenu,
-                NavGraphTransitions.devMenuTransitions
+                NavGraphTransitions.devMenuTransitions,
             ) { DevMenuPage(navController::navigate) }
 
             composable(
                 DevSettingsNavTarget.BackendEnvironment,
-                NavGraphTransitions.backendEnvironmentTransitions
+                NavGraphTransitions.backendEnvironmentTransitions,
             ) { GalleryPage() }
             composable(
                 DevSettingsNavTarget.FeatureFlags,
-                NavGraphTransitions.featureFlagsTransitions
+                NavGraphTransitions.featureFlagsTransitions,
             ) { GalleryPage() }
             GalleryNavRoot.graph(navController, NavGraphTransitions.galleryTransitions)
             composable(
                 DevSettingsNavTarget.EntryPoints,
-                NavGraphTransitions.entryPointsTransitions
+                NavGraphTransitions.entryPointsTransitions,
             ) { GalleryPage() }
         }
     }
 
     private object NavGraphTransitions {
-        private val menuToBackendEnvironment = ForwardAndBackward(
-            first = DevSettingsNavTarget.DevMenu,
-            second = DevSettingsNavTarget.BackendEnvironment
-        )
-        private val menuToFeatureFlags = ForwardAndBackward(
-            first = DevSettingsNavTarget.DevMenu,
-            second = DevSettingsNavTarget.FeatureFlags
-        )
-        private val menuToGallery = ForwardAndBackward(
-            first = DevSettingsNavTarget.DevMenu,
-            second = DevSettingsNavTarget.Gallery
-        )
-        private val menuToEntryPoints = ForwardAndBackward(
-            first = DevSettingsNavTarget.DevMenu,
-            second = DevSettingsNavTarget.EntryPoints
-        )
+        private val menuToBackendEnvironment =
+            ForwardAndBackward(
+                first = DevSettingsNavTarget.DevMenu,
+                second = DevSettingsNavTarget.BackendEnvironment,
+            )
+        private val menuToFeatureFlags =
+            ForwardAndBackward(
+                first = DevSettingsNavTarget.DevMenu,
+                second = DevSettingsNavTarget.FeatureFlags,
+            )
+        private val menuToGallery =
+            ForwardAndBackward(
+                first = DevSettingsNavTarget.DevMenu,
+                second = DevSettingsNavTarget.Gallery,
+            )
+        private val menuToEntryPoints =
+            ForwardAndBackward(
+                first = DevSettingsNavTarget.DevMenu,
+                second = DevSettingsNavTarget.EntryPoints,
+            )
 
-        val devMenuTransitions = listOf(
-            menuToBackendEnvironment,
-            menuToFeatureFlags,
-            menuToGallery,
-            menuToEntryPoints
-        )
+        val devMenuTransitions =
+            listOf(
+                menuToBackendEnvironment,
+                menuToFeatureFlags,
+                menuToGallery,
+                menuToEntryPoints,
+            )
 
         val backendEnvironmentTransitions = listOf(menuToBackendEnvironment)
         val featureFlagsTransitions = listOf(menuToFeatureFlags)

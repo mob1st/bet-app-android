@@ -6,7 +6,6 @@ import java.util.UUID
  * Something that can be identified by an [Id].
  */
 interface Identifiable {
-
     /**
      * The unique identifier.
      */

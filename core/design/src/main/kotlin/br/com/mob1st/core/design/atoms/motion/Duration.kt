@@ -10,32 +10,16 @@ internal object Duration {
     /*
     Short: 50ms - 200ms
      */
-    const val short1: Int = 50
-    const val short2: Int = 100
-    const val short3: Int = 150
-    const val short4: Int = 200
+    const val SHORT_4: Int = 200
 
     /*
     Medium: 250ms - 400ms
      */
-    const val medium1: Int = 250
-    const val medium2: Int = 300
-    const val medium3: Int = 350
-    const val medium4: Int = 400
+    const val MEDIUM_3: Int = 300
+    const val MEDIUM_4: Int = 400
 
     /*
     Long: 450ms - 600ms
      */
-    const val long1: Int = 450
-    const val long2: Int = 500
-    const val long3: Int = 550
-    const val long4: Int = 600
-
-    /*
-    Extra Long: 700ms - 1000ms
-     */
-    const val extraLong1: Int = 700
-    const val extraLong2: Int = 800
-    const val extraLong3: Int = 900
-    const val extraLong4: Int = 1000
+    const val LONG_2: Int = 500
 }

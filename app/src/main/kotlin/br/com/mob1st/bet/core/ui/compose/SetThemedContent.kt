@@ -26,7 +26,7 @@ fun ComponentActivity.setThemedContent(
         CompositionLocalProvider(
             LocalActivity provides this,
             LocalAnalyticsTool provides analyticsTool,
-            LocalLogger provides logger
+            LocalLogger provides logger,
         ) {
             BetTheme(systemBars = systemBars) {
                 content()

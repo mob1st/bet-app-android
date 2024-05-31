@@ -11,10 +11,10 @@ data class SnackState(
     val action: TextData? = null,
 ) : Parcelable {
     companion object {
-
-        fun generalFailure(action: TextData? = null) = SnackState(
-            message = TextData(R.string.general_message_error_snack),
-            action = action
-        )
+        fun generalFailure(action: TextData? = null) =
+            SnackState(
+                message = TextData(R.string.general_message_error_snack),
+                action = action,
+            )
     }
 }

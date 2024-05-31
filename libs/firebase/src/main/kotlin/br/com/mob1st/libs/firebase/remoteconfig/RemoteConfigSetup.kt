@@ -9,10 +9,11 @@ private const val PROD_INTERVAL_SEC = 5L
 /**
  * Remote config settings.
  */
-fun remoteConfigSettings() = remoteConfigSettings {
-    if (BuildConfig.DEBUG) {
-        minimumFetchIntervalInSeconds = DEBUG_INTERVAL_MS
-    } else {
-        fetchTimeoutInSeconds = PROD_INTERVAL_SEC
+fun remoteConfigSettings() =
+    remoteConfigSettings {
+        if (BuildConfig.DEBUG) {
+            minimumFetchIntervalInSeconds = DEBUG_INTERVAL_MS
+        } else {
+            fetchTimeoutInSeconds = PROD_INTERVAL_SEC
+        }
     }
-}

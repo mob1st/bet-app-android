@@ -7,7 +7,6 @@ import br.com.mob1st.core.kotlinx.structures.Money
  * It can be a transaction that already happened or something that will happen in the future
  */
 interface BudgetItem {
-
     /**
      * Textual description of the value.
      */
@@ -36,7 +35,5 @@ interface BudgetItem {
          * Indicates that the transaction increases the user's balance
          */
         INCOME,
-
-        ;
     }
 }

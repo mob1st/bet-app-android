@@ -6,7 +6,6 @@ package br.com.mob1st.core.kotlinx.structures
  */
 @JvmInline
 value class Money(val cents: Int) : Comparable<Money> {
-
     /**
      * Adds two [Money] values generating a new one.
      */

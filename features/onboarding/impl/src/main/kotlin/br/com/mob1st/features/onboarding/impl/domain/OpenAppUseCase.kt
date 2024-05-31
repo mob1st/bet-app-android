@@ -15,7 +15,6 @@ class OpenAppUseCase(
     private val featureFlagRepository: FeatureFlagRepository,
     private val analyticsReporter: AnalyticsReporter,
 ) {
-
     operator fun invoke(): Flow<SplashDestination> {
         Timber.i("User has access, going to home")
         return authRepository.authStatus

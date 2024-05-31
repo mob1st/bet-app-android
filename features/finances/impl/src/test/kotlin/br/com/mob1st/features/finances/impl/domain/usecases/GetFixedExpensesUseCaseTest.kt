@@ -17,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class GetFixedExpensesUseCaseTest {
-
     private lateinit var subject: GetFixedExpensesUseCaseImpl
 
     private lateinit var recurrenceBuilderRepository: FakeRecurrenceBuilderRepository
@@ -27,61 +26,70 @@ class GetFixedExpensesUseCaseTest {
     fun setUp() {
         recurrenceBuilderRepository = FakeRecurrenceBuilderRepository()
         analyticsReporter = FakeAnalyticsReporter()
-        subject = GetFixedExpensesUseCaseImpl(
-            recurrenceBuilderRepository = recurrenceBuilderRepository,
-            analyticsReporter = analyticsReporter
-        )
+        subject =
+            GetFixedExpensesUseCaseImpl(
+                recurrenceBuilderRepository = recurrenceBuilderRepository,
+                analyticsReporter = analyticsReporter,
+            )
     }
 
     @Test
-    fun `GIVEN a builder WHEN get THEN return the list of fixed expenses`() = runTest {
-        // GIVEN
-        val fixture = fixture<RecurrentCategory>().copy(
-            amount = Money(100),
-            type = BudgetItem.Type.EXPENSE
-        )
-        val expected = BudgetItemGroup(
-            items = listOf(
-                BudgetItemGroup.ProportionalItem(
-                    item = fixture,
-                    proportion = 100
+    fun `GIVEN a builder WHEN get THEN return the list of fixed expenses`() =
+        runTest {
+            // GIVEN
+            val fixture =
+                fixture<RecurrentCategory>().copy(
+                    amount = Money(100),
+                    type = BudgetItem.Type.EXPENSE,
                 )
-            ),
-            summaries = BudgetItemGroup.Summaries(
-                incomes = Money.Zero,
-                expenses = Money(100),
-                balance = Money(-100)
-            )
-        )
-        recurrenceBuilderRepository.getSetState.value = fixture<RecurrenceBuilder>().copy(
-            fixedExpensesStep = RecurrenceBuilder.Step(
-                list = listOf(fixture).toPersistentList(),
-                isCompleted = false
-            )
-        )
+            val expected =
+                BudgetItemGroup(
+                    items =
+                        listOf(
+                            BudgetItemGroup.ProportionalItem(
+                                item = fixture,
+                                proportion = 100,
+                            ),
+                        ),
+                    summaries =
+                        BudgetItemGroup.Summaries(
+                            incomes = Money.Zero,
+                            expenses = Money(100),
+                            balance = Money(-100),
+                        ),
+                )
+            recurrenceBuilderRepository.getSetState.value =
+                fixture<RecurrenceBuilder>().copy(
+                    fixedExpensesStep =
+                        RecurrenceBuilder.Step(
+                            list = listOf(fixture).toPersistentList(),
+                            isCompleted = false,
+                        ),
+                )
 
-        // WHEN
-        val actual = subject().first()
+            // WHEN
+            val actual = subject().first()
 
-        // THEN
-        assertEquals(
-            expected,
-            actual
-        )
-    }
+            // THEN
+            assertEquals(
+                expected,
+                actual,
+            )
+        }
 
     @Test
-    fun `GIVEN a builder WHEN get THEN log the screen view event`() = runTest {
-        // GIVEN
-        recurrenceBuilderRepository.getSetState.value = fixture()
+    fun `GIVEN a builder WHEN get THEN log the screen view event`() =
+        runTest {
+            // GIVEN
+            recurrenceBuilderRepository.getSetState.value = fixture()
 
-        // WHEN
-        subject().first()
+            // WHEN
+            subject().first()
 
-        // THEN
-        assertEquals(
-            ScreenViewEvent("fin_builder_fixed_expenses"),
-            analyticsReporter.logState.first()
-        )
-    }
+            // THEN
+            assertEquals(
+                ScreenViewEvent("fin_builder_fixed_expenses"),
+                analyticsReporter.logState.first(),
+            )
+        }
 }

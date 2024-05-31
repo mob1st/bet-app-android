@@ -16,19 +16,22 @@ internal class ConsumeExtensionCreator(
     private val classDeclaration: KSClassDeclaration,
     private val enumName: String,
 ) {
-
-    operator fun invoke(propertyDeclaration: KSPropertyDeclaration, enumConstant: String): FunSpec {
+    operator fun invoke(
+        propertyDeclaration: KSPropertyDeclaration,
+        enumConstant: String,
+    ): FunSpec {
         val propName = propertyDeclaration.simpleName.asString()
         logger.info("creating consume extension for property $propName")
         val extensionName = "consume${propName.upperCaseFirstChar()}"
         val classType = classDeclaration.asType(emptyList()).toTypeName()
-        val returnType = Consumable::class.asClassName().parameterizedBy(
-            ClassName(
-                classDeclaration.packageName.asString(),
-                enumName
-            ),
-            propertyDeclaration.type.toTypeName()
-        )
+        val returnType =
+            Consumable::class.asClassName().parameterizedBy(
+                ClassName(
+                    classDeclaration.packageName.asString(),
+                    enumName,
+                ),
+                propertyDeclaration.type.toTypeName(),
+            )
 
         return FunSpec.builder(extensionName)
             .receiver(classType)
@@ -38,7 +41,7 @@ internal class ConsumeExtensionCreator(
                 Consumable::class,
                 enumName,
                 enumConstant,
-                propName
+                propName,
             )
             .build()
     }

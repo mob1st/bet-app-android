@@ -8,7 +8,6 @@ data class SimpleMessage(
     @StringRes val descriptionResId: Int,
     val id: Long = UUID.randomUUID().mostSignificantBits,
 ) {
-
     companion object {
         fun failure() = SimpleMessage(R.string.general_message_error_description)
     }

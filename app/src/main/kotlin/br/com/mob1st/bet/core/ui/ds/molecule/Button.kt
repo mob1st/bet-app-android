@@ -21,10 +21,11 @@ import javax.annotation.concurrent.Immutable
 
 @Immutable
 sealed interface ButtonState {
-
     val enabled: Boolean
     val loading: Boolean
+
     fun isAllowingClicks() = !loading && enabled
+
     data class Primary(
         val text: TextData,
         @DrawableRes val trailing: Int? = null,
@@ -56,16 +57,14 @@ fun TextButton(
 ) {
     TextButton(
         onClick = onClick,
-        enabled = state.isAllowingClicks()
+        enabled = state.isAllowingClicks(),
     ) {
         TextArea(state = state)
     }
 }
 
 @Composable
-private fun TextArea(
-    state: ButtonState.Primary,
-) {
+private fun TextArea(state: ButtonState.Primary) {
     Text(text = state.text.resolve())
     if (state.trailing != null) {
         ReplaceAnimation(targetState = state.loading) {
@@ -93,7 +92,7 @@ fun IconButton(
     IconButton(
         modifier = modifier,
         enabled = state.isAllowingClicks(),
-        onClick = onClick
+        onClick = onClick,
     ) {
         ReplaceAnimation(targetState = state.loading) {
             if (state.loading) {
@@ -101,7 +100,7 @@ fun IconButton(
             } else {
                 Icon(
                     painter = painterResource(state.icon.resId),
-                    contentDescription = state.icon.contentDescription?.resolve()
+                    contentDescription = state.icon.contentDescription?.resolve(),
                 )
             }
         }
@@ -109,7 +108,6 @@ fun IconButton(
 }
 
 object ButtonDefaults {
-
     val height: Dp = 64.dp
 
     object Icon

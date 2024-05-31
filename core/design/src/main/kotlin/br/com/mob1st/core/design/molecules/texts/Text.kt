@@ -9,64 +9,90 @@ import br.com.mob1st.core.design.atoms.properties.texts.Text
 import br.com.mob1st.core.design.atoms.properties.texts.rememberAnnotatedString
 
 @Composable
-fun Display(text: Text, textSize: TextSize = TextSize.Medium, modifier: Modifier = Modifier) {
+fun Display(
+    text: Text,
+    textSize: TextSize = TextSize.Medium,
+    modifier: Modifier = Modifier,
+) {
     BaseText(
         text = text,
         textSize = textSize,
         textStyleProvider = BodyStyleProvider,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
 @Composable
-fun Headline(text: Text, textSize: TextSize = TextSize.Medium, modifier: Modifier = Modifier) {
+fun Headline(
+    text: Text,
+    textSize: TextSize = TextSize.Medium,
+    modifier: Modifier = Modifier,
+) {
     BaseText(
         text = text,
         textSize = textSize,
         textStyleProvider = HeadlineStyleProvider,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
 @Composable
-fun Title(text: Text, textSize: TextSize = TextSize.Medium, modifier: Modifier = Modifier) {
+fun Title(
+    text: Text,
+    textSize: TextSize = TextSize.Medium,
+    modifier: Modifier = Modifier,
+) {
     BaseText(
         text = text,
         textSize = textSize,
         textStyleProvider = TitleStyleProvider,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
 @Composable
-fun Body(text: Text, textSize: TextSize = TextSize.Medium, modifier: Modifier = Modifier) {
+fun Body(
+    text: Text,
+    textSize: TextSize = TextSize.Medium,
+    modifier: Modifier = Modifier,
+) {
     BaseText(
         text = text,
         textSize = textSize,
         textStyleProvider = BodyStyleProvider,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
 @Composable
-fun Label(text: Text, textSize: TextSize = TextSize.Medium, modifier: Modifier = Modifier) {
+fun Label(
+    text: Text,
+    textSize: TextSize = TextSize.Medium,
+    modifier: Modifier = Modifier,
+) {
     BaseText(
         text = text,
         textSize = textSize,
         textStyleProvider = LabelStyleProvider,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
 @Composable
-internal fun BaseText(text: Text, textSize: TextSize, textStyleProvider: TextStyleProvider, modifier: Modifier) {
+internal fun BaseText(
+    text: Text,
+    textSize: TextSize,
+    textStyleProvider: TextStyleProvider,
+    modifier: Modifier,
+) {
     val typography = MaterialTheme.typography
     val annotatedString = rememberAnnotatedString(text)
-    val style = remember(textSize) {
-        textStyleProvider.of(typography, textSize)
-    }
+    val style =
+        remember(textSize) {
+            textStyleProvider.of(typography, textSize)
+        }
     Text(
         text = annotatedString,
-        style = style
+        style = style,
     )
 }

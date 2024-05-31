@@ -19,7 +19,6 @@ data class BuildInfo(
      * Static information about the app version.
      */
     val version: AppVersion,
-
     /**
      * Whether this build is a release build.
      */
@@ -34,7 +33,6 @@ data class AppVersion(
      * Gradle's versionName, used to allow users identify the app version. eg 1.0.0
      */
     val name: String,
-
     /**
      * Gradle's versionCode used to submit the app to Play store.
      */

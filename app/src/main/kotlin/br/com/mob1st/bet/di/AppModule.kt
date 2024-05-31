@@ -7,18 +7,14 @@ import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.coroutines.MainCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.serialization.defaultJson
-import br.com.mob1st.features.dev.impl.data.BuildInfoDataSource
-import br.com.mob1st.features.utils.errors.SnackDismissManagerDelegate
-import br.com.mob1st.features.utils.navigation.SettingsNavigationEventBus
+import br.com.mob1st.features.dev.impl.infra.BuildInfoDataSource
 import org.koin.core.annotation.ComponentScan
-import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 
 @Module
 @ComponentScan("br.com.mob1st.bet")
 class AppModule {
-
     @Single
     fun json() = defaultJson()
 
@@ -36,12 +32,4 @@ class AppModule {
 
     @Single
     fun defaultDispatcher() = DefaultCoroutineDispatcher()
-
-    @Single
-    fun settingsNavigationEventBus() = SettingsNavigationEventBus()
-
-    @Factory
-    fun queueSnackManager(
-        settingsNavigationEventBus: SettingsNavigationEventBus
-    ):  SnackDismissManagerDelegate = SnackDismissManagerDelegate(settingsNavigationEventBus)
 }

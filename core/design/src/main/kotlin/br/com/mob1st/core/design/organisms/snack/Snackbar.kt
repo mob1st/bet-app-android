@@ -13,27 +13,30 @@ import kotlinx.coroutines.launch
 @Composable
 fun Snackbar(
     snackbarHostState: SnackbarHostState,
-    snackState: SnackState?,
+    snackbarState: SnackbarState?,
     onDismiss: () -> Unit,
     onPerformAction: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
-    val supporting = snackState?.supporting?.let {
-        rememberAnnotatedString(text = snackState.supporting)
-    }
-    val action = snackState?.action?.let {
-        rememberAnnotatedString(text = it)
-    }
+    val supporting =
+        snackbarState?.supporting?.let {
+            rememberAnnotatedString(text = snackbarState.supporting)
+        }
+    val action =
+        snackbarState?.action?.let {
+            rememberAnnotatedString(text = it)
+        }
     val currentOnDismiss by rememberUpdatedState(newValue = onDismiss)
     val currentOnPerformAction by rememberUpdatedState(newValue = onPerformAction)
-    LaunchedEffect(key1 = snackbarHostState, key2 = snackState) {
-        snackState?.let {
+    LaunchedEffect(key1 = snackbarHostState, key2 = snackbarState) {
+        snackbarState?.let {
             scope.launch {
-                val result = snackbarHostState.showSnackbar(
-                    message = checkNotNull(supporting).text,
-                    actionLabel = action?.text,
-                    withDismissAction = false
-                )
+                val result =
+                    snackbarHostState.showSnackbar(
+                        message = checkNotNull(supporting).text,
+                        actionLabel = action?.text,
+                        withDismissAction = false,
+                    )
                 when (result) {
                     SnackbarResult.Dismissed -> currentOnDismiss()
                     SnackbarResult.ActionPerformed -> currentOnPerformAction()

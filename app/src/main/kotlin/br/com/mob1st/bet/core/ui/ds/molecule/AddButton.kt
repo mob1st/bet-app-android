@@ -20,12 +20,10 @@ import androidx.compose.ui.unit.dp
 import br.com.mob1st.bet.core.ui.ds.atoms.Purple40
 
 @Composable
-fun AddButton(
-    onAction: () -> Unit,
-) {
+fun AddButton(onAction: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         OutlinedButton(
             onClick = { onAction() },
@@ -33,13 +31,13 @@ fun AddButton(
             shape = CircleShape,
             border = BorderStroke(5.dp, Purple40),
             contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Blue)
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Blue),
         ) {
             Icon(
                 Icons.Default.Add,
                 contentDescription = "AddButton",
                 tint = Purple40,
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(50.dp),
             )
         }
     }

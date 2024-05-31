@@ -1,9 +1,8 @@
 package br.com.mob1st.features.onboarding.impl.ui
 
-import br.com.mob1st.core.design.atoms.properties.navigations.NavTarget
 import br.com.mob1st.core.state.contracts.HelperClickManager
 import br.com.mob1st.core.state.contracts.SideEffectManager
-import br.com.mob1st.core.state.contracts.StateOutputManager
+import br.com.mob1st.core.state.contracts.UiStateManager
 import br.com.mob1st.features.onboarding.impl.domain.SplashDestination
 import br.com.mob1st.morpheus.annotation.ConsumableEffect
 import br.com.mob1st.morpheus.annotation.Morpheus
@@ -13,7 +12,7 @@ import javax.annotation.concurrent.Immutable
  * Contract for communication between [LauncherPage] and the [LauncherViewModel].
  */
 interface LauncherUiContract :
-    StateOutputManager<LauncherUiState>,
+    UiStateManager<LauncherUiState>,
     SideEffectManager<LauncherUiStateEffectKey>,
     HelperClickManager
 
@@ -32,8 +31,8 @@ data class LauncherUiState(
     @ConsumableEffect
     val errorMessage: String? = null,
 )
-sealed class LauncherNavTarget : br.com.mob1st.core.design.atoms.properties.navigations.NavTarget() {
 
+sealed class LauncherNavTarget : br.com.mob1st.core.design.atoms.properties.navigations.NavTarget() {
     object Home : LauncherNavTarget() {
         override val screenName: String = "home"
     }
@@ -43,9 +42,10 @@ sealed class LauncherNavTarget : br.com.mob1st.core.design.atoms.properties.navi
     }
 
     companion object {
-        fun of(splashDestination: SplashDestination) = when (splashDestination) {
-            SplashDestination.Home -> Home
-            SplashDestination.Onboarding -> Onboarding
-        }
+        fun of(splashDestination: SplashDestination) =
+            when (splashDestination) {
+                SplashDestination.Home -> Home
+                SplashDestination.Onboarding -> Onboarding
+            }
     }
 }

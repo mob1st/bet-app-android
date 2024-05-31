@@ -8,8 +8,9 @@ import kotlin.coroutines.CoroutineContext
 internal class RecurrenceGet(
     private val porkyDb: PorkyDb,
 ) {
-    operator fun invoke(context: CoroutineContext) = porkyDb.recurrentCategoryQueries
-        .selectLastInsertedId()
-        .asFlow()
-        .mapToList(context)
+    operator fun invoke(context: CoroutineContext) =
+        porkyDb.recurrentCategoryQueries
+            .selectLastInsertedId()
+            .asFlow()
+            .mapToList(context)
 }

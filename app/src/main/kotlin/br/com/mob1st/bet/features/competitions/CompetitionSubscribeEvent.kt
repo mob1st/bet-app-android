@@ -19,7 +19,7 @@ data class CompetitionSubscribeEvent(
             "id" to entry.id,
             "name" to entry.name.default,
             "type" to entry.type.name.lowercase(),
-            "method" to method.name.lowercase()
+            "method" to method.name.lowercase(),
         )
     }
 

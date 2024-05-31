@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.data
+package br.com.mob1st.features.dev.impl.infra
 
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
@@ -28,7 +28,6 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProjectSettingsRepositoryImplTest {
-
     private lateinit var backendEnvironmentDataSource: BackendEnvironmentDataSource
     private lateinit var buildInfoDataSource: BuildInfoDataSource
 
@@ -39,24 +38,27 @@ class ProjectSettingsRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN a build info And a backend environment WHEN get THEN assert the result`() = runTest {
-        val expected = ProjectSettings(
-            buildInfo = fixture(),
-            backendEnvironment = randomEnum()
-        )
-        givenBuildInfo(expected.buildInfo)
-        givenBackendEnvironment(expected.backendEnvironment.name)
-        val repo = initRepo(UnconfinedTestDispatcher())
+    fun `GIVEN a build info And a backend environment WHEN get THEN assert the result`() =
+        runTest {
+            val expected =
+                ProjectSettings(
+                    buildInfo = fixture(),
+                    backendEnvironment = randomEnum(),
+                )
+            givenBuildInfo(expected.buildInfo)
+            givenBackendEnvironment(expected.backendEnvironment.name)
+            val repo = initRepo(UnconfinedTestDispatcher())
 
-        val actual = repo.get().first()
-        assertEquals(
-            expected = ProjectSettings(
-                buildInfo = buildInfoDataSource.data,
-                backendEnvironment = BackendEnvironment.PRODUCTION
-            ),
-            actual = actual
-        )
-    }
+            val actual = repo.get().first()
+            assertEquals(
+                expected =
+                    ProjectSettings(
+                        buildInfo = buildInfoDataSource.data,
+                        backendEnvironment = BackendEnvironment.PRODUCTION,
+                    ),
+                actual = actual,
+            )
+        }
 
     @ParameterizedTest
     @ArgumentsSource(InvalidBackendEnvironmentArguments::class)
@@ -73,11 +75,12 @@ class ProjectSettingsRepositoryImplTest {
         val actual = repo.get().first()
 
         assertEquals(
-            expected = ProjectSettings(
-                buildInfo = buildInfo,
-                backendEnvironment = expectedFallback
-            ),
-            actual = actual
+            expected =
+                ProjectSettings(
+                    buildInfo = buildInfo,
+                    backendEnvironment = expectedFallback,
+                ),
+            actual = actual,
         )
     }
 
@@ -117,7 +120,7 @@ class ProjectSettingsRepositoryImplTest {
         return ProjectSettingsRepositoryImpl(
             io = IoCoroutineDispatcher(dispatcher),
             buildInfoDataSource = buildInfoDataSource,
-            backendEnvironmentDataSource = backendEnvironmentDataSource
+            backendEnvironmentDataSource = backendEnvironmentDataSource,
         )
     }
 
@@ -127,23 +130,23 @@ class ProjectSettingsRepositoryImplTest {
                 Arguments.of(
                     true,
                     "any",
-                    BackendEnvironment.PRODUCTION
+                    BackendEnvironment.PRODUCTION,
                 ),
                 Arguments.of(
                     false,
                     "any",
-                    BackendEnvironment.STAGING
+                    BackendEnvironment.STAGING,
                 ),
                 Arguments.of(
                     true,
                     null,
-                    BackendEnvironment.PRODUCTION
+                    BackendEnvironment.PRODUCTION,
                 ),
                 Arguments.of(
                     false,
                     null,
-                    BackendEnvironment.STAGING
-                )
+                    BackendEnvironment.STAGING,
+                ),
             )
         }
     }
@@ -153,16 +156,16 @@ class ProjectSettingsRepositoryImplTest {
             return Stream.of(
                 Arguments.of(
                     BackendEnvironment.PRODUCTION,
-                    "production"
+                    "production",
                 ),
                 Arguments.of(
                     BackendEnvironment.STAGING,
-                    "staging"
+                    "staging",
                 ),
                 Arguments.of(
                     BackendEnvironment.QA,
-                    "qa"
-                )
+                    "qa",
+                ),
             )
         }
     }

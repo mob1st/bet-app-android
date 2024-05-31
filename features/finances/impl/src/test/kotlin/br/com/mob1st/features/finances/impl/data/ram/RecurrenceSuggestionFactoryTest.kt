@@ -21,7 +21,6 @@ import kotlin.test.assertEquals
 
 @ExtendWith(RandomIdGenerator::class)
 internal class RecurrenceSuggestionFactoryTest {
-
     @ParameterizedTest
     @ArgumentsSource(Companion::class)
     fun `GIVEN a localization provider WHEN create THEN the right list should be is used`(
@@ -33,70 +32,73 @@ internal class RecurrenceSuggestionFactoryTest {
 
         assertEquals(
             expected = expected,
-            actual = actual
+            actual = actual,
         )
     }
 
     companion object : ArgumentsProvider {
-
-        private val expectedFixedExpensesList = listOf(
-            RecurrentCategorySuggestion.RENT,
-            RecurrentCategorySuggestion.MORTGAGE,
-            RecurrentCategorySuggestion.ENERGY,
-            RecurrentCategorySuggestion.INTERNET,
-            RecurrentCategorySuggestion.PHONE,
-            RecurrentCategorySuggestion.TV_STREAMING,
-            RecurrentCategorySuggestion.MUSIC_STREAMING,
-            RecurrentCategorySuggestion.INSURANCES,
-            RecurrentCategorySuggestion.EDUCATION,
-            RecurrentCategorySuggestion.GYM,
-            RecurrentCategorySuggestion.TRANSPORT
-        ).map {
-            RecurrentCategory(
-                id = Id("a"),
-                description = it.name,
-                amount = Money.Zero,
-                type = BudgetItem.Type.EXPENSE,
-                recurrence = Recurrence.Fixed()
-            )
-        }
-
-        private val expectedVariableExpensesList = listOf(
-            RecurrentCategorySuggestion.LUNCH,
-            RecurrentCategorySuggestion.WEEKEND_RESTAURANT,
-            RecurrentCategorySuggestion.FOOD_DELIVERY,
-            RecurrentCategorySuggestion.BARS,
-            RecurrentCategorySuggestion.ENTERTAINMENT,
-            RecurrentCategorySuggestion.BEAUTY
-        ).map {
-            RecurrentCategory(
-                id = Id("a"),
-                description = it.name,
-                amount = Money.Zero,
-                type = BudgetItem.Type.EXPENSE,
-                recurrence = Recurrence.Variable
-            )
-        }
-
-        private val expectedSeasonalExpensesList = listOf(
-            RecurrentCategorySuggestion.HOLIDAYS,
-            RecurrentCategorySuggestion.CHRISTMAS,
-            RecurrentCategorySuggestion.GIFTS,
-            RecurrentCategorySuggestion.CLOTHES,
-            RecurrentCategorySuggestion.ELECTRONICS,
-            RecurrentCategorySuggestion.FURNITURE
-        ).map {
-            RecurrentCategory(
-                id = Id("a"),
-                description = it.name,
-                amount = Money.Zero,
-                type = BudgetItem.Type.EXPENSE,
-                recurrence = Recurrence.Seasonal(
-                    month = Month.JANUARY,
-                    day = 1
+        private val expectedFixedExpensesList =
+            listOf(
+                RecurrentCategorySuggestion.RENT,
+                RecurrentCategorySuggestion.MORTGAGE,
+                RecurrentCategorySuggestion.ENERGY,
+                RecurrentCategorySuggestion.INTERNET,
+                RecurrentCategorySuggestion.PHONE,
+                RecurrentCategorySuggestion.TV_STREAMING,
+                RecurrentCategorySuggestion.MUSIC_STREAMING,
+                RecurrentCategorySuggestion.INSURANCES,
+                RecurrentCategorySuggestion.EDUCATION,
+                RecurrentCategorySuggestion.GYM,
+                RecurrentCategorySuggestion.TRANSPORT,
+            ).map {
+                RecurrentCategory(
+                    id = Id("a"),
+                    description = it.name,
+                    amount = Money.Zero,
+                    type = BudgetItem.Type.EXPENSE,
+                    recurrence = Recurrence.Fixed(),
                 )
-            )
-        }
+            }
+
+        private val expectedVariableExpensesList =
+            listOf(
+                RecurrentCategorySuggestion.LUNCH,
+                RecurrentCategorySuggestion.WEEKEND_RESTAURANT,
+                RecurrentCategorySuggestion.FOOD_DELIVERY,
+                RecurrentCategorySuggestion.BARS,
+                RecurrentCategorySuggestion.ENTERTAINMENT,
+                RecurrentCategorySuggestion.BEAUTY,
+            ).map {
+                RecurrentCategory(
+                    id = Id("a"),
+                    description = it.name,
+                    amount = Money.Zero,
+                    type = BudgetItem.Type.EXPENSE,
+                    recurrence = Recurrence.Variable,
+                )
+            }
+
+        private val expectedSeasonalExpensesList =
+            listOf(
+                RecurrentCategorySuggestion.HOLIDAYS,
+                RecurrentCategorySuggestion.CHRISTMAS,
+                RecurrentCategorySuggestion.GIFTS,
+                RecurrentCategorySuggestion.CLOTHES,
+                RecurrentCategorySuggestion.ELECTRONICS,
+                RecurrentCategorySuggestion.FURNITURE,
+            ).map {
+                RecurrentCategory(
+                    id = Id("a"),
+                    description = it.name,
+                    amount = Money.Zero,
+                    type = BudgetItem.Type.EXPENSE,
+                    recurrence =
+                        Recurrence.Seasonal(
+                            month = Month.JANUARY,
+                            day = 1,
+                        ),
+                )
+            }
 
         private val incomesList = emptyList<RecurrentCategory>()
 
@@ -104,20 +106,20 @@ internal class RecurrenceSuggestionFactoryTest {
             return Stream.of(
                 Arguments.of(
                     FixedExpanseFactory,
-                    expectedFixedExpensesList
+                    expectedFixedExpensesList,
                 ),
                 Arguments.of(
                     VariableExpanseFactory,
-                    expectedVariableExpensesList
+                    expectedVariableExpensesList,
                 ),
                 Arguments.of(
                     SeasonalExpanseFactory,
-                    expectedSeasonalExpensesList
+                    expectedSeasonalExpensesList,
                 ),
                 Arguments.of(
                     IncomeFactory,
-                    incomesList
-                )
+                    incomesList,
+                ),
             )
         }
     }

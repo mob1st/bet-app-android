@@ -25,30 +25,30 @@ import org.koin.android.annotation.KoinViewModel
 class LauncherViewModel(
     openAppUseCase: OpenAppUseCase,
 ) : ViewModel(), LauncherUiContract {
-
     // output state
-    private val _output = MutableStateFlow(LauncherUiState())
-    override val output: StateFlow<LauncherUiState> = _output.asStateFlow()
+    private val _uiOutput = MutableStateFlow(LauncherUiState())
+    override val uiOutput: StateFlow<LauncherUiState> = _uiOutput.asStateFlow()
 
     // inputs
     private val helperPrimaryActionInput = MutableSharedFlow<Unit>()
 
     // actions
-    private val openAppAction = Async<SplashDestination> {
-        openAppUseCase()
-    }
+    private val openAppAction =
+        Async<SplashDestination> {
+            openAppUseCase()
+        }
 
     init {
-        _output.collectUpdate(openAppAction.loading) { currentState, newData ->
+        _uiOutput.collectUpdate(openAppAction.loading) { currentState, newData ->
             currentState.copy(isLoading = newData)
         }
 
-        _output.collectUpdate(openAppAction.failure) { currentState, newData ->
+        _uiOutput.collectUpdate(openAppAction.failure) { currentState, newData ->
             // TODO display the DS component called HelperMessage
             currentState.copy(errorMessage = newData.message)
         }
 
-        _output.collectUpdate(openAppAction.success) { currentState, splashDestination ->
+        _uiOutput.collectUpdate(openAppAction.success) { currentState, splashDestination ->
             currentState.copy(navTarget = LauncherNavTarget.of(splashDestination))
         }
 
@@ -59,7 +59,7 @@ class LauncherViewModel(
     }
 
     override fun consume(consumable: Consumable<LauncherUiStateEffectKey, *>) {
-        _output.update { it.clearEffect(consumable) }
+        _uiOutput.update { it.clearEffect(consumable) }
     }
 
     override fun helperPrimaryAction() {

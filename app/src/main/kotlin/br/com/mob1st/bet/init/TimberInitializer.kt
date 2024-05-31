@@ -3,11 +3,7 @@ package br.com.mob1st.bet.init
 import android.content.Context
 import androidx.startup.Initializer
 import br.com.mob1st.bet.BuildConfig
-import br.com.mob1st.bet.core.firebase.CrashlyticsTool
-import br.com.mob1st.bet.core.timber.CrashReportingTree
-import br.com.mob1st.libs.firebase.crashlytics.FirebaseCrashReporter
 import br.com.mob1st.libs.firebase.crashlytics.FirebaseTimberTree
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
 class TimberInitializer : Initializer<Timber.Forest> {

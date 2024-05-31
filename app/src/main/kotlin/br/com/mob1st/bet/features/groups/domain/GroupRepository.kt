@@ -8,7 +8,6 @@ import br.com.mob1st.bet.features.profile.domain.User
  * Manages CRUD operation on [Group] entity and everything related to it
  */
 interface GroupRepository {
-
     /**
      * Creates a new group for the given user
      * @param founder the id of the logged user responsible to create the group. it will be the

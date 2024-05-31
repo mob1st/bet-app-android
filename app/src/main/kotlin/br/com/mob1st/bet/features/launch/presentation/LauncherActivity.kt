@@ -14,7 +14,6 @@ import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.home.impl.ui.HomeNavRoot
 
 class LauncherActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setThemedContent {
@@ -28,7 +27,7 @@ internal fun NavigationGraph() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = DevSettingsNavTarget.ROUTE
+        startDestination = DevSettingsNavTarget.ROUTE,
     ) {
         HomeNavRoot.graph(navController = navController)
         DevSettingsNavRoot.graph(navController = navController)
@@ -38,9 +37,10 @@ internal fun NavigationGraph() {
 @Composable
 fun SplashSystemBars() {
     SystemBars(
-        navigationBarProperties = SystemBarProperties(
-            color = MaterialTheme.colorScheme.primary,
-            darkIcons = false
-        )
+        navigationBarProperties =
+            SystemBarProperties(
+                color = MaterialTheme.colorScheme.primary,
+                darkIcons = false,
+            ),
     )
 }

@@ -7,7 +7,6 @@ package br.com.mob1st.core.state.contracts
  * Does not use this interface when a UI can present many different helpers.
  */
 interface HelperClickManager {
-
     /**
      * Handle a click on main button in the UI.
      */

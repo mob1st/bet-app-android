@@ -17,25 +17,27 @@ import kotlinx.serialization.json.decodeFromJsonElement
 typealias FirebaseContestMapper = (contest: Map<String, Any>) -> Node<Contest>
 
 object ContestMapFactory {
-
     operator fun get(competitionType: CompetitionType): FirebaseContestMapper {
         return when (competitionType) {
-            CompetitionType.FOOTBALL -> { nodeBuilder }
+            CompetitionType.FOOTBALL -> {
+                nodeBuilder
+            }
         }
     }
 }
 
 @OptIn(ExperimentalSerializationApi::class)
 private val nodeBuilder: FirebaseContestMapper = { data: Map<String, Any> ->
-    val json = Json {
-        ignoreUnknownKeys = true
-        explicitNulls = false
-    }
+    val json =
+        Json {
+            ignoreUnknownKeys = true
+            explicitNulls = false
+        }
     val nodeJson = data.toJsonObject()
     val currentJson = checkNotNull(nodeJson["current"])
     val pathsJson = checkNotNull(nodeJson["paths"])
     Node(
         current = json.decodeFromJsonElement<MatchWinner>(currentJson),
-        paths = json.decodeFromJsonElement<List<Node<IntScores>>>(pathsJson)
+        paths = json.decodeFromJsonElement<List<Node<IntScores>>>(pathsJson),
     )
 }

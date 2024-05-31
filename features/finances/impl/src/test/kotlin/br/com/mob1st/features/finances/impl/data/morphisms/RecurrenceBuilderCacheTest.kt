@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class RecurrenceBuilderCacheTest {
-
     @Test
     fun `GIVEN a cache model WHEN map to domain THEN assert fields`() {
         // GIVEN
@@ -18,24 +17,29 @@ class RecurrenceBuilderCacheTest {
         val actual = subject.toDomain()
 
         // THEN
-        val expected = RecurrenceBuilder(
-            fixedExpensesStep = RecurrenceBuilder.Step(
-                list = subject.lists.fixedExpensesList,
-                isCompleted = subject.completions.isFixedExpansesCompleted
-            ),
-            variableExpensesStep = RecurrenceBuilder.Step(
-                list = subject.lists.variableExpensesList,
-                isCompleted = subject.completions.isVariableExpansesCompleted
-            ),
-            seasonalExpensesStep = RecurrenceBuilder.Step(
-                list = subject.lists.seasonalExpensesList,
-                isCompleted = subject.completions.isSeasonalExpansesCompleted
-            ),
-            incomesStep = RecurrenceBuilder.Step(
-                list = subject.lists.incomesList,
-                isCompleted = subject.completions.isIncomesCompleted
+        val expected =
+            RecurrenceBuilder(
+                fixedExpensesStep =
+                    RecurrenceBuilder.Step(
+                        list = subject.lists.fixedExpensesList,
+                        isCompleted = subject.completions.isFixedExpansesCompleted,
+                    ),
+                variableExpensesStep =
+                    RecurrenceBuilder.Step(
+                        list = subject.lists.variableExpensesList,
+                        isCompleted = subject.completions.isVariableExpansesCompleted,
+                    ),
+                seasonalExpensesStep =
+                    RecurrenceBuilder.Step(
+                        list = subject.lists.seasonalExpensesList,
+                        isCompleted = subject.completions.isSeasonalExpansesCompleted,
+                    ),
+                incomesStep =
+                    RecurrenceBuilder.Step(
+                        list = subject.lists.incomesList,
+                        isCompleted = subject.completions.isIncomesCompleted,
+                    ),
             )
-        )
         assertEquals(expected, actual)
     }
 
@@ -48,20 +52,23 @@ class RecurrenceBuilderCacheTest {
         val actual = subject.toData()
 
         // THEN
-        val expected = RecurrenceBuilderCache(
-            completions = RecurrenceBuilderCompletions(
-                isFixedExpansesCompleted = subject.fixedExpensesStep.isCompleted,
-                isVariableExpansesCompleted = subject.variableExpensesStep.isCompleted,
-                isSeasonalExpansesCompleted = subject.seasonalExpensesStep.isCompleted,
-                isIncomesCompleted = subject.incomesStep.isCompleted
-            ),
-            lists = RecurrenceBuilderLists(
-                fixedExpensesList = subject.fixedExpensesStep.list,
-                variableExpensesList = subject.variableExpensesStep.list,
-                seasonalExpensesList = subject.seasonalExpensesStep.list,
-                incomesList = subject.incomesStep.list
+        val expected =
+            RecurrenceBuilderCache(
+                completions =
+                    RecurrenceBuilderCompletions(
+                        isFixedExpansesCompleted = subject.fixedExpensesStep.isCompleted,
+                        isVariableExpansesCompleted = subject.variableExpensesStep.isCompleted,
+                        isSeasonalExpansesCompleted = subject.seasonalExpensesStep.isCompleted,
+                        isIncomesCompleted = subject.incomesStep.isCompleted,
+                    ),
+                lists =
+                    RecurrenceBuilderLists(
+                        fixedExpensesList = subject.fixedExpensesStep.list,
+                        variableExpensesList = subject.variableExpensesStep.list,
+                        seasonalExpensesList = subject.seasonalExpensesStep.list,
+                        incomesList = subject.incomesStep.list,
+                    ),
             )
-        )
         assertEquals(expected, actual)
     }
 }

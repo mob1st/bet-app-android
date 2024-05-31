@@ -26,38 +26,42 @@ fun ListDetailScaffold(
     detail: @Composable (Pane) -> Unit,
 ) {
     val layoutSpec = LocalLayoutSpec.current
-    val layout = remember(layoutSpec, useSingleWhenMediumWindow) {
-        ListDetailLayout(layoutSpec, useSingleWhenMediumWindow)
-    }
+    val layout =
+        remember(layoutSpec, useSingleWhenMediumWindow) {
+            ListDetailLayout(layoutSpec, useSingleWhenMediumWindow)
+        }
     when (layoutSpec) {
         LayoutSpec.Compact -> {
             CompactLayout(
                 layout = layout,
-                list = list
+                list = list,
             )
         }
         LayoutSpec.Medium -> {
             MediumLayout(
                 layout = layout,
                 list = list,
-                detail = detail
+                detail = detail,
             )
         }
         LayoutSpec.Expanded -> {
             ExpandedLayout(
                 layout = layout,
                 list = list,
-                detail = detail
+                detail = detail,
             )
         }
     }
 }
 
 @Composable
-private fun CompactLayout(layout: ListDetailLayout, list: @Composable (Pane) -> Unit) {
+private fun CompactLayout(
+    layout: ListDetailLayout,
+    list: @Composable (Pane) -> Unit,
+) {
     List(
         layout = layout,
-        content = list
+        content = list,
     )
 }
 
@@ -70,13 +74,13 @@ private fun MediumLayout(
     if (layout.useSingleWhenMedium) {
         List(
             layout,
-            content = list
+            content = list,
         )
     } else {
         ListDetail(
             layout = layout,
             list = list,
-            detail = detail
+            detail = detail,
         )
     }
 }
@@ -90,7 +94,7 @@ private fun ExpandedLayout(
     ListDetail(
         layout = layout,
         list = list,
-        detail = detail
+        detail = detail,
     )
 }
 
@@ -100,46 +104,55 @@ private fun ListDetail(
     list: @Composable (Pane) -> Unit,
     detail: @Composable (Pane) -> Unit,
 ) {
-    val strategy = remember(layout) {
-        layout.strategy()
-    }
+    val strategy =
+        remember(layout) {
+            layout.strategy()
+        }
     Box(modifier = Modifier.padding(horizontal = layout.layoutSpec.horizontalSpacing)) {
         TwoPane(
             modifier = Modifier.fillMaxSize(),
             first = {
                 List(
                     layout = layout,
-                    content = list
+                    content = list,
                 )
             },
             second = {
                 Detail(
                     layout = layout,
-                    content = detail
+                    content = detail,
                 )
             },
             strategy = strategy,
-            displayFeatures = LocalDisplayFeatures.current
+            displayFeatures = LocalDisplayFeatures.current,
         )
     }
 }
 
 @Composable
-private fun List(layout: ListDetailLayout, content: @Composable (Pane) -> Unit) {
+private fun List(
+    layout: ListDetailLayout,
+    content: @Composable (Pane) -> Unit,
+) {
     BoxWithConstraints(Modifier.fillMaxSize()) {
-        val pane = remember(layout, maxWidth) {
-            layout.list(width = maxWidth)
-        }
+        val pane =
+            remember(layout, maxWidth) {
+                layout.list(width = maxWidth)
+            }
         content(pane)
     }
 }
 
 @Composable
-private fun Detail(layout: ListDetailLayout, content: @Composable (Pane) -> Unit) {
+private fun Detail(
+    layout: ListDetailLayout,
+    content: @Composable (Pane) -> Unit,
+) {
     BoxWithConstraints(Modifier.fillMaxSize()) {
-        val pane = remember(layout, maxWidth) {
-            layout.detail(width = maxWidth)
-        }
+        val pane =
+            remember(layout, maxWidth) {
+                layout.detail(width = maxWidth)
+            }
         content(pane)
     }
 }
@@ -182,27 +195,29 @@ private fun ListDetailScaffoldPreview(useSingleWhenMediumWindow: Boolean) {
         useSingleWhenMediumWindow = useSingleWhenMediumWindow,
         list = {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        MaterialTheme.colorScheme.primaryContainer
-                    ),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            MaterialTheme.colorScheme.primaryContainer,
+                        ),
+                contentAlignment = Alignment.Center,
             ) {
                 Text("LIST")
             }
         },
         detail = {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        MaterialTheme.colorScheme.tertiaryContainer
-                    ),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            MaterialTheme.colorScheme.tertiaryContainer,
+                        ),
+                contentAlignment = Alignment.Center,
             ) {
                 Text("DETAIL")
             }
-        }
+        },
     )
 }

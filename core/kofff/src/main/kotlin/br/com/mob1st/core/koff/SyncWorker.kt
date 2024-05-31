@@ -23,7 +23,6 @@ abstract class SyncWorker(
     context: Context,
     workerParameters: WorkerParameters,
 ) : CoroutineWorker(context, workerParameters) {
-
     abstract val syncer: Syncer
 
     override suspend fun doWork(): Result {
@@ -48,26 +47,29 @@ abstract class SyncWorker(
     }
 
     companion object {
-        private val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+        private val constraints =
+            Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
 
-        fun workRequest(): OneTimeWorkRequest = OneTimeWorkRequestBuilder<SyncWorker>()
-            .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
-            .setConstraints(constraints)
-            .setBackoffCriteria(
-                BackoffPolicy.EXPONENTIAL,
-                WorkRequest.MIN_BACKOFF_MILLIS,
-                TimeUnit.MILLISECONDS
-            )
-            .build()
+        fun workRequest(): OneTimeWorkRequest =
+            OneTimeWorkRequestBuilder<SyncWorker>()
+                .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                .setConstraints(constraints)
+                .setBackoffCriteria(
+                    BackoffPolicy.EXPONENTIAL,
+                    WorkRequest.MIN_BACKOFF_MILLIS,
+                    TimeUnit.MILLISECONDS,
+                )
+                .build()
     }
 }
 
-fun Context.launchSyncWorker(workRequest: OneTimeWorkRequest = SyncWorker.workRequest()) = WorkManager
-    .getInstance(this)
-    .enqueueUniqueWork(
-        "aaa",
-        ExistingWorkPolicy.KEEP,
-        workRequest
-    )
+fun Context.launchSyncWorker(workRequest: OneTimeWorkRequest = SyncWorker.workRequest()) =
+    WorkManager
+        .getInstance(this)
+        .enqueueUniqueWork(
+            "aaa",
+            ExistingWorkPolicy.KEEP,
+            workRequest,
+        )

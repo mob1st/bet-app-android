@@ -9,7 +9,6 @@ import com.google.accompanist.adaptive.TwoPaneStrategy
  */
 @Immutable
 sealed class CanonicalLayout {
-
     /**
      * The specification used by this layout to design it's panes
      */
@@ -19,7 +18,6 @@ sealed class CanonicalLayout {
      * Canonical layouts that can support multiple panes at the same time have to implement this interface
      */
     fun interface Multipane {
-
         /**
          * The strategy used to split the screen into multiple panes
          */

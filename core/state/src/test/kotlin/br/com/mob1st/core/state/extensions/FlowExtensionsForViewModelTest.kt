@@ -26,10 +26,10 @@ class FlowExtensionsForViewModelTest : FunSpec({
 })
 
 private class FakeViewModel : ViewModel() {
-
-    private val async = Async<String> {
-        flowOf("1")
-    }
+    private val async =
+        Async<String> {
+            flowOf("1")
+        }
 
     private val fakeInput = MutableSharedFlow<Unit>()
     val mutableStateFlow = MutableStateFlow(FakeDate())

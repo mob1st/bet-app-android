@@ -19,28 +19,31 @@ class UserCollection(
     private val firestore: FirebaseFirestore,
     private val json: Json,
 ) {
-
     /**
      * Subscribe the given [userId] into the competition provided by [input]
      */
-    suspend fun subscribe(userId: String, input: Subscription): Subscription {
+    suspend fun subscribe(
+        userId: String,
+        input: Subscription,
+    ): Subscription {
         val batch = firestore.batch()
         val subscriptionDoc = firestore.subscriptions(userId).document()
         batch.set(
             subscriptionDoc,
             mapOf(
-                Subscription::competition.name to mapOf(
-                    CompetitionEntry::name.name to input.competition.name,
-                    CompetitionEntry::type.name to input.competition.type.name,
-                    "ref" to firestore.competitions.document(input.competition.id)
-                ),
+                Subscription::competition.name to
+                    mapOf(
+                        CompetitionEntry::name.name to input.competition.name,
+                        CompetitionEntry::type.name to input.competition.type.name,
+                        "ref" to firestore.competitions.document(input.competition.id),
+                    ),
                 Subscription::points.name to input.points,
-                Subscription::active.name to input.active
-            )
+                Subscription::active.name to input.active,
+            ),
         )
         batch.update(
             firestore.users.document(userId),
-            mapOf(User::activeSubscriptions.name to FieldValue.increment(1))
+            mapOf(User::activeSubscriptions.name to FieldValue.increment(1)),
         ).commit().awaitWithTimeout()
         return input.copy(id = subscriptionDoc.id)
     }
@@ -53,10 +56,11 @@ class UserCollection(
     }
 
     suspend fun getCompetitionEntry(userId: String): Subscription {
-        val documents = firestore.subscriptions(userId)
-            .limit(1)
-            .get()
-            .awaitWithTimeout()
+        val documents =
+            firestore.subscriptions(userId)
+                .limit(1)
+                .get()
+                .awaitWithTimeout()
         return documents.first().let { doc ->
             val jsonObj = doc.asJson()
             json.decodeFromJsonElement(jsonObj)
@@ -66,8 +70,7 @@ class UserCollection(
 
 val FirebaseFirestore.users get() =
     collection("users")
-fun FirebaseFirestore.subscriptions(userId: String) =
-    users.document(userId).collection("subscriptions")
 
-fun FirebaseFirestore.memberships(userId: String) =
-    users.document(userId).collection("memberships")
+fun FirebaseFirestore.subscriptions(userId: String) = users.document(userId).collection("subscriptions")
+
+fun FirebaseFirestore.memberships(userId: String) = users.document(userId).collection("memberships")

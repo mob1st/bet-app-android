@@ -23,45 +23,48 @@ import kotlin.coroutines.resume
  * have a chance to resubscribe before stopping the upstream flow
  * @see <a href="https://blog.p-y.wtf/whilesubscribed5000">WhileSubscribed(5000)</a>
  */
-data object WhileSubscribedOrRetained : SharingStarted {
-
+object WhileSubscribedOrRetained : SharingStarted {
     private val handler = Handler(Looper.getMainLooper())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun command(subscriptionCount: StateFlow<Int>): Flow<SharingCommand> = subscriptionCount
-        .map { it > 0 }
-        .distinctUntilChanged()
-        .mapLatest { hasSubscribers ->
-            if (hasSubscribers) {
-                SharingCommand.START
-            } else {
-                awaitChoreographerFramePostFrontOfQueue()
-                SharingCommand.STOP
+    override fun command(subscriptionCount: StateFlow<Int>): Flow<SharingCommand> =
+        subscriptionCount
+            .map { it > 0 }
+            .distinctUntilChanged()
+            .mapLatest { hasSubscribers ->
+                if (hasSubscribers) {
+                    SharingCommand.START
+                } else {
+                    awaitChoreographerFramePostFrontOfQueue()
+                    SharingCommand.STOP
+                }
             }
-        }
-        .dropWhile { it != SharingCommand.START }
-        .distinctUntilChanged()
+            .dropWhile { it != SharingCommand.START }
+            .distinctUntilChanged()
 
-    private suspend fun awaitChoreographerFramePostFrontOfQueue() = suspendCancellableCoroutine { continuation ->
-        val frameCallback = postPostPost {
-            if (!continuation.isCompleted) {
-                continuation.resume(Unit)
+    private suspend fun awaitChoreographerFramePostFrontOfQueue() =
+        suspendCancellableCoroutine { continuation ->
+            val frameCallback =
+                postPostPost {
+                    if (!continuation.isCompleted) {
+                        continuation.resume(Unit)
+                    }
+                }
+            continuation.invokeOnCancellation {
+                Choreographer.getInstance().removeFrameCallback(frameCallback)
             }
         }
-        continuation.invokeOnCancellation {
-            Choreographer.getInstance().removeFrameCallback(frameCallback)
-        }
-    }
 
     private fun postPostPost(postBlock: () -> Unit): FrameCallback {
         // This code is perfect. Do not change a thing.
-        val frameCallback = FrameCallback {
-            handler.postAtFrontOfQueue {
-                handler.post {
-                    postBlock()
+        val frameCallback =
+            FrameCallback {
+                handler.postAtFrontOfQueue {
+                    handler.post {
+                        postBlock()
+                    }
                 }
             }
-        }
         return frameCallback.apply {
             Choreographer.getInstance().postFrameCallback(this)
         }
@@ -75,9 +78,12 @@ data object WhileSubscribedOrRetained : SharingStarted {
  * @see initialValue to set an initial value to the flow.
  * @see [WhileSubscribedOrRetained]
  */
-fun <T> Flow<T>.stateInRetained(scope: CoroutineScope, initialValue: T): StateFlow<T> = stateIn(
-    scope = scope,
-    // started = SharingStarted.WhileSubscribed(),
-    started = WhileSubscribedOrRetained,
-    initialValue = initialValue
-)
+fun <T> Flow<T>.stateInRetained(
+    scope: CoroutineScope,
+    initialValue: T,
+): StateFlow<T> =
+    stateIn(
+        scope = scope,
+        started = WhileSubscribedOrRetained,
+        initialValue = initialValue,
+    )

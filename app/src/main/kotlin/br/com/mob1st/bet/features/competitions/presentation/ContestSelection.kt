@@ -23,7 +23,7 @@ fun NodeComponent(
         selected = input.winner,
         onSelectScore = { newSelected ->
             onInput(input.selectWinner(newSelected))
-        }
+        },
     )
 
     AnimatedVisibility(visible = input.scoresVisible) {
@@ -34,7 +34,7 @@ fun NodeComponent(
             selected = input.score,
             onSelect = {
                 onInput(input.copy(score = it))
-            }
+            },
         )
     }
 }

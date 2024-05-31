@@ -7,7 +7,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 
 class BetApp : Application(), AppScopeProvider {
-
     private lateinit var _appScope: CoroutineScope
     override val appScope: AppCoroutineScope get() = _appScope as AppCoroutineScope
 
@@ -15,6 +14,7 @@ class BetApp : Application(), AppScopeProvider {
         _appScope = AppCoroutineScope()
         super.onCreate()
     }
+
     override fun onLowMemory() {
         super.onLowMemory()
         _appScope.cancel("onLowMemory called by the BetApp")

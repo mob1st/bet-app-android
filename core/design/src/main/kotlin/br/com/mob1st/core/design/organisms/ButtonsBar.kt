@@ -27,12 +27,13 @@ fun ButtonsBar(
     onSecondaryClick: (() -> Unit)?,
 ) {
     val pane = LocalPane.current
-    val buttonsWidth = remember {
-        pane.columns(2)
-    }
+    val buttonsWidth =
+        remember {
+            pane.columns(2)
+        }
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth().padding(vertical = Spacings.x8)
+        modifier = Modifier.fillMaxWidth().padding(vertical = Spacings.x8),
     ) {
         Box(modifier = Modifier.width(buttonsWidth)) {
             Spacer(modifier = Modifier.fillMaxWidth())
@@ -42,7 +43,7 @@ fun ButtonsBar(
                 val secondaryText = rememberAnnotatedString(text = secondary.text)
                 TextButton(
                     onClick = onSecondaryClick,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(text = secondaryText)
                 }
@@ -51,7 +52,7 @@ fun ButtonsBar(
         PrimaryButton(
             modifier = Modifier.width(buttonsWidth),
             buttonState = primary,
-            onClick = onPrimaryClick
+            onClick = onPrimaryClick,
         )
     }
 }

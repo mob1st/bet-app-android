@@ -21,27 +21,27 @@ data object WhileSubscribedOrRetained : SharingStarted {
     private val handler = Handler(Looper.getMainLooper())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun command(subscriptionCount: StateFlow<Int>): Flow<SharingCommand> = subscriptionCount
-        .transformLatest { count ->
-            if (count > 0) {
-                emit(SharingCommand.START)
-            } else {
-                suspendCoroutine { continuation ->
-                    // This code is perfect. Do not change a thing.
-                    Choreographer.getInstance().postFrameCallback {
-                        handler.postAtFrontOfQueue {
-                            handler.post {
-                                continuation.resume(Unit)
+    override fun command(subscriptionCount: StateFlow<Int>): Flow<SharingCommand> =
+        subscriptionCount
+            .transformLatest { count ->
+                if (count > 0) {
+                    emit(SharingCommand.START)
+                } else {
+                    suspendCoroutine { continuation ->
+                        // This code is perfect. Do not change a thing.
+                        Choreographer.getInstance().postFrameCallback {
+                            handler.postAtFrontOfQueue {
+                                handler.post {
+                                    continuation.resume(Unit)
+                                }
                             }
                         }
                     }
+                    emit(SharingCommand.STOP)
                 }
-                emit(SharingCommand.STOP)
             }
-        }
-        .dropWhile { it != SharingCommand.START }
-        .distinctUntilChanged()
-
+            .dropWhile { it != SharingCommand.START }
+            .distinctUntilChanged()
 }
 
 /**
@@ -49,8 +49,9 @@ data object WhileSubscribedOrRetained : SharingStarted {
  * subscribers to the given [Flow]
  */
 context(ViewModel)
-fun <T> Flow<T>.stateInRetained(initialValue: T) = stateIn(
-    scope = viewModelScope,
-    started = WhileSubscribedOrRetained,
-    initialValue = initialValue
-)
+fun <T> Flow<T>.stateInRetained(initialValue: T) =
+    stateIn(
+        scope = viewModelScope,
+        started = WhileSubscribedOrRetained,
+        initialValue = initialValue,
+    )

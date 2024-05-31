@@ -12,7 +12,6 @@ import org.koin.core.annotation.Factory
  */
 @Factory
 class FirebaseAnalyticsReporter(private val firebaseAnalytics: FirebaseAnalytics) : AnalyticsReporter {
-
     override fun log(event: AnalyticsEvent) {
         firebaseAnalytics.logEvent(event.name, event.logInfo.toBundle())
     }

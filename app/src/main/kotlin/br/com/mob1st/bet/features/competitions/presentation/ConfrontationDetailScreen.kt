@@ -60,7 +60,7 @@ fun ConfrontationDetailScreen(
         onEmpty = updatedNavigateBack,
         onDismissSnackbar = { viewModel.messageShown(it) },
         onButtonClicked = { viewModel.fromUi(ConfrontationUiEvent.GetNext(it)) },
-        onNullDetail = updatedNavigateBack
+        onNullDetail = updatedNavigateBack,
     )
 
     BackHandler {
@@ -93,9 +93,9 @@ private fun ConfrontationDetailPage(
                 state = it,
                 onDismissSnackbar = onDismissSnackbar,
                 onButtonClicked = onButtonClicked,
-                onNullDetail = onNullDetail
+                onNullDetail = onNullDetail,
             )
-        }
+        },
     )
 }
 
@@ -103,7 +103,7 @@ private fun ConfrontationDetailPage(
 private fun Loading() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator()
     }
@@ -119,7 +119,7 @@ private fun ConfrontationDetailContent(
     state.messages.ifNotEmpty { message ->
         DismissSnackbar(
             message = stringResource(id = message.descriptionResId),
-            onDismiss = { onDismissSnackbar(message) }
+            onDismiss = { onDismissSnackbar(message) },
         )
     }
     if (state.data.detail != null) {
@@ -127,7 +127,7 @@ private fun ConfrontationDetailContent(
     } else {
         LocalLogger.current.w(
             "A confrontation detail should never be null. " +
-                "Probably the page was opened in a weird state."
+                "Probably the page was opened in a weird state.",
         )
         onNullDetail()
     }
@@ -143,44 +143,46 @@ private fun ConfrontationData(
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = LocalCompositionGrid.current.margin)
-            .padding(vertical = LocalCompositionGrid.current.line * 4),
-        verticalArrangement = Arrangement.SpaceBetween
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = LocalCompositionGrid.current.margin)
+                .padding(vertical = LocalCompositionGrid.current.line * 4),
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Header(
                 competitionEntry = confrontationData.subscription.competition,
-                progress = confrontationData.progress
+                progress = confrontationData.progress,
             )
             Spacer(
-                modifier = Modifier.height(LocalCompositionGrid.current.line * 8)
+                modifier = Modifier.height(LocalCompositionGrid.current.line * 8),
             )
             NodeComponent(
                 root = confrontationData.detail!!.contest,
                 input = input,
                 onInput = {
                     input = it
-                }
+                },
             )
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            horizontalArrangement = Arrangement.End,
         ) {
             TextButton(
                 onClick = {
                     onButtonClicked(input)
-                }
+                },
             ) {
-                val text = if (confrontationData.isLast) {
-                    R.string.confrontation_detail_score_done
-                } else {
-                    R.string.confrontation_detail_score_next
-                }
+                val text =
+                    if (confrontationData.isLast) {
+                        R.string.confrontation_detail_score_done
+                    } else {
+                        R.string.confrontation_detail_score_next
+                    }
                 Text(text = stringResource(id = text))
             }
         }
@@ -195,21 +197,23 @@ private fun Header(
 ) {
     val context = LocalContext.current
     Column(
-        modifier = modifier
-            .wrapContentHeight()
-            .fillMaxWidth()
+        modifier =
+            modifier
+                .wrapContentHeight()
+                .fillMaxWidth(),
     ) {
         LinearProgressIndicator(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = LocalCompositionGrid.current.line),
-            progress = progress
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = LocalCompositionGrid.current.line),
+            progress = progress,
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = context.getText(competitionEntry.name),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineMedium,
         )
     }
 }

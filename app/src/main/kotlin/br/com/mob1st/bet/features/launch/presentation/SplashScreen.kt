@@ -27,15 +27,13 @@ import br.com.mob1st.bet.features.profile.data.Subscription
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SplashScreen(
-    onFinish: (Subscription) -> Unit,
-) {
+fun SplashScreen(onFinish: (Subscription) -> Unit) {
     val viewModel = koinViewModel<LauncherViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     SplashPage(
         state = state,
         onFinish = onFinish,
-        onTryAgain = { viewModel.fromUi(LauncherUiEvent.TryAgain(it)) }
+        onTryAgain = { viewModel.fromUi(LauncherUiEvent.TryAgain(it)) },
     )
 }
 
@@ -48,14 +46,15 @@ fun SplashPage(
     val onFinishCallback by rememberUpdatedState(onFinish)
     ScreenViewLog(screenName = "splash")
     Box(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary)
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .background(MaterialTheme.colorScheme.primary)
+                .fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_splash_icon),
-            contentDescription = stringResource(id = R.string.content_description_launcher)
+            contentDescription = stringResource(id = R.string.content_description_launcher),
         )
         if (state.messages.isNotEmpty()) {
             SplashErrorMessageDialog(message = state.messages[0], onTryAgain = onTryAgain)
@@ -88,9 +87,10 @@ fun SplashErrorMessageDialog(
             }
         },
         onDismissRequest = { activity.finish() },
-        properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = false
-        )
+        properties =
+            DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = false,
+            ),
     )
 }

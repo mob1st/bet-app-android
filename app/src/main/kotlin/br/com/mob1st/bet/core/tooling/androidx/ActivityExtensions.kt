@@ -11,9 +11,7 @@ import android.os.Parcelable
  *
  * Uses the [intentBlock] to customize the intent as needed
  */
-inline fun <reified T : Activity> Activity.intent(
-    intentBlock: Intent.() -> Unit = {},
-): Intent {
+inline fun <reified T : Activity> Activity.intent(intentBlock: Intent.() -> Unit = {}): Intent {
     val intent = Intent(this, T::class.java)
     intent.intentBlock()
     return intent
@@ -28,12 +26,13 @@ fun Intent.start(options: Bundle? = null) {
 }
 
 inline fun <reified T : Parcelable> Intent.getParcelableNotNull(name: String): T {
-    val parcelable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        getParcelableExtra(name, T::class.java)
-    } else {
-        @Suppress("DEPRECATION")
-        getParcelableExtra(name)
-    }
+    val parcelable =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getParcelableExtra(name, T::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            getParcelableExtra(name)
+        }
     return requireNotNull(parcelable) {
         "The parcelable extra $name must be provided with an instance of ${T::class.simpleName}"
     }

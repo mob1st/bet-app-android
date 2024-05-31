@@ -7,7 +7,6 @@ import br.com.mob1st.morpheus.annotation.Consumable
  * It works on top of the [Consumable] class, available by morpheus annotation library.
  */
 interface SideEffectManager<T> {
-
     /**
      * Consume a side effect produced by the UI.
      *

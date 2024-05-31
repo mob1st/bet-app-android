@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class MoneyTest {
-
     @Test
     fun `GIVEN an amount WHEN sum THEN should return the sum of the amounts`() {
         val expected = Money(100)

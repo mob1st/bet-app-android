@@ -17,7 +17,6 @@ import java.util.Locale
 class FirebaseCrashReporter(
     private val crashlytics: FirebaseCrashlytics,
 ) : CrashReporter {
-
     override fun crash(throwable: Throwable) {
         val logProperties = throwable.getRootLogProperties()
         val customKeysAndValues = logProperties.toCustomKeyValues().build()

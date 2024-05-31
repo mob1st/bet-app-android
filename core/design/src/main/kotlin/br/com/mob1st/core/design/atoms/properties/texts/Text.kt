@@ -15,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.util.fastForEach
 
 sealed interface Text {
-
     fun resolve(resources: Resources): AnnotatedString
 }
 
@@ -28,7 +27,11 @@ fun rememberAnnotatedString(text: Text): AnnotatedString {
 }
 
 fun Text(string: String): Text = ActualString(string)
-fun Text(@StringRes id: Int, parameters: List<Text> = emptyList()): Text {
+
+fun Text(
+    @StringRes id: Int,
+    parameters: List<Text> = emptyList(),
+): Text {
     return if (parameters.isEmpty()) {
         ResourceString(id)
     } else {
@@ -36,11 +39,18 @@ fun Text(@StringRes id: Int, parameters: List<Text> = emptyList()): Text {
     }
 }
 
-fun Text(@PluralsRes id: Int, quantity: Int, parameters: List<Text> = emptyList()): Text {
+fun Text(
+    @PluralsRes id: Int,
+    quantity: Int,
+    parameters: List<Text> = emptyList(),
+): Text {
     return PluralString(id, quantity, parameters)
 }
 
-fun Text(fullText: Text, ranges: List<Pair<StyleType, IntRange>>): Text {
+fun Text(
+    fullText: Text,
+    ranges: List<Pair<StyleType, IntRange>>,
+): Text {
     return StyledText(fullText, ranges)
 }
 
@@ -53,7 +63,6 @@ private data class ParameterizedResourceString(
     val value: Int,
     val parameters: List<Text>,
 ) : Text {
-
     @Suppress("SpreadOperator")
     override fun resolve(resources: Resources): AnnotatedString {
         val params = parameters.toStrings(resources)
@@ -100,13 +109,15 @@ private data class StyledText(
 
     private fun StyleType.toSpanStyle(resources: Resources): SpanStyle {
         return when (this) {
-            StyleType.Link -> SpanStyle(
-                color = resources.getLinkColor(),
-                fontWeight = FontWeight.Bold
-            )
-            StyleType.Bold -> SpanStyle(
-                fontWeight = FontWeight.Bold
-            )
+            StyleType.Link ->
+                SpanStyle(
+                    color = resources.getLinkColor(),
+                    fontWeight = FontWeight.Bold,
+                )
+            StyleType.Bold ->
+                SpanStyle(
+                    fontWeight = FontWeight.Bold,
+                )
         }
     }
 }

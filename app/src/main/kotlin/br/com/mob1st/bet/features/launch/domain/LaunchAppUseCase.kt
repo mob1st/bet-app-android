@@ -32,13 +32,13 @@ class LaunchAppUseCase(
     private val crashReportingTool: CrashReportingTool,
     private val logger: Logger,
 ) {
-
     context(CoroutineScope)
     suspend operator fun invoke(): Subscription {
-        val responses = awaitAll(
-            async { featureFlagRepository.sync() },
-            async { getUser() }
-        )
+        val responses =
+            awaitAll(
+                async { featureFlagRepository.sync() },
+                async { getUser() },
+            )
         logger.i("sync the feature flags and retrieve the user")
         val user = responses.last() as User
         if (user.id == "123") {
@@ -54,13 +54,14 @@ class LaunchAppUseCase(
         }
     }
 
-    private suspend fun getUser() = if (userRepository.getAuthStatus() is LoggedOut) {
-        logger.v("user is logged out. do the login")
-        registerUser()
-    } else {
-        logger.v("user is already authenticated")
-        userRepository.get()
-    }
+    private suspend fun getUser() =
+        if (userRepository.getAuthStatus() is LoggedOut) {
+            logger.v("user is logged out. do the login")
+            registerUser()
+        } else {
+            logger.v("user is already authenticated")
+            userRepository.get()
+        }
 
     private fun usesDefaultCompetition(): Boolean {
         return featureFlagRepository.getBoolean(FF_DEFAULT_COMPETITION)
@@ -83,8 +84,8 @@ class LaunchAppUseCase(
         analyticsTool.log(
             CompetitionSubscribeEvent(
                 entry = entry,
-                method = CompetitionSubscribeEvent.Method.AUTOMATIC
-            )
+                method = CompetitionSubscribeEvent.Method.AUTOMATIC,
+            ),
         )
         return subscription
     }

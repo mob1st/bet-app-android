@@ -5,7 +5,8 @@ import br.com.mob1st.core.kotlinx.coroutines.AppScopeProvider
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
-val coroutinesModule = module {
-    single<DispatcherProvider> { DispatcherProvider }
-    single { androidApplication() as AppScopeProvider }
-}
+val coroutinesModule =
+    module {
+        single<DispatcherProvider> { DispatcherProvider }
+        single { androidApplication() as AppScopeProvider }
+    }

@@ -5,7 +5,6 @@ import br.com.mob1st.bet.core.logs.CrashReportingTool
 import timber.log.Timber
 
 object TimberTreeFactory {
-
     fun create(crashReportingTool: CrashReportingTool): Timber.Forest {
         return if (BuildConfig.DEBUG) {
             Timber.DebugTree()

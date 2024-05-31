@@ -37,9 +37,8 @@ import kotlin.coroutines.cancellation.CancellationException
 abstract class StateViewModel<Data, UiEvent>(
     initialState: AsyncState<Data>,
 ) : ViewModel(), KoinComponent {
-
     constructor(data: Data, loading: Boolean = true) : this(
-        AsyncState(data = data, loading = loading)
+        AsyncState(data = data, loading = loading),
     )
 
     protected val logger: Logger by inject()
@@ -54,11 +53,12 @@ abstract class StateViewModel<Data, UiEvent>(
      * **See also** [A safer way to collect flows from Android UIs]
      * (https://medium.com/androiddevelopers/a-safer-way-to-collect-flows-from-android-uis-23080b1f8bda)
      */
-    val uiState: StateFlow<AsyncState<Data>> = viewModelState.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(STOP_TIMEOUT),
-        viewModelState.value
-    )
+    val uiState: StateFlow<AsyncState<Data>> =
+        viewModelState.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(STOP_TIMEOUT),
+            viewModelState.value,
+        )
 
     val currentState get() = uiState.value
     val currentData get() = uiState.value.data
@@ -114,41 +114,42 @@ abstract class StateViewModel<Data, UiEvent>(
      * @param block the block function that will be executed to manipulate the UI state
      * @return The [Job] created in this operation. Use it to cancel this asynchonous operation
      */
-    protected fun setAsync(
-        block: suspend CoroutineScope.(current: AsyncState<Data>) -> (AsyncState<Data>),
-    ): Job = viewModelScope.launch {
-        viewModelState.update { current ->
-            try {
-                block(current)
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                logger.e("setState have failed", e)
-                current.failure()
+    protected fun setAsync(block: suspend CoroutineScope.(current: AsyncState<Data>) -> (AsyncState<Data>)): Job =
+        viewModelScope.launch {
+            viewModelState.update { current ->
+                try {
+                    block(current)
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    logger.e("setState have failed", e)
+                    current.failure()
+                }
             }
         }
-    }
 
     /**
      * Turn on the loading on
      */
-    protected fun loading() = viewModelState.update {
-        it.loading()
-    }
+    protected fun loading() =
+        viewModelState.update {
+            it.loading()
+        }
 
     /**
      * Set only the data, in a synchronous way. Use this method if no coroutines is required, such
      * as suspend functions or flow collections.
      * If some internal error happens, it will be catched and sent as default
      */
-    protected fun setData(block: (current: Data) -> Data) = viewModelState.update {
-        try {
-            it.data(data = block(it.data))
-        } catch (e: Exception) {
-            Timber.e(e)
-            it.failure()
+    protected fun setData(block: (current: Data) -> Data) =
+        viewModelState.update {
+            try {
+                it.data(data = block(it.data))
+            } catch (e: Exception) {
+                Timber.e(e)
+                it.failure()
+            }
         }
-    }
 
     /**
      * Handle events from triggered by UI that can update its state
@@ -161,7 +162,6 @@ abstract class StateViewModel<Data, UiEvent>(
     abstract fun fromUi(uiEvent: UiEvent)
 
     companion object {
-
         /**
          * The timeout to stop the emissions in case the UI is not more listening the [StateFlow]
          *

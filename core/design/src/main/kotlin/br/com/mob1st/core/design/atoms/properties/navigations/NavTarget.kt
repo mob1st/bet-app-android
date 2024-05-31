@@ -11,7 +11,6 @@ import androidx.navigation.NavOptionsBuilder
  */
 @Immutable
 abstract class NavTarget {
-
     /**
      * The screen name used in the navigation to identify this target.
      */
@@ -31,7 +30,10 @@ abstract class NavTarget {
 /**
  * Navigates a given [navTarget] with the given [builder] to configure the navigation options.
  */
-fun NavController.navigate(navTarget: NavTarget, builder: NavOptionsBuilder.() -> Unit) {
+fun NavController.navigate(
+    navTarget: NavTarget,
+    builder: NavOptionsBuilder.() -> Unit,
+) {
     navigate(navTarget.screenName, builder)
 }
 

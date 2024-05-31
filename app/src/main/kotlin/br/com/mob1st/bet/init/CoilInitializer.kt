@@ -10,7 +10,7 @@ class CoilInitializer : Initializer<Coil> {
         Coil.setImageLoader(
             ImageLoader.Builder(context)
                 .crossfade(true)
-                .build()
+                .build(),
         )
         return Coil
     }

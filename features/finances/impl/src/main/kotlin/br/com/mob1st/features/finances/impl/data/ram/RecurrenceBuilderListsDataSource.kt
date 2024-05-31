@@ -23,19 +23,19 @@ internal class RecurrenceBuilderListsDataSource(
     localizationProvider: RecurrenceLocalizationProvider,
     default: DefaultCoroutineDispatcher,
 ) : UnitaryDataSource<RecurrenceBuilderLists> {
-
     private val state = MutableStateFlow(RecurrenceBuilderLists())
-    override val data: Flow<RecurrenceBuilderLists> = flow {
-        state.update {
-            it.copy(
-                fixedExpensesList = FixedExpanseFactory(localizationProvider).toPersistentList(),
-                variableExpensesList = VariableExpanseFactory(localizationProvider).toPersistentList(),
-                seasonalExpensesList = SeasonalExpanseFactory(localizationProvider).toPersistentList(),
-                incomesList = IncomeFactory(localizationProvider).toPersistentList()
-            )
-        }
-        emitAll(state)
-    }.flowOn(default)
+    override val data: Flow<RecurrenceBuilderLists> =
+        flow {
+            state.update {
+                it.copy(
+                    fixedExpensesList = FixedExpanseFactory(localizationProvider).toPersistentList(),
+                    variableExpensesList = VariableExpanseFactory(localizationProvider).toPersistentList(),
+                    seasonalExpensesList = SeasonalExpanseFactory(localizationProvider).toPersistentList(),
+                    incomesList = IncomeFactory(localizationProvider).toPersistentList(),
+                )
+            }
+            emitAll(state)
+        }.flowOn(default)
 
     override suspend fun set(data: RecurrenceBuilderLists) {
         state.value = data

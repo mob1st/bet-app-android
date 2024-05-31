@@ -52,7 +52,10 @@ inline fun <reified Right> Either<*, Right>.right(): Right {
  * @param Right the type of the right value.
  * @return the value returned by the [onLeft] or [onRight] function.
  */
-inline fun <reified Left, reified Right, T> Either<Left, Right>.fold(onLeft: (Left) -> T, onRight: (Right) -> T): T {
+inline fun <reified Left, reified Right, T> Either<Left, Right>.fold(
+    onLeft: (Left) -> T,
+    onRight: (Right) -> T,
+): T {
     check(this is Left || this is Right) {
         "Expected to be a ${Left::class.java.simpleName} or a ${Right::class.java.simpleName} but it was a " +
             this::class.java.simpleName

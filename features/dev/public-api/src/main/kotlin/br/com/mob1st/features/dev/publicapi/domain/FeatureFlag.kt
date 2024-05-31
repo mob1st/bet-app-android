@@ -6,7 +6,6 @@ package br.com.mob1st.features.dev.publicapi.domain
  * Implement this interface to create a feature flag in the app.
  */
 interface FeatureFlag {
-
     /**
      * Unique identifier of the feature flag.
      */

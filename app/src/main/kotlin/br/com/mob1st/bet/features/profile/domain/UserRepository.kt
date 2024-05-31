@@ -7,7 +7,6 @@ import br.com.mob1st.bet.features.profile.data.Subscription
  * Manages the user entity and everything that depends on it to exists
  */
 interface UserRepository {
-
     /**
      * Logs the user anonymously
      *

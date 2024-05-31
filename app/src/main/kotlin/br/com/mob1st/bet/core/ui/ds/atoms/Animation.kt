@@ -11,7 +11,7 @@ fun <T> ReplaceAnimation(
     content: @Composable (current: T) -> Unit,
 ) {
     Crossfade(
-        targetState = targetState
+        targetState = targetState,
     ) { current ->
         content(current)
     }
@@ -24,6 +24,6 @@ fun VisibilityAnimation(
 ) {
     AnimatedVisibility(
         visible = visible,
-        content = content
+        content = content,
     )
 }

@@ -28,12 +28,13 @@ class GroupCollection(
                 "description" to group.description,
                 "createdAt" to group.createdAt,
                 "updatedAt" to group.updatedAt,
-                "competition" to mapOf(
-                    "name" to group.competition.name,
-                    "type" to group.competition.type.name,
-                    "ref" to firestore.competitions.document(group.competition.id)
-                )
-            )
+                "competition" to
+                    mapOf(
+                        "name" to group.competition.name,
+                        "type" to group.competition.type.name,
+                        "ref" to firestore.competitions.document(group.competition.id),
+                    ),
+            ),
         )
 
         val memberRef = firestore.members(groupRef.id).document()
@@ -43,20 +44,20 @@ class GroupCollection(
                 "ref" to firestore.users.document(founder.id),
                 "name" to founder.name,
                 "image" to founder.imageUrl.orEmpty(),
-
-                "points" to 0L
-            )
+                "points" to 0L,
+            ),
         )
 
-        val membershipRef = firestore.memberships(founder.id)
-            .document()
+        val membershipRef =
+            firestore.memberships(founder.id)
+                .document()
         batch.set(
             membershipRef,
             mapOf(
                 "name" to group.name,
                 "url" to group.imageUrl.orEmpty(),
-                "ref" to groupRef
-            )
+                "ref" to groupRef,
+            ),
         )
         batch.commit().awaitWithTimeout()
     }
@@ -64,5 +65,5 @@ class GroupCollection(
 
 val FirebaseFirestore.groups get() =
     collection("groups")
-fun FirebaseFirestore.members(groupId: String) =
-    groups.document(groupId).collection("members")
+
+fun FirebaseFirestore.members(groupId: String) = groups.document(groupId).collection("members")

@@ -32,7 +32,8 @@ fun <T> Flow<T>.exponencialBackoff(
     initialDelay: Float = 0.0f,
     retryFactor: Float = 1.0f,
     predicate: suspend FlowCollector<T>.(cause: Throwable, attempt: Long, delay: Long) -> Boolean,
-): Flow<T> = retryWhen { cause, attempt ->
-    val retryDelay = initialDelay * retryFactor.pow(attempt.toFloat())
-    predicate(cause, attempt, retryDelay.toLong())
-}
+): Flow<T> =
+    retryWhen { cause, attempt ->
+        val retryDelay = initialDelay * retryFactor.pow(attempt.toFloat())
+        predicate(cause, attempt, retryDelay.toLong())
+    }

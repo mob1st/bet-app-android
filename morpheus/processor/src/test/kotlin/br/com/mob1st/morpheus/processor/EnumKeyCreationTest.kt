@@ -9,21 +9,24 @@ import io.kotest.matchers.shouldBe
 
 private const val FILE_NAME = "Sample.kt"
 private const val GENERATED_CLASS_NAME = "SampleEffectKey"
+
 class EnumKeyCreationTest : BehaviorSpec({
 
     val dataClass = givenMorpheusClass("Sample")
 
     Given("two annotated properties") {
-        val prop1 = property(
-            """
-            @ConsumableEffect val prop1: String?
-            """.trimIndent()
-        )
-        val prop2 = property(
-            """
-            @ConsumableEffect val prop2: String?
-            """.trimIndent()
-        )
+        val prop1 =
+            property(
+                """
+                @ConsumableEffect val prop1: String?
+                """.trimIndent(),
+            )
+        val prop2 =
+            property(
+                """
+                @ConsumableEffect val prop2: String?
+                """.trimIndent(),
+            )
 
         When("compile") {
             val result = dataClass.constructor(prop1, prop2).compile(FILE_NAME)
@@ -40,16 +43,18 @@ class EnumKeyCreationTest : BehaviorSpec({
     }
 
     Given("only one annotated property") {
-        val prop1 = property(
-            """
-            @ConsumableEffect val prop1: String?
-            """.trimIndent()
-        )
-        val prop2 = property(
-            """
-            val prop2: String?
-            """.trimIndent()
-        )
+        val prop1 =
+            property(
+                """
+                @ConsumableEffect val prop1: String?
+                """.trimIndent(),
+            )
+        val prop2 =
+            property(
+                """
+                val prop2: String?
+                """.trimIndent(),
+            )
         When("compile") {
             val result = dataClass.constructor(prop1, prop2).compile(FILE_NAME)
 

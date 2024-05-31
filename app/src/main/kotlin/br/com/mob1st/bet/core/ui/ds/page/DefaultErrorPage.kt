@@ -19,7 +19,7 @@ fun DefaultErrorPage(
         icon = {
             Icon(
                 painter = painterResource(R.drawable.ic_baseline_warning_48),
-                contentDescription = stringResource(id = R.string.icon_failure_content_description)
+                contentDescription = stringResource(id = R.string.icon_failure_content_description),
             )
         },
         title = { Text(stringResource(id = R.string.general_message_error_title)) },
@@ -28,6 +28,6 @@ fun DefaultErrorPage(
             Button(onClick = { onTryAgain(message) }) {
                 Text(text = stringResource(id = R.string.try_again))
             }
-        }
+        },
     )
 }

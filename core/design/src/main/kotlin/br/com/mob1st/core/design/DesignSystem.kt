@@ -14,15 +14,19 @@ import com.google.accompanist.adaptive.calculateDisplayFeatures
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun DesignSystem(activity: Activity, content: @Composable () -> Unit) {
+fun DesignSystem(
+    activity: Activity,
+    content: @Composable () -> Unit,
+) {
     val displayFeatures = calculateDisplayFeatures(activity = activity)
     val windowSizeClass = calculateWindowSizeClass(activity = activity)
-    val layoutSpec = remember(windowSizeClass.widthSizeClass) {
-        LayoutSpec.of(windowSizeClass.widthSizeClass)
-    }
+    val layoutSpec =
+        remember(windowSizeClass.widthSizeClass) {
+            LayoutSpec.of(windowSizeClass.widthSizeClass)
+        }
     CompositionLocalProvider(
         LocalDisplayFeatures provides displayFeatures,
-        LocalLayoutSpec provides layoutSpec
+        LocalLayoutSpec provides layoutSpec,
     ) {
         BetTheme(content)
     }

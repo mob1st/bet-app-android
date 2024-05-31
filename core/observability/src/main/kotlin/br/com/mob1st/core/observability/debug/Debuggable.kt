@@ -4,7 +4,6 @@ package br.com.mob1st.core.observability.debug
  * Provide properties to be debuggable on logs
  */
 interface Debuggable {
-
     /**
      * Map of properties to be logged.
      *

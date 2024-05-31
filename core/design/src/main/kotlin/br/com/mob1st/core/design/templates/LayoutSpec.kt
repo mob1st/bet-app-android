@@ -13,36 +13,35 @@ enum class LayoutSpec(
      * The horizontal spacing that can be applied in the panes.
      */
     val horizontalSpacing: Dp,
-
     /**
      * The maximum number of columns that can be used in the panes.
      */
     val columnsLimit: ColumnsLimit,
 ) {
-
     Compact(
         horizontalSpacing = Spacings.x4,
-        columnsLimit = ColumnsLimit.Four
+        columnsLimit = ColumnsLimit.Four,
     ),
 
     Medium(
         horizontalSpacing = Spacings.x6,
-        columnsLimit = ColumnsLimit.Eight
+        columnsLimit = ColumnsLimit.Eight,
     ),
 
     Expanded(
         horizontalSpacing = Spacings.x6,
-        columnsLimit = ColumnsLimit.Twelve
+        columnsLimit = ColumnsLimit.Twelve,
     ),
     ;
 
     companion object {
-        fun of(windowWidthSizeClass: WindowWidthSizeClass) = when (windowWidthSizeClass) {
-            WindowWidthSizeClass.Compact -> Compact
-            WindowWidthSizeClass.Medium -> Medium
-            WindowWidthSizeClass.Expanded -> Expanded
-            else -> error("Unsupported window width size class: $windowWidthSizeClass.")
-        }
+        fun of(windowWidthSizeClass: WindowWidthSizeClass) =
+            when (windowWidthSizeClass) {
+                WindowWidthSizeClass.Compact -> Compact
+                WindowWidthSizeClass.Medium -> Medium
+                WindowWidthSizeClass.Expanded -> Expanded
+                else -> error("Unsupported window width size class: $windowWidthSizeClass.")
+            }
     }
 }
 

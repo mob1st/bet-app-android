@@ -19,11 +19,14 @@ internal class RecurrenceBuilderCompletionsDataSource(
             isFixedExpansesCompleted = preferences[booleanPreferencesKey(FIXED_STEP_COMPLETION_KEY)] ?: false,
             isVariableExpansesCompleted = preferences[booleanPreferencesKey(VARIABLE_STEP_COMPLETION_KEY)] ?: false,
             isSeasonalExpansesCompleted = preferences[booleanPreferencesKey(SEASONAL_STEP_COMPLETION_KEY)] ?: false,
-            isIncomesCompleted = preferences[booleanPreferencesKey(INCOMES_STEP_COMPLETION_KEY)] ?: false
+            isIncomesCompleted = preferences[booleanPreferencesKey(INCOMES_STEP_COMPLETION_KEY)] ?: false,
         )
     }
 
-    override suspend fun set(preferences: MutablePreferences, data: RecurrenceBuilderCompletions) {
+    override suspend fun set(
+        preferences: MutablePreferences,
+        data: RecurrenceBuilderCompletions,
+    ) {
         return with(preferences) {
             this[booleanPreferencesKey(FIXED_STEP_COMPLETION_KEY)] = data.isFixedExpansesCompleted
             this[booleanPreferencesKey(VARIABLE_STEP_COMPLETION_KEY)] = data.isVariableExpansesCompleted

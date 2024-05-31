@@ -19,13 +19,15 @@ import androidx.compose.ui.unit.Dp
  */
 @Immutable
 sealed interface Dimension {
-
     @JvmInline
     value class Fixed(private val value: Dp) : Dimension {
         override fun Modifier.width() = width(value)
+
         override fun Modifier.height() = height(value)
+
         override fun Modifier.size() = size(value)
     }
+
     data class WrapContent(
         private val horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
         private val verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
@@ -33,7 +35,9 @@ sealed interface Dimension {
         private val unbounded: Boolean = false,
     ) : Dimension {
         override fun Modifier.width() = wrapContentWidth(horizontalAlignment, unbounded)
+
         override fun Modifier.height() = wrapContentHeight(verticalAlignment, unbounded)
+
         override fun Modifier.size() = wrapContentSize(alignment, unbounded)
     }
 
@@ -41,14 +45,17 @@ sealed interface Dimension {
     value class FillMax(
         private val fraction: Float = 1f,
     ) : Dimension {
-
         override fun Modifier.width() = fillMaxWidth(fraction)
+
         override fun Modifier.height() = fillMaxHeight(fraction)
+
         override fun Modifier.size() = fillMaxSize(fraction)
     }
 
     fun Modifier.width(): Modifier
+
     fun Modifier.height(): Modifier
+
     fun Modifier.size(): Modifier
 }
 

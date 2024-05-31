@@ -5,6 +5,7 @@ import br.com.mob1st.features.finances.impl.data.system.RecurrenceLocalizationPr
 /**
  * Fake implementation of [FakeRecurrenceLocalizationProvider] that returns the suggestion name as the localized string
  */
-internal fun FakeRecurrenceLocalizationProvider() = RecurrenceLocalizationProvider { suggestion ->
-    suggestion.name
-}
+internal fun FakeRecurrenceLocalizationProvider() =
+    RecurrenceLocalizationProvider { suggestion ->
+        suggestion.name
+    }

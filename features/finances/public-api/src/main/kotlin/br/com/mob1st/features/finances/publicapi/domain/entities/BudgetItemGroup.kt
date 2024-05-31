@@ -12,13 +12,11 @@ data class BudgetItemGroup<T : BudgetItem>(
      * List of recurrent categories
      */
     val items: List<ProportionalItem<T>>,
-
     /**
      * The total amount of all recurrent categories
      */
     val summaries: Summaries,
 ) {
-
     /**
      * The total amount of all recurrent categories, separated by [BudgetItem.Type]
      */

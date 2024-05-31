@@ -28,9 +28,10 @@ fun GroupRow(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier.fillMaxWidth()
-            .height(50.dp)
-            .background(PurpleGrey40).clickable { onNavigateToGroupDetails() }
+        modifier =
+            Modifier.fillMaxWidth()
+                .height(50.dp)
+                .background(PurpleGrey40).clickable { onNavigateToGroupDetails() },
     ) {
         GroupIcon()
         Text(groupName, color = Color.White)

@@ -10,7 +10,6 @@ internal class FileCreator(
     logger: KSPLogger,
     classDeclaration: KSClassDeclaration,
 ) {
-
     val packageName = classDeclaration.packageName.asString()
     val fileName = "${classDeclaration.simpleName.getShortName()}EffectKey"
 
@@ -20,13 +19,15 @@ internal class FileCreator(
         logger.info("creating file for class ${classDeclaration.simpleName.asString()}")
     }
 
-    fun addFunction(funSpec: FunSpec) = apply {
-        fileSpecBuilder.addFunction(funSpec)
-    }
+    fun addFunction(funSpec: FunSpec) =
+        apply {
+            fileSpecBuilder.addFunction(funSpec)
+        }
 
-    fun addEnum(enumSpec: TypeSpec) = apply {
-        fileSpecBuilder.addType(enumSpec)
-    }
+    fun addEnum(enumSpec: TypeSpec) =
+        apply {
+            fileSpecBuilder.addType(enumSpec)
+        }
 
     fun build() = fileSpecBuilder.build()
 }

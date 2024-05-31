@@ -27,22 +27,23 @@ class HomeUiState(
     val snackbarHostState: SnackbarHostState,
     val competitionsListLazyListState: LazyListState,
 ) {
-
     /**
      * The tabs available in home
      */
-    val tabs = listOf(
-        BottomBarDestination.Competitions,
-        BottomBarDestination.Groups,
-        BottomBarDestination.Profile
-    )
+    val tabs =
+        listOf(
+            BottomBarDestination.Competitions,
+            BottomBarDestination.Groups,
+            BottomBarDestination.Profile,
+        )
 
     // TODO implement custom logic to hide bottom bar depending on the screan
-    val showBottomBar @Composable get() = navController
-        .currentBackStackEntryAsState()
-        .value
-        ?.destination
-        ?.route in tabs.map { it.route }
+    val showBottomBar @Composable get() =
+        navController
+            .currentBackStackEntryAsState()
+            .value
+            ?.destination
+            ?.route in tabs.map { it.route }
 
     /**
      * Navigates to one of the tabs in the app
@@ -72,6 +73,7 @@ fun rememberHomeUiState(
     navController: NavHostController = rememberNavController(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     lazyListState: LazyListState = rememberLazyListState(),
-): HomeUiState = remember(navController, snackbarHostState) {
-    HomeUiState(navController, snackbarHostState, lazyListState)
-}
+): HomeUiState =
+    remember(navController, snackbarHostState) {
+        HomeUiState(navController, snackbarHostState, lazyListState)
+    }

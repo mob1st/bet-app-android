@@ -20,7 +20,6 @@ abstract class PreferencesDataSource<T>(
     private val context: Context,
     dataStoreFile: DataStoreFile,
 ) : UnitaryDataSource<T> {
-
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(dataStoreFile.name)
 
     /**
@@ -43,5 +42,8 @@ abstract class PreferencesDataSource<T>(
     /**
      * Set data in [MutablePreferences].
      */
-    protected abstract suspend fun set(preferences: MutablePreferences, data: T)
+    protected abstract suspend fun set(
+        preferences: MutablePreferences,
+        data: T,
+    )
 }

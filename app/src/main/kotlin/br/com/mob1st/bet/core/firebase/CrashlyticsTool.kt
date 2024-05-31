@@ -19,7 +19,10 @@ class CrashlyticsTool(
         crashlytics.setUserId("")
     }
 
-    override fun log(message: String, throwable: Throwable?) {
+    override fun log(
+        message: String,
+        throwable: Throwable?,
+    ) {
         crashlytics.log(message)
         if (throwable != null) {
             setCustomProperties(throwable)

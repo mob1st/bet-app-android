@@ -7,7 +7,6 @@ package br.com.mob1st.bet.core.logs
  * couple the project with this dependency
  */
 interface CrashReportingTool {
-
     /**
      * Register the logged user in this tool to customize reports
      */
@@ -22,5 +21,8 @@ interface CrashReportingTool {
     /**
      * Logs a crash in the tool
      */
-    fun log(message: String, throwable: Throwable?)
+    fun log(
+        message: String,
+        throwable: Throwable?,
+    )
 }

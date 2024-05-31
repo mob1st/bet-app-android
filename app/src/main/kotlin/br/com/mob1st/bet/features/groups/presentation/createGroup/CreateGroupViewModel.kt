@@ -12,13 +12,13 @@ import timber.log.Timber
 
 data class GroupData(
     val name: String = "",
-
     // quando a UI receber esse valor NÃO NULO, tu pode fechar a tela e voltar para a lista de grupos
     val createdGroup: GroupEntry? = null,
 )
 
 sealed class GroupsUIEvent {
     data class CreateGroup(val groupName: String) : GroupsUIEvent()
+
     data class TryAgain(val message: SimpleMessage) : GroupsUIEvent()
 }
 
@@ -26,7 +26,6 @@ sealed class GroupsUIEvent {
 class CreateGroupViewModel(
     private val createGroupUseCase: CreateGroupUseCase,
 ) : StateViewModel<GroupData, GroupsUIEvent>(GroupData(), loading = false) {
-
     override fun fromUi(uiEvent: GroupsUIEvent) {
         when (uiEvent) {
             is GroupsUIEvent.CreateGroup -> createGroup(uiEvent.groupName)

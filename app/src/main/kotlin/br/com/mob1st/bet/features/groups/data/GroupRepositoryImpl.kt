@@ -20,30 +20,31 @@ class GroupRepositoryImpl(
     private val groupCollection: GroupCollection,
     private val dispatcherProvider: DispatcherProvider,
 ) : GroupRepository {
-
     private val io get() = dispatcherProvider.io
 
     override suspend fun create(
         founder: User,
         name: String,
         competitionEntry: CompetitionEntry,
-    ): GroupEntry = withContext(io) {
-        val group = Group(
-            name = name,
-            competition = competitionEntry,
-            description = "",
-            // the founder is the first member in the group
-            memberCount = 1
-        )
-        val entry = group.toEntry()
-        suspendRunCatching {
-            groupCollection.create(founder, group).let { entry }
-        }.getOrElse {
-            throw CreateGroupException(
-                groupEntry = entry,
-                competitionEntry = competitionEntry,
-                cause = it
-            )
+    ): GroupEntry =
+        withContext(io) {
+            val group =
+                Group(
+                    name = name,
+                    competition = competitionEntry,
+                    description = "",
+                    // the founder is the first member in the group
+                    memberCount = 1,
+                )
+            val entry = group.toEntry()
+            suspendRunCatching {
+                groupCollection.create(founder, group).let { entry }
+            }.getOrElse {
+                throw CreateGroupException(
+                    groupEntry = entry,
+                    competitionEntry = competitionEntry,
+                    cause = it,
+                )
+            }
         }
-    }
 }

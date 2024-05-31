@@ -17,7 +17,7 @@ data class PlaceGuessEvent(
             "moment" to dateTimeIso.get(guess.updatedAt),
             "betAllowedUntil" to dateTimeIso.get(guess.confrontation.allowBetsUntil),
             "confrontationId" to guess.confrontation.id,
-            "subscriptionId" to guess.subscriptionId
+            "subscriptionId" to guess.subscriptionId,
         ) + guess.aggregation.logProperties()
     }
 }

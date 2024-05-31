@@ -12,9 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 context(ViewModel)
-fun <T> MutableSharedFlow<T>.next(
-    value: T,
-): Job = next(viewModelScope, value)
+fun <T> MutableSharedFlow<T>.next(value: T): Job = next(viewModelScope, value)
 
 context(ViewModel)
 fun <T, U> MutableStateFlow<T>.update(

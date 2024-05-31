@@ -6,7 +6,6 @@ import br.com.mob1st.core.design.atoms.properties.navigations.NavTarget
  * Dev settings navigation targets.
  */
 sealed class DevSettingsNavTarget : NavTarget() {
-
     /**
      * Dev menu screen. The first screen of the dev settings.
      */

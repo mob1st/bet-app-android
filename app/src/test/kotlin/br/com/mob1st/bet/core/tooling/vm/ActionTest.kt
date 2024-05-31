@@ -17,11 +17,12 @@ class ActionTest : BehaviorSpec({
     val scope = TestScope(TestCoroutineScheduler())
     Given("a failure flow") {
         val exception = Exception()
-        val action = scope.actionFromFlow<Any> {
-            flow {
-                throw exception
+        val action =
+            scope.actionFromFlow<Any> {
+                flow {
+                    throw exception
+                }
             }
-        }
         When("trigger") {
             scope.testScheduler.advanceUntilIdle()
             action.trigger()
@@ -39,9 +40,10 @@ class ActionTest : BehaviorSpec({
     }
 
     Given("a indeterminate flow") {
-        val action = scope.actionFromFlow<Any> {
-            flow { }
-        }
+        val action =
+            scope.actionFromFlow<Any> {
+                flow { }
+            }
         When("trigger") {
             scope.testScheduler.advanceUntilIdle()
             action.trigger()
@@ -63,11 +65,12 @@ class ActionTest : BehaviorSpec({
 
     Given("a success flow") {
         val expected = "value"
-        val action = scope.actionFromFlow<Any> {
-            flow {
-                emit(expected)
+        val action =
+            scope.actionFromFlow<Any> {
+                flow {
+                    emit(expected)
+                }
             }
-        }
 
         When("trigger") {
             scope.testScheduler.advanceUntilIdle()

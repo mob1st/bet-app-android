@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class GetDevMenuUseCaseTest {
-
     private lateinit var projectSettingsRepository: ProjectSettingsRepository
 
     @BeforeEach
@@ -23,19 +22,25 @@ class GetDevMenuUseCaseTest {
     }
 
     @Test
-    fun `GIVEN a backend repository WHEN invoke THEN return dev menu `() = runTest {
-        val projectSettings = ProjectSettings(
-            backendEnvironment = BackendEnvironment.values().random(),
-            buildInfo = mockk()
-        )
-        givenProjectSettings(flowOf(projectSettings))
-        val useCase = GetDevMenuUseCase(projectSettingsRepository)
-        val actual = useCase().first()
-        assertEquals(
-            expected = DevMenu(projectSettings.backendEnvironment),
-            actual = actual
-        )
-    }
+    fun `GIVEN a backend repository WHEN invoke THEN return dev menu `() =
+        runTest {
+            val projectSettings =
+                ProjectSettings(
+                    backendEnvironment = BackendEnvironment.entries.random(),
+                    buildInfo = mockk(),
+                )
+            givenProjectSettings(flowOf(projectSettings))
+            val useCase = GetDevMenuUseCase(projectSettingsRepository)
+            val actual = useCase().first()
+            assertEquals(
+                expected =
+                    DevMenu(
+                        backendEnvironment = projectSettings.backendEnvironment,
+                        entries = DevMenuEntry.entries,
+                    ),
+                actual = actual,
+            )
+        }
 
     private fun givenProjectSettings(expected: Flow<ProjectSettings>) {
         every { projectSettingsRepository.get() } returns expected

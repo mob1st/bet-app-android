@@ -21,26 +21,27 @@ internal class UserRepositoryImpl(
     private val userCollection: UserCollection,
     private val dispatcherProvider: DispatcherProvider,
 ) : UserRepository {
-
     private val io get() = dispatcherProvider.io
 
-    override suspend fun signInAnonymously(): User = withContext(io) {
-        val user = authUser()
-        createUser(user)
-        return@withContext user
-    }
-
-    override suspend fun subscribe(entry: CompetitionEntry): Subscription = withContext(io) {
-        suspendRunCatching {
-            val userId = checkNotNull(userAuth.get()?.id)
-            userCollection.subscribe(
-                userId,
-                Subscription(competition = entry)
-            )
-        }.getOrElse {
-            throw UserSubscriptionException(entry.id, it)
+    override suspend fun signInAnonymously(): User =
+        withContext(io) {
+            val user = authUser()
+            createUser(user)
+            return@withContext user
         }
-    }
+
+    override suspend fun subscribe(entry: CompetitionEntry): Subscription =
+        withContext(io) {
+            suspendRunCatching {
+                val userId = checkNotNull(userAuth.get()?.id)
+                userCollection.subscribe(
+                    userId,
+                    Subscription(competition = entry),
+                )
+            }.getOrElse {
+                throw UserSubscriptionException(entry.id, it)
+            }
+        }
 
     override suspend fun get(): User {
         return suspendRunCatching {
@@ -56,21 +57,23 @@ internal class UserRepositoryImpl(
         }
     }
 
-    private suspend fun createUser(user: User) = runCatching {
-        userCollection.create(user)
-    }.getOrElse {
-        // sign out the user if the account creation was not possible
-        userAuth.signOut()
-        throw UserCreationException(user.id, it)
-    }
-
-    override suspend fun getFirstAvailableSubscription(): Subscription = withContext(io) {
-        suspendRunCatching {
-            userCollection.getCompetitionEntry(checkNotNull(userAuth.getId()))
+    private suspend fun createUser(user: User) =
+        runCatching {
+            userCollection.create(user)
         }.getOrElse {
-            throw GetUserFirstAvailableSubscription(it)
+            // sign out the user if the account creation was not possible
+            userAuth.signOut()
+            throw UserCreationException(user.id, it)
         }
-    }
+
+    override suspend fun getFirstAvailableSubscription(): Subscription =
+        withContext(io) {
+            suspendRunCatching {
+                userCollection.getCompetitionEntry(checkNotNull(userAuth.getId()))
+            }.getOrElse {
+                throw GetUserFirstAvailableSubscription(it)
+            }
+        }
 
     override suspend fun getAuthStatus(): AuthStatus = userAuth.getAuthStatus()
 }

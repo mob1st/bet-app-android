@@ -6,11 +6,15 @@ import androidx.compose.ui.Modifier
 import br.com.mob1st.core.design.molecules.loading.Loading
 
 @Composable
-fun PrimaryButton(buttonState: ButtonState, modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun PrimaryButton(
+    buttonState: ButtonState,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
     Button(
         onClick = onClick,
         enabled = buttonState.isEnabled,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Loading(isLoading = buttonState.isLoading, crossfadeLabel = "primary button loading") {
         }

@@ -26,9 +26,10 @@ internal data class RecurrenceBuilder(
  */
 internal fun RecurrenceBuilder.completeFixedExpensesStep(): RecurrenceBuilder {
     return copy(
-        fixedExpensesStep = fixedExpensesStep.copy(
-            isCompleted = true
-        )
+        fixedExpensesStep =
+            fixedExpensesStep.copy(
+                isCompleted = true,
+            ),
     )
 }
 

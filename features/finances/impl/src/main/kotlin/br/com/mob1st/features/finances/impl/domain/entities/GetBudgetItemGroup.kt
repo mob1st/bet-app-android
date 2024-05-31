@@ -13,8 +13,9 @@ import kotlinx.coroutines.flow.map
  */
 internal fun RecurrenceBuilderRepository.getBudgetItemGroup(
     getStep: (RecurrenceBuilder) -> RecurrenceBuilder.Step,
-): Flow<BudgetItemGroup<RecurrentCategory>> = get()
-    .map { builder: RecurrenceBuilder -> getStep(builder) }
-    .map { step: RecurrenceBuilder.Step -> step.list }
-    .distinctUntilChanged()
-    .map { list: List<RecurrentCategory> -> list.toBudgetItemGroup() }
+): Flow<BudgetItemGroup<RecurrentCategory>> =
+    get()
+        .map { builder: RecurrenceBuilder -> getStep(builder) }
+        .map { step: RecurrenceBuilder.Step -> step.list }
+        .distinctUntilChanged()
+        .map { list: List<RecurrentCategory> -> list.toBudgetItemGroup() }

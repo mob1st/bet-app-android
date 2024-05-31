@@ -21,13 +21,14 @@ internal data class ColorPalette constructor(
          * Factory method for the default [ColorPalette].
          * It uses function instead of instantiation to avoid creating too much instances during app startup.
          */
-        fun Default() = ColorPalette(
-            primary = ColorTonal.TropicalIndigo(),
-            secondary = ColorTonal.Periwinkle(),
-            tertiary = ColorTonal.AntiqueWhite(),
-            neutral = ColorTonal.GhostWhite(),
-            neutralVariant = ColorTonal.Gray(),
-            error = ColorTonal.SalmonPink()
-        )
+        fun Default() =
+            ColorPalette(
+                primary = ColorTonal.TropicalIndigo(),
+                secondary = ColorTonal.Periwinkle(),
+                tertiary = ColorTonal.AntiqueWhite(),
+                neutral = ColorTonal.GhostWhite(),
+                neutralVariant = ColorTonal.Gray(),
+                error = ColorTonal.SalmonPink(),
+            )
     }
 }

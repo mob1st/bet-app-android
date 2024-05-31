@@ -2,9 +2,11 @@ package br.com.mob1st.features.utils.errors
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.Text
+import br.com.mob1st.core.design.molecules.buttons.ButtonBar
 import br.com.mob1st.core.design.molecules.buttons.ButtonState
-import br.com.mob1st.core.design.organisms.helper.HelperState
-import br.com.mob1st.core.design.organisms.snack.SnackState
+import br.com.mob1st.core.design.molecules.texts.Header
+import br.com.mob1st.core.design.organisms.ModalState
+import br.com.mob1st.core.design.organisms.snack.SnackbarState
 import br.com.mob1st.core.kotlinx.errors.NoConnectivityException
 import br.com.mob1st.features.utils.R
 import br.com.mob1st.features.utils.errors.CommonError.NoConnectivity
@@ -22,58 +24,77 @@ import br.com.mob1st.features.utils.errors.CommonError.Unknown
  */
 @Immutable
 sealed interface CommonError {
-
     /**
      * The default snack state for this error
      */
-    val snack: SnackState
+    fun snack(): SnackbarState
 
     /**
      * The default helper state for this error
      */
-    val helper: HelperState
+    fun modal(isDismissible: Boolean): ModalState
 
     /**
      * Represents an unknown error
      */
     data object Unknown : CommonError {
-        override val snack: SnackState = SnackState(
-            supporting = Text(R.string.utils_commonerror_snackbar_unknown_supporting),
-            action = null
-        )
-        override val helper: HelperState = HelperState(
-            title = Text(R.string.utils_commonerror_helper_unknown_title),
-            subtitle = Text(R.string.utils_commonerror_helper_unknown_subtitle),
-            buttonState = ButtonState(
-                text = Text(R.string.utils_commonerror_helper_unknown_button)
+        override fun snack(): SnackbarState =
+            SnackbarState(
+                supporting = Text(R.string.utils_commonerror_snackbar_unknown_supporting),
+                action = null,
             )
-        )
+
+        override fun modal(isDismissible: Boolean): ModalState =
+            ModalState(
+                header =
+                    Header(
+                        text = Text(R.string.utils_commonerror_helper_noconnectivity_title),
+                    ),
+                message = Text(R.string.utils_commonerror_helper_noconnectivity_subtitle),
+                buttonBar =
+                    ButtonBar.SingleButton(
+                        primary =
+                            ButtonState(
+                                text = Text(R.string.utils_commonerror_helper_unknown_button),
+                            ),
+                    ),
+                isDismissible = isDismissible,
+            )
     }
 
     /**
      * Represents a no connectivity error
      */
     data object NoConnectivity : CommonError {
-        override val snack: SnackState = SnackState(
-            supporting = Text(R.string.utils_commonerror_snackbar_noconnectivity_supporting),
-            action = Text(R.string.utils_commonerror_snackbar_noconnectivity_action)
-        )
-
-        override val helper: HelperState = HelperState(
-            title = Text(R.string.utils_commonerror_helper_noconnectivity_title),
-            subtitle = Text(R.string.utils_commonerror_helper_noconnectivity_subtitle),
-            buttonState = ButtonState(
-                text = Text(R.string.utils_commonerror_helper_noconnectivity_button)
+        override fun snack(): SnackbarState =
+            SnackbarState(
+                supporting = Text(R.string.utils_commonerror_snackbar_noconnectivity_supporting),
+                action = Text(R.string.utils_commonerror_snackbar_noconnectivity_action),
             )
-        )
+
+        override fun modal(isDismissible: Boolean): ModalState =
+            ModalState(
+                header =
+                    Header(
+                        text = Text(R.string.utils_commonerror_helper_noconnectivity_title),
+                    ),
+                message = Text(R.string.utils_commonerror_helper_noconnectivity_subtitle),
+                buttonBar =
+                    ButtonBar.SingleButton(
+                        primary =
+                            ButtonState(
+                                text = Text(R.string.utils_commonerror_helper_unknown_button),
+                            ),
+                    ),
+                isDismissible = isDismissible,
+            )
     }
 
     companion object {
-
         /**
          * Converts a [Throwable] into a [CommonError]
          */
-        fun from(throwable: Throwable): CommonError {
+        fun of(throwable: Throwable): CommonError {
             return when (throwable) {
                 is NoConnectivityException -> NoConnectivity
                 else -> Unknown

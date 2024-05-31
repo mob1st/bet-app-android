@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.design.organisms.lists.ListItem
 import br.com.mob1st.core.design.organisms.snack.Snackbar
+import br.com.mob1st.core.design.organisms.snack.SnackbarState
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.utils.navigation.SideEffectNavigation
 import org.koin.androidx.compose.koinViewModel
@@ -24,38 +25,45 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 internal fun DevMenuPage(next: (DevSettingsNavTarget) -> Unit) {
     val vm = koinViewModel<DevMenuViewModel>()
-    val state by vm.output.collectAsStateWithLifecycle()
+    val state by vm.uiOutput.collectAsStateWithLifecycle()
+    val snackState by vm.snackbarOutput.collectAsStateWithLifecycle()
+    val navState by vm.navigationOutput.collectAsStateWithLifecycle()
     DevMenuPageView(
         pageState = state,
+        snackbarState = snackState,
+        navigationState = navState,
         onSelectItem = vm::selectItem,
-        onDismissSnackbar = vm::dismissSnack,
+        onDismissSnackbar = vm::consumeSnackbar,
         onNavigate = next,
-        onConsumeNavigation = vm::consumeNavigation
+        onConsumeNavigation = vm::consumeNavigation,
     )
 }
 
 @Composable
 private fun DevMenuPageView(
-    pageState: DevMenuPageState,
+    pageState: DevMenuUiState,
+    snackbarState: SnackbarState?,
+    navigationState: DevMenuNavigable?,
     onSelectItem: (Int) -> Unit,
     onDismissSnackbar: () -> Unit,
     onNavigate: (DevSettingsNavTarget) -> Unit,
     onConsumeNavigation: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val state = pageState as? DevMenuPageState.Loaded ?: return
+    val state = pageState as? DevMenuUiState.Loaded ?: return
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(it),
         ) {
             itemsIndexed(state.items) { index, item ->
                 ListItem(
                     state = item,
-                    modifier = Modifier.clickable { onSelectItem(index) }
+                    modifier = Modifier.clickable { onSelectItem(index) },
                 )
                 Divider(modifier = Modifier.fillMaxWidth())
             }
@@ -63,13 +71,13 @@ private fun DevMenuPageView(
     }
     Snackbar(
         snackbarHostState = snackbarHostState,
-        snackState = state.snack,
+        snackbarState = snackbarState,
         onDismiss = onDismissSnackbar,
-        onPerformAction = { }
+        onPerformAction = { },
     )
     SideEffectNavigation(
-        target = state.navTarget,
+        target = navigationState?.navTarget,
         onNavigate = onNavigate,
-        onConsumeNavigation = onConsumeNavigation
+        onConsumeNavigation = onConsumeNavigation,
     )
 }

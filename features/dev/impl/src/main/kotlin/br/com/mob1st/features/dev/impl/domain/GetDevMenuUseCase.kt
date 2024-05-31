@@ -10,7 +10,13 @@ import kotlinx.coroutines.flow.map
 internal class GetDevMenuUseCase(
     private val projectSettingsRepository: ProjectSettingsRepository,
 ) {
-    operator fun invoke(): Flow<DevMenu> = projectSettingsRepository
-        .get()
-        .map { DevMenu(it.backendEnvironment) }
+    operator fun invoke(): Flow<DevMenu> =
+        projectSettingsRepository
+            .get()
+            .map {
+                DevMenu(
+                    backendEnvironment = it.backendEnvironment,
+                    entries = DevMenuEntry.entries,
+                )
+            }
 }

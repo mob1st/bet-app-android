@@ -18,7 +18,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class GetBudgetItemGroupTest {
-
     private lateinit var recurrenceBuilderRepository: FakeRecurrenceBuilderRepository
 
     @BeforeEach
@@ -27,78 +26,93 @@ class GetBudgetItemGroupTest {
     }
 
     @Test
-    fun `GIVEN a builder WHEN get THEN return the list of fixed expenses`() = runTest {
-        // GIVEN
-        val fixture = fixture<RecurrentCategory>().copy(
-            amount = Money(100),
-            type = BudgetItem.Type.EXPENSE
-        )
-        val expected = BudgetItemGroup(
-            items = listOf(
-                BudgetItemGroup.ProportionalItem(
-                    item = fixture,
-                    proportion = 100
+    fun `GIVEN a builder WHEN get THEN return the list of fixed expenses`() =
+        runTest {
+            // GIVEN
+            val fixture =
+                fixture<RecurrentCategory>().copy(
+                    amount = Money(100),
+                    type = BudgetItem.Type.EXPENSE,
                 )
-            ),
-            summaries = BudgetItemGroup.Summaries(
-                incomes = Money.Zero,
-                expenses = Money(100),
-                balance = Money(-100)
-            )
-        )
-        recurrenceBuilderRepository.getSetState.value = fixture<RecurrenceBuilder>().copy(
-            variableExpensesStep = RecurrenceBuilder.Step(
-                list = listOf(fixture).toPersistentList(),
-                isCompleted = false
-            )
-        )
+            val expected =
+                BudgetItemGroup(
+                    items =
+                        listOf(
+                            BudgetItemGroup.ProportionalItem(
+                                item = fixture,
+                                proportion = 100,
+                            ),
+                        ),
+                    summaries =
+                        BudgetItemGroup.Summaries(
+                            incomes = Money.Zero,
+                            expenses = Money(100),
+                            balance = Money(-100),
+                        ),
+                )
+            recurrenceBuilderRepository.getSetState.value =
+                fixture<RecurrenceBuilder>().copy(
+                    variableExpensesStep =
+                        RecurrenceBuilder.Step(
+                            list = listOf(fixture).toPersistentList(),
+                            isCompleted = false,
+                        ),
+                )
 
-        // WHEN
-        val actual = recurrenceBuilderRepository.getBudgetItemGroup {
-            it.variableExpensesStep
-        }.first()
+            // WHEN
+            val actual =
+                recurrenceBuilderRepository.getBudgetItemGroup {
+                    it.variableExpensesStep
+                }.first()
 
-        // THEN
-        assertEquals(expected, actual)
-    }
+            // THEN
+            assertEquals(expected, actual)
+        }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `GIVEN two builder emissions with the exact same list for a step WHEN get the budget group by the step THEN should emit only once`() = runTest {
-        // this test ensures that the distinctUntilChanged operator is applied in the flow to avoid unnecessary emissions
+    fun `GIVEN two builder emissions with the exact same list for a step WHEN get the budget group by the step THEN should emit only once`() =
+        runTest {
+            // this test ensures that the distinctUntilChanged operator is applied in the flow to avoid unnecessary emissions
 
-        // GIVEN
-        val item = fixture<RecurrentCategory>().copy(
-            type = BudgetItem.Type.INCOME
-        )
-        val builder = fixture<RecurrenceBuilder>().copy(
-            incomesStep = RecurrenceBuilder.Step(
-                list = listOf(item).toPersistentList(),
-                isCompleted = false
-            )
-        )
+            // GIVEN
+            val item =
+                fixture<RecurrentCategory>().copy(
+                    type = BudgetItem.Type.INCOME,
+                )
+            val builder =
+                fixture<RecurrenceBuilder>().copy(
+                    incomesStep =
+                        RecurrenceBuilder.Step(
+                            list = listOf(item).toPersistentList(),
+                            isCompleted = false,
+                        ),
+                )
 
-        // WHEN
-        val expectedList = mutableListOf<BudgetItemGroup<RecurrentCategory>>()
-        val job = launch {
-            recurrenceBuilderRepository.getBudgetItemGroup {
-                it.incomesStep
-            }.toList(expectedList)
+            // WHEN
+            val expectedList = mutableListOf<BudgetItemGroup<RecurrentCategory>>()
+            val job =
+                launch {
+                    recurrenceBuilderRepository.getBudgetItemGroup {
+                        it.incomesStep
+                    }.toList(expectedList)
+                }
+
+            recurrenceBuilderRepository.getSetState.value = builder
+            advanceUntilIdle()
+
+            recurrenceBuilderRepository.getSetState.value =
+                builder.copy(
+                    incomesStep =
+                        builder.incomesStep.copy(
+                            // change a field that doesn't affect the number of emissions
+                            isCompleted = true,
+                        ),
+                )
+            advanceUntilIdle()
+
+            // THEN
+            assertEquals(1, expectedList.size)
+            job.cancel()
         }
-
-        recurrenceBuilderRepository.getSetState.value = builder
-        advanceUntilIdle()
-
-        recurrenceBuilderRepository.getSetState.value = builder.copy(
-            incomesStep = builder.incomesStep.copy(
-                // change a field that doesn't affect the number of emissions
-                isCompleted = true
-            )
-        )
-        advanceUntilIdle()
-
-        // THEN
-        assertEquals(1, expectedList.size)
-        job.cancel()
-    }
 }

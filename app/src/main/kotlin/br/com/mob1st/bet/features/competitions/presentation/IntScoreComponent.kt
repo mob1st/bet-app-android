@@ -54,22 +54,24 @@ import br.com.mob1st.bet.features.competitions.domain.IntScores
 @Composable
 @Preview
 private fun ScoresChipComponentPreview() {
-    val mock = IntScores(
-        contenders = listOf(
-            Bet(
-                subject = 1 to 0,
-                odds = American(1)
-            ),
-            Bet(
-                subject = 2 to 0,
-                odds = American(1)
-            ),
-            Bet(
-                subject = 2 to 1,
-                odds = American(1)
-            )
+    val mock =
+        IntScores(
+            contenders =
+                listOf(
+                    Bet(
+                        subject = 1 to 0,
+                        odds = American(1),
+                    ),
+                    Bet(
+                        subject = 2 to 0,
+                        odds = American(1),
+                    ),
+                    Bet(
+                        subject = 2 to 1,
+                        odds = American(1),
+                    ),
+                ),
         )
-    )
     BetTheme(systemBars = { /*TODO*/ }) {
         ScoresChipComponent(scores = mock, selected = null, onSelect = {})
     }
@@ -82,7 +84,7 @@ private fun ScoreDialogPreview() {
         ScoreDialog(
             currentScore = 1 to 0,
             onDone = { },
-            onDismiss = {}
+            onDismiss = {},
         )
     }
 }
@@ -111,11 +113,11 @@ fun ScoresChipComponent(
     Column(modifier.fillMaxWidth()) {
         Text(
             text = stringResource(id = R.string.confrontation_detail_score_header),
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
         )
 
         Spacer(
-            modifier = Modifier.height(LocalCompositionGrid.current.line * 2)
+            modifier = Modifier.height(LocalCompositionGrid.current.line * 2),
         )
 
         Row {
@@ -124,7 +126,7 @@ fun ScoresChipComponent(
                     ScoreChip(
                         bet = bet,
                         selected = bet.subject == selected,
-                        onSelect = { selectOrReselect(bet.subject) }
+                        onSelect = { selectOrReselect(bet.subject) },
                     )
                 }
                 Spacer(modifier = Modifier.width(LocalCompositionGrid.current.gutter))
@@ -140,9 +142,9 @@ fun ScoresChipComponent(
                             selected!!.toScoreText()
                         } else {
                             stringResource(id = R.string.confrontation_detail_score_other)
-                        }
+                        },
                     )
-                }
+                },
             )
         }
     }
@@ -154,7 +156,7 @@ fun ScoresChipComponent(
                 isOtherDialogOpened = false
                 onSelect(it)
             },
-            onDismiss = { isOtherDialogOpened = false }
+            onDismiss = { isOtherDialogOpened = false },
         )
     }
 }
@@ -172,7 +174,7 @@ fun ScoreChip(
         onClick = onSelect,
         label = {
             Text(text = subject.toScoreText())
-        }
+        },
     )
 }
 
@@ -182,12 +184,14 @@ fun ScoreDialog(
     onDone: (Duo<Int>) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val firstRequester = remember {
-        FocusRequester()
-    }
-    val secondRequester = remember {
-        FocusRequester()
-    }
+    val firstRequester =
+        remember {
+            FocusRequester()
+        }
+    val secondRequester =
+        remember {
+            FocusRequester()
+        }
     var firstScore by remember(currentScore?.first) {
         mutableStateOf(currentScore?.first?.toString().orEmpty())
     }
@@ -202,7 +206,7 @@ fun ScoreDialog(
                 firstScore = firstScore,
                 secondScore = secondScore,
                 onDone = onDone,
-                onDismiss = onDismiss
+                onDismiss = onDismiss,
             )
         },
         dismissButton = {
@@ -230,9 +234,9 @@ fun ScoreDialog(
                     } else {
                         firstRequester.requestFocus()
                     }
-                }
+                },
             )
-        }
+        },
     )
     if (firstScore.isEmpty()) {
         LaunchedEffect(Unit) {
@@ -255,7 +259,7 @@ private fun DialogConfirmButton(
             } else {
                 onDismiss()
             }
-        }
+        },
     ) {
         Text(text = stringResource(id = R.string.done))
     }
@@ -276,21 +280,22 @@ private fun DialogText(
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         ScoreTextField(
-            modifier = Modifier
-                .focusRequester(firstRequester)
-                .onFocusChanged {
-                    if (it.isFocused) {
-                        keyboardController?.show()
-                    }
-                },
+            modifier =
+                Modifier
+                    .focusRequester(firstRequester)
+                    .onFocusChanged {
+                        if (it.isFocused) {
+                            keyboardController?.show()
+                        }
+                    },
             value = firstScore,
             imeAction = ImeAction.Next,
             onIme = {
                 onFirstIme(it)
-            }
+            },
         )
         Text(text = "X")
         ScoreTextField(
@@ -299,7 +304,7 @@ private fun DialogText(
             imeAction = ImeAction.Done,
             onIme = {
                 onSecondIme(it)
-            }
+            },
         )
     }
 }
@@ -315,12 +320,13 @@ private fun ScoreTextField(
         mutableStateOf(value)
     }
     Box(
-        modifier = modifier
-            .width(LocalCompositionGrid.current.column)
-            .height(LocalCompositionGrid.current.column)
-            .background(MaterialTheme.colorScheme.background)
-            .clip(RoundedCornerShape(2.dp)),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .width(LocalCompositionGrid.current.column)
+                .height(LocalCompositionGrid.current.column)
+                .background(MaterialTheme.colorScheme.background)
+                .clip(RoundedCornerShape(2.dp)),
+        contentAlignment = Alignment.Center,
     ) {
         val currentTextStyle = LocalTextStyle.current
         BasicTextField(
@@ -333,15 +339,17 @@ private fun ScoreTextField(
                 onIme(state)
             },
             singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                imeAction = imeAction,
-                keyboardType = KeyboardType.Number,
-                autoCorrect = false
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = { onIme(state) },
-                onDone = { onIme(state) }
-            )
+            keyboardOptions =
+                KeyboardOptions(
+                    imeAction = imeAction,
+                    keyboardType = KeyboardType.Number,
+                    autoCorrect = false,
+                ),
+            keyboardActions =
+                KeyboardActions(
+                    onNext = { onIme(state) },
+                    onDone = { onIme(state) },
+                ),
         )
     }
 }

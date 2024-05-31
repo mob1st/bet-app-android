@@ -13,7 +13,7 @@ internal fun <T : BudgetItem> List<T>.toBudgetItemGroup(): BudgetItemGroup<T> {
     val summaries = calculateSummaries()
     return BudgetItemGroup(
         items = map { item -> item.proportionOf(summaries) },
-        summaries = summaries
+        summaries = summaries,
     )
 }
 
@@ -30,17 +30,18 @@ private fun List<BudgetItem>.calculateSummaries(): BudgetItemGroup.Summaries {
     return BudgetItemGroup.Summaries(
         incomes = incomesTotal,
         expenses = expensesTotal,
-        balance = incomesTotal - expensesTotal
+        balance = incomesTotal - expensesTotal,
     )
 }
 
 private fun <T : BudgetItem> T.proportionOf(summaries: BudgetItemGroup.Summaries): BudgetItemGroup.ProportionalItem<T> {
-    val total = when (type) {
-        BudgetItem.Type.EXPENSE -> summaries.expenses
-        BudgetItem.Type.INCOME -> summaries.incomes
-    }
+    val total =
+        when (type) {
+            BudgetItem.Type.EXPENSE -> summaries.expenses
+            BudgetItem.Type.INCOME -> summaries.incomes
+        }
     return BudgetItemGroup.ProportionalItem(
         item = this,
-        proportion = ((amount.cents.toDouble() / total.cents.toDouble()) * 100).toInt()
+        proportion = ((amount.cents.toDouble() / total.cents.toDouble()) * 100).toInt(),
     )
 }

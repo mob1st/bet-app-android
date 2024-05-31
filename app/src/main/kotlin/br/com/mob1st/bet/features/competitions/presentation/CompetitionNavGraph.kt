@@ -18,7 +18,7 @@ fun NavGraphBuilder.competitionNavGraph(
         }
     }
     composable(
-        route = "createGuess"
+        route = "createGuess",
     ) {
         ConfrontationDetailScreen(viewModel) {
             homeUiState.navController.popBackStack()

@@ -5,7 +5,6 @@ package br.com.mob1st.bet.features.competitions.domain
  * it to exists
  */
 interface CompetitionRepository {
-
     /**
      * Get the default [Competition] for new users
      */

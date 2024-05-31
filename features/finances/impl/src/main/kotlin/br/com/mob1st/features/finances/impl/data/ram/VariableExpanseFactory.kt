@@ -11,14 +11,15 @@ import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCatego
  * Factory for [RecurrentCategory] from hardcoded [suggestions].
  */
 internal object VariableExpanseFactory : RecurrenceSuggestionFactory() {
-    override val suggestions: List<RecurrentCategorySuggestion> = listOf(
-        RecurrentCategorySuggestion.LUNCH,
-        RecurrentCategorySuggestion.WEEKEND_RESTAURANT,
-        RecurrentCategorySuggestion.FOOD_DELIVERY,
-        RecurrentCategorySuggestion.BARS,
-        RecurrentCategorySuggestion.ENTERTAINMENT,
-        RecurrentCategorySuggestion.BEAUTY
-    )
+    override val suggestions: List<RecurrentCategorySuggestion> =
+        listOf(
+            RecurrentCategorySuggestion.LUNCH,
+            RecurrentCategorySuggestion.WEEKEND_RESTAURANT,
+            RecurrentCategorySuggestion.FOOD_DELIVERY,
+            RecurrentCategorySuggestion.BARS,
+            RecurrentCategorySuggestion.ENTERTAINMENT,
+            RecurrentCategorySuggestion.BEAUTY,
+        )
 
     override fun invoke(localizationProvider: RecurrenceLocalizationProvider): List<RecurrentCategory> {
         return suggestions
@@ -27,7 +28,7 @@ internal object VariableExpanseFactory : RecurrenceSuggestionFactory() {
                     description = localizationProvider[suggestion],
                     amount = Money.Zero,
                     type = BudgetItem.Type.EXPENSE,
-                    recurrence = Recurrence.Variable
+                    recurrence = Recurrence.Variable,
                 )
             }
     }

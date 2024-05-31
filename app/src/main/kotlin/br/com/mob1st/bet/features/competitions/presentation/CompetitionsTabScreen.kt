@@ -55,7 +55,7 @@ fun CompetitionsTabScreen(
         state = state,
         onTryAgain = { viewModel.fromUi(ConfrontationUiEvent.TryAgain(it)) },
         onSelect = { viewModel.fromUi(ConfrontationUiEvent.SetSelection(it)) },
-        onDismiss = { viewModel.messageShown(it) }
+        onDismiss = { viewModel.messageShown(it) },
     )
     state.data.selected?.let { index ->
         LaunchedEffect(index) {
@@ -72,7 +72,7 @@ fun ConfrontationsPage(
     onDismiss: (SimpleMessage) -> Unit,
 ) {
     Box(
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         FetchedCrossfade(
             state = state,
@@ -84,9 +84,9 @@ fun ConfrontationsPage(
                     state = it,
                     onSelect = onSelect,
                     onTryAgain = onTryAgain,
-                    onDismiss = onDismiss
+                    onDismiss = onDismiss,
                 )
-            }
+            },
         )
     }
 }
@@ -103,7 +103,7 @@ fun ConfrontationsEmptyData() {
     InfoTemplate(
         icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "competition") },
         title = { Text("Sem competições") },
-        description = { Text("Atualize o app meu mano pra ve se tem outros campeonato") }
+        description = { Text("Atualize o app meu mano pra ve se tem outros campeonato") },
     )
 }
 
@@ -120,33 +120,35 @@ fun ConfrontationsData(
             snackbarHostState = LocalSnackbarState.current,
             message = stringResource(id = it.descriptionResId),
             onDismiss = { onDismiss(it) },
-            onRetry = { onTryAgain(it) }
+            onRetry = { onTryAgain(it) },
         )
     }
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        state = LocalLazyListState.current
+        state = LocalLazyListState.current,
     ) {
         stickyHeader {
             Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
             ) {
                 val context = LocalContext.current
                 Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = LocalCompositionGrid.current.line * 4)
-                        .padding(horizontal = LocalCompositionGrid.current.margin),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = LocalCompositionGrid.current.line * 4)
+                            .padding(horizontal = LocalCompositionGrid.current.margin),
                     text = context.getText(state.data.subscription.competition.name),
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.displaySmall,
                 )
             }
         }
         itemsIndexed(
             state.data.confrontations,
-            key = { _, item -> item.id }
+            key = { _, item -> item.id },
         ) { index, item ->
             when (val contest = item.contest.current) {
                 is IntScores -> IntScoresItem(contest)
@@ -170,23 +172,21 @@ private fun MatchWinnerItem(
             val team1 = context.getText(matchWinner.contender1.subject.name)
             val team2 = context.getText(matchWinner.contender2.subject.name)
             Text(text = "${index + 1}° $team1 X $team2")
-        }
+        },
     )
     Divider()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun IntScoresItem(
-    intScores: IntScores,
-) {
+private fun IntScoresItem(intScores: IntScores) {
     Row {
         intScores.contenders.forEachIndexed { _, bet ->
             SuggestionChip(
                 onClick = { /*TODO*/ },
                 label = {
                     Text(text = "${bet.subject.first} X ${bet.subject.second}")
-                }
+                },
             )
         }
     }

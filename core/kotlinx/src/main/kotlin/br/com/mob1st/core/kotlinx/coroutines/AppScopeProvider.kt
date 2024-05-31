@@ -9,7 +9,6 @@ import kotlinx.coroutines.plus
  * Provides the [CoroutineScope] attached into the App lifecycle
  */
 interface AppScopeProvider {
-
     /**
      * The [CoroutineScope] attached into the App lifecycle
      */

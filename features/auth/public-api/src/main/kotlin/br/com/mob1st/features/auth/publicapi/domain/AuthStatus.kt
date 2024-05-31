@@ -5,7 +5,6 @@ package br.com.mob1st.features.auth.publicapi.domain
  * @param hasAccess indicates whether the user has access to the main features.
  */
 enum class AuthStatus(val hasAccess: Boolean) {
-
     /**
      * The user is logged in and has access to the main features.
      */

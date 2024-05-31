@@ -25,7 +25,6 @@ import timber.log.Timber
  * @param <O> the expected output for this action when it succeeds
  */
 interface Async<I, O> {
-
     /**
      * Emits a boolean when the action starts or finishes (including when it fails).
      * true indicates the loading starts, false indicates it finishes.
@@ -53,27 +52,27 @@ internal open class AsyncImpl<I, O>(
     private val scope: CoroutineScope,
     private val source: (I) -> Flow<O>,
 ) : Async<I, O> {
-
     private val asyncFlow = MutableStateFlow<AsyncState>(AsyncState.NotLaunchedYet)
 
     override val loading: Flow<Boolean> = asyncFlow.map { it.isLoading() }
     override val failure: Flow<Throwable> = asyncFlow.mapNotNull { it.failure() }
     override val success: Flow<O> = asyncFlow.mapNotNull { it.data<O>() }
 
-    private fun sourceFlow(input: I): Flow<AsyncState> = source(input)
-        .map<O, AsyncState> {
-            AsyncState.Success(it)
-        }
-        .catch {
-            Timber.e(it)
-            emit(AsyncState.Failure(it))
-        }
-        .onStart {
-            emit(AsyncState.Loading)
-        }
-        .onEach { async ->
-            asyncFlow.update { async }
-        }
+    private fun sourceFlow(input: I): Flow<AsyncState> =
+        source(input)
+            .map<O, AsyncState> {
+                AsyncState.Success(it)
+            }
+            .catch {
+                Timber.e(it)
+                emit(AsyncState.Failure(it))
+            }
+            .onStart {
+                emit(AsyncState.Loading)
+            }
+            .onEach { async ->
+                asyncFlow.update { async }
+            }
 
     override fun launch(input: I): Job = sourceFlow(input).launchIn(scope)
 }

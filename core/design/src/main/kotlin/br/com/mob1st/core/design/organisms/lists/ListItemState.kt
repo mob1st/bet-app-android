@@ -11,7 +11,6 @@ data class ListItemState(
     val leading: AvatarState? = null,
     val trailing: Trailing? = null,
 ) {
-
     @Immutable
     sealed interface Trailing
 

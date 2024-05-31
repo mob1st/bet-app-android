@@ -24,8 +24,9 @@ dependencies {
     implementation(libs.android.window)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.accompanist)
-    implementation(libs.timber)
     implementation(libs.coil)
+    implementation(libs.kotlin.collections)
+    implementation(libs.timber)
 
     // debug only
     debugImplementation(libs.compose.tooling)

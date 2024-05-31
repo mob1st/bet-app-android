@@ -38,32 +38,38 @@ import coil.request.ImageRequest
 @Composable
 @Preview(showBackground = true)
 fun MatchWinnerComponentPreview() {
-    val mock = MatchWinner(
-        contender1 = Bet(
-            odds = American(1),
-            subject = Team(
-                id = "1",
-                name = mapOf("en-us" to "Brazil"),
-                url = "https://countryflagsapi.com/png/br"
-            )
-        ),
-        contender2 = Bet(
-            odds = American(1),
-            subject = Team(
-                id = "2",
-                name = mapOf("en-us" to "Argentina"),
-                url = "https://countryflagsapi.com/png/ar"
-            )
-        ),
-        draw = Bet(
-            odds = American(1),
-            subject = "DRAW"
+    val mock =
+        MatchWinner(
+            contender1 =
+                Bet(
+                    odds = American(1),
+                    subject =
+                        Team(
+                            id = "1",
+                            name = mapOf("en-us" to "Brazil"),
+                            url = "https://countryflagsapi.com/png/br",
+                        ),
+                ),
+            contender2 =
+                Bet(
+                    odds = American(1),
+                    subject =
+                        Team(
+                            id = "2",
+                            name = mapOf("en-us" to "Argentina"),
+                            url = "https://countryflagsapi.com/png/ar",
+                        ),
+                ),
+            draw =
+                Bet(
+                    odds = American(1),
+                    subject = "DRAW",
+                ),
         )
-    )
     BetTheme(systemBars = { /*TODO*/ }) {
         MatchWinnerComponent(
             matchWinner = mock,
-            onSelectScore = { }
+            onSelectScore = { },
         )
     }
 }
@@ -76,28 +82,30 @@ fun MatchWinnerComponent(
     onSelectScore: (Duel.Selection?) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.confrontation_detail_header),
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
         )
 
         Spacer(modifier = Modifier.height(LocalCompositionGrid.current.line * 2))
 
         InputChip(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
             selected = selected == Duel.Selection.CONTENDER_1,
             onClick = { onSelectScore(Duel.Selection.CONTENDER_1) },
             trailingIcon = { OddsText(odds = matchWinner.contender1.odds) },
             leadingIcon = { ContenderImage(team = matchWinner.contender1.subject) },
-            label = { ContenderText(team = matchWinner.contender1.subject) }
+            label = { ContenderText(team = matchWinner.contender1.subject) },
         )
 
         InputChip(
@@ -106,7 +114,7 @@ fun MatchWinnerComponent(
             onClick = { onSelectScore(Duel.Selection.CONTENDER_2) },
             trailingIcon = { OddsText(odds = matchWinner.contender2.odds) },
             leadingIcon = { ContenderImage(team = matchWinner.contender2.subject) },
-            label = { ContenderText(team = matchWinner.contender2.subject) }
+            label = { ContenderText(team = matchWinner.contender2.subject) },
         )
 
         InputChip(
@@ -115,7 +123,7 @@ fun MatchWinnerComponent(
             onClick = { onSelectScore(Duel.Selection.DRAW) },
             trailingIcon = { OddsText(odds = matchWinner.draw.odds) },
             leadingIcon = { Icon(imageVector = Icons.Filled.Warning, contentDescription = null) },
-            label = { Text(text = stringResource(id = R.string.draw)) }
+            label = { Text(text = stringResource(id = R.string.draw)) },
         )
     }
 }
@@ -125,11 +133,12 @@ fun MatchWinnerComponent(
 private fun ContenderImage(team: Team) {
     AsyncImage(
         modifier = Modifier.size(InputChipDefaults.AvatarSize),
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(team.url)
-            .build(),
+        model =
+            ImageRequest.Builder(LocalContext.current)
+                .data(team.url)
+                .build(),
         contentDescription = null,
-        contentScale = ContentScale.Crop
+        contentScale = ContentScale.Crop,
     )
 }
 
@@ -139,12 +148,10 @@ private fun ContenderText(team: Team) {
 }
 
 @Composable
-private fun OddsText(
-    odds: Odds,
-) {
+private fun OddsText(odds: Odds) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "${odds.value}x",
-        textAlign = TextAlign.End
+        textAlign = TextAlign.End,
     )
 }

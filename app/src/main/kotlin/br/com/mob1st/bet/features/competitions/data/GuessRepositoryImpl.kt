@@ -14,20 +14,22 @@ class GuessRepositoryImpl(
     private val guessCollection: GuessCollection,
     private val dispatcherProvider: DispatcherProvider,
 ) : GuessRepository {
-
     private val io get() = dispatcherProvider.io
 
-    override suspend fun placeGuess(user: User, guess: Guess) = withContext(io) {
+    override suspend fun placeGuess(
+        user: User,
+        guess: Guess,
+    ) = withContext(io) {
         // uses the app scope to avoid block the user until the guess is placed
         suspendRunCatching {
             if (guess.id.isEmpty()) {
                 guessCollection.createGuess(
                     userId = user.id,
-                    guess = guess
+                    guess = guess,
                 )
             } else {
                 guessCollection.updateGuess(
-                    guess = guess
+                    guess = guess,
                 )
             }
         }.getOrElse {

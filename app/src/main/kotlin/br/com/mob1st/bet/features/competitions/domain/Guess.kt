@@ -3,7 +3,7 @@ package br.com.mob1st.bet.features.competitions.domain
 import br.com.mob1st.bet.core.serialization.DateSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.util.*
+import java.util.Date
 
 /**
  * The users will guess the results of confrontations to figure out who is the master of guessing.
@@ -31,11 +31,12 @@ data class Guess(
     /**
      * Update the field [updatedAt] in the case this guess is not new (has id)
      */
-    fun update() = if (id.isEmpty()) {
-        this
-    } else {
-        copy(updatedAt = Date())
-    }
+    fun update() =
+        if (id.isEmpty()) {
+            this
+        } else {
+            copy(updatedAt = Date())
+        }
 }
 
 /**
@@ -53,6 +54,6 @@ data class ConfrontationForGuess(
     constructor(competitionId: String, confrontation: Confrontation) : this(
         id = confrontation.id,
         allowBetsUntil = confrontation.allowBetsUntil,
-        competitionId = competitionId
+        competitionId = competitionId,
     )
 }

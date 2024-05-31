@@ -39,16 +39,17 @@ fun HomeScreen(
                     HomeBottomBar(homeUiState)
                 }
             },
-            snackbarHost = { SnackbarHost(hostState = LocalSnackbarState.current) }
+            snackbarHost = { SnackbarHost(hostState = LocalSnackbarState.current) },
         ) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(it),
             ) {
                 CompositionLocalProvider(
                     // TODO add conditional to select the scroll state based on the current tab
-                    LocalLazyListState provides homeUiState.competitionsListLazyListState
+                    LocalLazyListState provides homeUiState.competitionsListLazyListState,
                 ) {
                     HomeNavGraph(homeUiState, entry)
                 }
@@ -66,7 +67,7 @@ private fun HomeBottomBar(homeUiState: HomeUiState) {
             BottomTabItem(
                 tab = tab,
                 currentDestination = currentDestination,
-                homeUiState = homeUiState
+                homeUiState = homeUiState,
             )
         }
     }
@@ -86,14 +87,15 @@ private fun RowScope.BottomTabItem(
         icon = {
             Icon(
                 imageVector = tab.icon,
-                contentDescription = null
+                contentDescription = null,
             )
         },
-        selected = currentDestination?.hierarchy?.any {
-            it.route == tab.route
-        } == true,
+        selected =
+            currentDestination?.hierarchy?.any {
+                it.route == tab.route
+            } == true,
         onClick = {
             homeUiState.navigateTo(tab)
-        }
+        },
     )
 }

@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
  * Manage data of inputs for recurrences
  */
 internal interface RecurrenceBuilderRepository {
-
     /**
      * Get the current state of the builder
      */

@@ -24,7 +24,6 @@ class PlaceGuessUseCase(
     private val logger: Logger,
     private val appScopeProvider: AppScopeProvider,
 ) {
-
     suspend operator fun invoke(guess: Guess) {
         // to don't suspend the UI and allow the user to bet fast, this use case uses the app scope
         appScopeProvider.appScope.launch {
@@ -34,7 +33,9 @@ class PlaceGuessUseCase(
                 requireAllowedGuess(updatedGuess)
                 requireValidAnswers(updatedGuess)
                 placeGuess(user, updatedGuess)
-            } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            } catch (
+                @Suppress("TooGenericExceptionCaught") e: Exception,
+            ) {
                 // once we don't make the user wait the response of this use case, we should catch
                 // the error and log it her
                 logger.e("error for placing guess", e)
@@ -63,11 +64,14 @@ class PlaceGuessUseCase(
         }
     }
 
-    private suspend fun placeGuess(user: User, guess: Guess) {
+    private suspend fun placeGuess(
+        user: User,
+        guess: Guess,
+    ) {
         logger.i("creating guess")
         guessRepository.placeGuess(
             user = user,
-            guess = guess
+            guess = guess,
         )
         analyticsTool.log(PlaceGuessEvent(guess))
     }
@@ -80,14 +84,14 @@ class PlaceGuessUseCase(
 class ExpiredBetException(
     private val guess: Guess,
 ) : IllegalArgumentException(
-    "the confrontation ${guess.confrontation.id} does not allows bets anymore"
-),
+        "the confrontation ${guess.confrontation.id} does not allows bets anymore",
+    ),
     Debuggable {
     override fun logProperties(): Map<String, Any> {
         return mapOf(
             "confrontationId" to guess.confrontation.id,
             "betsAllowedUntil" to guess.confrontation.allowBetsUntil,
-            "updatedAt" to guess.updatedAt
+            "updatedAt" to guess.updatedAt,
         )
     }
 }

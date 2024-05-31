@@ -19,7 +19,6 @@ import kotlin.test.assertEquals
 
 @ExtendWith(RandomIdGenerator::class)
 class RecurrenceBuilderListsDataSourceTest {
-
     private lateinit var subject: RecurrenceBuilderListsDataSource
 
     private lateinit var localizationProvider: RecurrenceLocalizationProvider
@@ -30,22 +29,25 @@ class RecurrenceBuilderListsDataSourceTest {
     fun setUp() {
         localizationProvider = FakeRecurrenceLocalizationProvider()
         dispatcher = UnconfinedTestDispatcher()
-        subject = RecurrenceBuilderListsDataSource(
-            localizationProvider = localizationProvider,
-            default = DefaultCoroutineDispatcher(dispatcher)
-        )
+        subject =
+            RecurrenceBuilderListsDataSource(
+                localizationProvider = localizationProvider,
+                default = DefaultCoroutineDispatcher(dispatcher),
+            )
     }
 
     @Test
-    fun `GIVEN a localization provider WHEN get THEN return the list of suggestions as default`() = runTest {
-        every { generateId() } returns "a"
-        val expected = RecurrenceBuilderLists(
-            fixedExpensesList = FixedExpanseFactory(localizationProvider).toPersistentList(),
-            variableExpensesList = VariableExpanseFactory(localizationProvider).toPersistentList(),
-            seasonalExpensesList = SeasonalExpanseFactory(localizationProvider).toPersistentList(),
-            incomesList = IncomeFactory(localizationProvider).toPersistentList()
-        )
-        val actual = subject.data.first()
-        assertEquals(expected, actual)
-    }
+    fun `GIVEN a localization provider WHEN get THEN return the list of suggestions as default`() =
+        runTest {
+            every { generateId() } returns "a"
+            val expected =
+                RecurrenceBuilderLists(
+                    fixedExpensesList = FixedExpanseFactory(localizationProvider).toPersistentList(),
+                    variableExpensesList = VariableExpanseFactory(localizationProvider).toPersistentList(),
+                    seasonalExpensesList = SeasonalExpanseFactory(localizationProvider).toPersistentList(),
+                    incomesList = IncomeFactory(localizationProvider).toPersistentList(),
+                )
+            val actual = subject.data.first()
+            assertEquals(expected, actual)
+        }
 }

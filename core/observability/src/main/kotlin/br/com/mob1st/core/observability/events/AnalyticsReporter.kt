@@ -6,7 +6,6 @@ package br.com.mob1st.core.observability.events
  * It can be user as a wrapper for third party analytics tools
  */
 interface AnalyticsReporter {
-
     /**
      * Log an event.
      *

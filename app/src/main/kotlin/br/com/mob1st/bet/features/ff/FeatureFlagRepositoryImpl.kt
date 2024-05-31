@@ -16,20 +16,20 @@ internal class FeatureFlagRepositoryImpl(
     private val provider: DispatcherProvider,
     private val logger: Logger,
 ) : FeatureFlagRepository {
-
     private val io get() = provider.io
 
-    override suspend fun sync(): Unit = withContext(io) {
-        suspendRunCatching {
-            try {
-                remoteConfig.fetchAndActivate().awaitWithTimeout()
-            } catch (e: TimeoutCancellationException) {
-                logger.w("remote config sync failed with timeout", e)
+    override suspend fun sync(): Unit =
+        withContext(io) {
+            suspendRunCatching {
+                try {
+                    remoteConfig.fetchAndActivate().awaitWithTimeout()
+                } catch (e: TimeoutCancellationException) {
+                    logger.w("remote config sync failed with timeout", e)
+                }
+            }.getOrElse {
+                throw InitRemoteConfigException(it)
             }
-        }.getOrElse {
-            throw InitRemoteConfigException(it)
         }
-    }
 
     override fun getBoolean(featureFlag: String): Boolean {
         return remoteConfig[featureFlag].asBoolean()
@@ -38,5 +38,5 @@ internal class FeatureFlagRepositoryImpl(
 
 class InitRemoteConfigException(cause: Throwable) : Exception(
     "unable to init the remote config",
-    cause
+    cause,
 )

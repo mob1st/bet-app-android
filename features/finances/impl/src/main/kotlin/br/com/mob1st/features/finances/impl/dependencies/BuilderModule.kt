@@ -18,28 +18,31 @@ enum class Scope {
     BUILDER,
 }
 
-val builderModule = module {
-    includes(
-        domainModule,
-        dataModule
-    )
-}
-
-private val domainModule = module {
-    factoryOf(::GetFixedExpensesUseCaseImpl) bind GetFixedExpensesUseCase::class
-}
-
-private val dataModule get() = module {
-    factory<RecurrenceBuilderRepository> {
-        RecurrenceBuilderRepositoryImpl(
-            listsDataSource = get<RecurrenceBuilderListsDataSource>(),
-            completionsDataSource = get<RecurrenceBuilderCompletionsDataSource>(),
-            io = get()
+val builderModule =
+    module {
+        includes(
+            domainModule,
+            dataModule,
         )
     }
-    factoryOf(::AndroidRecurrenceLocalizationProvider) bind RecurrenceLocalizationProvider::class
-    factoryOf(::RecurrenceBuilderCompletionsDataSource)
-    scope(named(Scope.BUILDER)) {
-        scopedOf(::RecurrenceBuilderListsDataSource)
+
+private val domainModule =
+    module {
+        factoryOf(::GetFixedExpensesUseCaseImpl) bind GetFixedExpensesUseCase::class
     }
-}
+
+private val dataModule get() =
+    module {
+        factory<RecurrenceBuilderRepository> {
+            RecurrenceBuilderRepositoryImpl(
+                listsDataSource = get<RecurrenceBuilderListsDataSource>(),
+                completionsDataSource = get<RecurrenceBuilderCompletionsDataSource>(),
+                io = get(),
+            )
+        }
+        factoryOf(::AndroidRecurrenceLocalizationProvider) bind RecurrenceLocalizationProvider::class
+        factoryOf(::RecurrenceBuilderCompletionsDataSource)
+        scope(named(Scope.BUILDER)) {
+            scopedOf(::RecurrenceBuilderListsDataSource)
+        }
+    }

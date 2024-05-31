@@ -4,7 +4,6 @@ package br.com.mob1st.bet.core.analytics
  * An event to be sent to the [AnalyticsTool]
  */
 interface AnalyticsEvent {
-
     /**
      * Name of the event. Should be a unique identifier
      */

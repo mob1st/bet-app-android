@@ -58,7 +58,6 @@ data class LoggedIn(
  * Represents all methods allowed for authentication
  */
 enum class AuthMethod {
-
     ANONYMOUS,
     FACEBOOK,
     PHONE_NUMBER,

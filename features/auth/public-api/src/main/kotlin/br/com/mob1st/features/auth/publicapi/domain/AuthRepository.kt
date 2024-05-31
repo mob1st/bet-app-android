@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
  * Abstract the access to the data sources related to the user's authentication.
  */
 interface AuthRepository {
-
     /**
      * Returns the current status of the user's authentication.
      */

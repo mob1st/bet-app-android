@@ -19,7 +19,6 @@ data class ForwardAndBackward(
     val second: NavTarget,
     val slideOrientation: SlideOrientation = SlideOrientation.Horizontal,
 ) : TransitionPattern {
-
     private val forwardNavigationMatches = NavigationMatches(first, second)
     private val backwardNavigationMatches = NavigationMatches(second, first)
 
@@ -61,17 +60,20 @@ data class ForwardAndBackward(
         ): EnterTransition {
             return slideIntoContainer(
                 towards = towards,
-                animationSpec = tween(
-                    durationMillis = Duration.long2,
-                    easing = EmphasizedEasingSet.default
+                animationSpec =
+                    tween(
+                        durationMillis = Duration.LONG_2,
+                        easing = EmphasizedEasingSet.default,
+                    ),
+            ) +
+                fadeIn(
+                    animationSpec =
+                        tween(
+                            durationMillis = Duration.MEDIUM_3,
+                            delayMillis = Duration.SHORT_4,
+                            easing = StandardEasingSet.decelerate,
+                        ),
                 )
-            ) + fadeIn(
-                animationSpec = tween(
-                    durationMillis = Duration.medium2,
-                    delayMillis = Duration.short4,
-                    easing = StandardEasingSet.decelerate
-                )
-            )
         }
 
         private fun AnimatedContentTransitionScope<NavBackStackEntry>.exit(
@@ -79,13 +81,15 @@ data class ForwardAndBackward(
         ): ExitTransition {
             return slideOutOfContainer(
                 towards = towards,
-                animationSpec = tween(Duration.long2, easing = EmphasizedEasingSet.default)
-            ) + fadeOut(
-                animationSpec = tween(
-                    durationMillis = Duration.short4,
-                    easing = StandardEasingSet.accelerate
+                animationSpec = tween(Duration.LONG_2, easing = EmphasizedEasingSet.default),
+            ) +
+                fadeOut(
+                    animationSpec =
+                        tween(
+                            durationMillis = Duration.SHORT_4,
+                            easing = StandardEasingSet.accelerate,
+                        ),
                 )
-            )
         }
     }
 
@@ -93,7 +97,6 @@ data class ForwardAndBackward(
      * The direction of the transition.
      */
     sealed interface SlideOrientation {
-
         /**
          * The direction of the transition when navigating forward.
          */

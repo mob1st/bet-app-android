@@ -8,7 +8,6 @@ import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCatego
  * Ideally use objects to implement this it.
  */
 internal abstract class RecurrenceSuggestionFactory {
-
     /**
      * The hardcoded list of suggestions
      */

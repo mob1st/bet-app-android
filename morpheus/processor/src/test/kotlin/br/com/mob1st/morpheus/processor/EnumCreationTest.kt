@@ -16,11 +16,12 @@ class EnumCreationTest : BehaviorSpec({
     val subject = givenMorpheusClass("Sample")
 
     Given("a annotated property") {
-        val prop = property(
-            """
-            @ConsumableEffect val prop: String?
-            """.trimIndent()
-        )
+        val prop =
+            property(
+                """
+                @ConsumableEffect val prop: String?
+                """.trimIndent(),
+            )
         When("compile") {
             val result = subject.constructor(prop).compile(FILE_NAME)
 

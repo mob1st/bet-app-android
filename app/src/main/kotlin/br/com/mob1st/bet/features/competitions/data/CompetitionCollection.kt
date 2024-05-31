@@ -20,14 +20,14 @@ class CompetitionCollection(
     private val firestore: FirebaseFirestore,
     private val json: Json,
 ) {
-
     suspend fun getDefault(): Competition {
-        val documents = firestore.competitions
-            .whereEqualTo("default", true)
-            .whereEqualTo(Competition::type.name, CompetitionType.FOOTBALL.name)
-            .limit(1)
-            .get()
-            .awaitWithTimeout()
+        val documents =
+            firestore.competitions
+                .whereEqualTo("default", true)
+                .whereEqualTo(Competition::type.name, CompetitionType.FOOTBALL.name)
+                .limit(1)
+                .get()
+                .awaitWithTimeout()
         return documents.first().let { doc ->
             val obj = doc.asJson()
             json.decodeFromJsonElement(obj)
@@ -35,9 +35,10 @@ class CompetitionCollection(
     }
 
     suspend fun getConfrontationsById(competitionId: String): List<Confrontation> {
-        val confrontations = firestore.confrontations(competitionId)
-            .get()
-            .awaitWithTimeout()
+        val confrontations =
+            firestore.confrontations(competitionId)
+                .get()
+                .awaitWithTimeout()
         return confrontations.map { doc ->
             // TODO: Fix the database to allow sealed class mapping of Confrontation
             val contest = doc.getNestedObject<Any>(Confrontation::contest.name)
@@ -46,15 +47,16 @@ class CompetitionCollection(
                 expectedDuration = doc.getLongNotNull(Confrontation::expectedDuration.name),
                 allowBetsUntil = doc.getDateNotNull(Confrontation::allowBetsUntil.name),
                 startAt = doc.getDateNotNull(Confrontation::startAt.name),
-                status = ConfrontationStatus.valueOf(
-                    doc.getStringNotNull(Confrontation::status.name)
-                ),
-                contest = ContestMapFactory[CompetitionType.FOOTBALL](contest)
+                status =
+                    ConfrontationStatus.valueOf(
+                        doc.getStringNotNull(Confrontation::status.name),
+                    ),
+                contest = ContestMapFactory[CompetitionType.FOOTBALL](contest),
             )
         }
     }
 }
 
 val FirebaseFirestore.competitions get() = collection("competitions")
-fun FirebaseFirestore.confrontations(competitionId: String) =
-    collection("competitions/$competitionId/confrontations")
+
+fun FirebaseFirestore.confrontations(competitionId: String) = collection("competitions/$competitionId/confrontations")

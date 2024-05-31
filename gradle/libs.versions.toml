@@ -1,38 +1,37 @@
 [versions]
-compose-compiler = '1.5.1'
-compose = '1.5.4'
-kotlin = "1.9.0"
+compose-compiler = '1.5.13'
+compose = '1.6.7'
+kotlin = "1.9.23"
 koin = "3.5.0"
 koin-ksp = "1.1.1"
 kotest = "5.6.2"
-lifecycle = "2.7.0"
+lifecycle = "2.8.1"
 arrow = "1.2.0"
-ksp = "1.8.10-1.0.9"
-accompaninst = "0.32.0"
-gradle-plugin = "8.2.1"
+accompaninst = "0.34.0"
+gradle-plugin = "8.2.2"
 sqldelight = "2.0.1"
-google-services = "4.3.15"
-detekt = "1.23.1"
-kotlin-poet = "1.15.2"
+detekt = "1.23.6"
+kotlin-poet = "1.16.0"
 work-manager = "2.9.0"
-leakcanary = "2.10"
+leakcanary = "2.14"
 mockk = "1.13.7"
 dokka = "1.8.20"
-datastore = "1.0.0"
+datastore = "1.1.1"
 junit5-plugin = "1.10.0.0"
-junit5 = "5.10.1"
-coroutines = "1.7.3"
+junit5 = "5.10.2"
+coroutines = "1.8.1"
+turbine = "1.1.0"
 
 [libraries]
 # androidx
-android-core = "androidx.core:core-ktx:1.12.0"
-android-window = "androidx.window:window:1.2.0"
+android-core = "androidx.core:core-ktx:1.13.1"
+android-window = "androidx.window:window:1.3.0"
 android-startup = "androidx.startup:startup-runtime:1.1.1"
 android-profileinstaller = "androidx.profileinstaller:profileinstaller:1.3.1"
 android-test-junit = "androidx.test.ext:junit:1.1.5"
 android-test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
-android-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.2.0"
-android-test-macrobenchmark = "androidx.benchmark:benchmark-macro-junit4:1.2.2"
+android-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0"
+android-test-macrobenchmark = "androidx.benchmark:benchmark-macro-junit4:1.2.4"
 android-test-arch = "androidx.arch.core:core-testing:2.2.0"
 
 # lifecycle
@@ -49,12 +48,11 @@ compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.r
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 compose-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
-compose-material3 = "androidx.compose.material3:material3:1.1.2"
-compose-windowclass = "androidx.compose.material3:material3-window-size-class:1.1.2"
-compose-activity = "androidx.activity:activity-compose:1.8.2"
-compose-navigation = "androidx.navigation:navigation-compose:2.7.6"
+compose-material3 = "androidx.compose.material3:material3:1.2.1"
+compose-windowclass = "androidx.compose.material3:material3-window-size-class:1.2.1"
+compose-activity = "androidx.activity:activity-compose:1.9.0"
+compose-navigation = "androidx.navigation:navigation-compose:2.7.7"
 compose-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 
 # accompanist
 accompanist-systemcontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompaninst" }
@@ -63,7 +61,7 @@ leakcanary-debug = { module = "com.squareup.leakcanary:leakcanary-android", vers
 leakcanary-test = { module = "com.squareup.leakcanary:leakcanary-android-instrumentation", version.ref = "leakcanary" }
 
 # coil
-coil = "io.coil-kt:coil-compose:2.4.0"
+coil = "io.coil-kt:coil-compose:2.6.0"
 
 # sqldelight
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
@@ -73,24 +71,23 @@ sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions-jv
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-koin-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation", version.ref = "koin" }
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-ksp"}
 koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-ksp"}
 
 # code generation tools
-ksp-symbol-processing = "com.google.devtools.ksp:symbol-processing-api:1.9.0-1.0.13"
+ksp-symbol-processing = "com.google.devtools.ksp:symbol-processing-api:1.9.23-1.0.20"
 kotlin-reflection = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" }
 kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }
 
 # firebase & play services
-firebase-bom = "com.google.firebase:firebase-bom:32.7.0"
+firebase-bom = "com.google.firebase:firebase-bom:33.1.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
-kotlin-playservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3"
+kotlin-playservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1"
 
 #work manager
 workmanager-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-manager" }
@@ -125,6 +122,7 @@ junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "ju
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
 kotlinfixture = "com.appmattus.fixture:fixture:1.2.0"
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # classpath plugins
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
@@ -141,7 +139,16 @@ android = ["android-core"]
 android-test = ["android-test-junit", "android-test-espresso"]
 sqldelight = ["sqldelight-android", "sqldelight-coroutines"]
 junit5 = ["junit5-api", "junit5-engine", "junit5-params"]
-unittest-kotlin = ["kotest-runner", "kotest-property", "kotest-assertions", "mockk-kotlin", "kotlin-reflection", "kotlin-test", "kotlinfixture"]
+unittest-kotlin = [
+    "kotest-runner",
+    "kotest-property",
+    "kotest-assertions",
+    "mockk-kotlin",
+    "kotlin-reflection",
+    "kotlin-test",
+    "kotlinfixture",
+    "turbine"
+]
 unittest-android = [
     "kotest-runner",
     "kotest-property",
@@ -153,7 +160,8 @@ unittest-android = [
     "kotlinfixture",
     "junit5-api",
     "junit5-engine",
-    "junit5-params"
+    "junit5-params",
+    "turbine"
 ]
 
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]
@@ -190,11 +198,11 @@ android-library = { id = "com.android.library", version.ref = "gradle-plugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
-google-ksp = { id = "com.google.devtools.ksp", version = "1.9.0-1.0.11" }
+google-ksp = { id = "com.google.devtools.ksp", version = "1.9.23-1.0.20" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "11.5.1" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.1" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 sonarqube = { id = "org.sonarqube", version = "4.4.1.3373" }
 junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5-plugin" }

@@ -11,19 +11,20 @@ import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrentCatego
  * Factory for [RecurrentCategory] from hardcoded [suggestions].
  */
 internal object FixedExpanseFactory : RecurrenceSuggestionFactory() {
-    override val suggestions: List<RecurrentCategorySuggestion> = listOf(
-        RecurrentCategorySuggestion.RENT,
-        RecurrentCategorySuggestion.MORTGAGE,
-        RecurrentCategorySuggestion.ENERGY,
-        RecurrentCategorySuggestion.INTERNET,
-        RecurrentCategorySuggestion.PHONE,
-        RecurrentCategorySuggestion.TV_STREAMING,
-        RecurrentCategorySuggestion.MUSIC_STREAMING,
-        RecurrentCategorySuggestion.INSURANCES,
-        RecurrentCategorySuggestion.EDUCATION,
-        RecurrentCategorySuggestion.GYM,
-        RecurrentCategorySuggestion.TRANSPORT
-    )
+    override val suggestions: List<RecurrentCategorySuggestion> =
+        listOf(
+            RecurrentCategorySuggestion.RENT,
+            RecurrentCategorySuggestion.MORTGAGE,
+            RecurrentCategorySuggestion.ENERGY,
+            RecurrentCategorySuggestion.INTERNET,
+            RecurrentCategorySuggestion.PHONE,
+            RecurrentCategorySuggestion.TV_STREAMING,
+            RecurrentCategorySuggestion.MUSIC_STREAMING,
+            RecurrentCategorySuggestion.INSURANCES,
+            RecurrentCategorySuggestion.EDUCATION,
+            RecurrentCategorySuggestion.GYM,
+            RecurrentCategorySuggestion.TRANSPORT,
+        )
 
     override fun invoke(localizationProvider: RecurrenceLocalizationProvider): List<RecurrentCategory> {
         return suggestions.map { suggestion ->
@@ -31,7 +32,7 @@ internal object FixedExpanseFactory : RecurrenceSuggestionFactory() {
                 description = localizationProvider[suggestion],
                 amount = Money.Zero,
                 type = BudgetItem.Type.EXPENSE,
-                recurrence = Recurrence.Fixed()
+                recurrence = Recurrence.Fixed(),
             )
         }
     }

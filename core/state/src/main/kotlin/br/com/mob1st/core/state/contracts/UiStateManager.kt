@@ -5,8 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 /**
  * A common interface for ViewModels expose the ui state in a standard way.
  */
-interface StateOutputManager<T> {
-
+interface UiStateManager<T> {
     /**
      * The current state of the UI.
      *
@@ -14,5 +13,5 @@ interface StateOutputManager<T> {
      * This data class should represent the entire state of the UI, including side effects such as error messages and
      * navigation actions.
      */
-    val output: StateFlow<T>
+    val uiOutput: StateFlow<T>
 }

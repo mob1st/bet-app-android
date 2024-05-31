@@ -16,7 +16,6 @@ import org.koin.core.annotation.Single
 @Module
 @ComponentScan("br.com.mob1st.libs.firebase")
 class FirebaseComponent {
-
     @Single
     fun app() = Firebase.app
 
@@ -30,12 +29,14 @@ class FirebaseComponent {
     fun analytics() = Firebase.analytics
 
     @Single
-    fun firestore() = Firebase.firestore.also {
-        it.firestoreSettings = firestoreSettings()
-    }
+    fun firestore() =
+        Firebase.firestore.also {
+            it.firestoreSettings = firestoreSettings()
+        }
 
     @Single
-    fun remoteConfig() = Firebase.remoteConfig.also {
-        it.setConfigSettingsAsync(remoteConfigSettings())
-    }
+    fun remoteConfig() =
+        Firebase.remoteConfig.also {
+            it.setConfigSettingsAsync(remoteConfigSettings())
+        }
 }

@@ -24,12 +24,14 @@ data class AsyncState<T>(
     val loading: Boolean = false,
     val messages: List<SimpleMessage> = emptyList(),
 ) {
-
     /**
      * removes the given [message] from the state
      * @return a new state without the given [message]
      */
-    fun removeMessage(message: SimpleMessage, loading: Boolean): AsyncState<T> {
+    fun removeMessage(
+        message: SimpleMessage,
+        loading: Boolean,
+    ): AsyncState<T> {
         return copy(messages = messages.filterNot { it.id == message.id }, loading = loading)
     }
 
@@ -41,10 +43,13 @@ data class AsyncState<T>(
      * @param loading to changes the loading state of this asynchronous operation
      * @return a new state containing the given data value
      */
-    fun data(data: T, loading: Boolean = false): AsyncState<T> {
+    fun data(
+        data: T,
+        loading: Boolean = false,
+    ): AsyncState<T> {
         return copy(
             loading = loading,
-            data = data
+            data = data,
         )
     }
 
@@ -60,7 +65,7 @@ data class AsyncState<T>(
     ): AsyncState<T> {
         return copy(
             messages = messages + message,
-            loading = loading
+            loading = loading,
         )
     }
 

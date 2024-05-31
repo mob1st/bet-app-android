@@ -9,24 +9,38 @@ import timber.log.Timber
 class TimberLogger(
     private val forest: Timber.Forest,
 ) : Logger {
-
-    override fun v(message: String, throwable: Throwable?) {
+    override fun v(
+        message: String,
+        throwable: Throwable?,
+    ) {
         forest.tag(getCaller()).v(throwable, message)
     }
 
-    override fun d(message: String, throwable: Throwable?) {
+    override fun d(
+        message: String,
+        throwable: Throwable?,
+    ) {
         forest.tag(getCaller()).d(throwable, message)
     }
 
-    override fun i(message: String, throwable: Throwable?) {
+    override fun i(
+        message: String,
+        throwable: Throwable?,
+    ) {
         forest.tag(getCaller()).i(throwable, message)
     }
 
-    override fun w(message: String, throwable: Throwable?) {
+    override fun w(
+        message: String,
+        throwable: Throwable?,
+    ) {
         forest.tag(getCaller()).w(throwable, message)
     }
 
-    override fun e(message: String, throwable: Throwable) {
+    override fun e(
+        message: String,
+        throwable: Throwable,
+    ) {
         forest.tag(getCaller()).e(throwable, message)
     }
 

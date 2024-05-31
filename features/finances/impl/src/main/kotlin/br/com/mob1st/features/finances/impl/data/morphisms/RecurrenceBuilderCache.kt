@@ -19,39 +19,45 @@ internal data class RecurrenceBuilderCache(
 /**
  * Convert [RecurrenceBuilderCache] to [RecurrenceBuilder]
  */
-internal fun RecurrenceBuilderCache.toDomain() = RecurrenceBuilder(
-    fixedExpensesStep = RecurrenceBuilder.Step(
-        isCompleted = completions.isFixedExpansesCompleted,
-        list = lists.fixedExpensesList
-    ),
-    variableExpensesStep = RecurrenceBuilder.Step(
-        isCompleted = completions.isVariableExpansesCompleted,
-        list = lists.variableExpensesList
-    ),
-    seasonalExpensesStep = RecurrenceBuilder.Step(
-        isCompleted = completions.isSeasonalExpansesCompleted,
-        list = lists.seasonalExpensesList
-    ),
-    incomesStep = RecurrenceBuilder.Step(
-        isCompleted = completions.isIncomesCompleted,
-        list = lists.incomesList
+internal fun RecurrenceBuilderCache.toDomain() =
+    RecurrenceBuilder(
+        fixedExpensesStep =
+            RecurrenceBuilder.Step(
+                isCompleted = completions.isFixedExpansesCompleted,
+                list = lists.fixedExpensesList,
+            ),
+        variableExpensesStep =
+            RecurrenceBuilder.Step(
+                isCompleted = completions.isVariableExpansesCompleted,
+                list = lists.variableExpensesList,
+            ),
+        seasonalExpensesStep =
+            RecurrenceBuilder.Step(
+                isCompleted = completions.isSeasonalExpansesCompleted,
+                list = lists.seasonalExpensesList,
+            ),
+        incomesStep =
+            RecurrenceBuilder.Step(
+                isCompleted = completions.isIncomesCompleted,
+                list = lists.incomesList,
+            ),
     )
-)
 
 /**
  * Convert [RecurrenceBuilder] to [RecurrenceBuilderCache]
  */
-internal fun RecurrenceBuilder.toData() = RecurrenceBuilderCache(
-    completions = toPreferences(),
-    lists = toLists()
-)
+internal fun RecurrenceBuilder.toData() =
+    RecurrenceBuilderCache(
+        completions = toPreferences(),
+        lists = toLists(),
+    )
 
 private fun RecurrenceBuilder.toLists(): RecurrenceBuilderLists {
     return RecurrenceBuilderLists(
         fixedExpensesList = fixedExpensesStep.list.toPersistentList(),
         variableExpensesList = variableExpensesStep.list.toPersistentList(),
         seasonalExpensesList = seasonalExpensesStep.list.toPersistentList(),
-        incomesList = incomesStep.list.toPersistentList()
+        incomesList = incomesStep.list.toPersistentList(),
     )
 }
 
@@ -60,6 +66,6 @@ private fun RecurrenceBuilder.toPreferences(): RecurrenceBuilderCompletions {
         isFixedExpansesCompleted = fixedExpensesStep.isCompleted,
         isVariableExpansesCompleted = variableExpensesStep.isCompleted,
         isSeasonalExpansesCompleted = seasonalExpensesStep.isCompleted,
-        isIncomesCompleted = incomesStep.isCompleted
+        isIncomesCompleted = incomesStep.isCompleted,
     )
 }

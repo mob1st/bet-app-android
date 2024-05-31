@@ -38,7 +38,6 @@ data class ConfrontationData(
     val hasFinished: Boolean = false,
     val selected: Int? = null,
 ) : FetchedData {
-
     /*
     Operators for UI.
      */
@@ -57,7 +56,9 @@ data class ConfrontationData(
  */
 sealed class ConfrontationUiEvent {
     data class TryAgain(val message: SimpleMessage) : ConfrontationUiEvent()
+
     data class SetSelection(val index: Int?) : ConfrontationUiEvent()
+
     data class GetNext(val input: ConfrontationInput) : ConfrontationUiEvent()
 }
 
@@ -69,26 +70,26 @@ data class ConfrontationInput(
     val scoresVisible: Boolean get() = winner != null
 
     fun selectWinner(newSelected: Duel.Selection?): ConfrontationInput {
-        val score = if (newSelected == winner) {
-            score
-        } else {
-            null
-        }
+        val score =
+            if (newSelected == winner) {
+                score
+            } else {
+                null
+            }
         return copy(winner = newSelected, score = score)
     }
 
-    fun toAnswers(
-        root: Node<Contest>,
-    ): AnswerAggregation {
+    fun toAnswers(root: Node<Contest>): AnswerAggregation {
         checkNotNull(winner)
         val winnerAnswer = (root.current as MatchWinner).select(winner)
         val path = root.paths[winnerAnswer.selected.pathIndex].current as IntScores
-        val scoreAnswer = score?.let { score ->
-            path.select(score)
-        }
+        val scoreAnswer =
+            score?.let { score ->
+                path.select(score)
+            }
         return WinnerAnswers(
             winner = winnerAnswer,
-            score = scoreAnswer
+            score = scoreAnswer,
         )
     }
 }
@@ -100,7 +101,6 @@ class ConfrontationListViewModel(
     private val repository: CompetitionRepository,
     private val savedState: SavedStateHandle,
 ) : StateViewModel<ConfrontationData, ConfrontationUiEvent>(ConfrontationData(subscription)) {
-
     init {
         load()
 
@@ -138,14 +138,16 @@ class ConfrontationListViewModel(
             if (confrontationInput.winner != null) {
                 viewModelScope.launch {
                     val answers = confrontationInput.toAnswers(current.detail!!.contest)
-                    val guess = Guess(
-                        subscriptionId = current.subscription.id,
-                        aggregation = answers,
-                        confrontation = ConfrontationForGuess(
-                            confrontation = current.detail!!,
-                            competitionId = current.subscription.competition.id
+                    val guess =
+                        Guess(
+                            subscriptionId = current.subscription.id,
+                            aggregation = answers,
+                            confrontation =
+                                ConfrontationForGuess(
+                                    confrontation = current.detail!!,
+                                    competitionId = current.subscription.competition.id,
+                                ),
                         )
-                    )
                     placeGuessUseCase(guess)
                 }
             }

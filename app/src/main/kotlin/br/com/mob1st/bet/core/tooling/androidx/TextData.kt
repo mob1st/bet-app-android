@@ -12,7 +12,6 @@ import kotlinx.parcelize.Parcelize
  * A wrapper for a text can be displayed on UI like a String or a id resource
  */
 sealed interface TextData : Parcelable {
-
     fun resolve(resources: Resources): String
 
     @Parcelize
@@ -23,7 +22,9 @@ sealed interface TextData : Parcelable {
     }
 
     @Parcelize
-    data class IdRes(@StringRes val id: Int) : TextData {
+    data class IdRes(
+        @StringRes val id: Int,
+    ) : TextData {
         override fun resolve(resources: Resources): String {
             return resources.getString(id)
         }
@@ -35,7 +36,10 @@ sealed interface TextData : Parcelable {
 }
 
 fun TextData(text: String): TextData = TextData.ActualText(text)
-fun TextData(@StringRes id: Int): TextData = TextData.IdRes(id)
+
+fun TextData(
+    @StringRes id: Int,
+): TextData = TextData.IdRes(id)
 
 @Composable
 fun TextData.resolve(): String {

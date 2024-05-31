@@ -7,7 +7,6 @@ package br.com.mob1st.bet.core.logs
  * implemented by frameworks or libraries
  */
 interface ThrowableDebugger<T : Throwable> {
-
     /**
      * For the cases some important properties
      */

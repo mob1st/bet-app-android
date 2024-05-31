@@ -24,6 +24,7 @@ data class Competition(
     val type: CompetitionType,
 ) {
     fun toEntry() = CompetitionEntry(id = id, name = name, type = type)
+
     companion object
 }
 

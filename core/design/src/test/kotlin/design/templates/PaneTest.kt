@@ -21,13 +21,14 @@ import io.kotest.property.exhaustive.ints
 
 class PaneTest : BehaviorSpec({
     Given("a compact window") {
-        val panes = ScreenWidth.compact.map { with ->
-            Pane(
-                layoutSpec = LayoutSpec.Compact,
-                columnsLimit = ColumnsLimit.Four,
-                maxWidth = with
-            )
-        }
+        val panes =
+            ScreenWidth.compact.map { with ->
+                Pane(
+                    layoutSpec = LayoutSpec.Compact,
+                    columnsLimit = ColumnsLimit.Four,
+                    maxWidth = with,
+                )
+            }
         When("get horizontal margins") {
             val horizontalMargin = panes.map { it.horizontalMargins }
             Then("should be compact spacings") {
@@ -51,17 +52,18 @@ class PaneTest : BehaviorSpec({
     }
 
     Given("a non compact window") {
-        val panes = Arb.bind(
-            listOf(LayoutSpec.Medium, LayoutSpec.Expanded).exhaustive(),
-            listOf(ColumnsLimit.Four, ColumnsLimit.Eight, ColumnsLimit.Twelve).exhaustive(),
-            ScreenWidth.medium.merge(ScreenWidth.expanded)
-        ) { layoutSpec, columnsLimit, width ->
-            Pane(
-                layoutSpec = layoutSpec,
-                columnsLimit = columnsLimit,
-                maxWidth = width
-            )
-        }
+        val panes =
+            Arb.bind(
+                listOf(LayoutSpec.Medium, LayoutSpec.Expanded).exhaustive(),
+                listOf(ColumnsLimit.Four, ColumnsLimit.Eight, ColumnsLimit.Twelve).exhaustive(),
+                ScreenWidth.medium.merge(ScreenWidth.expanded),
+            ) { layoutSpec, columnsLimit, width ->
+                Pane(
+                    layoutSpec = layoutSpec,
+                    columnsLimit = columnsLimit,
+                    maxWidth = width,
+                )
+            }
         When("get horizontal paddings") {
             val margins = panes.map { it.horizontalMargins }
             Then("should be zero") {
@@ -85,17 +87,18 @@ class PaneTest : BehaviorSpec({
     }
 
     Given("any pane") {
-        val panes = Arb.bind(
-            Exhaustive.enum<LayoutSpec>(),
-            listOf(ColumnsLimit.Four, ColumnsLimit.Eight, ColumnsLimit.Twelve).exhaustive(),
-            ScreenWidth.compact.merge(ScreenWidth.medium).merge(ScreenWidth.expanded)
-        ) { layoutSpec, columnsLimit, width ->
-            Pane(
-                layoutSpec = layoutSpec,
-                columnsLimit = columnsLimit,
-                maxWidth = width
-            )
-        }
+        val panes =
+            Arb.bind(
+                Exhaustive.enum<LayoutSpec>(),
+                listOf(ColumnsLimit.Four, ColumnsLimit.Eight, ColumnsLimit.Twelve).exhaustive(),
+                ScreenWidth.compact.merge(ScreenWidth.medium).merge(ScreenWidth.expanded),
+            ) { layoutSpec, columnsLimit, width ->
+                Pane(
+                    layoutSpec = layoutSpec,
+                    columnsLimit = columnsLimit,
+                    maxWidth = width,
+                )
+            }
 
         When("get columns lower than minimum range") {
             Then("should throw an exception") {

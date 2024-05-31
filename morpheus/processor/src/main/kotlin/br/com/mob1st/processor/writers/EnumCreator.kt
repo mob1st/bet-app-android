@@ -9,7 +9,6 @@ internal class EnumCreator(
     private val logger: KSPLogger,
     enumName: String,
 ) {
-
     private val enumBuilder = TypeSpec.enumBuilder(enumName)
 
     init {

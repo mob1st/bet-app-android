@@ -1,7 +1,6 @@
 package br.com.mob1st.bet.features.ff
 
 interface FeatureFlagRepository {
-
     /**
      * Sync the local cache with data provided by external sources
      */

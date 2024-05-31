@@ -4,7 +4,6 @@ package br.com.mob1st.bet.core.analytics
  * Abstraction for third-party analytics tool
  */
 interface AnalyticsTool {
-
     /**
      * Register the logged user in this tool to enrich events
      */

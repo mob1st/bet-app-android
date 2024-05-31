@@ -17,35 +17,40 @@ private const val ERROR_SOURCE_KEY = "$PACKAGE_INFO.ERROR_SOURCE"
 class FirebaseDebuggableException(
     cause: FirebaseException,
 ) : Exception("Firebase library triggered an exception", cause), Debuggable {
-    override val logInfo: Map<String, Any?> = when (cause) {
-        is FirebaseFirestoreException -> cause.loggedProperties()
-        is FirebaseAuthException -> cause.loggedProperties()
-        is FirebaseRemoteConfigException -> cause.loggedProperties()
-        else -> emptyMap()
-    }
+    override val logInfo: Map<String, Any?> =
+        when (cause) {
+            is FirebaseFirestoreException -> cause.loggedProperties()
+            is FirebaseAuthException -> cause.loggedProperties()
+            is FirebaseRemoteConfigException -> cause.loggedProperties()
+            else -> emptyMap()
+        }
 }
 
-private fun FirebaseFirestoreException.loggedProperties(): Map<String, Any> = mapOf(
-    ERROR_SOURCE_KEY to "firestore",
-    "$PACKAGE_INFO.ERROR_CODE" to code.value(),
-    "$PACKAGE_INFO.ERROR_NAME" to code.name
-)
+private fun FirebaseFirestoreException.loggedProperties(): Map<String, Any> =
+    mapOf(
+        ERROR_SOURCE_KEY to "firestore",
+        "$PACKAGE_INFO.ERROR_CODE" to code.value(),
+        "$PACKAGE_INFO.ERROR_NAME" to code.name,
+    )
 
-private fun FirebaseAuthException.loggedProperties(): Map<String, Any> = mapOf(
-    ERROR_SOURCE_KEY to "auth",
-    "$PACKAGE_INFO.ERROR_CODE" to errorCode
-)
+private fun FirebaseAuthException.loggedProperties(): Map<String, Any> =
+    mapOf(
+        ERROR_SOURCE_KEY to "auth",
+        "$PACKAGE_INFO.ERROR_CODE" to errorCode,
+    )
 
 private fun FirebaseRemoteConfigException.loggedProperties(): Map<String, Any> {
-    val defProperties = mapOf<String, Any>(
-        ERROR_SOURCE_KEY to "remoteConfig",
-        "$PACKAGE_INFO.CODE" to code
-    )
-    return defProperties + when (this) {
-        is FirebaseRemoteConfigFetchThrottledException -> {
-            mapOf("$PACKAGE_INFO.throttleEndTimeMillis" to throttleEndTimeMillis)
+    val defProperties =
+        mapOf<String, Any>(
+            ERROR_SOURCE_KEY to "remoteConfig",
+            "$PACKAGE_INFO.CODE" to code,
+        )
+    return defProperties +
+        when (this) {
+            is FirebaseRemoteConfigFetchThrottledException -> {
+                mapOf("$PACKAGE_INFO.throttleEndTimeMillis" to throttleEndTimeMillis)
+            }
+            is FirebaseRemoteConfigServerException -> mapOf("$PACKAGE_INFO.httpStatusCode" to httpStatusCode)
+            else -> emptyMap()
         }
-        is FirebaseRemoteConfigServerException -> mapOf("$PACKAGE_INFO.httpStatusCode" to httpStatusCode)
-        else -> emptyMap()
-    }
 }

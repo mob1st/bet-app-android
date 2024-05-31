@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.data
+package br.com.mob1st.features.dev.impl.infra
 
 import br.com.mob1st.features.dev.publicapi.domain.BuildInfo
 
@@ -8,7 +8,6 @@ import br.com.mob1st.features.dev.publicapi.domain.BuildInfo
  * config, not the libraries.
  */
 interface BuildInfoDataSource {
-
     /**
      * The build info data.
      */

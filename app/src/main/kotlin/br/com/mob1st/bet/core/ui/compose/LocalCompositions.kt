@@ -14,9 +14,10 @@ import br.com.mob1st.bet.core.logs.Logger
  * It have to be initialized before call, because there is no default value. otherwise it will
  * trigger a IllegalStateException
  */
-val LocalActivity = staticCompositionLocalOf<ComponentActivity> {
-    error("CompositionLocal for LocalActivity not present")
-}
+val LocalActivity =
+    staticCompositionLocalOf<ComponentActivity> {
+        error("CompositionLocal for LocalActivity not present")
+    }
 
 /**
  * Provides the instance of analytics tool to the composable tree
@@ -24,9 +25,10 @@ val LocalActivity = staticCompositionLocalOf<ComponentActivity> {
  * It have to be initialized before call, because there is no default value. otherwise it will
  * trigger a IllegalStateException
  */
-val LocalAnalyticsTool = staticCompositionLocalOf<AnalyticsTool> {
-    error("CompositionLocal for LocalAnalyticsTool not present")
-}
+val LocalAnalyticsTool =
+    staticCompositionLocalOf<AnalyticsTool> {
+        error("CompositionLocal for LocalAnalyticsTool not present")
+    }
 
 /**
  * Provides the instance of the Logger to the composable tree
@@ -34,24 +36,28 @@ val LocalAnalyticsTool = staticCompositionLocalOf<AnalyticsTool> {
  * It have to be initialized before call, because there is no default value. otherwise it will
  * trigger a IllegalStateException
  */
-val LocalLogger = staticCompositionLocalOf<Logger> {
-    error("CompositionLocal for LocalLogger not present")
-}
+val LocalLogger =
+    staticCompositionLocalOf<Logger> {
+        error("CompositionLocal for LocalLogger not present")
+    }
 
 /**
  * Provides the current theme used by the tree
  */
-val LocalDarkTime = compositionLocalOf {
-    false
-}
+val LocalDarkTime =
+    compositionLocalOf {
+        false
+    }
 
 /**
  * Provides the current snackbar host state of the composable tree
  */
-val LocalSnackbarState = compositionLocalOf {
-    SnackbarHostState()
-}
+val LocalSnackbarState =
+    compositionLocalOf {
+        SnackbarHostState()
+    }
 
-val LocalLazyListState = compositionLocalOf {
-    LazyListState()
-}
+val LocalLazyListState =
+    compositionLocalOf {
+        LazyListState()
+    }

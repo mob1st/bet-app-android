@@ -19,14 +19,21 @@ import kotlin.test.assertEquals
  * @param gen the generator of values
  */
 @OptIn(ExperimentalKotest::class)
-fun <A> flowOfAll(gen: Gen<A>, iterations: Int? = null): Flow<A> = flow {
-    gen.checkAll(config = PropTestConfig(iterations = iterations)) {
-        emit(it)
+fun <A> flowOfAll(
+    gen: Gen<A>,
+    iterations: Int? = null,
+): Flow<A> =
+    flow {
+        gen.checkAll(config = PropTestConfig(iterations = iterations)) {
+            emit(it)
+        }
     }
-}
 
 @OptIn(ExperimentalCoroutinesApi::class)
-fun <T> TestScope.assertStateOnCollect(state: StateFlow<T>, expected: T) {
+fun <T> TestScope.assertStateOnCollect(
+    state: StateFlow<T>,
+    expected: T,
+) {
     backgroundScope.launch(UnconfinedTestDispatcher()) {
         state.collect()
     }

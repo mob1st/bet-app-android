@@ -33,7 +33,7 @@ sealed class BottomBarDestination(
     object Competitions : BottomBarDestination(
         route = "competitions",
         title = R.string.tab_title_competitions,
-        icon = Icons.Default.Home
+        icon = Icons.Default.Home,
     )
 
     /**
@@ -42,7 +42,7 @@ sealed class BottomBarDestination(
     object Groups : BottomBarDestination(
         route = "groups",
         title = R.string.tab_title_groups,
-        icon = Icons.Default.Star
+        icon = Icons.Default.Star,
     )
 
     /**
@@ -51,24 +51,28 @@ sealed class BottomBarDestination(
     object Profile : BottomBarDestination(
         route = "profile",
         title = R.string.tab_title_profile,
-        icon = Icons.Default.Person
+        icon = Icons.Default.Person,
     )
 }
 
 sealed class AppRouteDestination(val route: String) {
     object CreateGroups : AppRouteDestination(
-        route = "createGroups"
+        route = "createGroups",
     )
 }
 
 @Composable
-fun HomeNavGraph(homeUiState: HomeUiState, subscription: Subscription) {
-    val competitionsViewModel = koinViewModel<ConfrontationListViewModel> {
-        parametersOf(subscription)
-    }
+fun HomeNavGraph(
+    homeUiState: HomeUiState,
+    subscription: Subscription,
+) {
+    val competitionsViewModel =
+        koinViewModel<ConfrontationListViewModel> {
+            parametersOf(subscription)
+        }
     NavHost(
         navController = homeUiState.navController,
-        startDestination = BottomBarDestination.Competitions.route
+        startDestination = BottomBarDestination.Competitions.route,
     ) {
         competitionNavGraph(homeUiState, competitionsViewModel)
         composable(route = BottomBarDestination.Groups.route) {
@@ -76,7 +80,7 @@ fun HomeNavGraph(homeUiState: HomeUiState, subscription: Subscription) {
                 onNavigateToCreateGroups = {
                     homeUiState.navController.navigate(AppRouteDestination.CreateGroups.route)
                 },
-                onNavigateToGroupDetails = { Unit }
+                onNavigateToGroupDetails = { Unit },
             )
         }
         composable(route = BottomBarDestination.Profile.route) {
@@ -86,7 +90,7 @@ fun HomeNavGraph(homeUiState: HomeUiState, subscription: Subscription) {
             CreateGroupScreen(
                 onCreateGroupAction = {
                     homeUiState.navController.navigate(BottomBarDestination.Groups.route)
-                }
+                },
             )
         }
     }

@@ -13,7 +13,6 @@ internal class CompleteFixedExpansesStepUseCase(
     private val recurrentCategoryRepository: RecurrentCategoryRepository,
     private val analyticsReporter: AnalyticsReporter,
 ) {
-
     suspend operator fun invoke() {
         val builder = recurrenceBuilderRepository.get().first()
         val newBuilder = builder.completeFixedExpensesStep()
@@ -23,8 +22,8 @@ internal class CompleteFixedExpansesStepUseCase(
         analyticsReporter.log(
             ProceedInBuilderEvent(
                 stepName = "fixed",
-                addedCount = filledRecurrences.size
-            )
+                addedCount = filledRecurrences.size,
+            ),
         )
     }
 
@@ -33,8 +32,9 @@ internal class CompleteFixedExpansesStepUseCase(
         val addedCount: Int,
     ) : AnalyticsEvent {
         override val name: String = "fin_builder_${stepName}_completed"
-        override val logInfo: Map<String, Any?> = mapOf(
-            "added" to addedCount
-        )
+        override val logInfo: Map<String, Any?> =
+            mapOf(
+                "added" to addedCount,
+            )
     }
 }

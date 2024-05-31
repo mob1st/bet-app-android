@@ -10,8 +10,9 @@ data class FeedLayout(
     override val layoutSpec: LayoutSpec,
     private val width: Dp,
 ) : CanonicalLayout() {
-    fun pane(): Pane = Pane.single(
-        layoutSpec = layoutSpec,
-        width = width
-    )
+    fun pane(): Pane =
+        Pane.single(
+            layoutSpec = layoutSpec,
+            width = width,
+        )
 }

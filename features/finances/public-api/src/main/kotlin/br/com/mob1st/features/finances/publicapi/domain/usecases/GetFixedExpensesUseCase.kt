@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
  * Get the fixed expenses step content for the field selected in the builder
  */
 interface GetFixedExpensesUseCase {
-
     /**
      * Invoke the use case
      */

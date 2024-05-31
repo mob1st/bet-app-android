@@ -17,131 +17,153 @@ internal data class FontCategory(
     val large: TextStyle,
 ) {
     companion object {
-
-        fun Display() = FontCategory(
-            small = TextStyle(
-                fontFamily = robotoFlex,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
-            ),
-            medium = TextStyle(
-                fontFamily = robotoFlex,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
-            ),
-            large = TextStyle(
-                fontFamily = robotoFlex,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
+        fun Display() =
+            FontCategory(
+                small =
+                    TextStyle(
+                        fontFamily = robotoFlex,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
+                medium =
+                    TextStyle(
+                        fontFamily = robotoFlex,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
+                large =
+                    TextStyle(
+                        fontFamily = robotoFlex,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
             )
-        )
 
-        fun Headline() = FontCategory(
-            small = TextStyle(
-                fontFamily = robotoFlex,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
-            ),
-            medium = TextStyle(
-                fontFamily = robotoFlex,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
-            ),
-            large = TextStyle(
-                fontFamily = robotoFlex,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
+        fun Headline() =
+            FontCategory(
+                small =
+                    TextStyle(
+                        fontFamily = robotoFlex,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
+                medium =
+                    TextStyle(
+                        fontFamily = robotoFlex,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
+                large =
+                    TextStyle(
+                        fontFamily = robotoFlex,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
             )
-        )
 
-        fun Title() = FontCategory(
-            small = TextStyle(
-                fontFamily = robotoFlex,
-                fontWeight = FontWeight.ExtraLight,
-                fontStyle = FontStyle.Normal
-            ),
-            medium = TextStyle(
-                fontFamily = robotoFlex,
-                fontWeight = FontWeight.ExtraLight,
-                fontStyle = FontStyle.Normal
-            ),
-            large = TextStyle(
-                fontFamily = robotoFlex,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
+        fun Title() =
+            FontCategory(
+                small =
+                    TextStyle(
+                        fontFamily = robotoFlex,
+                        fontWeight = FontWeight.ExtraLight,
+                        fontStyle = FontStyle.Normal,
+                    ),
+                medium =
+                    TextStyle(
+                        fontFamily = robotoFlex,
+                        fontWeight = FontWeight.ExtraLight,
+                        fontStyle = FontStyle.Normal,
+                    ),
+                large =
+                    TextStyle(
+                        fontFamily = robotoFlex,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
             )
-        )
 
-        fun Body() = FontCategory(
-            small = TextStyle(
-                fontFamily = robotoSerif,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
-            ),
-            medium = TextStyle(
-                fontFamily = robotoSerif,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
-            ),
-            large = TextStyle(
-                fontFamily = robotoSerif,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
+        fun Body() =
+            FontCategory(
+                small =
+                    TextStyle(
+                        fontFamily = robotoSerif,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
+                medium =
+                    TextStyle(
+                        fontFamily = robotoSerif,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
+                large =
+                    TextStyle(
+                        fontFamily = robotoSerif,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
             )
-        )
 
-        fun Label() = FontCategory(
-            small = TextStyle(
-                fontFamily = robotoSerif,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
-            ),
-            medium = TextStyle(
-                fontFamily = robotoSerif,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
-            ),
-            large = TextStyle(
-                fontFamily = robotoSerif,
-                fontWeight = FontWeight.Thin,
-                fontStyle = FontStyle.Normal
+        fun Label() =
+            FontCategory(
+                small =
+                    TextStyle(
+                        fontFamily = robotoSerif,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
+                medium =
+                    TextStyle(
+                        fontFamily = robotoSerif,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
+                large =
+                    TextStyle(
+                        fontFamily = robotoSerif,
+                        fontWeight = FontWeight.Thin,
+                        fontStyle = FontStyle.Normal,
+                    ),
             )
-        )
     }
 }
 
 @OptIn(ExperimentalTextApi::class)
 @Suppress("MagicNumber")
-internal val robotoFlex = FontFamily(
-    Font(
-        resId = R.font.roboto_serif,
-        weight = FontWeight.Thin,
-        variationSettings = FontVariation.Settings(
-            FontVariation.width(300f)
-        )
-    ),
-    Font(
-        resId = R.font.roboto_serif,
-        weight = FontWeight.ExtraLight
-    ),
-    Font(
-        resId = R.font.roboto_serif,
-        weight = FontWeight.Light
-    ),
-    Font(
-        resId = R.font.roboto_serif,
-        weight = FontWeight.Normal
-    ),
-    Font(
-        resId = R.font.roboto_serif,
-        weight = FontWeight.Medium
+internal val robotoFlex =
+    FontFamily(
+        Font(
+            resId = R.font.roboto_serif,
+            weight = FontWeight.Thin,
+            variationSettings =
+                FontVariation.Settings(
+                    FontVariation.width(300f),
+                ),
+        ),
+        Font(
+            resId = R.font.roboto_serif,
+            weight = FontWeight.ExtraLight,
+        ),
+        Font(
+            resId = R.font.roboto_serif,
+            weight = FontWeight.Light,
+        ),
+        Font(
+            resId = R.font.roboto_serif,
+            weight = FontWeight.Normal,
+        ),
+        Font(
+            resId = R.font.roboto_serif,
+            weight = FontWeight.Medium,
+        ),
     )
-)
 
 @Suppress("MagicNumber")
-internal val robotoSerif = FontFamily(
-    Font(
-        resId = R.font.roboto_serif,
-        weight = FontWeight.Thin
+internal val robotoSerif =
+    FontFamily(
+        Font(
+            resId = R.font.roboto_serif,
+            weight = FontWeight.Thin,
+        ),
     )
-)

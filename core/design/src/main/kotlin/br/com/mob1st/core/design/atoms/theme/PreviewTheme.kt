@@ -6,9 +6,12 @@ import androidx.compose.runtime.CompositionLocalProvider
 import br.com.mob1st.core.design.templates.LayoutSpec
 
 @Composable
-fun PreviewSetup(layoutSpec: LayoutSpec = LayoutSpec.Compact, content: @Composable () -> Unit) {
+fun PreviewSetup(
+    layoutSpec: LayoutSpec = LayoutSpec.Compact,
+    content: @Composable () -> Unit,
+) {
     CompositionLocalProvider(
-        LocalLayoutSpec provides layoutSpec
+        LocalLayoutSpec provides layoutSpec,
     ) {
         BetTheme {
             Box {

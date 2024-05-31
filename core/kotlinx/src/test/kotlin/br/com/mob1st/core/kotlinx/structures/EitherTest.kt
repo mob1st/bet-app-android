@@ -5,9 +5,9 @@ import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
 class EitherTest {
-
     private sealed class Subject : Either<Subject.Left, Subject.Right> {
         data class Left(val value: Int) : Subject()
+
         data class Right(val value: String) : Subject()
     }
 

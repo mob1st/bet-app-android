@@ -16,19 +16,21 @@ private const val GENERATED_EXTENSION_CLASS_NAME = "SampleEffectKeyKt"
 
 class ConsumableExtensionsCreationTest : BehaviorSpec({
     val morpheusClass = givenMorpheusClass("Sample")
-    val prop1 = property(
-        """
-        @ConsumableEffect val prop1: Int? = null
-        """.trimIndent()
-    )
+    val prop1 =
+        property(
+            """
+            @ConsumableEffect val prop1: Int? = null
+            """.trimIndent(),
+        )
 
     Given("one annotated property") {
         When("compile") {
             val result = morpheusClass.constructor(prop1).compile(FILE_NAME)
             val generated = result.classLoader.loadClass(GENERATED_EXTENSION_CLASS_NAME)
-            val extensions = generated.methods.filter {
-                it.name.startsWith("consume") && Modifier.isStatic(it.modifiers)
-            }
+            val extensions =
+                generated.methods.filter {
+                    it.name.startsWith("consume") && Modifier.isStatic(it.modifiers)
+                }
             Then("two extension functions should be created") {
                 extensions.size shouldBe 1
             }
@@ -62,37 +64,41 @@ class ConsumableExtensionsCreationTest : BehaviorSpec({
     }
 
     Given("two annotated properties") {
-        val prop2 = property(
-            """
-            @ConsumableEffect val prop2: String? = null
-            """.trimIndent()
-        )
+        val prop2 =
+            property(
+                """
+                @ConsumableEffect val prop2: String? = null
+                """.trimIndent(),
+            )
 
         When("compile") {
             val result = morpheusClass.constructor(prop1, prop2).compile(FILE_NAME)
             val generated = result.classLoader.loadClass(GENERATED_EXTENSION_CLASS_NAME)
             Then("the generated file should contain a consume extension per property") {
-                val extensions = generated.methods.filter {
-                    it.name.startsWith("consume") && Modifier.isStatic(it.modifiers)
-                }
+                val extensions =
+                    generated.methods.filter {
+                        it.name.startsWith("consume") && Modifier.isStatic(it.modifiers)
+                    }
                 extensions.map { it.name } shouldContainExactlyInAnyOrder listOf("consumeProp1", "consumeProp2")
             }
         }
     }
 
     Given("two properties but only one annotated") {
-        val prop2 = property(
-            """
-            val prop2: String? = null
-            """.trimIndent()
-        )
+        val prop2 =
+            property(
+                """
+                val prop2: String? = null
+                """.trimIndent(),
+            )
 
         When("compile") {
             val result = morpheusClass.constructor(prop1, prop2).compile(FILE_NAME)
             val generated = result.classLoader.loadClass(GENERATED_EXTENSION_CLASS_NAME)
-            val extensions = generated.methods.filter {
-                it.name.startsWith("consume") && Modifier.isStatic(it.modifiers)
-            }
+            val extensions =
+                generated.methods.filter {
+                    it.name.startsWith("consume") && Modifier.isStatic(it.modifiers)
+                }
             Then("only one extension should be created") {
                 extensions.size shouldBe 1
             }

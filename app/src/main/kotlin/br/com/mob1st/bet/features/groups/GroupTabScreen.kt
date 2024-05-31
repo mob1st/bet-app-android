@@ -20,7 +20,7 @@ fun GroupsTabScreen(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         ProvideTextStyle(MaterialTheme.typography.headlineMedium) {
             Text("Seus grupos")
@@ -30,13 +30,13 @@ fun GroupsTabScreen(
             groupName = "Primeiro grupo",
             currentMembersNumber = 1,
             maxMembers = 25,
-            onNavigateToGroupDetails
+            onNavigateToGroupDetails,
         )
         GroupRow(
             groupName = "Segundo grupo",
             currentMembersNumber = 3,
             maxMembers = 25,
-            onNavigateToGroupDetails
+            onNavigateToGroupDetails,
         )
     }
 }

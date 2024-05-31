@@ -7,7 +7,6 @@ import br.com.mob1st.bet.features.profile.domain.User
  * Manages CRUD operations on Guess entity and everything that depends on it to exists
  */
 interface GuessRepository {
-
     /**
      * Place the given guess for logged user.
      * If the id of the guess is empty, then a guess will be created, otherwise the guess will
@@ -29,7 +28,7 @@ class PlaceGuessException(
             "confrontation" to guess.confrontation.id,
             "confrontationAllowBetsUntil" to guess.confrontation.allowBetsUntil,
             "createdAt" to guess.createdAt,
-            "updatedAt" to guess.updatedAt
+            "updatedAt" to guess.updatedAt,
         ) + guess.aggregation.logProperties()
     }
 }

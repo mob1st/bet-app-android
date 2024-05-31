@@ -17,9 +17,10 @@ class AsyncTest : BehaviorSpec({
     val scope = TestScope(TestCoroutineScheduler())
 
     Given("a initial state") {
-        val async = AsyncImpl<Int, String>(scope) {
-            flowOf(it.toString())
-        }
+        val async =
+            AsyncImpl<Int, String>(scope) {
+                flowOf(it.toString())
+            }
         And("collect loading") {
             Then("loading is false") {
                 async.loading.first() shouldBe false
@@ -39,9 +40,10 @@ class AsyncTest : BehaviorSpec({
     }
 
     Given("a loading state") {
-        val async = AsyncImpl<Unit, Unit>(scope) {
-            flow { }
-        }
+        val async =
+            AsyncImpl<Unit, Unit>(scope) {
+                flow { }
+            }
         When("invoke") {
             scope.advanceUntilIdle()
             async.launch()
@@ -66,11 +68,12 @@ class AsyncTest : BehaviorSpec({
 
     Given("a failure state") {
         val exception = Exception()
-        val async = AsyncImpl<Unit, Unit>(scope) {
-            flow {
-                throw exception
+        val async =
+            AsyncImpl<Unit, Unit>(scope) {
+                flow {
+                    throw exception
+                }
             }
-        }
 
         When("Invoke") {
             scope.advanceUntilIdle()
@@ -96,9 +99,10 @@ class AsyncTest : BehaviorSpec({
 
     Given("a successful state") {
         val result = "1"
-        val async = AsyncImpl<Int, String>(scope) {
-            flowOf(it.toString())
-        }
+        val async =
+            AsyncImpl<Int, String>(scope) {
+                flowOf(it.toString())
+            }
 
         When("Invoke") {
             scope.advanceUntilIdle()

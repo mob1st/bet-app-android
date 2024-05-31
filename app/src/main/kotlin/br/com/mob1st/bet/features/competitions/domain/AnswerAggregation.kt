@@ -10,7 +10,6 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 sealed interface AnswerAggregation : Debuggable {
-
     /**
      * all selected answers of the user
      */
@@ -51,7 +50,7 @@ data class WinnerAnswers(
         return mapOf(
             "winner" to winner.selected,
             "score1" to score?.selected?.first,
-            "score2" to score?.selected?.second
+            "score2" to score?.selected?.second,
         )
     }
 }

@@ -10,15 +10,17 @@ import br.com.mob1st.core.design.atoms.typography.TypographyFactory
 @Composable
 fun BetTheme(content: @Composable () -> Unit) {
     val isDark = isSystemInDarkTheme()
-    val colorScheme = remember(isDark) {
-        ColorSchemeFactory.create(isDark)
-    }
-    val typography = remember {
-        TypographyFactory.create()
-    }
+    val colorScheme =
+        remember(isDark) {
+            ColorSchemeFactory.create(isDark)
+        }
+    val typography =
+        remember {
+            TypographyFactory.create()
+        }
     MaterialTheme(
         colorScheme = colorScheme,
         typography = typography,
-        content = content
+        content = content,
     )
 }

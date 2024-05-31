@@ -15,14 +15,15 @@ class FeedLayoutTest : ShouldSpec({
     should("use the given parameters") {
         checkAll(
             Exhaustive.enum<LayoutSpec>(),
-            ScreenWidth.compact.merge(ScreenWidth.medium).merge(ScreenWidth.expanded)
+            ScreenWidth.compact.merge(ScreenWidth.medium).merge(ScreenWidth.expanded),
         ) { layoutSpec, width ->
             val actual = FeedLayout(layoutSpec, width).pane()
-            actual shouldBe Pane(
-                layoutSpec = layoutSpec,
-                columnsLimit = layoutSpec.columnsLimit,
-                maxWidth = width
-            )
+            actual shouldBe
+                Pane(
+                    layoutSpec = layoutSpec,
+                    columnsLimit = layoutSpec.columnsLimit,
+                    maxWidth = width,
+                )
         }
     }
 })

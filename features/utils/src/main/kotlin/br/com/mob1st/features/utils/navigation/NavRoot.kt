@@ -9,7 +9,6 @@ import br.com.mob1st.core.design.atoms.motion.TransitionPattern
  * It is used to create the navigation graph for a feature.
  */
 interface NavRoot {
-
     /**
      * Create the navigation graph for the feature.
      * @param navController The navigation controller.

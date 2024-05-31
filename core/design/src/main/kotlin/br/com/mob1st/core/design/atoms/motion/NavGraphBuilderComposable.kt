@@ -44,6 +44,6 @@ fun NavGraphBuilder.composable(
                 popExit()
             }
         },
-        content = content
+        content = content,
     )
 }

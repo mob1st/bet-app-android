@@ -22,18 +22,18 @@ data class MatchWinner(
     override val draw: Bet<String>,
     val scores: List<IntScores> = emptyList(),
 ) : Contest, Duel<Team>, Selector<Duel.Selection, DuelWinner> {
-
     override fun select(selection: Duel.Selection): DuelWinner {
-        val bet = when (selection) {
-            Duel.Selection.CONTENDER_1 -> contender1
-            Duel.Selection.CONTENDER_2 -> contender2
-            Duel.Selection.DRAW -> draw
-        }
+        val bet =
+            when (selection) {
+                Duel.Selection.CONTENDER_1 -> contender1
+                Duel.Selection.CONTENDER_2 -> contender2
+                Duel.Selection.DRAW -> draw
+            }
         return DuelWinner(
             odds = bet.odds,
             // todo find a way to customize it
             weight = 1,
-            selected = selection
+            selected = selection,
         )
     }
 }
@@ -52,7 +52,7 @@ data class IntScores(
             odds = bet.odds,
             // todo find a way to customize it
             weight = 1,
-            selected = selection
+            selected = selection,
         )
     }
 }

@@ -22,7 +22,6 @@ interface AuthNavGraphFactory {
 }
 
 sealed class AuthTarget : NavTarget() {
-
     object PhoneNumberAccountCreation : AuthTarget() {
         override val screenName: String = "account-creation"
     }

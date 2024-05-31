@@ -6,7 +6,6 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 class IdTest {
-
     @Test
     fun `GIVEN two IDs WHEN compare the greater THEN result should be true`() {
         assertTrue(Id("60") > Id("50"))

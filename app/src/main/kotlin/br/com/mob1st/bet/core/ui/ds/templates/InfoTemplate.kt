@@ -37,7 +37,7 @@ fun InfoTemplate(
     Column(
         modifier = Modifier.fillMaxSize().padding(Dimens.grid.margin),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(modifier = Modifier.height(Dimens.grid.line.times(8))) {
             icon()
@@ -48,7 +48,7 @@ fun InfoTemplate(
         }
         Spacer(modifier = Modifier.size(Dimens.grid.line))
         ProvideTextStyle(
-            value = MaterialTheme.typography.bodySmall.copy(textAlign = TextAlign.Center)
+            value = MaterialTheme.typography.bodySmall.copy(textAlign = TextAlign.Center),
         ) {
             description()
         }

@@ -20,7 +20,6 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RecurrenceBuilderRepositoryImplTest {
-
     private lateinit var subject: RecurrenceBuilderRepositoryImpl
 
     private lateinit var listsDataSource: FakeUnitaryDataSource<RecurrenceBuilderLists>
@@ -28,42 +27,48 @@ class RecurrenceBuilderRepositoryImplTest {
 
     @BeforeEach
     fun setUp() {
-        listsDataSource = FakeUnitaryDataSource(
-            MutableStateFlow(fixture())
-        )
-        completionsDataSource = FakeUnitaryDataSource(
-            MutableStateFlow(fixture())
-        )
-        subject = RecurrenceBuilderRepositoryImpl(
-            listsDataSource = listsDataSource,
-            completionsDataSource = completionsDataSource,
-            io = IoCoroutineDispatcher(UnconfinedTestDispatcher())
-        )
+        listsDataSource =
+            FakeUnitaryDataSource(
+                MutableStateFlow(fixture()),
+            )
+        completionsDataSource =
+            FakeUnitaryDataSource(
+                MutableStateFlow(fixture()),
+            )
+        subject =
+            RecurrenceBuilderRepositoryImpl(
+                listsDataSource = listsDataSource,
+                completionsDataSource = completionsDataSource,
+                io = IoCoroutineDispatcher(UnconfinedTestDispatcher()),
+            )
     }
 
     @Test
-    fun `GIVEN the lists of recurrences and their completion status WHEN get builder THEN combine all of them`() = runTest {
-        val actual = subject.get().first()
-        val cache = RecurrenceBuilderCache(
-            lists = listsDataSource.setState.value!!,
-            completions = completionsDataSource.setState.value!!
-        )
-        val expected = cache.toDomain()
-        assertEquals(expected, actual)
-    }
+    fun `GIVEN the lists of recurrences and their completion status WHEN get builder THEN combine all of them`() =
+        runTest {
+            val actual = subject.get().first()
+            val cache =
+                RecurrenceBuilderCache(
+                    lists = listsDataSource.setState.value!!,
+                    completions = completionsDataSource.setState.value!!,
+                )
+            val expected = cache.toDomain()
+            assertEquals(expected, actual)
+        }
 
     @Test
-    fun `GIVEN the lists of recurrences and their completion status THEN set the lists of each step`() = runTest {
-        val fixture = fixture<RecurrenceBuilder>()
-        val expected = fixture.toData()
-        subject.set(fixture)
-        assertEquals(
-            expected = expected.completions,
-            actual = completionsDataSource.setState.value
-        )
-        assertEquals(
-            expected = expected.lists,
-            actual = listsDataSource.setState.value
-        )
-    }
+    fun `GIVEN the lists of recurrences and their completion status THEN set the lists of each step`() =
+        runTest {
+            val fixture = fixture<RecurrenceBuilder>()
+            val expected = fixture.toData()
+            subject.set(fixture)
+            assertEquals(
+                expected = expected.completions,
+                actual = completionsDataSource.setState.value,
+            )
+            assertEquals(
+                expected = expected.lists,
+                actual = listsDataSource.setState.value,
+            )
+        }
 }

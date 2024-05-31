@@ -10,20 +10,19 @@ import org.koin.core.annotation.Factory
 class UserAuth(
     private val auth: FirebaseAuth,
 ) {
-
-    private val firebaseIso: Iso<FirebaseUser, User> = Iso(
-        get = { firebaseUser ->
-            User(
-                id = firebaseUser.uid,
-                name = firebaseUser.displayName ?: "Anonymous",
-                authType = Anonymous,
-
-                // nao sei se isso vai funcionar
-                imageUrl = firebaseUser.photoUrl?.toString()
-            )
-        },
-        reverseGet = { error("failure") }
-    )
+    private val firebaseIso: Iso<FirebaseUser, User> =
+        Iso(
+            get = { firebaseUser ->
+                User(
+                    id = firebaseUser.uid,
+                    name = firebaseUser.displayName ?: "Anonymous",
+                    authType = Anonymous,
+                    // nao sei se isso vai funcionar
+                    imageUrl = firebaseUser.photoUrl?.toString(),
+                )
+            },
+            reverseGet = { error("failure") },
+        )
 
     suspend fun signInAnonymously(): User {
         val result = auth.signInAnonymously().await()

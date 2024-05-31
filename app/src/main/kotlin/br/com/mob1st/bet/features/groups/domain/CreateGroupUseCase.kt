@@ -18,13 +18,10 @@ class CreateGroupUseCase(
     private val competitionRepository: CompetitionRepository,
     private val analyticsTool: AnalyticsTool,
 ) {
-
     /**
      * @param groupName the name of the group
      */
-    suspend operator fun invoke(
-        groupName: String,
-    ): GroupEntry {
+    suspend operator fun invoke(groupName: String): GroupEntry {
         val user = userRepository.get()
 
         if (user.authType == Anonymous) {
@@ -35,17 +32,18 @@ class CreateGroupUseCase(
             throw MembershipLimitException(user.membershipCount)
         }
         val competitionEntry = competitionRepository.getDefaultCompetition().toEntry()
-        val groupEntry = groupRepository.create(
-            founder = user,
-            name = groupName,
-            competitionEntry = competitionEntry
-        )
+        val groupEntry =
+            groupRepository.create(
+                founder = user,
+                name = groupName,
+                competitionEntry = competitionEntry,
+            )
 
         analyticsTool.log(
             CreateGroupEvent(
                 groupEntry = groupEntry,
-                competitionEntry = competitionEntry
-            )
+                competitionEntry = competitionEntry,
+            ),
         )
         return groupEntry
     }
@@ -58,17 +56,17 @@ class CreateGroupUseCase(
 class MembershipLimitException(
     private val currentCount: Int,
 ) : Exception(
-    "a user can't have more then $MEMBERSHIP_LIMIT memberships. Your current value is $currentCount"
-),
+        "a user can't have more then $MEMBERSHIP_LIMIT memberships. Your current value is $currentCount",
+    ),
     Debuggable {
     override fun logProperties(): Map<String, Any> {
         return mapOf(
             "currentMemberships" to currentCount,
-            "maxAllowed" to MEMBERSHIP_LIMIT
+            "maxAllowed" to MEMBERSHIP_LIMIT,
         )
     }
 }
 
 class NotAuthorizedForItException : Exception(
-    "The user have to be logged in with some provider to be able to create and join groups"
+    "The user have to be logged in with some provider to be able to create and join groups",
 )

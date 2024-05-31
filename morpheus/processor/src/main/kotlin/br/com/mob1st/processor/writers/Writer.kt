@@ -12,33 +12,35 @@ internal class Writer(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
 ) {
-
     @OptIn(KspExperimental::class)
     operator fun invoke(classDeclaration: KSClassDeclaration) {
         val fileCreator = FileCreator(logger, classDeclaration)
         val enumCreator = EnumCreator(logger, fileCreator.fileName)
-        val consumeExtensionCreator = ConsumeExtensionCreator(
-            logger = logger,
-            classDeclaration = classDeclaration,
-            enumName = fileCreator.fileName
-        )
-        val clearEffectExtensionCreator = ClearEffectExtensionCreator(
-            logger = logger,
-            classDeclaration = classDeclaration,
-            packageName = fileCreator.packageName,
-            enumName = fileCreator.fileName
-        )
+        val consumeExtensionCreator =
+            ConsumeExtensionCreator(
+                logger = logger,
+                classDeclaration = classDeclaration,
+                enumName = fileCreator.fileName,
+            )
+        val clearEffectExtensionCreator =
+            ClearEffectExtensionCreator(
+                logger = logger,
+                classDeclaration = classDeclaration,
+                packageName = fileCreator.packageName,
+                enumName = fileCreator.fileName,
+            )
         classDeclaration.getConsumableProperties().forEach {
             val constantName = enumCreator.addConstant(it)
             fileCreator.addFunction(
-                consumeExtensionCreator.invoke(it, constantName)
+                consumeExtensionCreator.invoke(it, constantName),
             )
             clearEffectExtensionCreator.addStatement(constantName)
         }
 
-        val file = fileCreator.addFunction(clearEffectExtensionCreator.build())
-            .addEnum(enumCreator.build())
-            .build()
+        val file =
+            fileCreator.addFunction(clearEffectExtensionCreator.build())
+                .addEnum(enumCreator.build())
+                .build()
 
         logger.info("writing file ${fileCreator.fileName}.kt")
         file.writeTo(codeGenerator, Dependencies(true))

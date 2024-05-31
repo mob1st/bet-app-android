@@ -27,11 +27,12 @@ class OpenAppUseCaseTest : BehaviorSpec({
         every { authRepository.authStatus } returns flowOf(AuthStatus.LOGGED_IN)
         every { analyticsReporter.log(any()) } just runs
         coEvery { featureFlagRepository.sync() } just runs
-        val useCase = OpenAppUseCase(
-            analyticsReporter = analyticsReporter,
-            authRepository = authRepository,
-            featureFlagRepository = featureFlagRepository
-        )
+        val useCase =
+            OpenAppUseCase(
+                analyticsReporter = analyticsReporter,
+                authRepository = authRepository,
+                featureFlagRepository = featureFlagRepository,
+            )
         When("open the app") {
             launch {
                 useCase().first()

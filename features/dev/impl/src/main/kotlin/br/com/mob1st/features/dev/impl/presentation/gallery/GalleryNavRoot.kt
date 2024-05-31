@@ -10,14 +10,18 @@ import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.utils.navigation.NavRoot
 
 internal object GalleryNavRoot : NavRoot {
-    context(NavGraphBuilder) override fun graph(navController: NavController, patterns: List<TransitionPattern>) {
+    context(NavGraphBuilder)
+    override fun graph(
+        navController: NavController,
+        patterns: List<TransitionPattern>,
+    ) {
         navigation(
             route = GalleryNavTarget.ROUTE,
-            startDestination = DevSettingsNavTarget.Gallery.screenName
+            startDestination = DevSettingsNavTarget.Gallery.screenName,
         ) {
             composable(
                 current = DevSettingsNavTarget.Gallery,
-                list = patterns
+                list = patterns,
             ) {
                 GalleryPage()
             }

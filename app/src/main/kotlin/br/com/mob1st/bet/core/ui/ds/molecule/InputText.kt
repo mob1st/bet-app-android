@@ -26,17 +26,19 @@ fun InputText() {
     }
 
     OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, end = 20.dp),
         value = groupName,
         onValueChange = { groupName = it },
         label = { Text(text = "Group Name") },
         singleLine = true,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Email,
-            imeAction = ImeAction.Next
-        ),
-        colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black)
+        keyboardOptions =
+            KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next,
+            ),
+        colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
     )
 }

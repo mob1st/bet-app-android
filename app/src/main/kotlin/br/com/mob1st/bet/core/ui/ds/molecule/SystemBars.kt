@@ -27,11 +27,11 @@ fun SystemBars(
         SideEffect {
             systemUiController.setStatusBarColor(
                 color = statusBarProperties.color,
-                darkIcons = statusBarProperties.darkIcons
+                darkIcons = statusBarProperties.darkIcons,
             )
             systemUiController.setNavigationBarColor(
                 color = navigationBarProperties.color,
-                darkIcons = navigationBarProperties.darkIcons
+                darkIcons = navigationBarProperties.darkIcons,
             )
         }
     }
@@ -49,14 +49,15 @@ data class SystemBarProperties(
  * Default values for [SystemBarProperties]
  */
 object SystemBarsDefaults {
+    val statusBar @Composable get() =
+        SystemBarProperties(
+            color = MaterialTheme.colorScheme.primary,
+            darkIcons = LocalDarkTime.current,
+        )
 
-    val statusBar @Composable get() = SystemBarProperties(
-        color = MaterialTheme.colorScheme.primary,
-        darkIcons = LocalDarkTime.current
-    )
-
-    val navigationBar @Composable get() = SystemBarProperties(
-        color = MaterialTheme.colorScheme.surface,
-        darkIcons = !LocalDarkTime.current
-    )
+    val navigationBar @Composable get() =
+        SystemBarProperties(
+            color = MaterialTheme.colorScheme.surface,
+            darkIcons = !LocalDarkTime.current,
+        )
 }

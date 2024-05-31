@@ -8,7 +8,8 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val firebaseModule = module {
-    factoryOf(::GoogleAnalyticsTool).bind<AnalyticsTool>()
-    factoryOf(::CrashlyticsTool).bind<CrashReportingTool>()
-}
+val firebaseModule =
+    module {
+        factoryOf(::GoogleAnalyticsTool).bind<AnalyticsTool>()
+        factoryOf(::CrashlyticsTool).bind<CrashReportingTool>()
+    }

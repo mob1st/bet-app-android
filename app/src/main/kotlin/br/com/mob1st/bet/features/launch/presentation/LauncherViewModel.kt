@@ -13,7 +13,6 @@ import org.koin.android.annotation.KoinViewModel
 class LauncherViewModel(
     private val launchAppUseCase: LaunchAppUseCase,
 ) : StateViewModel<LaunchData, LauncherUiEvent>(AsyncState(LaunchData(), loading = true)) {
-
     init {
         triggerUseCase()
     }

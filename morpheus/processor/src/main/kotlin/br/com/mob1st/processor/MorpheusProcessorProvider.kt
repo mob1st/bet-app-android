@@ -11,7 +11,7 @@ class MorpheusProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
         return MorpheusProcessor(
             codeGenerator = environment.codeGenerator,
-            logger = environment.logger
+            logger = environment.logger,
         )
     }
 }

@@ -9,28 +9,16 @@ import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
  * Use the constructor with the [BackendEnvironment] to create a dev menu for the current environment.
  */
 internal data class DevMenu(
+    val backendEnvironment: BackendEnvironment,
     val entries: List<DevMenuEntry>,
-) {
-    constructor(currentEnv: BackendEnvironment) : this(
-        entries = listOf(
-            DevMenuEntry.Environment(currentEnv),
-            DevMenuEntry.FeatureFlags,
-            DevMenuEntry.Gallery,
-            DevMenuEntry.EntryPoint
-        )
-    )
-    fun isAllowed(position: Int) = entries[position] == DevMenuEntry.Gallery
-}
+)
 
 /**
  * The possible entries of the dev menu.
  */
-internal sealed class DevMenuEntry {
-
-    data class Environment(val type: BackendEnvironment) : DevMenuEntry()
-    data object Gallery : DevMenuEntry()
-
-    data object FeatureFlags : DevMenuEntry()
-
-    data object EntryPoint : DevMenuEntry()
+internal enum class DevMenuEntry(val isImplemented: Boolean) {
+    Environment(false),
+    Gallery(true),
+    FeatureFlags(false),
+    EntryPoint(false),
 }

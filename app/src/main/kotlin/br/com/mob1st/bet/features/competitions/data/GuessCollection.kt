@@ -11,39 +11,39 @@ import org.koin.core.annotation.Factory
 class GuessCollection(
     private val firestore: FirebaseFirestore,
 ) {
-
     suspend fun createGuess(
         userId: String,
         guess: Guess,
     ) {
         val confrontation = guess.confrontation
-        val params = mapOf(
-            Guess::createdAt.name to guess.createdAt,
-            Guess::updatedAt.name to guess.updatedAt,
-            Guess::aggregation.name to GuessAnswerFactory.toMap(guess.aggregation),
-            Guess::confrontation.name to mapOf(
-                "ref" to firestore
-                    .confrontations(confrontation.competitionId)
-                    .document(confrontation.id),
-                ConfrontationForGuess::allowBetsUntil.name to guess.confrontation.allowBetsUntil
-            ),
-            "subscriptionRef" to firestore.subscriptions(userId).document(guess.subscriptionId)
-        )
+        val params =
+            mapOf(
+                Guess::createdAt.name to guess.createdAt,
+                Guess::updatedAt.name to guess.updatedAt,
+                Guess::aggregation.name to GuessAnswerFactory.toMap(guess.aggregation),
+                Guess::confrontation.name to
+                    mapOf(
+                        "ref" to
+                            firestore
+                                .confrontations(confrontation.competitionId)
+                                .document(confrontation.id),
+                        ConfrontationForGuess::allowBetsUntil.name to guess.confrontation.allowBetsUntil,
+                    ),
+                "subscriptionRef" to firestore.subscriptions(userId).document(guess.subscriptionId),
+            )
         firestore.guesses
             .add(params)
             .awaitWithTimeout()
     }
 
-    suspend fun updateGuess(
-        guess: Guess,
-    ) {
+    suspend fun updateGuess(guess: Guess) {
         firestore.guesses
             .document(guess.id)
             .update(
                 mapOf(
                     Guess::updatedAt.name to guess.updatedAt,
-                    Guess::aggregation.name to GuessAnswerFactory.toMap(guess.aggregation)
-                )
+                    Guess::aggregation.name to GuessAnswerFactory.toMap(guess.aggregation),
+                ),
             )
             .awaitWithTimeout()
     }

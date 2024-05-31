@@ -6,11 +6,17 @@ import androidx.compose.ui.text.TextStyle
 
 @Immutable
 internal sealed interface TextStyleProvider {
-    fun of(typography: Typography, textSize: TextSize): TextStyle
+    fun of(
+        typography: Typography,
+        textSize: TextSize,
+    ): TextStyle
 }
 
 internal data object DisplayStyleProvider : TextStyleProvider {
-    override fun of(typography: Typography, textSize: TextSize): TextStyle {
+    override fun of(
+        typography: Typography,
+        textSize: TextSize,
+    ): TextStyle {
         return when (textSize) {
             TextSize.Small -> typography.displaySmall
             TextSize.Medium -> typography.displayMedium
@@ -20,7 +26,10 @@ internal data object DisplayStyleProvider : TextStyleProvider {
 }
 
 internal data object HeadlineStyleProvider : TextStyleProvider {
-    override fun of(typography: Typography, textSize: TextSize): TextStyle {
+    override fun of(
+        typography: Typography,
+        textSize: TextSize,
+    ): TextStyle {
         return when (textSize) {
             TextSize.Small -> typography.headlineSmall
             TextSize.Medium -> typography.headlineMedium
@@ -30,7 +39,10 @@ internal data object HeadlineStyleProvider : TextStyleProvider {
 }
 
 internal data object TitleStyleProvider : TextStyleProvider {
-    override fun of(typography: Typography, textSize: TextSize): TextStyle {
+    override fun of(
+        typography: Typography,
+        textSize: TextSize,
+    ): TextStyle {
         return when (textSize) {
             TextSize.Small -> typography.titleSmall
             TextSize.Medium -> typography.titleMedium
@@ -40,7 +52,10 @@ internal data object TitleStyleProvider : TextStyleProvider {
 }
 
 internal data object BodyStyleProvider : TextStyleProvider {
-    override fun of(typography: Typography, textSize: TextSize): TextStyle {
+    override fun of(
+        typography: Typography,
+        textSize: TextSize,
+    ): TextStyle {
         return when (textSize) {
             TextSize.Small -> typography.bodySmall
             TextSize.Medium -> typography.bodyMedium
@@ -50,7 +65,10 @@ internal data object BodyStyleProvider : TextStyleProvider {
 }
 
 internal data object LabelStyleProvider : TextStyleProvider {
-    override fun of(typography: Typography, textSize: TextSize): TextStyle {
+    override fun of(
+        typography: Typography,
+        textSize: TextSize,
+    ): TextStyle {
         return when (textSize) {
             TextSize.Small -> typography.labelSmall
             TextSize.Medium -> typography.labelMedium

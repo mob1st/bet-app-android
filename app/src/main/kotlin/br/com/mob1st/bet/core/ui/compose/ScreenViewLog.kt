@@ -24,7 +24,7 @@ fun ScreenViewLog(
     ScreenViewLog(
         screenView = ScreenViewEvent(screenName),
         lifecycleOwner = lifecycleOwner,
-        analyticsTool = analyticsTool
+        analyticsTool = analyticsTool,
     )
 }
 
@@ -43,13 +43,14 @@ fun ScreenViewLog(
     val currentScreenDismiss by rememberUpdatedState(screenDismiss)
 
     DisposableEffect(lifecycleOwner, screenView, screenDismiss) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_START) {
-                analyticsTool.log(currentScreenView)
-            } else if (event == Lifecycle.Event.ON_STOP) {
-                analyticsTool.log(currentScreenDismiss)
+        val observer =
+            LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_START) {
+                    analyticsTool.log(currentScreenView)
+                } else if (event == Lifecycle.Event.ON_STOP) {
+                    analyticsTool.log(currentScreenDismiss)
+                }
             }
-        }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)

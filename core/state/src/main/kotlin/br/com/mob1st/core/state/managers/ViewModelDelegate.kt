@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
  * It's useful to avoid code duplication and to make the ViewModel more readable.
  */
 fun interface ViewModelDelegate<State> {
-
     /**
      * The output of the state management. Give a [CoroutineScope] to the delegate so it can be used to launch
      * coroutines internally and expose the output as a [StateFlow].

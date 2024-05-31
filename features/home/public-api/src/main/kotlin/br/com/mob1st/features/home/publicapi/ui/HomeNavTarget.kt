@@ -6,7 +6,6 @@ import br.com.mob1st.core.design.atoms.properties.navigations.NavTarget
  * Home navigation targets.
  */
 sealed class HomeNavTarget : NavTarget() {
-
     /**
      * Home screen.
      */

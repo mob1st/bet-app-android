@@ -11,10 +11,11 @@ import java.lang.reflect.Modifier
 
 class ConsumeExtensionFunctionalityTest : FunSpec({
 
-    val compilation = compilation(
-        SourceFile.kotlin(
-            "Sample.kt",
-            """               
+    val compilation =
+        compilation(
+            SourceFile.kotlin(
+                "Sample.kt",
+                """               
                 import br.com.mob1st.morpheus.annotation.ConsumableEffect
                 import br.com.mob1st.morpheus.annotation.Morpheus
                 @Morpheus
@@ -24,9 +25,9 @@ class ConsumeExtensionFunctionalityTest : FunSpec({
                     @ConsumableEffect
                     val field2: String? = "value2"
                 )                    
-            """.trimIndent()
+                """.trimIndent(),
+            ),
         )
-    )
     test("consume method is calling the proper field") {
         val result = compilation.compile()
         result.shouldExitOk()
@@ -39,10 +40,14 @@ class ConsumeExtensionFunctionalityTest : FunSpec({
     }
 })
 
-private fun Class<*>.callConsumeFunction(obj: Any, fieldName: String): String {
-    val consumeExtension = methods.first {
-        it.name == "consume$fieldName" && Modifier.isStatic(it.modifiers)
-    }
+private fun Class<*>.callConsumeFunction(
+    obj: Any,
+    fieldName: String,
+): String {
+    val consumeExtension =
+        methods.first {
+            it.name == "consume$fieldName" && Modifier.isStatic(it.modifiers)
+        }
 
     @Suppress("UNCHECKED_CAST")
     val consumable = consumeExtension.invoke(obj, obj) as Consumable<*, String>

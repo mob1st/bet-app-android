@@ -22,15 +22,17 @@ internal class RecurrenceBuilderRepositoryImpl(
     private val completionsDataSource: UnitaryDataSource<RecurrenceBuilderCompletions>,
     private val io: IoCoroutineDispatcher,
 ) : RecurrenceBuilderRepository {
-    override fun get(): Flow<RecurrenceBuilder> = combine(
-        completionsDataSource.data,
-        listsDataSource.data,
-        ::RecurrenceBuilderCache
-    ).map { it.toDomain() }
+    override fun get(): Flow<RecurrenceBuilder> =
+        combine(
+            completionsDataSource.data,
+            listsDataSource.data,
+            ::RecurrenceBuilderCache,
+        ).map { it.toDomain() }
 
-    override suspend fun set(builder: RecurrenceBuilder): Unit = withContext(io) {
-        val (completions, lists) = builder.toData()
-        completionsDataSource.set(completions)
-        listsDataSource.set(lists)
-    }
+    override suspend fun set(builder: RecurrenceBuilder): Unit =
+        withContext(io) {
+            val (completions, lists) = builder.toData()
+            completionsDataSource.set(completions)
+            listsDataSource.set(lists)
+        }
 }

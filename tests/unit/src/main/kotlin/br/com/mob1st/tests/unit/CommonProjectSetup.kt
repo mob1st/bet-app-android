@@ -6,7 +6,6 @@ import io.kotest.core.config.AbstractProjectConfig
 
 @AutoScan
 object CommonProjectSetup : AbstractProjectConfig() {
-
     override val coroutineTestScope: Boolean = true
 
     @ExperimentalKotest

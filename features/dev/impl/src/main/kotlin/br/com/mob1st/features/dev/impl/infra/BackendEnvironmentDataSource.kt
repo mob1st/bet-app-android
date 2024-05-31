@@ -1,4 +1,4 @@
-package br.com.mob1st.features.dev.impl.data
+package br.com.mob1st.features.dev.impl.infra
 
 import android.content.Context
 import androidx.datastore.preferences.core.MutablePreferences
@@ -11,11 +11,13 @@ import br.com.mob1st.core.androidx.datastore.set
 internal class BackendEnvironmentDataSource(
     context: Context,
 ) : PreferencesDataSource<String?>(context, DataStoreFile.BE_ENV) {
-
     override suspend fun get(preferences: Preferences): String? =
         preferences[stringPreferencesKey(KEY_BACKEND_ENVIRONMENT)]
 
-    override suspend fun set(preferences: MutablePreferences, data: String?) {
+    override suspend fun set(
+        preferences: MutablePreferences,
+        data: String?,
+    ) {
         preferences[stringPreferencesKey(KEY_BACKEND_ENVIRONMENT)] = data
     }
 

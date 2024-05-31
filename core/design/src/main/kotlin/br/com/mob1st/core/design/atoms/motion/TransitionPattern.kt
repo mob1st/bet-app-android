@@ -16,7 +16,6 @@ import androidx.navigation.NavBackStackEntry
  * @see [NavigationMatches]
  */
 sealed interface TransitionPattern {
-
     /**
      * The enter animation to run when a composable enters the screen.
      *

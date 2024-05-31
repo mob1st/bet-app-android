@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
  * @param T the type of the data.
  */
 interface UnitaryDataSource<T> {
-
     /**
      * The data. Every time the [set] is called a new emission should be triggered.
      */

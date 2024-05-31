@@ -12,11 +12,14 @@ import br.com.mob1st.features.utils.navigation.NavRoot
  * Home navigation root.
  */
 object HomeNavRoot : NavRoot {
-
-    context(NavGraphBuilder) override fun graph(navController: NavController, patterns: List<TransitionPattern>) {
+    context(NavGraphBuilder)
+    override fun graph(
+        navController: NavController,
+        patterns: List<TransitionPattern>,
+    ) {
         navigation(
             startDestination = HomeNavTarget.Home.screenName,
-            route = HomeNavTarget.ROUTE
+            route = HomeNavTarget.ROUTE,
         ) {
             composable(HomeNavTarget.Home.screenName) {
                 HomePage()

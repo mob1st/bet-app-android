@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.mapNotNull
 class FakeUnitaryDataSource<T>(
     val setState: MutableStateFlow<T?>,
 ) : UnitaryDataSource<T> {
-
     override val data: Flow<T> = setState.mapNotNull { it }
+
     override suspend fun set(data: T) {
         setState.value = data
     }

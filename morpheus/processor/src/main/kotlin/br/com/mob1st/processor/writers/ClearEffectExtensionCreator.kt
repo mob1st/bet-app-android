@@ -16,24 +16,25 @@ internal class ClearEffectExtensionCreator(
     packageName: String,
     private val enumName: String,
 ) {
-
     private val builder: FunSpec.Builder
     private val classType = classDeclaration.asType(emptyList()).toTypeName()
-    private val parameterType = Consumable::class.asClassName().parameterizedBy(
-        ClassName(packageName, enumName),
-        STAR
-    )
+    private val parameterType =
+        Consumable::class.asClassName().parameterizedBy(
+            ClassName(packageName, enumName),
+            STAR,
+        )
 
     init {
         logger.info("creating clearEffect extension creator")
-        builder = FunSpec.builder("clearEffect")
-            .receiver(classType)
-            .returns(classType)
-            .addParameter(
-                "consumable",
-                parameterType
-            )
-            .beginControlFlow("return when (consumable.key)")
+        builder =
+            FunSpec.builder("clearEffect")
+                .receiver(classType)
+                .returns(classType)
+                .addParameter(
+                    "consumable",
+                    parameterType,
+                )
+                .beginControlFlow("return when (consumable.key)")
     }
 
     fun addStatement(constant: String) {
@@ -42,7 +43,7 @@ internal class ClearEffectExtensionCreator(
             "%N.%N -> copy(%N = null)",
             enumName,
             constant,
-            constant.replaceFirstChar { it.lowercaseChar() }
+            constant.replaceFirstChar { it.lowercaseChar() },
         )
     }
 

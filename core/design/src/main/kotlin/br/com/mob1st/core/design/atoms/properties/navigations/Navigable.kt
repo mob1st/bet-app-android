@@ -10,7 +10,6 @@ import androidx.compose.runtime.Immutable
  */
 @Immutable
 interface Navigable<T : NavTarget> {
-
     /**
      * The navigation target.
      */

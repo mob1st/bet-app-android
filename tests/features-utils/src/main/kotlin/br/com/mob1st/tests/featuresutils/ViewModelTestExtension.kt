@@ -28,7 +28,6 @@ class ViewModelTestExtension :
     AfterEachCallback,
     BeforeAllCallback,
     AfterAllCallback {
-
     private val dispatcher: TestDispatcher = UnconfinedTestDispatcher()
 
     override fun beforeAll(context: ExtensionContext?) {

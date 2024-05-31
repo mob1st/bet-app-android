@@ -11,22 +11,25 @@ import org.jetbrains.kotlin.descriptors.runtime.structure.parameterizedTypeArgum
 import java.lang.reflect.Modifier
 
 private const val FILE_NAME = "Sample.kt"
+
 class CleanExtensionCreationTest : BehaviorSpec({
 
     Given("annotated class with annotated property") {
         val morpheusClass = givenMorpheusClass("Sample")
-        val prop1 = property(
-            """
+        val prop1 =
+            property(
+                """
                 @ConsumableEffect val prop1: Int? = null
-            """.trimIndent()
-        )
+                """.trimIndent(),
+            )
 
         When("compile") {
             val result = morpheusClass.constructor(prop1).compile(FILE_NAME)
             val generatedClass = result.classLoader.loadClass("SampleEffectKeyKt")
-            val clearEffects = generatedClass.methods.filter {
-                it.name == "clearEffect" && Modifier.isStatic(it.modifiers)
-            }
+            val clearEffects =
+                generatedClass.methods.filter {
+                    it.name == "clearEffect" && Modifier.isStatic(it.modifiers)
+                }
             And("get the generated extension") {
                 val extension = clearEffects.first()
                 Then("an extension should be created with name clearEffect") {
@@ -49,9 +52,10 @@ class CleanExtensionCreationTest : BehaviorSpec({
                             }
                         }
                         And("get parameterized types of parameter") {
-                            val parameterizedTypes = parameter
-                                .parameterizedType
-                                .parameterizedTypeArguments
+                            val parameterizedTypes =
+                                parameter
+                                    .parameterizedType
+                                    .parameterizedTypeArguments
                             And("get the first type") {
                                 Then("it should be the genereted enum") {
                                     parameterizedTypes[0].typeName shouldBe "SampleEffectKey"

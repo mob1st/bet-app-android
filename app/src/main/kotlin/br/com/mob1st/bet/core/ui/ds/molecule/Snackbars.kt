@@ -23,9 +23,10 @@ fun SnackBar(
     val currentOnActionPerformed by rememberUpdatedState(onActionPerformed)
     val resources = LocalContext.current.resources
     LaunchedEffect(snackbarHostState, state) {
-        val result = snackbarHostState.showSnackbar(
-            message = state.message.resolve(resources)
-        )
+        val result =
+            snackbarHostState.showSnackbar(
+                message = state.message.resolve(resources),
+            )
         when (result) {
             SnackbarResult.Dismissed -> currentOnDismiss(state)
             SnackbarResult.ActionPerformed -> currentOnActionPerformed(state)
@@ -43,7 +44,7 @@ fun DismissSnackbar(
     LaunchedEffect(snackbarHostState, message) {
         snackbarHostState.showDismissSnackbar(
             message,
-            onDismissUpdated
+            onDismissUpdated,
         )
     }
 }
@@ -63,7 +64,7 @@ fun RetrySnackbar(
             message = message,
             retryText = retryText,
             onRetry = onRetryUpdated,
-            onDismiss = onDismissUpdated
+            onDismiss = onDismissUpdated,
         )
     }
 }
@@ -77,7 +78,7 @@ suspend fun SnackbarHostState.showDismissSnackbar(
 ) {
     showSnackbar(
         message,
-        withDismissAction = true
+        withDismissAction = true,
     )
     onDismiss()
 }
@@ -91,11 +92,12 @@ suspend fun SnackbarHostState.showRetrySnackbar(
     onRetry: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val result = showSnackbar(
-        message = message,
-        actionLabel = retryText,
-        withDismissAction = true
-    )
+    val result =
+        showSnackbar(
+            message = message,
+            actionLabel = retryText,
+            withDismissAction = true,
+        )
     when (result) {
         SnackbarResult.Dismissed -> onDismiss()
         SnackbarResult.ActionPerformed -> onRetry()

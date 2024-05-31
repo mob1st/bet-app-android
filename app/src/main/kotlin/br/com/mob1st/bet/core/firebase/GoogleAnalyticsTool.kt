@@ -8,7 +8,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 class GoogleAnalyticsTool(
     private val analytics: FirebaseAnalytics,
 ) : AnalyticsTool {
-
     override fun registerUser(userId: String) {
         analytics.setUserId(userId)
     }
@@ -20,11 +19,12 @@ class GoogleAnalyticsTool(
     @Suppress("SpreadOperator")
     override fun log(event: AnalyticsEvent) {
         val params = event.params()
-        val bundle = if (params.isNotEmpty()) {
-            bundleOf(*params.toList().toTypedArray())
-        } else {
-            null
-        }
+        val bundle =
+            if (params.isNotEmpty()) {
+                bundleOf(*params.toList().toTypedArray())
+            } else {
+                null
+            }
         analytics.logEvent(event.name, bundle)
     }
 }

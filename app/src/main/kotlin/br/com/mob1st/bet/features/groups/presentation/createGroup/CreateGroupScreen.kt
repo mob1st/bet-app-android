@@ -25,9 +25,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateGroupScreen(
-    onCreateGroupAction: () -> Unit,
-) {
+fun CreateGroupScreen(onCreateGroupAction: () -> Unit) {
     val viewModel = koinViewModel<CreateGroupViewModel>()
 
     var groupName by remember {
@@ -36,28 +34,30 @@ fun CreateGroupScreen(
 
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(text = "Criação de Grupo")
         OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp),
             value = groupName,
             onValueChange = { groupName = it },
             label = { Text(text = "Group Name") },
             singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next
-            ),
-            colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black)
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next,
+                ),
+            colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
         )
         AddButton(
             onAction = {
                 viewModel.fromUi(GroupsUIEvent.CreateGroup(groupName))
                 onCreateGroupAction()
-            }
+            },
         )
     }
 }

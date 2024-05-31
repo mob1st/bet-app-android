@@ -10,10 +10,10 @@ import org.intellij.lang.annotations.Language
 @Language("kotlin")
 internal fun givenMorpheusClass(name: String) =
     """
-        import br.com.mob1st.morpheus.annotation.ConsumableEffect
-        import br.com.mob1st.morpheus.annotation.Morpheus
-        @Morpheus                
-        data class $name
+    import br.com.mob1st.morpheus.annotation.ConsumableEffect
+    import br.com.mob1st.morpheus.annotation.Morpheus
+    @Morpheus                
+    data class $name
     """.trimIndent()
 
 internal fun String.constructor(
@@ -44,10 +44,11 @@ internal fun String.compile(fileName: String): KotlinCompilation.Result {
     return compilation(source).compile()
 }
 
-fun compilation(vararg sourceFile: SourceFile) = KotlinCompilation().apply {
-    symbolProcessorProviders = listOf(MorpheusProcessorProvider())
-    sources = sourceFile.asList()
-    verbose = false
-    kspWithCompilation = true
-    inheritClassPath = true
-}
+fun compilation(vararg sourceFile: SourceFile) =
+    KotlinCompilation().apply {
+        symbolProcessorProviders = listOf(MorpheusProcessorProvider())
+        sources = sourceFile.asList()
+        verbose = false
+        kspWithCompilation = true
+        inheritClassPath = true
+    }
