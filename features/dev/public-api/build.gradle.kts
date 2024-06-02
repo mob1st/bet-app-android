@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("commonSetup")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -20,6 +21,7 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.timber)
+    implementation(libs.kotlin.serialization.json)
 
     implementation(projects.core.design)
     implementation(projects.core.state)

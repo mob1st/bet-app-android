@@ -20,10 +20,9 @@ fun DesignSystem(
 ) {
     val displayFeatures = calculateDisplayFeatures(activity = activity)
     val windowSizeClass = calculateWindowSizeClass(activity = activity)
-    val layoutSpec =
-        remember(windowSizeClass.widthSizeClass) {
-            LayoutSpec.of(windowSizeClass.widthSizeClass)
-        }
+    val layoutSpec = remember(windowSizeClass.widthSizeClass) {
+        LayoutSpec.of(windowSizeClass.widthSizeClass)
+    }
     CompositionLocalProvider(
         LocalDisplayFeatures provides displayFeatures,
         LocalLayoutSpec provides layoutSpec,

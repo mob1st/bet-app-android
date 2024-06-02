@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.mob1st.core.design.molecules.texts.Header
 import br.com.mob1st.core.design.organisms.lists.ListItem
 import br.com.mob1st.core.design.organisms.snack.Snackbar
 import br.com.mob1st.core.design.organisms.snack.SnackbarState
@@ -52,6 +53,9 @@ private fun DevMenuPageView(
     val snackbarHostState = remember { SnackbarHostState() }
     val state = pageState as? DevMenuUiState.Loaded ?: return
     Scaffold(
+        topBar = {
+            Header(state = pageState.header)
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) {
         LazyColumn(
@@ -65,7 +69,7 @@ private fun DevMenuPageView(
                     state = item,
                     modifier = Modifier.clickable { onSelectItem(index) },
                 )
-                Divider(modifier = Modifier.fillMaxWidth())
+                HorizontalDivider(modifier = Modifier.fillMaxWidth())
             }
         }
     }

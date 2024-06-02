@@ -5,6 +5,7 @@ plugins {
     kotlin("android")
     alias(libs.plugins.junit5)
     id("commonSetup")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -36,6 +37,7 @@ dependencies {
     // standalone
     implementation(libs.datastore.preferences)
     implementation(libs.timber)
+    implementation(libs.kotlin.serialization.json)
     implementation(projects.core.androidx)
     implementation(projects.core.database)
     implementation(projects.core.design)

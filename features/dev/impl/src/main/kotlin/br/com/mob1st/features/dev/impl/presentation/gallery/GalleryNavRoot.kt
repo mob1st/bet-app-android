@@ -3,50 +3,40 @@ package br.com.mob1st.features.dev.impl.presentation.gallery
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
-import br.com.mob1st.core.design.atoms.motion.TransitionPattern
-import br.com.mob1st.core.design.atoms.motion.composable
-import br.com.mob1st.core.design.atoms.properties.navigations.NavTarget
+import br.com.mob1st.core.design.motion.slide
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.utils.navigation.NavRoot
+import kotlinx.serialization.Serializable
 
 internal object GalleryNavRoot : NavRoot {
     context(NavGraphBuilder)
-    override fun graph(
-        navController: NavController,
-        patterns: List<TransitionPattern>,
-    ) {
-        navigation(
-            route = GalleryNavTarget.ROUTE,
-            startDestination = DevSettingsNavTarget.Gallery.screenName,
+    override fun graph(navController: NavController) {
+        navigation<GalleryNavTarget.Route>(
+            startDestination = GalleryNavTarget.Root,
         ) {
-            composable(
-                current = DevSettingsNavTarget.Gallery,
-                list = patterns,
-            ) {
+            slide<GalleryNavTarget.Root> {
                 GalleryPage()
             }
         }
     }
 }
 
-internal sealed class GalleryNavTarget : NavTarget() {
-    data object Atoms : GalleryNavTarget() {
-        override val screenName: String = "atoms"
-    }
+internal sealed class GalleryNavTarget : DevSettingsNavTarget.Nested {
+    @Serializable
+    data object Root : GalleryNavTarget()
 
-    data object Molecules : GalleryNavTarget() {
-        override val screenName: String = "molecules"
-    }
+    @Serializable
+    data object Atoms : GalleryNavTarget()
 
-    data object Organisms : GalleryNavTarget() {
-        override val screenName: String = "organisms"
-    }
+    @Serializable
+    data object Molecules : GalleryNavTarget()
 
-    data object Templates : GalleryNavTarget() {
-        override val screenName: String = "templates"
-    }
+    @Serializable
+    data object Organisms : GalleryNavTarget()
 
-    companion object {
-        const val ROUTE: String = "br.com.mob1st.features.dev.impl.presentation.gallery"
-    }
+    @Serializable
+    data object Templates : GalleryNavTarget()
+
+    @Serializable
+    object Route
 }

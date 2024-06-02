@@ -1,19 +1,14 @@
 package br.com.mob1st.features.onboarding.impl.ui
 
 import br.com.mob1st.core.state.contracts.HelperClickManager
-import br.com.mob1st.core.state.contracts.SideEffectManager
 import br.com.mob1st.core.state.contracts.UiStateManager
 import br.com.mob1st.features.onboarding.impl.domain.SplashDestination
 import br.com.mob1st.morpheus.annotation.ConsumableEffect
 import br.com.mob1st.morpheus.annotation.Morpheus
 import javax.annotation.concurrent.Immutable
 
-/**
- * Contract for communication between [LauncherPage] and the [LauncherViewModel].
- */
 interface LauncherUiContract :
     UiStateManager<LauncherUiState>,
-    SideEffectManager<LauncherUiStateEffectKey>,
     HelperClickManager
 
 /**

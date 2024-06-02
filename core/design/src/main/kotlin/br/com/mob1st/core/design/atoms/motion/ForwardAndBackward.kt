@@ -62,15 +62,15 @@ data class ForwardAndBackward(
                 towards = towards,
                 animationSpec =
                     tween(
-                        durationMillis = Duration.LONG_2,
+                        durationMillis = Duration.long.two,
                         easing = EmphasizedEasingSet.default,
                     ),
             ) +
                 fadeIn(
                     animationSpec =
                         tween(
-                            durationMillis = Duration.MEDIUM_3,
-                            delayMillis = Duration.SHORT_4,
+                            durationMillis = Duration.medium.three,
+                            delayMillis = Duration.short.four,
                             easing = StandardEasingSet.decelerate,
                         ),
                 )
@@ -81,12 +81,12 @@ data class ForwardAndBackward(
         ): ExitTransition {
             return slideOutOfContainer(
                 towards = towards,
-                animationSpec = tween(Duration.LONG_2, easing = EmphasizedEasingSet.default),
+                animationSpec = tween(Duration.long.two, easing = EmphasizedEasingSet.default),
             ) +
                 fadeOut(
                     animationSpec =
                         tween(
-                            durationMillis = Duration.SHORT_4,
+                            durationMillis = Duration.short.four,
                             easing = StandardEasingSet.accelerate,
                         ),
                 )

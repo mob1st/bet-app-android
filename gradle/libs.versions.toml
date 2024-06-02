@@ -21,6 +21,7 @@ junit5-plugin = "1.10.0.0"
 junit5 = "5.10.2"
 coroutines = "1.8.1"
 turbine = "1.1.0"
+navigation = "2.8.0-beta02"
 
 [libraries]
 # androidx
@@ -36,8 +37,8 @@ android-test-arch = "androidx.arch.core:core-testing:2.2.0"
 
 # lifecycle
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle"}
-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle"}
+lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 
 #datastore
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
@@ -51,7 +52,7 @@ compose-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose"
 compose-material3 = "androidx.compose.material3:material3:1.2.1"
 compose-windowclass = "androidx.compose.material3:material3-window-size-class:1.2.1"
 compose-activity = "androidx.activity:activity-compose:1.9.0"
-compose-navigation = "androidx.navigation:navigation-compose:2.7.7"
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 compose-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 
 # accompanist
@@ -71,8 +72,8 @@ sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions-jv
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-ksp"}
-koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-ksp"}
+koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-ksp" }
+koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-ksp" }
 
 # code generation tools
 ksp-symbol-processing = "com.google.devtools.ksp:symbol-processing-api:1.9.23-1.0.20"
@@ -105,7 +106,7 @@ arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", versio
 kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
+kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
 kotlin-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.5.0"
 
 

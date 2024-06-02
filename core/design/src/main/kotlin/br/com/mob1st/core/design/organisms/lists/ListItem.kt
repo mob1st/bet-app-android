@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import br.com.mob1st.core.design.atoms.properties.texts.Text
+import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.design.atoms.properties.texts.rememberAnnotatedString
 import br.com.mob1st.core.design.atoms.theme.BetTheme
 import br.com.mob1st.core.design.molecules.loading.Loading
@@ -49,7 +49,7 @@ fun ListItem(
 }
 
 @Composable
-private fun SupportingText(text: Text) {
+private fun SupportingText(text: TextState) {
     val supporting = rememberAnnotatedString(text = text)
     Text(text = supporting)
 }
@@ -60,6 +60,7 @@ private fun Trailing(trailing: ListItemState.Trailing) {
         is ListItemState.Text -> {
             Text(text = trailing.value.resolve(LocalContext.current.resources))
         }
+
         is ListItemState.ActionIcon -> {}
         is ListItemState.Loading -> {
             Loading(
@@ -85,29 +86,29 @@ private class ListItemParameterProvider : PreviewParameterProvider<ListItemState
     override val values: Sequence<ListItemState> =
         sequenceOf(
             ListItemState(
-                headline = Text("Headline"),
-                supporting = Text("Supporting"),
+                headline = TextState("Headline"),
+                supporting = TextState("Supporting"),
                 leading = null,
-                trailing = ListItemState.Text(Text("Trailing")),
+                trailing = ListItemState.Text(TextState("Trailing")),
             ),
             ListItemState(
-                headline = Text("Headline"),
+                headline = TextState("Headline"),
                 leading = null,
-                trailing = ListItemState.Text(Text("Trailing")),
+                trailing = ListItemState.Text(TextState("Trailing")),
             ),
             ListItemState(
-                headline = Text("Headline"),
+                headline = TextState("Headline"),
                 leading = null,
                 trailing = ListItemState.Loading,
             ),
             ListItemState(
-                headline = Text("Headline"),
-                supporting = Text("Supporting"),
+                headline = TextState("Headline"),
+                supporting = TextState("Supporting"),
                 leading = null,
                 trailing = null,
             ),
             ListItemState(
-                headline = Text("Headline"),
+                headline = TextState("Headline"),
                 supporting = null,
                 leading = null,
                 trailing = null,

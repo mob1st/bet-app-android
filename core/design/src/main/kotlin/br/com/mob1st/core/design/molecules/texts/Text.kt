@@ -5,12 +5,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import br.com.mob1st.core.design.atoms.properties.texts.Text
+import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.design.atoms.properties.texts.rememberAnnotatedString
 
 @Composable
 fun Display(
-    text: Text,
+    text: TextState,
     textSize: TextSize = TextSize.Medium,
     modifier: Modifier = Modifier,
 ) {
@@ -24,7 +24,7 @@ fun Display(
 
 @Composable
 fun Headline(
-    text: Text,
+    text: TextState,
     textSize: TextSize = TextSize.Medium,
     modifier: Modifier = Modifier,
 ) {
@@ -38,7 +38,7 @@ fun Headline(
 
 @Composable
 fun Title(
-    text: Text,
+    text: TextState,
     textSize: TextSize = TextSize.Medium,
     modifier: Modifier = Modifier,
 ) {
@@ -52,7 +52,7 @@ fun Title(
 
 @Composable
 fun Body(
-    text: Text,
+    text: TextState,
     textSize: TextSize = TextSize.Medium,
     modifier: Modifier = Modifier,
 ) {
@@ -66,7 +66,7 @@ fun Body(
 
 @Composable
 fun Label(
-    text: Text,
+    text: TextState,
     textSize: TextSize = TextSize.Medium,
     modifier: Modifier = Modifier,
 ) {
@@ -80,7 +80,7 @@ fun Label(
 
 @Composable
 internal fun BaseText(
-    text: Text,
+    text: TextState,
     textSize: TextSize,
     textStyleProvider: TextStyleProvider,
     modifier: Modifier,

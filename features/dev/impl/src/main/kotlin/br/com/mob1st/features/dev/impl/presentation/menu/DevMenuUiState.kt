@@ -1,7 +1,8 @@
 package br.com.mob1st.features.dev.impl.presentation.menu
 
 import androidx.compose.runtime.Immutable
-import br.com.mob1st.core.design.atoms.properties.texts.Text
+import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.core.design.molecules.texts.HeaderState
 import br.com.mob1st.core.design.organisms.lists.ListItemState
 import br.com.mob1st.core.design.organisms.snack.SnackbarState
 import br.com.mob1st.features.dev.impl.R
@@ -20,10 +21,12 @@ internal sealed class DevMenuUiState {
     data class Loaded(
         val menu: DevMenu,
     ) : DevMenuUiState() {
-        val items: List<ListItemState> =
-            menu.entries.map { entry ->
-                toListItem(menu.backendEnvironment, entry)
-            }
+        val header = HeaderState(
+            text = TextState(R.string.dev_menu_title),
+        )
+        val items: List<ListItemState> = menu.entries.map { entry ->
+            toListItem(menu.backendEnvironment, entry)
+        }
     }
 
     /**
@@ -37,7 +40,7 @@ internal sealed class DevMenuUiState {
          */
         fun TodoSnack(): SnackbarState =
             SnackbarState(
-                supporting = Text(R.string.dev_menu_snack_todo_supporting),
+                supporting = TextState(R.string.dev_menu_snack_todo_supporting),
             )
     }
 }
@@ -55,25 +58,28 @@ private fun toListItem(
                     BackendEnvironment.PRODUCTION -> R.string.dev_menu_list_item_environment_trailing_production
                 }
             ListItemState(
-                headline = Text(R.string.dev_menu_list_ite_environment_headline),
-                supporting = Text(R.string.dev_menu_list_item_featureflags_supporting),
-                trailing = ListItemState.Text(Text(envResId)),
+                headline = TextState(R.string.dev_menu_list_item_environment_headline),
+                supporting = TextState(R.string.dev_menu_list_item_featureflags_supporting),
+                trailing = ListItemState.Text(TextState(envResId)),
             )
         }
+
         DevMenuEntry.FeatureFlags ->
             ListItemState(
-                headline = Text(R.string.dev_menu_list_item_featureflags_headline),
-                supporting = Text(R.string.dev_menu_list_item_featureflags_supporting),
+                headline = TextState(R.string.dev_menu_list_item_featureflags_headline),
+                supporting = TextState(R.string.dev_menu_list_item_featureflags_supporting),
             )
+
         DevMenuEntry.Gallery ->
             ListItemState(
-                headline = Text(R.string.dev_menu_list_item_gallery_headline),
-                supporting = Text(R.string.dev_menu_list_item_gallery_supporting),
+                headline = TextState(R.string.dev_menu_list_item_gallery_headline),
+                supporting = TextState(R.string.dev_menu_list_item_gallery_supporting),
             )
+
         DevMenuEntry.EntryPoint ->
             ListItemState(
-                headline = Text(R.string.dev_menu_list_item_entrypoints_headline),
-                supporting = Text(R.string.dev_menu_list_item_entrypoints_supporting),
+                headline = TextState(R.string.dev_menu_list_item_entrypoints_headline),
+                supporting = TextState(R.string.dev_menu_list_item_entrypoints_supporting),
             )
     }
 }

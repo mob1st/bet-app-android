@@ -27,7 +27,7 @@ internal fun NavigationGraph() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = DevSettingsNavTarget.ROUTE,
+        startDestination = DevSettingsNavTarget.Route,
     ) {
         HomeNavRoot.graph(navController = navController)
         DevSettingsNavRoot.graph(navController = navController)

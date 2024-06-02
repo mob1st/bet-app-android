@@ -14,7 +14,7 @@ import androidx.compose.runtime.rememberUpdatedState
  * @param onConsumeNavigation The function to consume the navigation state.
  */
 @Composable
-fun <T : br.com.mob1st.core.design.atoms.properties.navigations.NavTarget> SideEffectNavigation(
+fun <T> SideEffectNavigation(
     target: T?,
     onNavigate: (T) -> Unit,
     onConsumeNavigation: () -> Unit,

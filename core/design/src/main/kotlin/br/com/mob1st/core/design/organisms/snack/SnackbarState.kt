@@ -1,15 +1,15 @@
 package br.com.mob1st.core.design.organisms.snack
 
-import br.com.mob1st.core.design.atoms.properties.texts.Text
+import br.com.mob1st.core.design.atoms.properties.texts.TextState
 
 interface SnackbarState {
-    val supporting: Text
-    val action: Text?
+    val supporting: TextState
+    val action: TextState?
 }
 
 fun SnackbarState(
-    supporting: Text,
-    action: Text? = null,
+    supporting: TextState,
+    action: TextState? = null,
 ): SnackbarState =
     SnackbarStateImpl(
         supporting = supporting,
@@ -17,6 +17,6 @@ fun SnackbarState(
     )
 
 private data class SnackbarStateImpl(
-    override val supporting: Text,
-    override val action: Text? = null,
+    override val supporting: TextState,
+    override val action: TextState? = null,
 ) : SnackbarState

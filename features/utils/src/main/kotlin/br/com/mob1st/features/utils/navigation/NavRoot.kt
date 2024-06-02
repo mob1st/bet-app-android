@@ -2,7 +2,6 @@ package br.com.mob1st.features.utils.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import br.com.mob1st.core.design.atoms.motion.TransitionPattern
 
 /**
  * Root of a navigation graph.
@@ -14,8 +13,5 @@ interface NavRoot {
      * @param navController The navigation controller.
      */
     context(NavGraphBuilder)
-    fun graph(
-        navController: NavController,
-        patterns: List<TransitionPattern> = emptyList(),
-    )
+    fun graph(navController: NavController)
 }

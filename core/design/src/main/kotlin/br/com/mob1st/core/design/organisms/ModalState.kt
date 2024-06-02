@@ -1,9 +1,9 @@
 package br.com.mob1st.core.design.organisms
 
 import androidx.compose.runtime.Immutable
-import br.com.mob1st.core.design.atoms.properties.texts.Text
+import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.design.molecules.buttons.ButtonBar
-import br.com.mob1st.core.design.molecules.texts.Header
+import br.com.mob1st.core.design.molecules.texts.HeaderState
 
 /**
  * Represents the state of a modal.
@@ -13,12 +13,12 @@ interface ModalState {
     /**
      * The title of the modal
      */
-    val header: Header
+    val headerState: HeaderState
 
     /**
      * The message of the modal
      */
-    val message: Text?
+    val message: TextState?
 
     /**
      * The negative action of the modal
@@ -35,21 +35,21 @@ interface ModalState {
  * Creates a [ModalState] instance using the default implementation.
  */
 fun ModalState(
-    header: Header,
+    headerState: HeaderState,
     buttonBar: ButtonBar,
-    message: Text? = null,
+    message: TextState? = null,
     isDismissible: Boolean = true,
 ): ModalState =
     ModalStateImpl(
-        header = header,
+        headerState = headerState,
         message = message,
         positiveAction = buttonBar,
         isDismissible = isDismissible,
     )
 
 private data class ModalStateImpl(
-    override val header: Header,
-    override val message: Text?,
+    override val headerState: HeaderState,
+    override val message: TextState?,
     override val positiveAction: ButtonBar,
     override val isDismissible: Boolean,
 ) : ModalState

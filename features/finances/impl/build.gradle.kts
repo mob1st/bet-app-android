@@ -35,18 +35,18 @@ dependencies {
     implementation(libs.bundles.koin)
 
     // standalone
-    implementation(libs.timber)
+    implementation(projects.features.utils)
     implementation(projects.core.androidx)
     implementation(projects.core.database)
     implementation(projects.core.design)
     implementation(projects.core.kotlinx)
     implementation(projects.core.observability)
     implementation(projects.core.state)
-
-    implementation(projects.features.utils)
+    implementation(libs.timber)
 
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)
+
     debugImplementation(libs.datastore.preferences)
 
     dokkaPlugin(libs.plugin.dokka.android)

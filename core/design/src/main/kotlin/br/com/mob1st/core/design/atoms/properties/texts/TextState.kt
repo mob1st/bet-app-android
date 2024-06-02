@@ -14,24 +14,24 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.util.fastForEach
 
-sealed interface Text {
+sealed interface TextState {
     fun resolve(resources: Resources): AnnotatedString
 }
 
 @Composable
-fun rememberAnnotatedString(text: Text): AnnotatedString {
+fun rememberAnnotatedString(text: TextState): AnnotatedString {
     val resources = LocalContext.current.resources
     return remember(text) {
         text.resolve(resources)
     }
 }
 
-fun Text(string: String): Text = ActualString(string)
+fun TextState(string: String): TextState = ActualString(string)
 
-fun Text(
+fun TextState(
     @StringRes id: Int,
-    parameters: List<Text> = emptyList(),
-): Text {
+    parameters: List<TextState> = emptyList(),
+): TextState {
     return if (parameters.isEmpty()) {
         ResourceString(id)
     } else {
@@ -39,30 +39,30 @@ fun Text(
     }
 }
 
-fun Text(
+fun TextState(
     @PluralsRes id: Int,
     quantity: Int,
-    parameters: List<Text> = emptyList(),
-): Text {
+    parameters: List<TextState> = emptyList(),
+): TextState {
     return PluralString(id, quantity, parameters)
 }
 
-fun Text(
-    fullText: Text,
+fun TextState(
+    fullText: TextState,
     ranges: List<Pair<StyleType, IntRange>>,
-): Text {
+): TextState {
     return StyledText(fullText, ranges)
 }
 
 @JvmInline
-private value class ActualString(private val value: String) : Text {
+private value class ActualString(private val value: String) : TextState {
     override fun resolve(resources: Resources): AnnotatedString = AnnotatedString(value)
 }
 
 private data class ParameterizedResourceString(
     val value: Int,
-    val parameters: List<Text>,
-) : Text {
+    val parameters: List<TextState>,
+) : TextState {
     @Suppress("SpreadOperator")
     override fun resolve(resources: Resources): AnnotatedString {
         val params = parameters.toStrings(resources)
@@ -74,7 +74,7 @@ private data class ParameterizedResourceString(
 @JvmInline
 private value class ResourceString(
     @StringRes val id: Int,
-) : Text {
+) : TextState {
     override fun resolve(resources: Resources): AnnotatedString {
         return resources.getString(id).let(::AnnotatedString)
     }
@@ -83,8 +83,8 @@ private value class ResourceString(
 private data class PluralString(
     @PluralsRes val id: Int,
     val quantity: Int,
-    val parameters: List<Text>,
-) : Text {
+    val parameters: List<TextState>,
+) : TextState {
     override fun resolve(resources: Resources): AnnotatedString {
         val params = parameters.toStrings(resources)
         params.copyOf(params.size)
@@ -94,9 +94,9 @@ private data class PluralString(
 }
 
 private data class StyledText(
-    val fullText: Text,
+    val fullText: TextState,
     val ranges: List<Pair<StyleType, IntRange>>,
-) : Text {
+) : TextState {
     override fun resolve(resources: Resources): AnnotatedString {
         val text = fullText.resolve(resources)
         return buildAnnotatedString {
@@ -114,6 +114,7 @@ private data class StyledText(
                     color = resources.getLinkColor(),
                     fontWeight = FontWeight.Bold,
                 )
+
             StyleType.Bold ->
                 SpanStyle(
                     fontWeight = FontWeight.Bold,
@@ -137,6 +138,6 @@ private fun Resources.getLinkColor(): Color {
     }
 }
 
-private fun List<Text>.toStrings(resources: Resources): Array<String> {
+private fun List<TextState>.toStrings(resources: Resources): Array<String> {
     return map { it.resolve(resources).text }.toTypedArray()
 }

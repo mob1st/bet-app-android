@@ -8,12 +8,10 @@ import br.com.mob1st.core.state.extensions.launchEmit
 import br.com.mob1st.core.state.extensions.onCollect
 import br.com.mob1st.features.onboarding.impl.domain.OpenAppUseCase
 import br.com.mob1st.features.onboarding.impl.domain.SplashDestination
-import br.com.mob1st.morpheus.annotation.Consumable
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import org.koin.android.annotation.KoinViewModel
 
 /**
@@ -56,10 +54,6 @@ class LauncherViewModel(
             openAppAction.launch()
         }
         openAppAction.launch()
-    }
-
-    override fun consume(consumable: Consumable<LauncherUiStateEffectKey, *>) {
-        _uiOutput.update { it.clearEffect(consumable) }
     }
 
     override fun helperPrimaryAction() {
