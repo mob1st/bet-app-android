@@ -16,6 +16,9 @@ import br.com.mob1st.core.design.atoms.motion.Duration
 import br.com.mob1st.core.design.atoms.motion.EmphasizedEasingSet
 import br.com.mob1st.core.design.atoms.motion.StandardEasingSet
 
+/**
+ * Composable navigation destination that slides in horizontally.
+ */
 inline fun <reified T : Any> NavGraphBuilder.slide(
     deepLinks: List<NavDeepLink> = emptyList(),
     noinline content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,

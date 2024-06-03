@@ -72,7 +72,7 @@ private fun ScoresChipComponentPreview() {
                     ),
                 ),
         )
-    BetTheme(systemBars = { /*TODO*/ }) {
+    BetTheme {
         ScoresChipComponent(scores = mock, selected = null, onSelect = {})
     }
 }
@@ -80,7 +80,7 @@ private fun ScoresChipComponentPreview() {
 @Composable
 @Preview
 private fun ScoreDialogPreview() {
-    BetTheme(systemBars = { /*TODO*/ }) {
+    BetTheme {
         ScoreDialog(
             currentScore = 1 to 0,
             onDone = { },

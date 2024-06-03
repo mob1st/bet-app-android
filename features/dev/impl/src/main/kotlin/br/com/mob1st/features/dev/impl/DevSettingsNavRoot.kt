@@ -8,19 +8,24 @@ import br.com.mob1st.features.dev.impl.presentation.gallery.GalleryNavRoot
 import br.com.mob1st.features.dev.impl.presentation.gallery.GalleryPage
 import br.com.mob1st.features.dev.impl.presentation.menu.DevMenuPage
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
-import br.com.mob1st.features.utils.navigation.NavRoot
 
 /**
  * Navigation root for the dev settings feature.
  */
-object DevSettingsNavRoot : NavRoot {
+object DevSettingsNavRoot {
     context(NavGraphBuilder)
-    override fun graph(navController: NavController) {
+    fun graph(
+        navController: NavController,
+        onBack: () -> Unit,
+    ) {
         navigation<DevSettingsNavTarget.Route>(
             startDestination = DevSettingsNavTarget.DevMenu,
         ) {
             slide<DevSettingsNavTarget.DevMenu> {
-                DevMenuPage(navController::navigate)
+                DevMenuPage(
+                    onNext = navController::navigate,
+                    onBack = onBack,
+                )
             }
             slide<DevSettingsNavTarget.BackendEnvironment> { GalleryPage() }
             slide<DevSettingsNavTarget.FeatureFlags> { GalleryPage() }

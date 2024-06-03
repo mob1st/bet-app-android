@@ -4,10 +4,10 @@
     <string name="utils_commonerror_snackbar_noconnectivity_supporting">It looks like the internet connection not available. Please check your network settings and try again.</string>
     <string name="utils_commonerror_snackbar_noconnectivity_action">Settings</string>
     <string name="utils_commonerror_helper_unknown_title">Oops!</string>
-    <string name="utils_commonerror_helper_unknown_subtitle">Sorry, something not expected happened. Please try.</string>
-    <string name="utils_commonerror_helper_unknown_button">Retry</string>
+    <string name="utils_commonerror_helper_unknown_subtitle">Sorry, something not expected happened. Please try again later.</string>
+    <string name="utils_commonerror_helper_unknown_button">Close</string>
 
-    <string name="utils_commonerror_helper_noconnectivity_title">No connectivity!</string>
-    <string name="utils_commonerror_helper_noconnectivity_subtitle">It looks like the internet connection is not available. Please check your network settings and try again.</string>
-    <string name="utils_commonerror_helper_noconnectivity_button">Settings</string>
+    <string name="utils_commonerror_helper_noconnectivity_title">No connectivity</string>
+    <string name="utils_commonerror_helper_noconnectivity_subtitle">Check you internet connection and try again.</string>
+    <string name="utils_commonerror_helper_noconnectivity_button">Retry</string>
 </resources>

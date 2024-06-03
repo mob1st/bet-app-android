@@ -13,7 +13,6 @@ import br.com.mob1st.bet.R
 import br.com.mob1st.bet.features.competitions.presentation.ConfrontationListViewModel
 import br.com.mob1st.bet.features.competitions.presentation.competitionNavGraph
 import br.com.mob1st.bet.features.groups.GroupsTabScreen
-import br.com.mob1st.bet.features.groups.presentation.createGroup.CreateGroupScreen
 import br.com.mob1st.bet.features.profile.data.Subscription
 import br.com.mob1st.bet.features.profile.presentation.ProfileTabScreen
 import org.koin.androidx.compose.koinViewModel
@@ -85,13 +84,6 @@ fun HomeNavGraph(
         }
         composable(route = BottomBarDestination.Profile.route) {
             ProfileTabScreen()
-        }
-        composable(AppRouteDestination.CreateGroups.route) {
-            CreateGroupScreen(
-                onCreateGroupAction = {
-                    homeUiState.navController.navigate(BottomBarDestination.Groups.route)
-                },
-            )
         }
     }
 }

@@ -87,10 +87,9 @@ internal fun BaseText(
 ) {
     val typography = MaterialTheme.typography
     val annotatedString = rememberAnnotatedString(text)
-    val style =
-        remember(textSize) {
-            textStyleProvider.of(typography, textSize)
-        }
+    val style = remember(textSize) {
+        textStyleProvider.of(typography, textSize)
+    }
     Text(
         text = annotatedString,
         style = style,

@@ -1,10 +1,10 @@
 package br.com.mob1st.core.design.molecules.avatar
 
-import br.com.mob1st.core.design.atoms.properties.icons.Icon
+import br.com.mob1st.core.design.atoms.properties.icons.IconState
 
 sealed interface AvatarState {
     @JvmInline
-    value class Static(val icon: Icon) : AvatarState
+    value class Static(val icon: IconState) : AvatarState
 
     @JvmInline
     value class Dynamic(val url: String) : AvatarState

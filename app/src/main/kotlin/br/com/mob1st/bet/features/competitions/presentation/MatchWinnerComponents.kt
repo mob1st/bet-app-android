@@ -66,7 +66,7 @@ fun MatchWinnerComponentPreview() {
                     subject = "DRAW",
                 ),
         )
-    BetTheme(systemBars = { /*TODO*/ }) {
+    BetTheme {
         MatchWinnerComponent(
             matchWinner = mock,
             onSelectScore = { },

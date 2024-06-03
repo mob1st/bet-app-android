@@ -7,7 +7,7 @@ import br.com.mob1st.core.design.molecules.loading.Loading
 
 @Composable
 fun PrimaryButton(
-    buttonState: ButtonState,
+    buttonState: ButtonState.Default,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {

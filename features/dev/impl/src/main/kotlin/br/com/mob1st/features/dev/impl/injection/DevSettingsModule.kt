@@ -3,9 +3,10 @@ package br.com.mob1st.features.dev.impl.injection
 import br.com.mob1st.features.dev.impl.domain.GetDevMenuUseCase
 import br.com.mob1st.features.dev.impl.infra.BackendEnvironmentDataSource
 import br.com.mob1st.features.dev.impl.infra.ProjectSettingsRepositoryImpl
+import br.com.mob1st.features.dev.impl.presentation.menu.DevMenuUiStateHolder
 import br.com.mob1st.features.dev.impl.presentation.menu.DevMenuViewModel
 import br.com.mob1st.features.dev.publicapi.domain.ProjectSettingsRepository
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -33,7 +34,6 @@ private val domainModule = module {
 }
 
 private val presentationModule = module {
-    viewModel {
-        DevMenuViewModel(getMenuUseCase = get())
-    }
+    factoryOf(::DevMenuUiStateHolder)
+    viewModelOf(::DevMenuViewModel)
 }
