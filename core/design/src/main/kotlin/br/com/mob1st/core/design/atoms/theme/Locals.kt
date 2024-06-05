@@ -8,17 +8,14 @@ import br.com.mob1st.core.design.templates.Pane
 /**
  * CompositionLocal for [DisplayFeature]s.
  */
-val LocalDisplayFeatures =
-    compositionLocalOf {
-        emptyList<DisplayFeature>()
-    }
+val LocalDisplayFeatures = compositionLocalOf {
+    emptyList<DisplayFeature>()
+}
 
-val LocalLayoutSpec =
-    compositionLocalOf<LayoutSpec> {
-        error("CompositionLocal for LocalLayoutSpec not present")
-    }
+val LocalLayoutSpec = compositionLocalOf<LayoutSpec> {
+    error("CompositionLocal for LocalLayoutSpec not present")
+}
 
-val LocalPane =
-    compositionLocalOf<Pane> {
-        error("CompositionLocal for LocalPane not present")
-    }
+val LocalPane = compositionLocalOf<Pane> {
+    error("CompositionLocal for LocalPane not present")
+}

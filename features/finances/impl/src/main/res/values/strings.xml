@@ -19,4 +19,8 @@
     <string name="finances_builder_variable_suggestions_header">Variable Expanses</string>
     <string name="finances_builder_variable_suggestions_subheader">Enter the approximate amounts of expenses that you know you will have to pay every month.</string>
     <string name="finances_builder_variable_suggestions_list_header">Suggestions</string>
+
+    <string name="finances_operations_empty_helper_title">Let\'s start</string>
+    <string name="finances_operations_empty_helper_description">Define your recurrent expenses and incomes to start the financial tracking</string>
+    <string name="finances_operations_empty_helper_button">Setup Budget</string>
 </resources>

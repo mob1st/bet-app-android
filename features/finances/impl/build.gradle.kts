@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.junit5)
     id("app.cash.sqldelight")
     id("commonSetup")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -42,7 +43,9 @@ dependencies {
     implementation(projects.core.kotlinx)
     implementation(projects.core.observability)
     implementation(projects.core.state)
+    implementation(libs.kotlin.serialization.json)
     implementation(libs.timber)
+    implementation(libs.lottie)
 
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)

@@ -14,12 +14,11 @@ data class Pane(
     val columnsLimit: ColumnsLimit,
     val maxWidth: Dp,
 ) {
-    val horizontalMargins =
-        if (layoutSpec == LayoutSpec.Compact) {
-            LayoutSpec.Compact.horizontalSpacing
-        } else {
-            0.dp
-        }
+    val horizontalMargins = if (layoutSpec == LayoutSpec.Compact) {
+        LayoutSpec.Compact.horizontalSpacing
+    } else {
+        0.dp
+    }
 
     private val gutter = layoutSpec.horizontalSpacing
     private val emptyWidth = (horizontalMargins * 2) + gutter * (columnsLimit.value - 1)
@@ -35,6 +34,7 @@ data class Pane(
                 val dp = (columnWidth * count) + (gutter * (count - 1))
                 Dimension.Fixed(dp)
             }
+
             count >= columnsLimit.value -> Dimension.FillMax()
             else -> throw IllegalArgumentException(
                 "Invalid column count: $count. Current range is 1..${columnsLimit.value}.",

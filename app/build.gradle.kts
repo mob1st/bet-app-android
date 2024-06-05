@@ -116,6 +116,7 @@ dependencies {
     implementation(projects.features.dev.impl)
     implementation(projects.features.home.impl)
     implementation(projects.features.onboarding.impl)
+    implementation(projects.features.finances.impl)
     implementation(projects.features.utils)
 
     // debug only

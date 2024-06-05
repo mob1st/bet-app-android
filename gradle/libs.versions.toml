@@ -61,8 +61,9 @@ accompanist-adaptative = { module = "com.google.accompanist:accompanist-adaptive
 leakcanary-debug = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-test = { module = "com.squareup.leakcanary:leakcanary-android-instrumentation", version.ref = "leakcanary" }
 
-# coil
+# utils
 coil = "io.coil-kt:coil-compose:2.6.0"
+lottie = "com.airbnb.android:lottie-compose:6.4.0"
 
 # sqldelight
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }

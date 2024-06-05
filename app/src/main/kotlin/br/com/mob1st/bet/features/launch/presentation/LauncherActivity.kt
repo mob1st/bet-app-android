@@ -8,7 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import br.com.mob1st.bet.core.ui.ds.atoms.BetTheme
 import br.com.mob1st.features.dev.impl.DevSettingsNavRoot
-import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
+import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
+import org.koin.compose.koinInject
 
 class LauncherActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,14 +25,15 @@ class LauncherActivity : ComponentActivity() {
 @Composable
 internal fun NavigationGraph(activity: ComponentActivity) {
     val navController = rememberNavController()
-
+    val financesNavGraph = koinInject<FinancesNavGraph>()
     NavHost(
         navController = navController,
-        startDestination = DevSettingsNavTarget.Route,
+        startDestination = financesNavGraph.root,
     ) {
         DevSettingsNavRoot.graph(
             navController = navController,
             onBack = { activity.finish() },
         )
+        financesNavGraph.graph { activity.finish() }
     }
 }
