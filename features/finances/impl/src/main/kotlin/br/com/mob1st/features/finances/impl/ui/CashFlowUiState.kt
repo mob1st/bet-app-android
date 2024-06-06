@@ -4,15 +4,15 @@ import androidx.compose.runtime.Immutable
 import kotlinx.collections.immutable.ImmutableList
 
 @Immutable
-sealed interface TransactionListUiState {
+sealed interface CashFlowUiState {
     @Immutable
-    data object Empty : TransactionListUiState
+    data object Empty : CashFlowUiState
 
     @Immutable
     data class Loaded(
         val slider: TransactionsSliderState,
         val summarySection: SummarySectionState,
-    ) : TransactionListUiState
+    ) : CashFlowUiState
 }
 
 @Immutable

@@ -2,7 +2,7 @@ package br.com.mob1st.features.finances.publicapi.domain.ui
 
 import androidx.navigation.NavGraphBuilder
 
-interface FinancesNavGraph {
+interface CashFlowNavGraph {
     val root: Root
 
     context(NavGraphBuilder)

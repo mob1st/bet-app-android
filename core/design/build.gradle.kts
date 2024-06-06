@@ -5,6 +5,7 @@ plugins {
     kotlin("android")
     alias(libs.plugins.junit5)
     id("commonSetup")
+    id("kotlin-parcelize")
 }
 
 android {

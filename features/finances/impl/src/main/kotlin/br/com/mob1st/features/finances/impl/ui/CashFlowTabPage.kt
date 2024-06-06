@@ -7,11 +7,11 @@ import br.com.mob1st.features.utils.errors.CommonError
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun TransactionListTabPage(onClickClose: () -> Unit) {
-    val viewModel = koinViewModel<OperationListViewModel>()
+fun CashFlowTabPage(onClickClose: () -> Unit) {
+    val viewModel = koinViewModel<CashFlowViewModel>()
     val uiState by viewModel.uiOutput.collectAsStateWithLifecycle()
     val commonError by viewModel.dialogOutput.collectAsStateWithLifecycle()
-    TransactionListTabView(
+    CashFlowTabView(
         uiState = uiState,
         commonError = commonError,
         onClickClose = onClickClose,
@@ -23,8 +23,8 @@ fun TransactionListTabPage(onClickClose: () -> Unit) {
 }
 
 @Composable
-private fun TransactionListTabView(
-    uiState: TransactionListUiState,
+private fun CashFlowTabView(
+    uiState: CashFlowUiState,
     commonError: CommonError?,
     onClickClose: () -> Unit,
     onSelectPlannedItem: (Int) -> Unit,
@@ -33,8 +33,8 @@ private fun TransactionListTabView(
     onClickEditCurrentBalance: () -> Unit,
 ) {
     when (uiState) {
-        is TransactionListUiState.Loaded -> TODO()
-        TransactionListUiState.Empty -> TransactionListTabEmptyVariant(
+        is CashFlowUiState.Loaded -> TODO()
+        CashFlowUiState.Empty -> CashFlowEmptyVariant(
             onClickSetupBudget = onClickAdd,
         )
     }

@@ -7,25 +7,25 @@ import br.com.mob1st.core.state.contracts.UiStateManager
 import br.com.mob1st.core.state.managers.DialogDelegate
 import br.com.mob1st.core.state.managers.DialogManager
 import br.com.mob1st.core.state.managers.mapCatching
-import br.com.mob1st.features.finances.impl.domain.usecases.GetOperationListUseCase
+import br.com.mob1st.features.finances.impl.domain.usecases.GetCashFlowUseCase
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.dialogErrorHandler
 import kotlinx.coroutines.flow.StateFlow
 
-class OperationListViewModel(
-    private val getOperationListUseCase: GetOperationListUseCase,
-    private val stateHolder: OperationListUiStateHolder,
+class CashFlowViewModel(
+    private val getCashFlowUseCase: GetCashFlowUseCase,
+    private val stateHolder: CashFlowUiStateHolder,
 ) : ViewModel(),
-    UiStateManager<TransactionListUiState>,
+    UiStateManager<CashFlowUiState>,
     DialogManager<CommonError> by DialogDelegate() {
-    override val uiOutput: StateFlow<TransactionListUiState> = getTransactions()
+    override val uiOutput: StateFlow<CashFlowUiState> = getTransactions()
         .stateInRetained(
             scope = viewModelScope,
-            initialValue = TransactionListUiState.Empty,
+            initialValue = CashFlowUiState.Empty,
         )
 
     private fun getTransactions() =
-        getOperationListUseCase()
+        getCashFlowUseCase()
             .mapCatching(
                 map = stateHolder::asUiState,
                 errorHandler = dialogErrorHandler,

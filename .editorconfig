@@ -1,11 +1,11 @@
 # EditorConfig: http://editorconfig.org
-root=true
+root = true
 
 [*]
-insert_final_newline=true
+insert_final_newline = true
 # Intellij Default Ordering:
 # https://github.com/JetBrains/intellij-kotlin/blob/master/formatter/src/org/jetbrains/kotlin/idea/core/formatter/KotlinCodeStyleSettings.java#L87-L91
-ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^
+ij_kotlin_imports_layout = *, java.**, javax.**, kotlin.**, ^
 
 [*.{kt,kts}]
 ij_kotlin_allow_trailing_comma = true
@@ -13,9 +13,10 @@ max_line_length = 120
 ktlint_standard_function-naming = disabled
 ktlint_standard_multiline-expression-wrapping = disabled
 ktlint_standard_string-template-indent = disabled
+ktlint_function_naming_ignore_when_annotated_with = Composable
 
 [*.{md,xml,html,yml,json,properties}]
-max_line_length=off
+max_line_length = off
 
 [**/test/**.kt]
-max_line_length=off
+max_line_length = off

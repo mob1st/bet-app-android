@@ -6,12 +6,12 @@ import br.com.mob1st.features.finances.impl.data.repositories.RecurrenceBuilderR
 import br.com.mob1st.features.finances.impl.data.system.AndroidRecurrenceLocalizationProvider
 import br.com.mob1st.features.finances.impl.data.system.RecurrenceLocalizationProvider
 import br.com.mob1st.features.finances.impl.domain.repositories.RecurrenceBuilderRepository
+import br.com.mob1st.features.finances.impl.domain.usecases.GetCashFlowUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.GetFixedExpensesUseCaseImpl
-import br.com.mob1st.features.finances.impl.domain.usecases.GetOperationListUseCase
-import br.com.mob1st.features.finances.impl.ui.FinancesNavGraphImpl
-import br.com.mob1st.features.finances.impl.ui.OperationListUiStateHolder
-import br.com.mob1st.features.finances.impl.ui.OperationListViewModel
-import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
+import br.com.mob1st.features.finances.impl.ui.CashFlowNavGraphImpl
+import br.com.mob1st.features.finances.impl.ui.CashFlowUiStateHolder
+import br.com.mob1st.features.finances.impl.ui.CashFlowViewModel
+import br.com.mob1st.features.finances.publicapi.domain.ui.CashFlowNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.usecases.GetFixedExpensesUseCase
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
@@ -41,11 +41,11 @@ private val dataModule = module {
     }
     factoryOf(::AndroidRecurrenceLocalizationProvider) bind RecurrenceLocalizationProvider::class
     factoryOf(::RecurrenceBuilderCompletionsDataSource)
-    factoryOf(::GetOperationListUseCase)
+    factoryOf(::GetCashFlowUseCase)
 }
 
 private val uiModule = module {
-    single { FinancesNavGraphImpl } bind FinancesNavGraph::class
-    factoryOf(::OperationListUiStateHolder)
-    viewModelOf(::OperationListViewModel)
+    single { CashFlowNavGraphImpl } bind CashFlowNavGraph::class
+    factoryOf(::CashFlowUiStateHolder)
+    viewModelOf(::CashFlowViewModel)
 }
