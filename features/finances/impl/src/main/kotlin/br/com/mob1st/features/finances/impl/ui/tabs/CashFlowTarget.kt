@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.ui
+package br.com.mob1st.features.finances.impl.ui.tabs
 
 import br.com.mob1st.core.design.motion.transition.NavTarget
 import br.com.mob1st.core.design.motion.transition.TransitionPattern

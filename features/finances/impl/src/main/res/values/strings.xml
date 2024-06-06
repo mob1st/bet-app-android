@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="finances_builder_summary_header">Let\'s Start</string>
-    <string name="finances_builder_summary_subheader">First,we need to understand your recurrent expenses and incomes to start the financial tracking.</string>
-    <string name="finances_builder_summary_button">Setup Budget</string>
-    <string name="finances_builder_summary_item1_headline">Fixed Expenses</string>
-    <string name="finances_builder_summary_item1_description">The bills and expenses that is guarantee to have once a month</string>
-    <string name="finances_builder_summary_item2_headline">Variable Expenses</string>
-    <string name="finances_builder_summary_item2_description">The small and sporadic costs that often appears during the week</string>
-    <string name="finances_builder_summary_item3_headline">Income</string>
-    <string name="finances_builder_summary_item3_description">The amount of incomes per month (this information is not shared with anyone else).</string>
-
     <string name="finances_builder_fixed_suggestions_list_header">Suggestions</string>
     <string name="finances_builder_fixed_suggestions_item_rent">Rent</string>
     <string name="finances_builder_fixed_suggestions_item_mortgage">Mortgage</string>

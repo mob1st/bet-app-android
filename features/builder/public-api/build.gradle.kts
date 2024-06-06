@@ -3,12 +3,11 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-parcelize")
     id("commonSetup")
 }
 
 android {
-    namespace = "br.com.mob1st.features.finances.publicapi"
+    namespace = "br.com.mob1st.features.twocents.builder.publicapi"
 }
 
 dependencies {

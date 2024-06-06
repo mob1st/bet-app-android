@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.ui.builder
+package br.com.mob1st.features.twocents.builder.impl.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,25 +16,25 @@ import br.com.mob1st.core.design.molecules.buttons.PrimaryButton
 import br.com.mob1st.core.design.organisms.lists.BulletListItem
 import br.com.mob1st.core.design.templates.FeatureSummaryScaffold
 import br.com.mob1st.core.design.utils.ThemedPreview
-import br.com.mob1st.features.finances.impl.R
+import br.com.mob1st.features.twocents.builder.impl.R
 
 @Composable
-fun BuilderSummaryPage(
+internal fun BuilderSummaryPage(
     onClickStart: () -> Unit,
     onBackClicked: () -> Unit,
 ) {
     FeatureSummaryScaffold(
         onBackClicked = onBackClicked,
         titleContent = {
-            Text(stringResource(R.string.finances_builder_summary_header))
+            Text(stringResource(R.string.builder_summary_header))
         },
         buttonContent = {
             PrimaryButton(onClick = onClickStart) {
-                Text(stringResource(R.string.finances_builder_summary_button))
+                Text(stringResource(R.string.builder_summary_button))
             }
         },
     ) {
-        Text(stringResource(R.string.finances_builder_summary_subheader))
+        Text(stringResource(R.string.builder_summary_subheader))
         SummaryItems()
     }
 }
@@ -50,26 +50,26 @@ private fun SummaryItems() {
     ) {
         BulletListItem(
             headlineContent = {
-                Text(stringResource(R.string.finances_builder_summary_item1_headline))
+                Text(stringResource(R.string.builder_summary_item1_headline))
             },
             supportingContent = {
-                Text(stringResource(R.string.finances_builder_summary_item1_description))
+                Text(stringResource(R.string.builder_summary_item1_description))
             },
         )
         BulletListItem(
             headlineContent = {
-                Text(stringResource(R.string.finances_builder_summary_item2_headline))
+                Text(stringResource(R.string.builder_summary_item2_headline))
             },
             supportingContent = {
-                Text(stringResource(R.string.finances_builder_summary_item2_description))
+                Text(stringResource(R.string.builder_summary_item2_description))
             },
         )
         BulletListItem(
             headlineContent = {
-                Text(stringResource(R.string.finances_builder_summary_item3_headline))
+                Text(stringResource(R.string.builder_summary_item3_headline))
             },
             supportingContent = {
-                Text(stringResource(R.string.finances_builder_summary_item3_description))
+                Text(stringResource(R.string.builder_summary_item3_description))
             },
         )
     }

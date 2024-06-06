@@ -8,10 +8,10 @@ import br.com.mob1st.features.finances.impl.data.system.RecurrenceLocalizationPr
 import br.com.mob1st.features.finances.impl.domain.repositories.RecurrenceBuilderRepository
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCashFlowUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.GetFixedExpensesUseCaseImpl
-import br.com.mob1st.features.finances.impl.ui.CashFlowNavGraphImpl
-import br.com.mob1st.features.finances.impl.ui.CashFlowUiStateHolder
-import br.com.mob1st.features.finances.impl.ui.CashFlowViewModel
-import br.com.mob1st.features.finances.publicapi.domain.ui.CashFlowNavGraph
+import br.com.mob1st.features.finances.impl.ui.navgraph.FinancesNavGraphImpl
+import br.com.mob1st.features.finances.impl.ui.tabs.CashFlowUiStateHolder
+import br.com.mob1st.features.finances.impl.ui.tabs.CashFlowViewModel
+import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.usecases.GetFixedExpensesUseCase
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
@@ -45,7 +45,7 @@ private val dataModule = module {
 }
 
 private val uiModule = module {
-    single { CashFlowNavGraphImpl } bind CashFlowNavGraph::class
+    single { FinancesNavGraphImpl } bind FinancesNavGraph::class
     factoryOf(::CashFlowUiStateHolder)
     viewModelOf(::CashFlowViewModel)
 }

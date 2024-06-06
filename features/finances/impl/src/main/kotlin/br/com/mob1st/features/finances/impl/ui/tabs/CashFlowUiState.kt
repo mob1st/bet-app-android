@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.ui
+package br.com.mob1st.features.finances.impl.ui.tabs
 
 import androidx.compose.runtime.Immutable
 import kotlinx.collections.immutable.ImmutableList
