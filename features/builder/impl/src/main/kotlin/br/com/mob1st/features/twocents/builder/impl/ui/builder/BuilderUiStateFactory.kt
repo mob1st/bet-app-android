@@ -24,14 +24,14 @@ private object BuilderUiStateFactoryImpl : BuilderUiStateFactory {
             manuallyAdded = userInput.manuallyAdded.map { entry ->
                 BuilderUiState.ListItem(
                     name = TextState(entry.name),
-                    value = entry.amount,
+                    amount = entry.amount,
                 )
             }.toImmutableList(),
             suggested = suggestions.map { suggestion ->
                 val entry = userInput.suggested[suggestion.id] ?: BuilderUserInput.Entry()
                 BuilderUiState.ListItem(
                     name = TextState(suggestion.name.toResId()),
-                    value = entry.amount,
+                    amount = entry.amount,
                 )
             }.toImmutableList(),
         )

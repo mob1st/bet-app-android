@@ -1,7 +1,7 @@
 package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
-import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -12,16 +12,21 @@ import kotlinx.collections.immutable.persistentListOf
  */
 @Immutable
 internal data class BuilderUiState(
-    val manuallyAdded: ImmutableList<ListItem> = persistentListOf(),
-    val suggested: ImmutableList<ListItem> = persistentListOf(),
+    val manuallyAdded: ImmutableList<ListItem<String>> = persistentListOf(),
+    val suggested: ImmutableList<ListItem<Int>> = persistentListOf(),
 ) {
     /**
      * List item state
      */
     @Immutable
-    data class ListItem(
-        val name: TextState,
-        val value: String = "",
-        val isFocused: Boolean = false,
+    data class ListItem<T>(
+        val name: T,
+        val amount: InputState = InputState(),
     )
 }
+
+@Immutable
+internal data class InputState(
+    val value: String = "",
+    @StringRes val supporting: Int? = null,
+)

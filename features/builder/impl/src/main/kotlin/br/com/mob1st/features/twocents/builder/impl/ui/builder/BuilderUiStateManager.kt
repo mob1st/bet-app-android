@@ -27,7 +27,7 @@ internal object BuilderUiStateManager {
         fun updateManualCategory(
             position: Int,
             name: String,
-            value: String,
+            amount: String,
         )
 
         /**
@@ -35,7 +35,7 @@ internal object BuilderUiStateManager {
          */
         fun updateSuggestedCategory(
             position: Int,
-            value: String,
+            amount: String,
         )
 
         /**

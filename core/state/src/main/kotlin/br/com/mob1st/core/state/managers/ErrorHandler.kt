@@ -16,7 +16,7 @@ import kotlin.coroutines.CoroutineContext
  * @property onError the error handler to be called when an error occurs.
  */
 class ErrorHandler(
-    private val onError: (Throwable) -> Unit,
+    private val onError: (Throwable) -> Unit = {},
 ) : CoroutineExceptionHandler {
     override fun handleException(
         context: CoroutineContext,
