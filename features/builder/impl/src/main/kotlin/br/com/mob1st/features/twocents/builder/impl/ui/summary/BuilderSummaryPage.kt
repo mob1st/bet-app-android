@@ -1,4 +1,4 @@
-package br.com.mob1st.features.twocents.builder.impl.ui
+package br.com.mob1st.features.twocents.builder.impl.ui.summary
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

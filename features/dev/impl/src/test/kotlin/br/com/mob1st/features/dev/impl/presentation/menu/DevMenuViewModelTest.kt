@@ -32,7 +32,7 @@ internal class DevMenuViewModelTest {
     @Test
     fun `GIVEN a long result WHEN get initial state THEN ui state should be empty`() = runTest {
         every { getDevMenuUseCase() } returns flow { }
-        initViewModel().uiOutput.test {
+        initViewModel().uiStateOutput.test {
             assertEquals(
                 DevMenuUiState.Empty,
                 awaitItem(),
@@ -61,7 +61,7 @@ internal class DevMenuViewModelTest {
         every { getDevMenuUseCase() } returns flow { emit(devMenu) }
         every { stateHolder.asUiState(devMenu) } returns DevMenuUiState.Loaded(persistentListOf())
 
-        initViewModel().uiOutput.test {
+        initViewModel().uiStateOutput.test {
             assertEquals(
                 DevMenuUiState.Loaded(persistentListOf()),
                 awaitItem(),

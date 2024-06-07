@@ -30,7 +30,7 @@ internal fun NavigationGraph(activity: ComponentActivity) {
     val builderNavGraph = koinInject<BuilderNavGraph>()
     NavHost(
         navController = navController,
-        startDestination = financesNavGraph.root,
+        startDestination = builderNavGraph.root,
     ) {
         DevSettingsNavRoot.graph(
             navController = navController,

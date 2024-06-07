@@ -1,10 +1,12 @@
-package br.com.mob1st.features.twocents.builder.impl.ui
+package br.com.mob1st.features.twocents.builder.impl.ui.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import br.com.mob1st.core.design.motion.transition.target
+import br.com.mob1st.features.twocents.builder.impl.ui.summary.BuilderSummaryPage
 import br.com.mob1st.features.twocents.builder.publicapi.BuilderNavGraph
+import kotlinx.serialization.Serializable
 
 /**
  * Builds the navigation graph for the builder feature.
@@ -34,5 +36,6 @@ internal object BuilderNavGraphImpl : BuilderNavGraph {
         }
     }
 
+    @Serializable
     object Root : BuilderNavGraph.Root
 }

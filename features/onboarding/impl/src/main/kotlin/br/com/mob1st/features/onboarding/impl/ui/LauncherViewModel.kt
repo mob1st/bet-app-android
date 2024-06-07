@@ -24,8 +24,8 @@ class LauncherViewModel(
     openAppUseCase: OpenAppUseCase,
 ) : ViewModel(), LauncherUiContract {
     // output state
-    private val _uiOutput = MutableStateFlow(LauncherUiState())
-    override val uiOutput: StateFlow<LauncherUiState> = _uiOutput.asStateFlow()
+    private val _uiStateOutput = MutableStateFlow(LauncherUiState())
+    override val uiStateOutput: StateFlow<LauncherUiState> = _uiStateOutput.asStateFlow()
 
     // inputs
     private val helperPrimaryActionInput = MutableSharedFlow<Unit>()
@@ -37,16 +37,16 @@ class LauncherViewModel(
         }
 
     init {
-        _uiOutput.collectUpdate(openAppAction.loading) { currentState, newData ->
+        _uiStateOutput.collectUpdate(openAppAction.loading) { currentState, newData ->
             currentState.copy(isLoading = newData)
         }
 
-        _uiOutput.collectUpdate(openAppAction.failure) { currentState, newData ->
+        _uiStateOutput.collectUpdate(openAppAction.failure) { currentState, newData ->
             // TODO display the DS component called HelperMessage
             currentState.copy(errorMessage = newData.message)
         }
 
-        _uiOutput.collectUpdate(openAppAction.success) { currentState, splashDestination ->
+        _uiStateOutput.collectUpdate(openAppAction.success) { currentState, splashDestination ->
             currentState.copy(navTarget = LauncherNavTarget.of(splashDestination))
         }
 

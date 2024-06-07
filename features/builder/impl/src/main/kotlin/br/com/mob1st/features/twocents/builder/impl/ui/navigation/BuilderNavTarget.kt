@@ -1,4 +1,4 @@
-package br.com.mob1st.features.twocents.builder.impl.ui
+package br.com.mob1st.features.twocents.builder.impl.ui.navigation
 
 import br.com.mob1st.core.design.motion.transition.NavTarget
 import br.com.mob1st.core.design.motion.transition.TransitionPattern

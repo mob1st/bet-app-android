@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.junit5)
     id("commonSetup")
     id("kotlinx-serialization")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -26,7 +27,7 @@ android {
 
 dependencies {
     api(projects.features.builder.publicApi)
-
+    implementation(projects.features.finances.publicApi)
     // bundles
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)

@@ -41,7 +41,7 @@ internal fun DevMenuPage(
     onBack: () -> Unit,
 ) {
     val vm = koinViewModel<DevMenuViewModel>()
-    val state by vm.uiOutput.collectAsStateWithLifecycle()
+    val state by vm.uiStateOutput.collectAsStateWithLifecycle()
     val snackState by vm.snackbarOutput.collectAsStateWithLifecycle()
     val navTarget by vm.navigationOutput.collectAsStateWithLifecycle()
     val modal by vm.dialogOutput.collectAsStateWithLifecycle()

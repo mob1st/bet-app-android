@@ -1,14 +1,14 @@
 package br.com.mob1st.features.onboarding.impl.ui
 
 import br.com.mob1st.core.state.contracts.HelperClickManager
-import br.com.mob1st.core.state.contracts.UiStateManager
+import br.com.mob1st.core.state.contracts.UiStateOutputManager
 import br.com.mob1st.features.onboarding.impl.domain.SplashDestination
 import br.com.mob1st.morpheus.annotation.ConsumableEffect
 import br.com.mob1st.morpheus.annotation.Morpheus
 import javax.annotation.concurrent.Immutable
 
 interface LauncherUiContract :
-    UiStateManager<LauncherUiState>,
+    UiStateOutputManager<LauncherUiState>,
     HelperClickManager
 
 /**

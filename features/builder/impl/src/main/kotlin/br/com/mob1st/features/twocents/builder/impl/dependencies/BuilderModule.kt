@@ -1,6 +1,6 @@
 package br.com.mob1st.features.twocents.builder.impl.dependencies
 
-import br.com.mob1st.features.twocents.builder.impl.ui.BuilderNavGraphImpl
+import br.com.mob1st.features.twocents.builder.impl.ui.navigation.BuilderNavGraphImpl
 import br.com.mob1st.features.twocents.builder.publicapi.BuilderNavGraph
 import org.koin.dsl.bind
 import org.koin.dsl.module

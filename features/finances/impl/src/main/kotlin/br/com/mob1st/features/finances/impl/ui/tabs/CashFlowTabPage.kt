@@ -9,7 +9,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun CashFlowTabPage(onClickClose: () -> Unit) {
     val viewModel = koinViewModel<CashFlowViewModel>()
-    val uiState by viewModel.uiOutput.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiStateOutput.collectAsStateWithLifecycle()
     val commonError by viewModel.dialogOutput.collectAsStateWithLifecycle()
     CashFlowTabView(
         uiState = uiState,
