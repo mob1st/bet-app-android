@@ -119,9 +119,8 @@ internal class BuilderViewModel(
             .flatMapLatest(manuallyAddedDebouncer::results)
     }
 
-    override fun save() =
-        launchIn {
-            val batch = stateHolder.createBatch()
-            setCategoryBatchUseCase(batch)
-        }
+    override fun save() = launchIn {
+        val batch = stateHolder.createBatch()
+        setCategoryBatchUseCase(batch)
+    }
 }
