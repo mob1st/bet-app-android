@@ -26,48 +26,41 @@ class GetBudgetItemGroupTest {
     }
 
     @Test
-    fun `GIVEN a builder WHEN get THEN return the list of fixed expenses`() =
-        runTest {
-            // GIVEN
-            val fixture =
-                fixture<RecurrentCategory>().copy(
-                    amount = Money(100),
-                    type = BudgetItem.Type.EXPENSE,
-                )
-            val expected =
-                BudgetItemGroup(
-                    items =
-                        listOf(
-                            BudgetItemGroup.ProportionalItem(
-                                item = fixture,
-                                proportion = 100,
-                            ),
-                        ),
-                    summaries =
-                        BudgetItemGroup.Summaries(
-                            incomes = Money.Zero,
-                            expenses = Money(100),
-                            balance = Money(-100),
-                        ),
-                )
-            recurrenceBuilderRepository.getSetState.value =
-                fixture<RecurrenceBuilder>().copy(
-                    variableExpensesStep =
-                        RecurrenceBuilder.Step(
-                            list = listOf(fixture).toPersistentList(),
-                            isCompleted = false,
-                        ),
-                )
+    fun `GIVEN a builder WHEN get THEN return the list of fixed expenses`() = runTest {
+        // GIVEN
+        val fixture = fixture<RecurrentCategory>().copy(
+            amount = Money(100),
+            type = BudgetItem.Type.EXPENSE,
+        )
+        val expected = BudgetItemGroup(
+            items = listOf(
+                BudgetItemGroup.ProportionalItem(
+                    item = fixture,
+                    proportion = 100,
+                ),
+            ),
+            summaries = BudgetItemGroup.Summaries(
+                incomes = Money.Zero,
+                expenses = Money(100),
+                balance = Money(-100),
+            ),
+        )
+        recurrenceBuilderRepository.getSetState.value =
+            fixture<RecurrenceBuilder>().copy(
+                variableExpensesStep = RecurrenceBuilder.Step(
+                    list = listOf(fixture).toPersistentList(),
+                    isCompleted = false,
+                ),
+            )
 
-            // WHEN
-            val actual =
-                recurrenceBuilderRepository.getBudgetItemGroup {
-                    it.variableExpensesStep
-                }.first()
+        // WHEN
+        val actual = recurrenceBuilderRepository.getBudgetItemGroup {
+            it.variableExpensesStep
+        }.first()
 
-            // THEN
-            assertEquals(expected, actual)
-        }
+        // THEN
+        assertEquals(expected, actual)
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
