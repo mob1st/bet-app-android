@@ -1,6 +1,7 @@
 package br.com.mob1st.core.design.templates
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import br.com.mob1st.core.design.R
 import br.com.mob1st.core.design.atoms.icons.CheckIcon
+import br.com.mob1st.core.design.atoms.spacing.Spacings
 import br.com.mob1st.core.design.atoms.theme.BetTheme
 import br.com.mob1st.core.design.organisms.header.SecondaryTitle
 import br.com.mob1st.core.design.organisms.header.TitleDefaults
@@ -27,6 +29,7 @@ fun FeatureStepScaffold(
     onButtonClicked: () -> Unit,
     isButtonExpanded: Boolean,
     titleContent: @Composable () -> Unit,
+    subtitleContent: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
     val scrollBehavior = TitleDefaults.scrollBehavior
@@ -55,12 +58,14 @@ fun FeatureStepScaffold(
             )
         },
         content = { paddingValues ->
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(16.dp),
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(space = Spacings.x8),
             ) {
+                subtitleContent()
                 content()
             }
         },
@@ -76,7 +81,10 @@ private fun FeatureStepScaffoldPreview() {
             onButtonClicked = {},
             isButtonExpanded = false,
             titleContent = {
-                Text(text = "Title")
+                Text(text = "Step title")
+            },
+            subtitleContent = {
+                Text(text = "In this area a short description of the step can be placed.")
             },
             content = {
                 Text(text = "Content")

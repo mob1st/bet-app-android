@@ -58,7 +58,6 @@ fun FeatureSummaryScaffold(
     }
 }
 
-
 @Composable
 @ThemedPreview
 private fun FeatureSummaryScaffoldPreview() {
