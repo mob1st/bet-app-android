@@ -3,6 +3,8 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 import android.os.Parcelable
 import br.com.mob1st.core.kotlinx.structures.Id
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -13,9 +15,18 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 internal data class BuilderUserInput(
-    val manuallyAdded: List<Entry> = emptyList(),
+    private val manuallyAdded: List<Entry> = emptyList(),
     val suggested: Map<Id, Entry> = emptyMap(),
 ) : Parcelable {
+    fun getManuallyAdded(): PersistentList<BuilderUiState.ListItem<String>> {
+        return manuallyAdded.map {
+            BuilderUiState.ListItem(
+                name = it.name,
+                amount = InputState(it.amount),
+            )
+        }.toPersistentList()
+    }
+
     /**
      * Category entry state. It can be a manually added category or a suggested category.
      * @param name The name of the category.

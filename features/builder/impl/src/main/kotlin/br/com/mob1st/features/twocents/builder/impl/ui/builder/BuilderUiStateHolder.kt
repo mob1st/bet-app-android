@@ -22,9 +22,7 @@ internal class BuilderUiStateHolder(
             userInput.suggested[suggestion.id]?.let { entry ->
                 BuilderUiState.ListItem(
                     name = suggestion.name.toResId(),
-                    amount = InputState(
-                        value = entry.amount,
-                    ),
+                    amount = entry.amount,
                 )
             }
         }.toPersistentList()

@@ -26,8 +26,7 @@ internal object BuilderUiStateManager {
          */
         fun updateManualCategory(
             position: Int,
-            name: String,
-            amount: String,
+            entry: BuilderUserInput.Entry,
         )
 
         /**

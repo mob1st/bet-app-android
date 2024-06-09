@@ -5,22 +5,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import br.com.mob1st.core.design.atoms.spacing.Spacings
 import br.com.mob1st.core.design.atoms.theme.BetTheme
 import br.com.mob1st.core.design.molecules.buttons.Button
+import br.com.mob1st.core.design.organisms.header.PrimaryTitle
+import br.com.mob1st.core.design.organisms.header.TitleDefaults
 import br.com.mob1st.core.design.utils.ThemedPreview
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,10 +26,14 @@ fun FeatureSummaryScaffold(
     onBackClicked: (() -> Unit),
     content: @Composable () -> Unit,
 ) {
+    val titleScrollBehavior = TitleDefaults.scrollBehavior
     Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(titleScrollBehavior.nestedScrollConnection),
         topBar = {
-            Header(
-                scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+            PrimaryTitle(
+                scrollBehavior = titleScrollBehavior,
                 titleContent = titleContent,
                 onBackClicked = onBackClicked,
             )
@@ -48,7 +47,9 @@ fun FeatureSummaryScaffold(
                 .padding(bottom = Spacings.x4),
         ) {
             Box(
-                modifier = Modifier.weight(1f).fillMaxWidth(),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
             ) {
                 content()
             }
@@ -57,30 +58,6 @@ fun FeatureSummaryScaffold(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun Header(
-    scrollBehavior: TopAppBarScrollBehavior,
-    titleContent: @Composable () -> Unit,
-    onBackClicked: (() -> Unit),
-) {
-    LargeTopAppBar(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        navigationIcon = {
-            IconButton(
-                onClick = onBackClicked,
-            ) {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                )
-            }
-        },
-        title = {
-            titleContent()
-        },
-    )
-}
 
 @Composable
 @ThemedPreview

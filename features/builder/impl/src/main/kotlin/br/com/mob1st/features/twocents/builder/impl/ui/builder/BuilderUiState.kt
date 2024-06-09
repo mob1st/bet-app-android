@@ -1,6 +1,5 @@
 package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
-import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -21,12 +20,6 @@ internal data class BuilderUiState(
     @Immutable
     data class ListItem<T>(
         val name: T,
-        val amount: InputState = InputState(),
+        val amount: String = "",
     )
 }
-
-@Immutable
-internal data class InputState(
-    val value: String = "",
-    @StringRes val supporting: Int? = null,
-)

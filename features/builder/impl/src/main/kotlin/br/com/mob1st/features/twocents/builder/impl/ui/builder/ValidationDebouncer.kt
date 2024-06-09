@@ -1,7 +1,6 @@
 package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import br.com.mob1st.core.kotlinx.collections.update
-import br.com.mob1st.core.state.managers.ErrorHandler
 import br.com.mob1st.features.twocents.builder.impl.R
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toImmutableList
@@ -14,11 +13,10 @@ import kotlinx.coroutines.flow.merge
 
 /**
  * A debouncer that validates the amount field of a list of values.
- * @param errorHandler The error handler to catch exceptions.
  */
 @OptIn(FlowPreview::class)
 internal class ValidationDebouncer(
-    private val errorHandler: ErrorHandler,
+    private val validate: (Int, String) -> ValidationResult,
 ) {
     private val debouncers = hashMapOf<Int, MutableSharedFlow<ValidationRequest>>()
 
@@ -35,25 +33,20 @@ internal class ValidationDebouncer(
     /**
      * @return The results of the validation triggered by the [debounceValidation]
      */
-    fun <T> results(list: PersistentList<BuilderUiState.ListItem<T>>) =
-        mergeDebounce()
-            .map { validationResult ->
-                list.update(validationResult.position) {
-                    it.copy(
-                        amount = InputState(
-                            value = it.amount.value,
-                            supporting = validationResult.field?.toResId(),
-                        ),
-                    )
-                }.toImmutableList()
-            }
+    fun <T> results(list: PersistentList<BuilderUiState.ListItem<T>>) = mergeDebounce()
+        .map { validationResult ->
+            list.update(validationResult.position) {
+                it.copy(
+                    amount = it.amount,
+                )
+            }.toImmutableList()
+        }
 
-    private fun mergeDebounce() =
-        debouncers.values.map { flow ->
-            flow.debounce(DEBOUNCE_TIME)
-                .map { it.validate() }
-                .distinctUntilChanged()
-        }.merge()
+    private fun mergeDebounce() = debouncers.values.map { flow ->
+        flow.debounce(DEBOUNCE_TIME)
+            .map { validate(it.position, it.amount) }
+            .distinctUntilChanged()
+    }.merge()
 
     /**
      * Debounces the validation of a value.
@@ -63,16 +56,6 @@ internal class ValidationDebouncer(
         debouncers
             .getOrPut(validationRequest.position) { MutableSharedFlow() }
             .emit(validationRequest)
-    }
-
-    private fun ValidationRequest.validate(): ValidationResult {
-        return try {
-            amount.replace("[^\\d-]", "").toInt()
-            ValidationResult(position, null)
-        } catch (e: NumberFormatException) {
-            errorHandler.catch(e)
-            ValidationResult(position, ValidationResult.AmountError.InvalidFormat)
-        }
     }
 
     companion object {
