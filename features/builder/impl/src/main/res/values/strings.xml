@@ -33,6 +33,9 @@
     <string name="builder_commons_custom_section_headline">Custom categories</string>
     <string name="builder_commons_custom_section_add_item">Add category</string>
     <string name="builder_commons_suggestions_section_headline">Suggestions</string>
+    <string name="builder_commons_suggestions_dialog_title">Add a name</string>
+    <string name="builder_commons_suggestions_dialog_input_hint">Name</string>
+
 
     <string name="builder_commons_button_next">Next</string>
     <string name="builder_commons_button_finish">Finish</string>

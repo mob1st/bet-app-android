@@ -22,25 +22,21 @@ internal object BuilderUiStateManager {
         fun selectManualCategory(position: Int)
 
         /**
-         *
+         * It can be called when the user clicks on a suggested category.
+         * @param position The position of the suggested category.
          */
         fun selectSuggestedCategory(position: Int)
 
         /**
-         * Adds a manual category.
-         * It can be called when the user clicks on the add Manual Category button.
+         * Sets the category name according to the user input.
+         * @param name The name of the category.
          */
-        fun typeManualCategoryName(name: String)
+        fun setCategoryName(name: String)
 
         /**
          * Called when the user clicks on the submit button of the dialog.
          */
         fun submitManualCategoryName()
-
-        /**
-         * Updates the category provided by [BuilderUiState.keyboard]
-         */
-        fun updateCategory()
 
         /**
          * Save the user inputs.

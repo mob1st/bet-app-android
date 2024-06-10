@@ -71,7 +71,7 @@ internal fun PersistentList<BuilderUiState.ListItem>.applyUpdate(
     itemUpdate: ItemUpdate,
 ): PersistentList<BuilderUiState.ListItem> {
     return when (val operation = itemUpdate.operation) {
-        CategorySheet.Operation.Add -> this + itemUpdate.newItem
-        is CategorySheet.Operation.Update -> set(operation.position, itemUpdate.newItem)
+        CategorySheetState.Operation.Add -> this + itemUpdate.newItem
+        is CategorySheetState.Operation.Update -> set(operation.position, itemUpdate.newItem)
     }
 }

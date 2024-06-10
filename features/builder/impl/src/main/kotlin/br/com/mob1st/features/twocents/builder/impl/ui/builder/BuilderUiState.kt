@@ -19,7 +19,7 @@ import kotlinx.collections.immutable.plus
 internal data class BuilderUiState(
     private val manuallyAddedList: PersistentList<ListItem> = persistentListOf(),
     val suggestedSection: ImmutableList<ListItem> = persistentListOf(),
-    val dialog: CategoryNameDialog? = null,
+    val dialog: CategoryNameDialogState? = null,
 ) {
     val manuallyAddedSection = manuallyAddedList + ListItem(
         name = TextState(R.string.builder_commons_custom_section_add_item),
@@ -47,7 +47,7 @@ internal data class BuilderUiState(
     /**
      * Creates a bottom sheet to update a manual added item placed in the given [position].
      */
-    fun showUpdateManualSheet(position: Int) = CategorySheet.updateManual(
+    fun showUpdateManualSheet(position: Int) = CategorySheetState.updateManual(
         position = position,
         item = manuallyAddedList[position],
     )
@@ -55,7 +55,7 @@ internal data class BuilderUiState(
     /**
      * Creates a bottom sheet ot update a suggested item placed in the given [position]
      */
-    fun showUpdateSuggestedSheet(position: Int) = CategorySheet.updateSuggestion(
+    fun showUpdateSuggestedSheet(position: Int) = CategorySheetState.updateSuggestion(
         position = position,
         item = suggestedSection[position],
     )
@@ -76,7 +76,7 @@ internal data class BuilderUiState(
  * @property isSubmitEnabled If the submit button is enabled.
  */
 @Immutable
-internal data class CategoryNameDialog(
+internal data class CategoryNameDialogState(
     val text: String = "",
     val isSubmitEnabled: Boolean = false,
 )
@@ -87,7 +87,7 @@ internal data class CategoryNameDialog(
  * @property amount The amount.
  */
 @Immutable
-internal data class CategorySheet(
+internal data class CategorySheetState(
     val operation: Operation,
     val category: TextState,
     val amount: String,
@@ -120,7 +120,7 @@ internal data class CategorySheet(
         fun updateManual(
             position: Int,
             item: BuilderUiState.ListItem,
-        ) = CategorySheet(
+        ) = CategorySheetState(
             operation = Operation.Update(position, isSuggestion = false),
             category = item.name,
             amount = item.amount,
@@ -132,7 +132,7 @@ internal data class CategorySheet(
         fun updateSuggestion(
             position: Int,
             item: BuilderUiState.ListItem,
-        ) = CategorySheet(
+        ) = CategorySheetState(
             operation = Operation.Update(position, isSuggestion = true),
             category = item.name,
             amount = item.amount,
@@ -143,7 +143,7 @@ internal data class CategorySheet(
          */
         fun add(
             name: String = "",
-        ) = CategorySheet(
+        ) = CategorySheetState(
             operation = Operation.Add,
             category = TextState(name),
             amount = "",
@@ -153,10 +153,10 @@ internal data class CategorySheet(
 
 /**
  * The user input for a specific item in the list.
- * @property operation The operation that opened the [CategorySheet].
+ * @property operation The operation that opened the [CategorySheetState].
  * @property newItem The new Item to be updated/added in the [BuilderUiState].
  */
 internal data class ItemUpdate(
-    val operation: CategorySheet.Operation,
+    val operation: CategorySheetState.Operation,
     val newItem: BuilderUiState.ListItem,
 )

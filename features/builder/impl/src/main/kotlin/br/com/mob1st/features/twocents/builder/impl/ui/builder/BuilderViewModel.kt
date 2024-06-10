@@ -8,7 +8,6 @@ import br.com.mob1st.core.state.contracts.NavigationManager
 import br.com.mob1st.core.state.managers.DialogDelegate
 import br.com.mob1st.core.state.managers.DialogManager
 import br.com.mob1st.core.state.managers.ErrorHandler
-import br.com.mob1st.core.state.managers.SheetManager
 import br.com.mob1st.core.state.managers.SnackbarDelegate
 import br.com.mob1st.core.state.managers.SnackbarManager
 import br.com.mob1st.core.state.managers.catchIn
@@ -42,14 +41,14 @@ internal class BuilderViewModel(
 ) : ViewModel(),
     BuilderUiStateManager.Input,
     BuilderUiStateManager.Output,
-    DialogManager<CategoryNameDialog> by DialogDelegate(),
+    CategorySheetManager by categorySheetDelegate,
+    DialogManager<CategoryNameDialogState> by DialogDelegate(),
     NavigationManager<Unit> by NavigationDelegate(),
-    SnackbarManager<CommonError> by SnackbarDelegate(),
-    SheetManager<CategorySheet> by categorySheetDelegate {
+    SnackbarManager<CommonError> by SnackbarDelegate() {
     private val savedUserInput = builderStateSaver.getSavedValue {
         uiStateOutput.value.toSavedState(stateHolder.suggestions)
     }
-    private val categoryNameDialogState = MutableStateFlow<CategoryNameDialog?>(null)
+    private val categoryNameDialogState = MutableStateFlow<CategoryNameDialogState?>(null)
 
     override val uiStateOutput: StateFlow<BuilderUiState> = combine(
         getManualAddedItems(),
@@ -60,7 +59,7 @@ internal class BuilderViewModel(
 
     override fun selectManualCategory(position: Int) = uiStateOutput.value.run {
         if (isAddButton(position)) {
-            categoryNameDialogState.value = CategoryNameDialog()
+            categoryNameDialogState.value = CategoryNameDialogState()
         } else {
             categorySheetDelegate.showSheet(showUpdateManualSheet(position))
         }
@@ -70,7 +69,7 @@ internal class BuilderViewModel(
         categorySheetDelegate.showSheet(uiStateOutput.value.showUpdateSuggestedSheet(position))
     }
 
-    override fun typeManualCategoryName(name: String) = launchIn(snackbarErrorHandler) {
+    override fun setCategoryName(name: String) = launchIn(snackbarErrorHandler) {
         categoryNameDialogState.update { dialog ->
             checkNotNull(dialog).copy(
                 text = name,
@@ -81,11 +80,7 @@ internal class BuilderViewModel(
 
     override fun submitManualCategoryName() = launchIn(snackbarErrorHandler) {
         val dialog = checkNotNull(categoryNameDialogState.getAndUpdate { null })
-        categorySheetDelegate.showSheet(CategorySheet.add(name = dialog.text))
-    }
-
-    override fun updateCategory() = launchIn(snackbarErrorHandler) {
-        categorySheetDelegate.updateCategory()
+        categorySheetDelegate.showSheet(CategorySheetState.add(name = dialog.text))
     }
 
     private fun getManualAddedItems(): StateFlow<PersistentList<BuilderUiState.ListItem>> {
