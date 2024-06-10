@@ -8,8 +8,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -25,9 +28,10 @@ import br.com.mob1st.core.design.utils.ThemedPreview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeatureStepScaffold(
+    snackbarHostState: SnackbarHostState,
+    isButtonExpanded: Boolean,
     onClickBack: () -> Unit,
     onClickNext: () -> Unit,
-    isButtonExpanded: Boolean,
     titleContent: @Composable () -> Unit,
     subtitleContent: @Composable () -> Unit,
     content: @Composable () -> Unit,
@@ -57,6 +61,9 @@ fun FeatureStepScaffold(
                 onClick = onClickNext,
             )
         },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        },
         content = { paddingValues ->
             Column(
                 modifier = Modifier
@@ -79,6 +86,7 @@ private fun FeatureStepScaffoldPreview() {
         FeatureStepScaffold(
             onClickBack = {},
             onClickNext = {},
+            snackbarHostState = remember { SnackbarHostState() },
             isButtonExpanded = false,
             titleContent = {
                 Text(text = "Step title")

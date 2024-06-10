@@ -1,11 +1,10 @@
 package br.com.mob1st.features.twocents.builder.impl.domain.entities
 
-import br.com.mob1st.core.database.RecurrenceType
 import br.com.mob1st.core.kotlinx.structures.Id
 import br.com.mob1st.core.kotlinx.structures.Identifiable
 import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.plus
 
 /**
  * Builds the categories for the user.
@@ -13,29 +12,10 @@ import kotlinx.collections.immutable.plus
  * @property recurrenceType The type of recurrence of the builder.
  */
 internal data class Builder(
-    val recurrenceType: RecurrenceType,
+    val recurrenceType: CategoryType,
     val manuallyAdded: PersistentList<CategoryEntry<String>>,
     val suggested: PersistentList<CategoryEntry<CategorySuggestion>>,
-) {
-    fun add(
-        name: String,
-        value: Money,
-    ) = copy(
-        manuallyAdded = manuallyAdded + CategoryEntry(value = value, name = name),
-    )
-
-    fun setSuggested(
-        position: Int,
-        value: Money,
-    ) = copy(
-        suggested = suggested.set(position, suggested[position].copy(value = value)),
-    )
-
-    fun removeSuggested(position: Int) =
-        copy(
-            suggested = suggested.removeAt(position),
-        )
-}
+)
 
 /**
  * The entry data used to create categories for the user.

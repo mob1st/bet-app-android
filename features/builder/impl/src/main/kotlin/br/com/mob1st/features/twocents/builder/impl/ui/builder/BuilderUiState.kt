@@ -13,14 +13,12 @@ import kotlinx.collections.immutable.plus
  * Ui state for the category builder
  * @property manuallyAddedList The manually added categories.
  * @property suggestedSection The suggested categories.
- * @property keyboard The numeric keyboard state.
  * @property dialog The category name dialog state.
  */
 @Immutable
 internal data class BuilderUiState(
     private val manuallyAddedList: PersistentList<ListItem> = persistentListOf(),
     val suggestedSection: ImmutableList<ListItem> = persistentListOf(),
-    val keyboard: CategorySheet? = null,
     val dialog: CategoryNameDialog? = null,
 ) {
     val manuallyAddedSection = manuallyAddedList + ListItem(
@@ -152,3 +150,13 @@ internal data class CategorySheet(
         )
     }
 }
+
+/**
+ * The user input for a specific item in the list.
+ * @property operation The operation that opened the [CategorySheet].
+ * @property newItem The new Item to be updated/added in the [BuilderUiState].
+ */
+internal data class ItemUpdate(
+    val operation: CategorySheet.Operation,
+    val newItem: BuilderUiState.ListItem,
+)

@@ -7,24 +7,32 @@ import br.com.mob1st.core.state.contracts.NavigationDelegate
 import br.com.mob1st.core.state.contracts.NavigationManager
 import br.com.mob1st.core.state.managers.DialogDelegate
 import br.com.mob1st.core.state.managers.DialogManager
+import br.com.mob1st.core.state.managers.ErrorHandler
 import br.com.mob1st.core.state.managers.SheetManager
 import br.com.mob1st.core.state.managers.SnackbarDelegate
 import br.com.mob1st.core.state.managers.SnackbarManager
+import br.com.mob1st.core.state.managers.catchIn
 import br.com.mob1st.core.state.managers.launchIn
-import br.com.mob1st.core.state.managers.mapCatching
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.GetSuggestionsUseCase
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.SetCategoryBatchUseCase
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.snackbarErrorHandler
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.getAndUpdate
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.update
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class BuilderViewModel(
     builderStateSaver: BuilderStateSaver,
     private val getSuggestionsUseCase: GetSuggestionsUseCase,
@@ -46,7 +54,6 @@ internal class BuilderViewModel(
     override val uiStateOutput: StateFlow<BuilderUiState> = combine(
         getManualAddedItems(),
         getSuggestionItems(),
-        categorySheetDelegate.sheetState,
         categoryNameDialogState,
         ::BuilderUiState,
     ).stateInRetained(viewModelScope, BuilderUiState())
@@ -81,25 +88,33 @@ internal class BuilderViewModel(
         categorySheetDelegate.updateCategory()
     }
 
-    private fun getSuggestionItems(): Flow<PersistentList<BuilderUiState.ListItem>> {
-        return categorySheetDelegate.combineSuggestionsAndUpdates(
-            getSuggestionsUseCase[stateHolder.recurrenceType]
-                .mapCatching { suggestions ->
-                    stateHolder.suggestionAsState(suggestions, savedUserInput).toPersistentList()
-                },
-        )
+    private fun getManualAddedItems(): StateFlow<PersistentList<BuilderUiState.ListItem>> {
+        val initialValue = savedUserInput.manuallyAdded.toManualListItem()
+        val manuallyAddedItems = MutableStateFlow(initialValue.toPersistentList())
+        categorySheetDelegate.manualItemUpdateInput
+            .onEach { update ->
+                manuallyAddedItems.update { items -> items.applyUpdate(update) }
+            }
+            .launchIn(viewModelScope)
+        return manuallyAddedItems.asStateFlow()
     }
 
-    private fun getManualAddedItems(): Flow<PersistentList<BuilderUiState.ListItem>> {
-        return categorySheetDelegate.manuallyAddedItemsState(
-            initialValue = savedUserInput
-                .manuallyAdded
-                .toManualListItem()
-                .toPersistentList(),
-        )
-    }
+    private fun getSuggestionItems() = getSuggestionsUseCase[stateHolder.recurrenceType]
+        .map { suggestions ->
+            stateHolder
+                .suggestionAsState(suggestions, savedUserInput)
+                .toPersistentList()
+        }
+        .transformLatest { items ->
+            emit(items)
+            val updatedItems = categorySheetDelegate
+                .suggestedItemUpdateInput
+                .map { update -> items.applyUpdate(update) }
+            emitAll(updatedItems)
+        }
+        .catchIn(ErrorHandler())
 
-    override fun save() = launchIn {
+    override fun save() = launchIn(snackbarErrorHandler) {
         val batch = stateHolder.createBatch()
         setCategoryBatchUseCase(batch)
     }

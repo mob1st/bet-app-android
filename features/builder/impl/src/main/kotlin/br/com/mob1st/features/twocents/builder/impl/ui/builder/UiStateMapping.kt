@@ -3,6 +3,8 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.kotlinx.structures.Id
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.plus
 import kotlinx.collections.immutable.toPersistentList
 
 /**
@@ -58,4 +60,18 @@ internal fun List<BuilderUiState.ListItem>.toSuggestedEntryMap(
             amount = item.amount,
         )
     }.toMap()
+}
+
+/**
+ * Applies the given [itemUpdate] to the list
+ * @param itemUpdate The update to be applied
+ * @return the updated list
+ */
+internal fun PersistentList<BuilderUiState.ListItem>.applyUpdate(
+    itemUpdate: ItemUpdate,
+): PersistentList<BuilderUiState.ListItem> {
+    return when (val operation = itemUpdate.operation) {
+        CategorySheet.Operation.Add -> this + itemUpdate.newItem
+        is CategorySheet.Operation.Update -> set(operation.position, itemUpdate.newItem)
+    }
 }

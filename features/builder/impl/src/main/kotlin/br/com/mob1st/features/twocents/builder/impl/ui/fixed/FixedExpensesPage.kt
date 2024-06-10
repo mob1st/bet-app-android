@@ -5,22 +5,41 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.design.atoms.properties.texts.rememberAnnotatedString
 import br.com.mob1st.core.design.organisms.section.section
 import br.com.mob1st.core.design.templates.FeatureStepScaffold
 import br.com.mob1st.features.twocents.builder.impl.R
 import br.com.mob1st.features.twocents.builder.impl.ui.builder.BuilderUiState
+import br.com.mob1st.features.twocents.builder.impl.ui.builder.BuilderViewModel
 import kotlinx.collections.immutable.ImmutableList
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FixedExpensesPage(
     onNext: () -> Unit,
     onClickBack: () -> Unit,
 ) {
+    val viewModel = koinViewModel<BuilderViewModel>()
+    val uiState by viewModel.uiStateOutput.collectAsStateWithLifecycle()
+    val error by viewModel.snackbarOutput.collectAsStateWithLifecycle()
+    val dialog by viewModel.dialogOutput.collectAsStateWithLifecycle()
+    val bottomSheet by viewModel.sheetOutput.collectAsStateWithLifecycle()
+    val navigationTarget by viewModel.navigationOutput.collectAsStateWithLifecycle()
+    FixedExpensesContent(
+        state = uiState,
+        onClickBack = onClickBack,
+        onClickNext = viewModel::save,
+        onSelectManualItem = viewModel::selectManualCategory,
+        onSelectSuggestedItem = viewModel::selectSuggestedCategory,
+    )
 }
 
 @Composable
@@ -31,10 +50,12 @@ private fun FixedExpensesContent(
     onSelectManualItem: (Int) -> Unit,
     onSelectSuggestedItem: (Int) -> Unit,
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
     FeatureStepScaffold(
+        isButtonExpanded = true,
+        snackbarHostState = snackbarHostState,
         onClickBack = onClickBack,
         onClickNext = onClickNext,
-        isButtonExpanded = true,
         titleContent = { Text(stringResource(id = R.string.builder_fixed_expenses_header)) },
         subtitleContent = { Text(stringResource(id = R.string.builder_fixed_expenses_subheader)) },
     ) {
