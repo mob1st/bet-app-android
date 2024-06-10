@@ -57,6 +57,10 @@ fun TextState(
 @JvmInline
 private value class ActualString(private val value: String) : TextState {
     override fun resolve(resources: Resources): AnnotatedString = AnnotatedString(value)
+
+    override fun toString(): String {
+        return value
+    }
 }
 
 private data class ParameterizedResourceString(

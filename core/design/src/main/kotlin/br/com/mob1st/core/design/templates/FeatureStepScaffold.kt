@@ -25,8 +25,8 @@ import br.com.mob1st.core.design.utils.ThemedPreview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeatureStepScaffold(
-    onBackClicked: () -> Unit,
-    onButtonClicked: () -> Unit,
+    onClickBack: () -> Unit,
+    onClickNext: () -> Unit,
     isButtonExpanded: Boolean,
     titleContent: @Composable () -> Unit,
     subtitleContent: @Composable () -> Unit,
@@ -41,7 +41,7 @@ fun FeatureStepScaffold(
             SecondaryTitle(
                 scrollBehavior = scrollBehavior,
                 titleContent = titleContent,
-                onBackClicked = onBackClicked,
+                onBackClicked = onClickBack,
             )
         },
         floatingActionButtonPosition = FabPosition.End,
@@ -54,7 +54,7 @@ fun FeatureStepScaffold(
                         contentDescription = stringResource(R.string.core_design_back_button_content_description),
                     )
                 },
-                onClick = onButtonClicked,
+                onClick = onClickNext,
             )
         },
         content = { paddingValues ->
@@ -77,8 +77,8 @@ fun FeatureStepScaffold(
 private fun FeatureStepScaffoldPreview() {
     BetTheme {
         FeatureStepScaffold(
-            onBackClicked = {},
-            onButtonClicked = {},
+            onClickBack = {},
+            onClickNext = {},
             isButtonExpanded = false,
             titleContent = {
                 Text(text = "Step title")

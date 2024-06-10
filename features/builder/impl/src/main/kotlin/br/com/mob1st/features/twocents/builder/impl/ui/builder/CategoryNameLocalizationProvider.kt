@@ -20,6 +20,9 @@ private class CategoryNameLocalizationProviderImpl(
     }
 }
 
+/**
+ * Maps the [CategorySuggestion.Name] to the corresponding string resource id.
+ */
 internal fun CategorySuggestion.Name.toResId(): Int {
     return when (this) {
         CategorySuggestion.Name.RENT -> R.string.builder_summary_button

@@ -16,26 +16,31 @@ internal object BuilderUiStateManager {
      */
     interface Input {
         /**
+         * It can be called when the user clicks on a manual category.
+         * @param position The position of the manual category.
+         */
+        fun selectManualCategory(position: Int)
+
+        /**
+         *
+         */
+        fun selectSuggestedCategory(position: Int)
+
+        /**
          * Adds a manual category.
          * It can be called when the user clicks on the add Manual Category button.
          */
-        fun addManualCategory()
+        fun typeManualCategoryName(name: String)
 
         /**
-         * Updates a manual category.
+         * Called when the user clicks on the submit button of the dialog.
          */
-        fun updateManualCategory(
-            position: Int,
-            entry: BuilderUserInput.Entry,
-        )
+        fun submitManualCategoryName()
 
         /**
-         * Updates the value of a suggested category.
+         * Updates the category provided by [BuilderUiState.keyboard]
          */
-        fun updateSuggestedCategory(
-            position: Int,
-            amount: String,
-        )
+        fun updateCategory()
 
         /**
          * Save the user inputs.

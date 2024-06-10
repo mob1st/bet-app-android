@@ -45,8 +45,8 @@ class ErrorHandler(
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 fun <T, R> Flow<T>.mapCatching(
+    errorHandler: ErrorHandler = ErrorHandler(),
     map: (value: T) -> R,
-    errorHandler: ErrorHandler,
 ): Flow<R> =
     map {
         Result.success(it)

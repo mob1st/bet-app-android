@@ -1,11 +1,12 @@
 package br.com.mob1st.core.design.organisms.section
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -16,24 +17,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.mob1st.core.design.atoms.theme.BetTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
-@Composable
-fun Section(
-    titleContent: @Composable () -> Unit,
-    content: @Composable ColumnScope.() -> Unit,
+inline fun <T> LazyListScope.section(
+    crossinline titleContent: @Composable () -> Unit,
+    items: ImmutableList<T>,
+    noinline key: ((item: T) -> String)? = null,
+    crossinline itemsContentType: (index: Int, item: T) -> Any? = { _, _ -> null },
+    crossinline itemContent: @Composable (index: Int, item: T) -> Unit,
 ) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-    ) {
+    item(contentType = SectionTitleContentType) {
         SectionTitle {
             titleContent()
         }
-        content()
+    }
+    val keyFunction = if (key != null) {
+        { _: Int, item: T ->
+            key(item)
+        }
+    } else {
+        null
+    }
+    itemsIndexed(
+        items = items,
+        key = keyFunction,
+        contentType = itemsContentType,
+    ) { index, item ->
+        itemContent(index, item)
     }
 }
 
 @Composable
-private fun SectionTitle(
+fun SectionTitle(
     titleContent: @Composable () -> Unit,
 ) {
     Box(
@@ -48,18 +64,26 @@ private fun SectionTitle(
     }
 }
 
+object SectionTitleContentType
+
 @Composable
 @ThemedPreview
 private fun SectionPreview() {
     BetTheme {
-        Section(
-            titleContent = {
-                Text("Title")
-            },
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
         ) {
-            ListItem(headlineContent = { Text(text = "Item 1") })
-            ListItem(headlineContent = { Text(text = "Item 1") })
-            ListItem(headlineContent = { Text(text = "Item 1") })
+            section(
+                titleContent = {
+                    Text("Title")
+                },
+                items = persistentListOf("Item 1", "Item 2", "Item 3"),
+                itemContent = { _, item ->
+                    ListItem(
+                        headlineContent = { Text(item) },
+                    )
+                },
+            )
         }
     }
 }

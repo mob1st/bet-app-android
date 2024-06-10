@@ -1,6 +1,7 @@
 package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import android.os.Parcelable
+import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.kotlinx.structures.Id
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
 import kotlinx.collections.immutable.PersistentList
@@ -18,11 +19,11 @@ internal data class BuilderUserInput(
     private val manuallyAdded: List<Entry> = emptyList(),
     val suggested: Map<Id, Entry> = emptyMap(),
 ) : Parcelable {
-    fun getManuallyAdded(): PersistentList<BuilderUiState.ListItem<String>> {
+    fun getManuallyAdded(): PersistentList<BuilderUiState.ListItem> {
         return manuallyAdded.map {
             BuilderUiState.ListItem(
-                name = it.name,
-                amount = InputState(it.amount),
+                name = TextState(it.name),
+                amount = it.amount,
             )
         }.toPersistentList()
     }
@@ -46,14 +47,14 @@ internal data class BuilderUserInput(
             return BuilderUserInput(
                 manuallyAdded = uiState.manuallyAdded.map { item ->
                     Entry(
-                        name = item.name,
-                        amount = item.amount.value,
+                        name = item.name.toString(),
+                        amount = item.amount,
                     )
                 },
                 suggested = uiState.manuallyAdded.mapIndexed { index, item ->
                     suggestions[index].id to Entry(
-                        name = item.name,
-                        amount = item.amount.value,
+                        name = "",
+                        amount = item.amount,
                     )
                 }.toMap(),
             )
