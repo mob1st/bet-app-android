@@ -2,23 +2,66 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.features.twocents.builder.impl.R
+import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.plus
 
 /**
  * Ui state for the category builder
- * @property manuallyAdded The manually added categories.
- * @property suggested The suggested categories.
+ * @property manuallyAddedList The manually added categories.
+ * @property suggestedSection The suggested categories.
  * @property keyboard The numeric keyboard state.
  * @property dialog The category name dialog state.
  */
 @Immutable
 internal data class BuilderUiState(
-    val manuallyAdded: ImmutableList<ListItem> = persistentListOf(),
-    val suggested: ImmutableList<ListItem> = persistentListOf(),
+    private val manuallyAddedList: PersistentList<ListItem> = persistentListOf(),
+    val suggestedSection: ImmutableList<ListItem> = persistentListOf(),
     val keyboard: CategorySheet? = null,
     val dialog: CategoryNameDialog? = null,
 ) {
+    val manuallyAddedSection = manuallyAddedList + ListItem(
+        name = TextState(R.string.builder_commons_custom_section_add_item),
+        amount = "",
+    )
+
+    /**
+     * Converts the state visible on screen to a structure that can be parcelized.
+     */
+    fun toSavedState(suggestions: List<CategorySuggestion>): BuilderUserInput {
+        return BuilderUserInput(
+            manuallyAdded = manuallyAddedList.toManualEntryList(),
+            suggested = suggestedSection.toSuggestedEntryMap(suggestions),
+        )
+    }
+
+    /**
+     * Indicates if the given [position] is the add button or not in the manually added section.
+     * @return true if this is the add button item, false otherwise
+     */
+    fun isAddButton(position: Int): Boolean {
+        return position == manuallyAddedSection.lastIndex
+    }
+
+    /**
+     * Creates a bottom sheet to update a manual added item placed in the given [position].
+     */
+    fun showUpdateManualSheet(position: Int) = CategorySheet.updateManual(
+        position = position,
+        item = manuallyAddedList[position],
+    )
+
+    /**
+     * Creates a bottom sheet ot update a suggested item placed in the given [position]
+     */
+    fun showUpdateSuggestedSheet(position: Int) = CategorySheet.updateSuggestion(
+        position = position,
+        item = suggestedSection[position],
+    )
+
     /**
      * List item state
      */

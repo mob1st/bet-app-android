@@ -3,7 +3,6 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mob1st.core.androidx.flows.stateInRetained
-import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.state.contracts.NavigationDelegate
 import br.com.mob1st.core.state.contracts.NavigationManager
 import br.com.mob1st.core.state.managers.DialogDelegate
@@ -13,20 +12,17 @@ import br.com.mob1st.core.state.managers.SnackbarDelegate
 import br.com.mob1st.core.state.managers.SnackbarManager
 import br.com.mob1st.core.state.managers.launchIn
 import br.com.mob1st.core.state.managers.mapCatching
-import br.com.mob1st.features.twocents.builder.impl.R
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.GetSuggestionsUseCase
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.SetCategoryBatchUseCase
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.snackbarErrorHandler
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.plus
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.getAndUpdate
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 internal class BuilderViewModel(
@@ -43,7 +39,7 @@ internal class BuilderViewModel(
     SnackbarManager<CommonError> by SnackbarDelegate(),
     SheetManager<CategorySheet> by categorySheetDelegate {
     private val savedUserInput = builderStateSaver.getSavedValue {
-        BuilderUserInput.fromUiState(uiState = uiStateOutput.value, suggestions = stateHolder.suggestions)
+        uiStateOutput.value.toSavedState(stateHolder.suggestions)
     }
     private val categoryNameDialogState = MutableStateFlow<CategoryNameDialog?>(null)
 
@@ -55,28 +51,16 @@ internal class BuilderViewModel(
         ::BuilderUiState,
     ).stateInRetained(viewModelScope, BuilderUiState())
 
-    override fun selectManualCategory(position: Int) = launchIn {
-        val items = uiStateOutput.first().manuallyAdded
-        if (position == items.lastIndex) {
+    override fun selectManualCategory(position: Int) = uiStateOutput.value.run {
+        if (isAddButton(position)) {
             categoryNameDialogState.value = CategoryNameDialog()
         } else {
-            categorySheetDelegate.showSheet(
-                CategorySheet.updateManual(
-                    position = position,
-                    item = items[position],
-                ),
-            )
+            categorySheetDelegate.showSheet(showUpdateManualSheet(position))
         }
     }
 
-    override fun selectSuggestedCategory(position: Int) = launchIn {
-        val items = uiStateOutput.first().suggested
-        categorySheetDelegate.showSheet(
-            CategorySheet.updateSuggestion(
-                position = position,
-                item = items[position],
-            ),
-        )
+    override fun selectSuggestedCategory(position: Int) {
+        categorySheetDelegate.showSheet(uiStateOutput.value.showUpdateSuggestedSheet(position))
     }
 
     override fun typeManualCategoryName(name: String) = launchIn(snackbarErrorHandler) {
@@ -98,20 +82,21 @@ internal class BuilderViewModel(
     }
 
     private fun getSuggestionItems(): Flow<PersistentList<BuilderUiState.ListItem>> {
-        return getSuggestionsUseCase[stateHolder.recurrenceType]
-            .mapCatching { suggestions -> stateHolder.asUiState(suggestions, savedUserInput) }
-            .combine(categorySheetDelegate.suggestionUpdateInput) { list, (position, item) ->
-                list.set(position, item)
-            }
+        return categorySheetDelegate.combineSuggestionsAndUpdates(
+            getSuggestionsUseCase[stateHolder.recurrenceType]
+                .mapCatching { suggestions ->
+                    stateHolder.suggestionAsState(suggestions, savedUserInput).toPersistentList()
+                },
+        )
     }
 
     private fun getManualAddedItems(): Flow<PersistentList<BuilderUiState.ListItem>> {
-        return categorySheetDelegate.manuallyAddedItemsState.map { items ->
-            items + BuilderUiState.ListItem(
-                name = TextState(R.string.builder_commons_custom_section_add_item),
-                amount = "",
-            )
-        }
+        return categorySheetDelegate.manuallyAddedItemsState(
+            initialValue = savedUserInput
+                .manuallyAdded
+                .toManualListItem()
+                .toPersistentList(),
+        )
     }
 
     override fun save() = launchIn {
