@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import br.com.mob1st.core.design.motion.transition.target
+import br.com.mob1st.features.twocents.builder.impl.ui.fixed.FixedExpensesPage
 import br.com.mob1st.features.twocents.builder.impl.ui.summary.BuilderSummaryPage
 import br.com.mob1st.features.twocents.builder.publicapi.BuilderNavGraph
 import kotlinx.serialization.Serializable
@@ -25,10 +26,15 @@ internal object BuilderNavGraphImpl : BuilderNavGraph {
             target<BuilderNavTarget.Summary> {
                 BuilderSummaryPage(
                     onClickStart = { navController.navigate(BuilderNavTarget.FixedCosts) },
-                    onBackClicked = { navController.navigateUp() },
+                    onClickBack = navController::navigateUp,
                 )
             }
-            target<BuilderNavTarget.FixedCosts> {}
+            target<BuilderNavTarget.FixedCosts> {
+                FixedExpensesPage(
+                    onNext = { navController.navigate(BuilderNavTarget.VariableCosts) },
+                    onClickBack = navController::navigateUp,
+                )
+            }
             target<BuilderNavTarget.VariableCosts> { }
             target<BuilderNavTarget.Income> {
                 onComplete()

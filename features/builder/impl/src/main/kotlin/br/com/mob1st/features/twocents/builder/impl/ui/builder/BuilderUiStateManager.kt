@@ -5,42 +5,26 @@ import br.com.mob1st.core.state.contracts.UiStateOutputManager
 /**
  * Manages the UI state of the builder screen.
  */
-internal object BuilderUiStateManager {
+internal interface BuilderUiStateManager : UiStateOutputManager<BuilderUiState> {
     /**
-     * Represents the UI state of the builder screen.
+     * It can be called when the user clicks on a manual category.
+     * @param position The position of the manual category.
      */
-    interface Output : UiStateOutputManager<BuilderUiState>
+    fun selectManualCategory(position: Int)
 
     /**
-     * Captures the user input events of the builder screen.
+     * It can be called when the user clicks on a suggested category.
+     * @param position The position of the suggested category.
      */
-    interface Input {
-        /**
-         * It can be called when the user clicks on a manual category.
-         * @param position The position of the manual category.
-         */
-        fun selectManualCategory(position: Int)
+    fun selectSuggestedCategory(position: Int)
 
-        /**
-         * It can be called when the user clicks on a suggested category.
-         * @param position The position of the suggested category.
-         */
-        fun selectSuggestedCategory(position: Int)
+    /**
+     * Called when the user clicks on the submit button of the dialog.
+     */
+    fun submitManualCategoryName()
 
-        /**
-         * Sets the category name according to the user input.
-         * @param name The name of the category.
-         */
-        fun setCategoryName(name: String)
-
-        /**
-         * Called when the user clicks on the submit button of the dialog.
-         */
-        fun submitManualCategoryName()
-
-        /**
-         * Save the user inputs.
-         */
-        fun save()
-    }
+    /**
+     * Save the user inputs.
+     */
+    fun save()
 }

@@ -5,6 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.transformLatest
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
@@ -13,11 +14,10 @@ import kotlin.coroutines.CoroutineContext
  * Common error handler to be used by managers such as ViewModels.
  * It implements [CoroutineExceptionHandler] to catch errors in coroutines but also handle errors in a standalone way.
  * through the [catch] method.
- * @property onError the error handler to be called when an error occurs.
  */
-class ErrorHandler(
-    private val onError: (Throwable) -> Unit = {},
-) : CoroutineExceptionHandler {
+open class ErrorHandler : CoroutineExceptionHandler {
+    override val key: CoroutineContext.Key<*> = CoroutineExceptionHandler
+
     override fun handleException(
         context: CoroutineContext,
         exception: Throwable,
@@ -25,16 +25,9 @@ class ErrorHandler(
         catch(exception)
     }
 
-    /**
-     * Handles the error.
-     * @param throwable the error to be handled.
-     */
-    fun catch(throwable: Throwable) {
+    open fun catch(throwable: Throwable) {
         Timber.e(throwable)
-        onError(throwable)
     }
-
-    override val key: CoroutineContext.Key<*> = CoroutineExceptionHandler
 }
 
 /**
@@ -62,4 +55,26 @@ fun <T, R> Flow<T>.mapCatching(
             }
     }
 
-fun <T> Flow<T>.catchIn(errorHandler: ErrorHandler): Flow<T> = catch { throwable -> errorHandler.catch(throwable) }
+/**
+ * Catches errors in a [Flow] and handles them with the [ErrorHandler].
+ * @param T the type of the [Flow].
+ * @param errorHandler the error handler to be used.
+ * @return the [Flow] with the error handling.
+ */
+fun <T> Flow<T>.catchIn(errorHandler: ErrorHandler): Flow<T> = map { Result.success(it) }
+    .catch { throwable -> errorHandler.catch(throwable) }
+    .mapNotNull { it.getOrNull() }
+
+/**
+ * Catches errors in a [Flow] and handles them with the [ErrorHandler].
+ * @param T the type of the [Flow].
+ * @param block the block to be executed that can throw an exception.
+ * @return the [Flow] with the error handling.
+ */
+inline fun ErrorHandler.catching(block: () -> Unit) {
+    runCatching {
+        block()
+    }.onFailure { throwable ->
+        catch(throwable)
+    }
+}

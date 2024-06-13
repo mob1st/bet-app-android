@@ -1,10 +1,12 @@
 package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
-import androidx.lifecycle.ViewModel
+import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.core.state.managers.ErrorHandler
+import br.com.mob1st.core.state.managers.SheetDelegate
 import br.com.mob1st.core.state.managers.SheetManager
+import br.com.mob1st.core.state.managers.catching
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.update
 
@@ -24,51 +26,45 @@ internal interface CategorySheetManager : SheetManager<CategorySheetState> {
     fun setCategoryAmount(amount: String)
 }
 
-internal class CategorySheetDelegate : CategorySheetManager {
-    private val _sheetOutput = MutableStateFlow<CategorySheetState?>(null)
-    override val sheetOutput = _sheetOutput.asStateFlow()
+internal class CategorySheetDelegate(
+    private val errorHandler: ErrorHandler,
+    private val sheetDelegate: SheetDelegate<CategorySheetState> = SheetDelegate(),
+) : CategorySheetManager, SheetManager<CategorySheetState> by sheetDelegate {
+    private val _manualItemUpdateInput = MutableSharedFlow<CategorySheetState>()
+    val manualItemUpdateInput = _manualItemUpdateInput.asSharedFlow()
 
-    val manualItemUpdateInput = MutableSharedFlow<ItemUpdate>()
-    val suggestedItemUpdateInput = MutableSharedFlow<ItemUpdate>()
-
-    context(ViewModel)
-    override fun showSheet(sheetState: CategorySheetState) {
-        _sheetOutput.value = sheetState
-    }
-
-    override fun consumeSheet() {
-        _sheetOutput.value = null
-    }
+    private val _suggestedItemUpdateInput = MutableSharedFlow<CategorySheetState>()
+    val suggestedItemUpdateInput = _suggestedItemUpdateInput.asSharedFlow()
 
     /**
      * Updates the category with the values from the keyboard.
      * @throws IllegalStateException if the keyboard is not shown when calling this method.
      */
-    override fun submitCategory() {
-        val keyboard = checkNotNull(_sheetOutput.getAndUpdate { null })
-        val item = BuilderUiState.ListItem(
-            name = keyboard.category,
-            amount = keyboard.amount,
-        )
-        when (val operation = keyboard.operation) {
-            CategorySheetState.Operation.Add -> manualItemUpdateInput.tryEmit(ItemUpdate(operation, item))
-            is CategorySheetState.Operation.Update -> operation.update(item)
+    override fun submitCategory() = errorHandler.catching {
+        val sheet = checkNotNull(sheetDelegate.getAndUpdate { null })
+        when (val operation = sheet.operation) {
+            CategorySheetState.Operation.Add -> _manualItemUpdateInput.tryEmit(sheet)
+            is CategorySheetState.Operation.Update -> operation.update(sheet)
         }
     }
 
-    override fun setCategoryAmount(amount: String) {
-        _sheetOutput.update {
-            checkNotNull(it).copy(amount = amount)
+    override fun setCategoryAmount(amount: String) = errorHandler.catching {
+        sheetDelegate.update { sheet ->
+            checkNotNull(sheet).copy(
+                input = sheet.input.copy(
+                    value = Money(amount.toInt()),
+                ),
+            )
         }
     }
 
     private fun CategorySheetState.Operation.Update.update(
-        item: BuilderUiState.ListItem,
+        sheetState: CategorySheetState,
     ) {
         if (isSuggestion) {
-            suggestedItemUpdateInput.tryEmit(ItemUpdate(this, item))
+            _suggestedItemUpdateInput.tryEmit(sheetState)
         } else {
-            manualItemUpdateInput.tryEmit(ItemUpdate(this, item))
+            _manualItemUpdateInput.tryEmit(sheetState)
         }
     }
 }

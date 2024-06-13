@@ -9,7 +9,6 @@ import br.com.mob1st.core.state.managers.DialogManager
 import br.com.mob1st.core.state.managers.mapCatching
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCashFlowUseCase
 import br.com.mob1st.features.utils.errors.CommonError
-import br.com.mob1st.features.utils.errors.dialogErrorHandler
 import kotlinx.coroutines.flow.StateFlow
 
 class CashFlowViewModel(
@@ -28,6 +27,5 @@ class CashFlowViewModel(
         getCashFlowUseCase()
             .mapCatching(
                 map = stateHolder::asUiState,
-                errorHandler = dialogErrorHandler,
             )
 }

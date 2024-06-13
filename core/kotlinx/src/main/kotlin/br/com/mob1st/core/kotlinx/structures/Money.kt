@@ -16,6 +16,8 @@ value class Money(val cents: Int) : Comparable<Money> {
      */
     operator fun minus(other: Money) = Money(cents - other.cents)
 
+    operator fun times(other: Float) = Money((cents * other).toInt())
+
     /**
      * Compares two [Money] values.
      */

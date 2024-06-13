@@ -10,16 +10,15 @@ import kotlinx.coroutines.flow.asStateFlow
  */
 interface SnackbarManager<T> {
     /**
+     * Handy method for ViewModels to directly show the Snackbars.
+     */
+    context(ViewModel)
+    fun showSnackbar(snackbar: T)
+
+    /**
      * The output of the Snackbars to be shown in the UI.
      */
     val snackbarOutput: StateFlow<T?>
-
-    /**
-     * Shows a Snackbar in the UI.
-     * @param snackbarState the Snackbar to be shown.
-     */
-    context(ViewModel)
-    fun showSnackbar(snackbarState: T)
 
     /**
      * Consumes the Snackbars.
@@ -36,16 +35,15 @@ interface SnackbarManager<T> {
  * The delegation to be used by ViewModels to show Snackbars in the UI.
  * @param T the type of the Snackbars to be shown.
  */
-class SnackbarDelegate<T> : SnackbarManager<T> {
-    private val _snackbarOutput = MutableStateFlow<T?>(null)
-    override val snackbarOutput: StateFlow<T?> = _snackbarOutput.asStateFlow()
-
-    override fun consumeSnackbar() {
-        _snackbarOutput.value = null
-    }
+class SnackbarDelegate<T> : SnackbarManager<T>, MutableStateFlow<T?> by MutableStateFlow(null) {
+    override val snackbarOutput: StateFlow<T?> = asStateFlow()
 
     context(ViewModel)
-    override fun showSnackbar(snackbarState: T) {
-        _snackbarOutput.value = snackbarState
+    override fun showSnackbar(snackbar: T) {
+        value = snackbar
+    }
+
+    override fun consumeSnackbar() {
+        value = null
     }
 }

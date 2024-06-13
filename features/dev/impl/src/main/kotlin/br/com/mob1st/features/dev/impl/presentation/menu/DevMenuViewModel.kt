@@ -8,13 +8,13 @@ import br.com.mob1st.core.state.contracts.NavigationManager
 import br.com.mob1st.core.state.contracts.UiStateOutputManager
 import br.com.mob1st.core.state.managers.DialogDelegate
 import br.com.mob1st.core.state.managers.DialogManager
+import br.com.mob1st.core.state.managers.ErrorHandler
 import br.com.mob1st.core.state.managers.SnackbarDelegate
 import br.com.mob1st.core.state.managers.SnackbarManager
 import br.com.mob1st.core.state.managers.mapCatching
 import br.com.mob1st.features.dev.impl.domain.GetDevMenuUseCase
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.utils.errors.CommonError
-import br.com.mob1st.features.utils.errors.dialogErrorHandler
 import kotlinx.coroutines.flow.StateFlow
 
 internal class DevMenuViewModel(
@@ -34,7 +34,7 @@ internal class DevMenuViewModel(
     private fun getDevMenu() =
         getMenuUseCase().mapCatching(
             map = holder::asUiState,
-            errorHandler = dialogErrorHandler,
+            errorHandler = ErrorHandler(),
         )
 
     fun selectItem(position: Int) {

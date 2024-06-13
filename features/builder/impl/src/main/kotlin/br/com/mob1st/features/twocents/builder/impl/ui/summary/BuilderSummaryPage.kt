@@ -21,10 +21,10 @@ import br.com.mob1st.features.twocents.builder.impl.R
 @Composable
 internal fun BuilderSummaryPage(
     onClickStart: () -> Unit,
-    onBackClicked: () -> Unit,
+    onClickBack: () -> Unit,
 ) {
     FeatureSummaryScaffold(
-        onBackClicked = onBackClicked,
+        onBackClicked = onClickBack,
         titleContent = {
             Text(stringResource(R.string.builder_summary_header))
         },
@@ -81,7 +81,7 @@ private fun BuilderSummaryPagePreview() {
     BetTheme {
         BuilderSummaryPage(
             onClickStart = {},
-            onBackClicked = {},
+            onClickBack = {},
         )
     }
 }

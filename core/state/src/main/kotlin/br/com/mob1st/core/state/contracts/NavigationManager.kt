@@ -1,6 +1,5 @@
 package br.com.mob1st.core.state.contracts
 
-import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,15 +9,14 @@ import kotlinx.coroutines.flow.asStateFlow
  */
 interface NavigationManager<T> {
     /**
+     * Handy method for ViewModels to directly show the navigation.
+     */
+    fun goTo(navigation: T)
+
+    /**
      * The output of the navigation to be consumed by the UI.
      */
     val navigationOutput: StateFlow<T?>
-
-    /**
-     * Triggers a navigation.
-     */
-    context(ViewModel)
-    fun goTo(value: T)
 
     /**
      * Consumes the navigation.
@@ -26,16 +24,14 @@ interface NavigationManager<T> {
     fun consumeNavigation()
 }
 
-class NavigationDelegate<T> : NavigationManager<T> {
-    private val _navigationOutput: MutableStateFlow<T?> = MutableStateFlow(null)
-    override val navigationOutput: StateFlow<T?> = _navigationOutput.asStateFlow()
+class NavigationDelegate<T> : NavigationManager<T>, MutableStateFlow<T?> by MutableStateFlow(null) {
+    override val navigationOutput: StateFlow<T?> = asStateFlow()
 
-    context(ViewModel)
-    override fun goTo(value: T) {
-        _navigationOutput.value = value
+    override fun goTo(navigation: T) {
+        value = navigation
     }
 
     override fun consumeNavigation() {
-        _navigationOutput.value = null
+        value = null
     }
 }

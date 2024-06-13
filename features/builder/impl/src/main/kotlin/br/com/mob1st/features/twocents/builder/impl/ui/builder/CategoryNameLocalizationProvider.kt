@@ -1,7 +1,9 @@
 package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import android.content.Context
+import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.twocents.builder.impl.R
+import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategoryInput
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
 
 internal interface CategoryNameLocalizationProvider {
@@ -25,7 +27,15 @@ private class CategoryNameLocalizationProviderImpl(
  */
 internal fun CategorySuggestion.Name.toResId(): Int {
     return when (this) {
-        CategorySuggestion.Name.RENT -> R.string.builder_summary_button
+        CategorySuggestion.Name.RENT -> R.string.builder_fixed_expenses_suggestion_rent
         CategorySuggestion.Name.PARTY -> R.string.builder_summary_button
+    }
+}
+
+internal fun CategoryInput.localizedName(): TextState {
+    return if (linkedSuggestion != null) {
+        TextState(linkedSuggestion.name.toResId())
+    } else {
+        TextState(name)
     }
 }

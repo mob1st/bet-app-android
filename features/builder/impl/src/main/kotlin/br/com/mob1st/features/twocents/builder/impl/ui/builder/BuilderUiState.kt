@@ -2,46 +2,41 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
-import br.com.mob1st.features.twocents.builder.impl.R
+import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
+import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategoryBatch
+import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategoryInput
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.plus
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toPersistentList
 
 /**
  * Ui state for the category builder
- * @property manuallyAddedList The manually added categories.
+ * @property manuallyAddedSection The manually added categories.
  * @property suggestedSection The suggested categories.
- * @property dialog The category name dialog state.
  */
 @Immutable
 internal data class BuilderUiState(
-    private val manuallyAddedList: PersistentList<ListItem> = persistentListOf(),
-    val suggestedSection: ImmutableList<ListItem> = persistentListOf(),
-    val dialog: CategoryNameDialogState? = null,
+    val categoryType: CategoryType,
+    val manuallyAddedSection: ManualCategoryBuilderSection = ManualCategoryBuilderSection(),
+    val suggestedSection: SuggestedCategoryBuilderSection = SuggestedCategoryBuilderSection(),
+    val isSaving: Boolean = false,
 ) {
-    val manuallyAddedSection = manuallyAddedList + ListItem(
-        name = TextState(R.string.builder_commons_custom_section_add_item),
-        amount = "",
-    )
-
     /**
      * Converts the state visible on screen to a structure that can be parcelized.
      */
-    fun toSavedState(suggestions: List<CategorySuggestion>): BuilderUserInput {
+    fun toSavedState(): BuilderUserInput {
         return BuilderUserInput(
-            manuallyAdded = manuallyAddedList.toManualEntryList(),
-            suggested = suggestedSection.toSuggestedEntryMap(suggestions),
+            manuallyAdded = manuallyAddedSection.toManualEntryList(),
+            suggested = suggestedSection.toSuggestedEntryMap(),
         )
     }
 
-    /**
-     * Indicates if the given [position] is the add button or not in the manually added section.
-     * @return true if this is the add button item, false otherwise
-     */
-    fun isAddButton(position: Int): Boolean {
-        return position == manuallyAddedSection.lastIndex
+    fun toBatch(): CategoryBatch {
+        return CategoryBatch(
+            categoryType = categoryType,
+            inputs = manuallyAddedSection.categories.map { it.input } + suggestedSection.categories.map { it.input },
+        )
     }
 
     /**
@@ -49,7 +44,7 @@ internal data class BuilderUiState(
      */
     fun showUpdateManualSheet(position: Int) = CategorySheetState.updateManual(
         position = position,
-        item = manuallyAddedList[position],
+        input = manuallyAddedSection.categories[position].input,
     )
 
     /**
@@ -57,17 +52,55 @@ internal data class BuilderUiState(
      */
     fun showUpdateSuggestedSheet(position: Int) = CategorySheetState.updateSuggestion(
         position = position,
-        item = suggestedSection[position],
+        input = suggestedSection.categories[position].input,
     )
 
-    /**
-     * List item state
-     */
-    @Immutable
-    data class ListItem(
-        val name: TextState,
-        val amount: String = "",
+    fun showNewManualSheet(name: String) = CategorySheetState(
+        operation = CategorySheetState.Operation.Add,
+        input = CategoryInput(type = categoryType, name = name),
     )
+
+    fun createManualSuggestionsSection(userInput: BuilderUserInput): ManualCategoryBuilderSection {
+        return ManualCategoryBuilderSection(
+            categories = userInput.manuallyAdded.map { entry ->
+                val input = CategoryInput(type = categoryType, name = entry.name)
+                BuilderListItemState(input = input)
+            }.toPersistentList(),
+        )
+    }
+
+    fun createSuggestedSection(
+        suggestions: List<CategorySuggestion>,
+        userInput: BuilderUserInput,
+    ): SuggestedCategoryBuilderSection {
+        return SuggestedCategoryBuilderSection(
+            suggestions = suggestions.toImmutableList(),
+            categories = suggestions.map { suggestion ->
+                val entry = userInput
+                    .suggested
+                    .getOrDefault(suggestion.id, BuilderUserInput.Entry())
+                val input = CategoryInput(
+                    type = categoryType,
+                    name = entry.name,
+                    value = Money(entry.amount.toInt()),
+                    linkedSuggestion = suggestion,
+                )
+                BuilderListItemState(input = input)
+            }.toPersistentList(),
+        )
+    }
+
+    fun combine(
+        newManualSection: ManualCategoryBuilderSection,
+        newSuggestedSection: SuggestedCategoryBuilderSection,
+        isSaving: Boolean,
+    ): BuilderUiState {
+        return copy(
+            manuallyAddedSection = newManualSection,
+            suggestedSection = newSuggestedSection,
+            isSaving = isSaving,
+        )
+    }
 }
 
 /**
@@ -82,16 +115,19 @@ internal data class CategoryNameDialogState(
 )
 
 /**
- * Allows the number set for a category.
- * @property category The category.
- * @property amount The amount.
+ * Allows the number set for a categ
+ *  ory.
+ * @property operation The operation to be executed when the [CategorySheetState] is submitted.
+ * @property input The data to be updated.
  */
 @Immutable
 internal data class CategorySheetState(
     val operation: Operation,
-    val category: TextState,
-    val amount: String,
+    val input: CategoryInput,
 ) {
+    val name: TextState = input.localizedName()
+    val amount: String = input.value.toString()
+
     /**
      * Represents the operation to be performed when the sheet is submitted.
      */
@@ -119,11 +155,10 @@ internal data class CategorySheetState(
          */
         fun updateManual(
             position: Int,
-            item: BuilderUiState.ListItem,
+            input: CategoryInput,
         ) = CategorySheetState(
             operation = Operation.Update(position, isSuggestion = false),
-            category = item.name,
-            amount = item.amount,
+            input = input,
         )
 
         /**
@@ -131,32 +166,10 @@ internal data class CategorySheetState(
          */
         fun updateSuggestion(
             position: Int,
-            item: BuilderUiState.ListItem,
+            input: CategoryInput,
         ) = CategorySheetState(
             operation = Operation.Update(position, isSuggestion = true),
-            category = item.name,
-            amount = item.amount,
-        )
-
-        /**
-         * Creates a category sheet to add a new category.
-         */
-        fun add(
-            name: String = "",
-        ) = CategorySheetState(
-            operation = Operation.Add,
-            category = TextState(name),
-            amount = "",
+            input = input,
         )
     }
 }
-
-/**
- * The user input for a specific item in the list.
- * @property operation The operation that opened the [CategorySheetState].
- * @property newItem The new Item to be updated/added in the [BuilderUiState].
- */
-internal data class ItemUpdate(
-    val operation: CategorySheetState.Operation,
-    val newItem: BuilderUiState.ListItem,
-)

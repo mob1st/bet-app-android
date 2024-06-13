@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.asStateFlow
  */
 interface DialogManager<T> {
     /**
+     * Handy method for ViewModels to directly show the modals.
+     */
+    context(ViewModel)
+    fun showDialog(dialog: T)
+
+    /**
      * The output of the modals to be shown in the UI.
      */
     val dialogOutput: StateFlow<T?>
-
-    /**
-     * Shows a modal in the UI.
-     */
-    context(ViewModel)
-    fun showModal(modalState: T)
 
     /**
      * Consumes the modals, removing them from the UI.
@@ -26,16 +26,15 @@ interface DialogManager<T> {
     fun consumeDialog()
 }
 
-class DialogDelegate<T> : DialogManager<T> {
-    private val _dialogOutput: MutableStateFlow<T?> = MutableStateFlow(null)
-    override val dialogOutput: StateFlow<T?> = _dialogOutput.asStateFlow()
-
-    override fun consumeDialog() {
-        _dialogOutput.value = null
-    }
+class DialogDelegate<T> : DialogManager<T>, MutableStateFlow<T?> by MutableStateFlow(null) {
+    override val dialogOutput: StateFlow<T?> = asStateFlow()
 
     context(ViewModel)
-    override fun showModal(modalState: T) {
-        _dialogOutput.value = modalState
+    override fun showDialog(dialog: T) {
+        value = dialog
+    }
+
+    override fun consumeDialog() {
+        value = null
     }
 }
