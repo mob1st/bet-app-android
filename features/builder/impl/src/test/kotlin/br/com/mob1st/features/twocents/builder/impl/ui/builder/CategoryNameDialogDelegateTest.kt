@@ -77,7 +77,7 @@ class CategoryNameDialogDelegateTest {
     fun `GIVEN a initial state WHEN show dialog And consume it THEN assert dialog is removed`() = runTest {
         // WHEN
         delegate.showCategoryNameDialog()
-        delegate.getNameAndSubmit()
+        delegate.consumeDialog()
 
         // THEN
         delegate.dialogOutput.test {

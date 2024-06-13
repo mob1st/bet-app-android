@@ -13,7 +13,7 @@ interface SheetManager<T> {
      * Handy method for ViewModels to directly show the sheets.
      */
     context(ViewModel)
-    fun showSheet(operation: T)
+    fun showSheet(sheet: T)
 
     /**
      * The output of the sheets to be shown in the UI.
@@ -30,8 +30,8 @@ class SheetDelegate<T> : SheetManager<T>, MutableStateFlow<T?> by MutableStateFl
     override val sheetOutput: StateFlow<T?> = asStateFlow()
 
     context(ViewModel)
-    override fun showSheet(operation: T) {
-        value = operation
+    override fun showSheet(sheet: T) {
+        value = sheet
     }
 
     override fun consumeSheet() {

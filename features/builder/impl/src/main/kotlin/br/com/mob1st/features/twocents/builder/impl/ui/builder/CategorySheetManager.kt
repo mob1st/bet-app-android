@@ -26,20 +26,21 @@ internal interface CategorySheetManager : SheetManager<CategorySheetState> {
     fun setCategoryAmount(amount: String)
 }
 
+/**
+ * Manages the state of the category sheet.
+ * @property errorHandler Cascade errors to the error handler. It's usually the ViewModel error handler.
+ * @property sheetDelegate The sheet delegate that manages the sheet state.
+ */
 internal class CategorySheetDelegate(
     private val errorHandler: ErrorHandler,
     private val sheetDelegate: SheetDelegate<CategorySheetState> = SheetDelegate(),
 ) : CategorySheetManager, SheetManager<CategorySheetState> by sheetDelegate {
-    private val _manualItemUpdateInput = MutableSharedFlow<CategorySheetState>()
+    private val _manualItemUpdateInput = MutableSharedFlow<CategorySheetState>(extraBufferCapacity = 1)
     val manualItemUpdateInput = _manualItemUpdateInput.asSharedFlow()
 
-    private val _suggestedItemUpdateInput = MutableSharedFlow<CategorySheetState>()
+    private val _suggestedItemUpdateInput = MutableSharedFlow<CategorySheetState>(extraBufferCapacity = 1)
     val suggestedItemUpdateInput = _suggestedItemUpdateInput.asSharedFlow()
 
-    /**
-     * Updates the category with the values from the keyboard.
-     * @throws IllegalStateException if the keyboard is not shown when calling this method.
-     */
     override fun submitCategory() = errorHandler.catching {
         val sheet = checkNotNull(sheetDelegate.getAndUpdate { null })
         when (val operation = sheet.operation) {
@@ -52,7 +53,7 @@ internal class CategorySheetDelegate(
         sheetDelegate.update { sheet ->
             checkNotNull(sheet).copy(
                 input = sheet.input.copy(
-                    value = Money(amount.toInt()),
+                    value = Money.from(amount),
                 ),
             )
         }
