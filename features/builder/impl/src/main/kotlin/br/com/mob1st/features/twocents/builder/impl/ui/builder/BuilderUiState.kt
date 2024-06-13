@@ -82,7 +82,7 @@ internal data class BuilderUiState(
                 val input = CategoryInput(
                     type = categoryType,
                     name = entry.name,
-                    value = Money(entry.amount.toInt()),
+                    value = Money.fromOrDefault(entry.amount),
                     linkedSuggestion = suggestion,
                 )
                 BuilderListItemState(input = input)

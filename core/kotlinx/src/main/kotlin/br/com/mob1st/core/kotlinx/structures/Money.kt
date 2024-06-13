@@ -26,6 +26,29 @@ value class Money(val cents: Int) : Comparable<Money> {
     }
 
     companion object {
+        private const val CURRENCY_REGEX = "[^\\d-]"
+
         val Zero = Money(0)
+
+        /**
+         * @throws NumberFormatException if the string is not a valid number.
+         */
+        fun from(
+            string: String,
+        ): Money {
+            val onlyNumericCharacters = string.replace(Regex(CURRENCY_REGEX), "")
+            return Money(onlyNumericCharacters.toInt())
+        }
+
+        fun fromOrDefault(
+            string: String,
+            default: Money = Zero,
+        ): Money {
+            return try {
+                from(string)
+            } catch (e: NumberFormatException) {
+                default
+            }
+        }
     }
 }

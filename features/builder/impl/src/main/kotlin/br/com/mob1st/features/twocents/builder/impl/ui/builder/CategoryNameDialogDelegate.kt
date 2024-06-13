@@ -31,7 +31,12 @@ internal class CategoryNameDialogDelegate(
     private val errorHandler: ErrorHandler,
     private val delegate: DialogDelegate<CategoryNameDialogState> = DialogDelegate(),
 ) : CategoryNameDialogManager, DialogManager<CategoryNameDialogState> by delegate {
-    fun getNameAndSubmit() = checkNotNull(delegate.getAndUpdate { null }).text
+    /**
+     * Gets the category name and submits it, removing the dialog from the screen.
+     * @return The category name presented in the dialog before it was removed.
+     * @throws IllegalStateException If the dialog is not shown before calling this method.
+     */
+    fun getNameAndSubmit(): String = checkNotNull(delegate.getAndUpdate { null }).text
 
     override fun setCategoryName(name: String) = errorHandler.catching {
         delegate.update {
