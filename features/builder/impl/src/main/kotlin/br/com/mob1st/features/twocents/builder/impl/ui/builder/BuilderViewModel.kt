@@ -6,13 +6,10 @@ import br.com.mob1st.core.androidx.flows.stateInRetained
 import br.com.mob1st.core.state.async.AsyncTask
 import br.com.mob1st.core.state.contracts.NavigationDelegate
 import br.com.mob1st.core.state.contracts.NavigationManager
-import br.com.mob1st.core.state.managers.ErrorHandler
 import br.com.mob1st.core.state.managers.SnackbarManager
 import br.com.mob1st.core.state.managers.catchIn
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.GetSuggestionsUseCase
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.SetCategoryBatchUseCase
-import br.com.mob1st.features.utils.errors.CommonError
-import br.com.mob1st.features.utils.errors.SnackbarErrorHandler
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -39,7 +36,7 @@ internal class BuilderViewModel(
     BuilderUiStateManager,
     CategorySheetManager by sideEffects.categorySheetDelegate,
     CategoryNameDialogManager by sideEffects.categoryNameDialogDelegate,
-    SnackbarManager<CommonError> by sideEffects.snackbarErrorHandler,
+    SnackbarManager<BuilderSnackbar> by sideEffects.snackbarErrorHandler,
     NavigationManager<Unit> by sideEffects.navigationDelegate {
     private val savingTask = AsyncTask(viewModelScope)
 
@@ -96,6 +93,7 @@ internal class BuilderViewModel(
             .onEach { update ->
                 manuallyAddedItems.update { section -> section.applyUpdate(update) }
             }
+            .catchIn(sideEffects.snackbarErrorHandler)
             .launchIn(viewModelScope)
         manuallyAddedItems.asStateFlow()
     }
@@ -123,7 +121,7 @@ internal class BuilderViewModel(
                     .map(section::applyUpdate)
                 emitAll(updatedItems)
             }
-            .catchIn(ErrorHandler())
+            .catchIn(sideEffects.snackbarErrorHandler)
     }
 
     override fun save() = savingTask.launchIn(sideEffects.snackbarErrorHandler) {
@@ -137,7 +135,7 @@ internal class BuilderViewModel(
      */
     class SideEffects(
         val navigationDelegate: NavigationDelegate<Unit> = NavigationDelegate(),
-        val snackbarErrorHandler: SnackbarErrorHandler = SnackbarErrorHandler(),
+        val snackbarErrorHandler: BuilderSnackbarErrorHandler = BuilderSnackbarErrorHandler(),
         val categorySheetDelegate: CategorySheetDelegate = CategorySheetDelegate(snackbarErrorHandler),
         val categoryNameDialogDelegate: CategoryNameDialogDelegate = CategoryNameDialogDelegate(snackbarErrorHandler),
     )

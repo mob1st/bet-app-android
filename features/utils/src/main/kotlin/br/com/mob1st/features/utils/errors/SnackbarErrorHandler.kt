@@ -12,6 +12,6 @@ class SnackbarErrorHandler(
 ) : ErrorHandler(), SnackbarManager<CommonError> by delegate {
     override fun catch(throwable: Throwable) {
         super.catch(throwable)
-        delegate.value = CommonError.Unknown
+        delegate.value = throwable.toCommonError()
     }
 }

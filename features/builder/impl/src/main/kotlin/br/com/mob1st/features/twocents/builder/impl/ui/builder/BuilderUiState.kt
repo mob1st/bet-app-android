@@ -32,10 +32,32 @@ internal data class BuilderUiState(
         )
     }
 
+    /**
+     * Converts the input data to a batch of categories to be saved.
+     * @throws NotEnoughSuggestionsException If there are less than 3 suggestions with input, which is the minimum
+     * required to proceed.
+     */
+    @Throws(NotEnoughSuggestionsException::class)
     fun toBatch(): CategoryBatch {
+        var greaterThanZeroCount = 0
+        val manualInputs = manuallyAddedSection.categories.map {
+            if (it.input.value > Money.Zero) {
+                greaterThanZeroCount++
+            }
+            it.input
+        }
+        val suggestedInputs = suggestedSection.categories.map {
+            if (it.input.value > Money.Zero) {
+                greaterThanZeroCount++
+            }
+            it.input
+        }
+        if (greaterThanZeroCount < MINIMUM_SUGGESTIONS) {
+            throw NotEnoughSuggestionsException(suggestedInputs.size)
+        }
         return CategoryBatch(
             categoryType = categoryType,
-            inputs = manuallyAddedSection.categories.map { it.input } + suggestedSection.categories.map { it.input },
+            inputs = manualInputs + suggestedInputs,
         )
     }
 
@@ -104,6 +126,10 @@ internal data class BuilderUiState(
             suggestedSection = newSuggestedSection,
             isSaving = isSaving,
         )
+    }
+
+    companion object {
+        private const val MINIMUM_SUGGESTIONS = 3
     }
 }
 

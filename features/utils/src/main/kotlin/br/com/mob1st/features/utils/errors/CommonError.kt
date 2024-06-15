@@ -19,3 +19,12 @@ sealed interface CommonError {
      */
     data object Unknown : CommonError
 }
+
+/**
+ * Converts a [Throwable] to a [CommonError].
+ * If the receiver throwable is not recognized, it returns [Unknown].
+ * @return a [CommonError] that represents the throwable
+ */
+fun Throwable.toCommonError(): CommonError {
+    return Unknown
+}
