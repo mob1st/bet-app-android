@@ -8,7 +8,7 @@ import br.com.mob1st.core.androidx.parcelables.getStateProviderParcelable
  * A wrapper on top of the given [SavedStateHandle] to save and restore the user inputs through the [BuilderUserInput].
  * @param savedStateHandle The [SavedStateHandle] to save and restore the user inputs.
  */
-internal class BuilderStateSaver(
+internal class BuilderStateRestorer(
     private val savedStateHandle: SavedStateHandle,
 ) {
     fun getSavedValue(onSave: () -> BuilderUserInput): BuilderUserInput {

@@ -42,7 +42,7 @@ internal data class BuilderUiState(
     /**
      * Creates a bottom sheet to update a manual added item placed in the given [position].
      */
-    fun showUpdateManualSheet(position: Int) = CategorySheetState.updateManual(
+    fun showUpdateManualSheet(position: Int) = CategorySheetState.update(
         position = position,
         input = manuallyAddedSection.categories[position].input,
     )
@@ -50,7 +50,7 @@ internal data class BuilderUiState(
     /**
      * Creates a bottom sheet ot update a suggested item placed in the given [position]
      */
-    fun showUpdateSuggestedSheet(position: Int) = CategorySheetState.updateSuggestion(
+    fun showUpdateSuggestedSheet(position: Int) = CategorySheetState.update(
         position = position,
         input = suggestedSection.categories[position].input,
     )
@@ -63,7 +63,11 @@ internal data class BuilderUiState(
     fun createManualSuggestionsSection(userInput: BuilderUserInput): ManualCategoryBuilderSection {
         return ManualCategoryBuilderSection(
             categories = userInput.manuallyAdded.map { entry ->
-                val input = CategoryInput(type = categoryType, name = entry.name)
+                val input = CategoryInput(
+                    type = categoryType,
+                    name = entry.name,
+                    value = Money.fromOrDefault(entry.amount, Money.Zero),
+                )
                 BuilderListItemState(input = input)
             }.toPersistentList(),
         )
@@ -129,6 +133,15 @@ internal data class CategorySheetState(
     val amount: String = input.value.toString()
 
     /**
+     * Copies the state with the amount set.
+     * @param amount The amount to be set.
+     * @return A new [CategorySheetState] with the amount set.
+     */
+    fun setAmount(amount: String) = copy(
+        input = input.copy(value = Money.from(amount)),
+    )
+
+    /**
      * Represents the operation to be performed when the sheet is submitted.
      */
     sealed interface Operation {
@@ -141,34 +154,19 @@ internal data class CategorySheetState(
         /**
          * Updates a category.
          * @property position The position of the selected category in the list.
-         * @property isSuggestion If the category is a suggestion.
          */
-        data class Update(
-            val position: Int,
-            val isSuggestion: Boolean,
-        ) : Operation
+        data class Update(val position: Int) : Operation
     }
 
     companion object {
         /**
          * Creates a category sheet to update a manual category.
          */
-        fun updateManual(
+        fun update(
             position: Int,
             input: CategoryInput,
         ) = CategorySheetState(
-            operation = Operation.Update(position, isSuggestion = false),
-            input = input,
-        )
-
-        /**
-         * Creates a category sheet to update a suggestion.
-         */
-        fun updateSuggestion(
-            position: Int,
-            input: CategoryInput,
-        ) = CategorySheetState(
-            operation = Operation.Update(position, isSuggestion = true),
+            operation = Operation.Update(position),
             input = input,
         )
     }

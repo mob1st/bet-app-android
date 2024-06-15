@@ -25,15 +25,14 @@ fun randomBoolean() = (0..1).random() == 1
  * @return a random fixture
  */
 inline fun <reified T> fixture(noinline configuration: ConfigurationBuilder.() -> Unit = {}): T {
-    val kotlinFixture =
-        kotlinFixture {
-            factory<Id> {
-                Id()
-            }
-            factory<Money> {
-                Money.Zero
-            }
+    val kotlinFixture = kotlinFixture {
+        factory<Id> {
+            Id()
         }
+        factory<Money> {
+            Money.Zero
+        }
+    }
     return kotlinFixture<T>(configuration = configuration)
 }
 

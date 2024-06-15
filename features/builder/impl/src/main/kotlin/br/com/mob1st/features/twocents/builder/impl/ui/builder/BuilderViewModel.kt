@@ -3,12 +3,12 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mob1st.core.androidx.flows.stateInRetained
+import br.com.mob1st.core.state.async.AsyncTask
 import br.com.mob1st.core.state.contracts.NavigationDelegate
 import br.com.mob1st.core.state.contracts.NavigationManager
 import br.com.mob1st.core.state.managers.ErrorHandler
 import br.com.mob1st.core.state.managers.SnackbarManager
 import br.com.mob1st.core.state.managers.catchIn
-import br.com.mob1st.core.state.managers.launchIn
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.GetSuggestionsUseCase
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.SetCategoryBatchUseCase
 import br.com.mob1st.features.utils.errors.CommonError
@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -30,7 +31,7 @@ import kotlinx.coroutines.flow.update
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class BuilderViewModel(
     initialState: BuilderUiState,
-    builderStateSaver: BuilderStateSaver,
+    builderStateRestorer: BuilderStateRestorer,
     private val getSuggestionsUseCase: GetSuggestionsUseCase,
     private val setCategoryBatchUseCase: SetCategoryBatchUseCase,
     private val sideEffects: SideEffects = SideEffects(),
@@ -40,18 +41,36 @@ internal class BuilderViewModel(
     CategoryNameDialogManager by sideEffects.categoryNameDialogDelegate,
     SnackbarManager<CommonError> by sideEffects.snackbarErrorHandler,
     NavigationManager<Unit> by sideEffects.navigationDelegate {
-    private val savingLoaderState = MutableStateFlow(false)
+    private val savingTask = AsyncTask(viewModelScope)
 
-    private val savedUserInput = builderStateSaver.getSavedValue {
+    private val savedUserInput = builderStateRestorer.getSavedValue {
         uiStateOutput.value.toSavedState()
     }
 
     override val uiStateOutput: StateFlow<BuilderUiState> = combine(
         getManualAddedItems(initialState),
         getSuggestionItems(initialState),
-        savingLoaderState,
+        savingTask.loadingState,
         initialState::combine,
     ).stateInRetained(viewModelScope, initialState)
+
+    init {
+        sideEffects
+            .categoryNameDialogDelegate
+            .nameInput
+            .onEach { name ->
+                showSheet(uiStateOutput.value.showNewManualSheet(name))
+            }
+            .launchIn(viewModelScope)
+
+        sideEffects
+            .categorySheetDelegate
+            .categorySheetInput
+            .onEach {
+                showSheet(it)
+            }
+            .launchIn(viewModelScope)
+    }
 
     override fun selectManualCategory(position: Int) = with(uiStateOutput.value) {
         showSheet(showUpdateManualSheet(position))
@@ -59,11 +78,6 @@ internal class BuilderViewModel(
 
     override fun selectSuggestedCategory(position: Int) = with(uiStateOutput.value) {
         showSheet(showUpdateSuggestedSheet(position))
-    }
-
-    override fun submitManualCategoryName() = launchIn(sideEffects.snackbarErrorHandler) {
-        val text = sideEffects.categoryNameDialogDelegate.getNameAndSubmit()
-        showSheet(uiStateOutput.value.showNewManualSheet(text))
     }
 
     /**
@@ -77,7 +91,8 @@ internal class BuilderViewModel(
     ): StateFlow<ManualCategoryBuilderSection> = with(sideEffects.categorySheetDelegate) {
         val initialValue = initialState.createManualSuggestionsSection(savedUserInput)
         val manuallyAddedItems = MutableStateFlow(initialValue)
-        manualItemUpdateInput
+        categorySheetInput
+            .filter { it.input.linkedSuggestion == null }
             .onEach { update ->
                 manuallyAddedItems.update { section -> section.applyUpdate(update) }
             }
@@ -103,19 +118,17 @@ internal class BuilderViewModel(
             }
             .transformLatest { section ->
                 emit(section)
-                val updatedItems = suggestedItemUpdateInput.map(section::applyUpdate)
+                val updatedItems = categorySheetInput
+                    .filter { it.input.linkedSuggestion != null }
+                    .map(section::applyUpdate)
                 emitAll(updatedItems)
             }
             .catchIn(ErrorHandler())
     }
 
-    override fun save() = launchIn(sideEffects.snackbarErrorHandler) {
-        try {
-            savingLoaderState.value = true
-            setCategoryBatchUseCase(uiStateOutput.value.toBatch())
-        } finally {
-            savingLoaderState.value = false
-        }
+    override fun save() = savingTask.launchIn(sideEffects.snackbarErrorHandler) {
+        setCategoryBatchUseCase(uiStateOutput.value.toBatch())
+        goTo(Unit)
     }
 
     /**

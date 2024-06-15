@@ -19,11 +19,6 @@ internal interface BuilderUiStateManager : UiStateOutputManager<BuilderUiState> 
     fun selectSuggestedCategory(position: Int)
 
     /**
-     * Called when the user clicks on the submit button of the dialog.
-     */
-    fun submitManualCategoryName()
-
-    /**
      * Save the user inputs.
      */
     fun save()

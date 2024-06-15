@@ -102,12 +102,12 @@ class CategorySheetDelegateTest {
     }
 
     @Test
-    fun `GIVEN an update for manual category WHEN set amount And submit category THEN assert only manual update event is emitted`() = runTest {
+    fun `GIVEN an category update WHEN set amount And submit category THEN assert only manual update event is emitted`() = runTest {
         // GIVEN
-        val sheetState = CategorySheetState.updateManual(3, fixture())
+        val sheetState = CategorySheetState.update(3, fixture())
         receiverViewModel.showSheet(sheetState)
 
-        delegate.manualItemUpdateInput.test {
+        delegate.categorySheetInput.test {
             // WHEN
             delegate.submitCategory()
 
@@ -115,44 +115,6 @@ class CategorySheetDelegateTest {
             assertEquals(
                 sheetState,
                 this.expectMostRecentItem(),
-            )
-        }
-    }
-
-    @Test
-    fun `GIVEN an update for suggested category WHEN set amount And submit category THEN assert suggested update event is emitted`() = runTest {
-        // GIVEN
-        val sheetState = CategorySheetState.updateSuggestion(3, fixture())
-        receiverViewModel.showSheet(sheetState)
-
-        delegate.suggestedItemUpdateInput.test {
-            // WHEN
-            delegate.submitCategory()
-
-            // THEN
-            assertEquals(
-                sheetState,
-                awaitItem(),
-            )
-        }
-    }
-
-    @Test
-    fun `GIVEN an add operation WHEN submit category THEN assert manual update event is emitted`() = runTest {
-        // GIVEN
-        val sheetState = fixture<CategorySheetState>().copy(
-            operation = CategorySheetState.Operation.Add,
-        )
-        receiverViewModel.showSheet(sheetState)
-
-        delegate.manualItemUpdateInput.test {
-            // WHEN
-            delegate.submitCategory()
-
-            // THEN
-            assertEquals(
-                sheetState,
-                awaitItem(),
             )
         }
     }

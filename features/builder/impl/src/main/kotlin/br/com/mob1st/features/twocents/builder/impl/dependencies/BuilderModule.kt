@@ -3,7 +3,7 @@ package br.com.mob1st.features.twocents.builder.impl.dependencies
 import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.GetSuggestionsUseCase
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.SetCategoryBatchUseCase
-import br.com.mob1st.features.twocents.builder.impl.ui.builder.BuilderStateSaver
+import br.com.mob1st.features.twocents.builder.impl.ui.builder.BuilderStateRestorer
 import br.com.mob1st.features.twocents.builder.impl.ui.builder.BuilderUiState
 import br.com.mob1st.features.twocents.builder.impl.ui.builder.BuilderViewModel
 import br.com.mob1st.features.twocents.builder.impl.ui.navigation.BuilderNavGraphImpl
@@ -28,7 +28,7 @@ private val uiModule = module {
     viewModel { (type: CategoryType) ->
         BuilderViewModel(
             initialState = BuilderUiState(type),
-            builderStateSaver = BuilderStateSaver(savedStateHandle = get()),
+            builderStateRestorer = BuilderStateRestorer(savedStateHandle = get()),
             getSuggestionsUseCase = get(),
             setCategoryBatchUseCase = get(),
         )

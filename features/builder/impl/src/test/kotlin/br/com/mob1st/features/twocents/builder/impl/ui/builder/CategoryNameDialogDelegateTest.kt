@@ -68,9 +68,10 @@ class CategoryNameDialogDelegateTest {
         // WHEN
         delegate.showCategoryNameDialog()
         delegate.setCategoryName(name)
-
-        // THEN
-        assertEquals(name, delegate.getNameAndSubmit())
+        delegate.nameInput.test {
+            delegate.submitCategoryName()
+            assertEquals(name, awaitItem())
+        }
     }
 
     @Test

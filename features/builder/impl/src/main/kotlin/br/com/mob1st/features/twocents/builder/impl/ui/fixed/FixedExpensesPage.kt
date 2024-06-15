@@ -72,7 +72,7 @@ fun FixedExpensesPage(
         onSelectManualItem = viewModel::selectManualCategory,
         onSelectSuggestedItem = viewModel::selectSuggestedCategory,
         onDismissSnackbar = viewModel::consumeSnackbar,
-        onSubmitName = viewModel::submitManualCategoryName,
+        onSubmitName = viewModel::submitCategoryName,
         onDismissDialog = viewModel::consumeDialog,
         onTypeName = viewModel::setCategoryName,
         onSubmitSheet = viewModel::submitCategory,

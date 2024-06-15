@@ -30,7 +30,7 @@ internal data class ManualCategoryBuilderSection(
         return categories.map { item ->
             BuilderUserInput.Entry(
                 name = item.input.name,
-                amount = item.input.value.toString(),
+                amount = item.input.value.cents.toString(),
             )
         }
     }
@@ -48,7 +48,7 @@ internal data class SuggestedCategoryBuilderSection(
         return suggestions.zip(categories).associate { (suggestion, item) ->
             suggestion.id to BuilderUserInput.Entry(
                 name = item.input.name,
-                amount = item.input.value.toString(),
+                amount = item.input.value.cents.toString(),
             )
         }
     }
@@ -61,7 +61,7 @@ internal data class BuilderListItemState(
     val name: TextState = input.localizedName()
     val amount: String = input.value.toString()
     val shouldShowAmount: Boolean = input.value > Money.Zero
-    val total: String? = input.calculateTotal()?.toString()
+    val total: String = input.calculateTotal().toString()
 }
 
 private fun PersistentList<BuilderListItemState>.applyUpdate(

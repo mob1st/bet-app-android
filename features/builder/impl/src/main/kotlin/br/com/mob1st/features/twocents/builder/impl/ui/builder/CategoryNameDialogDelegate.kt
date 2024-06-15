@@ -4,6 +4,8 @@ import br.com.mob1st.core.state.managers.DialogDelegate
 import br.com.mob1st.core.state.managers.DialogManager
 import br.com.mob1st.core.state.managers.ErrorHandler
 import br.com.mob1st.core.state.managers.catching
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.update
 
@@ -20,6 +22,11 @@ internal interface CategoryNameDialogManager : DialogManager<CategoryNameDialogS
      * Opens the dialog to fill the category name and starts the creation of a new manual category.
      */
     fun showCategoryNameDialog()
+
+    /**
+     * Dismiss the dialog and proceed to the next step of the category creation.
+     */
+    fun submitCategoryName()
 }
 
 /**
@@ -31,16 +38,17 @@ internal class CategoryNameDialogDelegate(
     private val errorHandler: ErrorHandler,
     private val delegate: DialogDelegate<CategoryNameDialogState> = DialogDelegate(),
 ) : CategoryNameDialogManager, DialogManager<CategoryNameDialogState> by delegate {
-    /**
-     * Gets the category name and submits it, removing the dialog from the screen.
-     * @return The category name presented in the dialog before it was removed.
-     * @throws IllegalStateException If the dialog is not shown before calling this method.
-     */
-    fun getNameAndSubmit(): String = checkNotNull(delegate.getAndUpdate { null }).text
+    private val _nameInput = MutableSharedFlow<String>(extraBufferCapacity = 1)
+    val nameInput = _nameInput.asSharedFlow()
+
+    override fun submitCategoryName() = errorHandler.catching {
+        val name = checkNotNull(delegate.getAndUpdate { null }).text
+        _nameInput.tryEmit(name)
+    }
 
     override fun setCategoryName(name: String) = errorHandler.catching {
-        delegate.update {
-            checkNotNull(it).copy(text = name)
+        delegate.update { dialog ->
+            checkNotNull(dialog).copy(text = name)
         }
     }
 

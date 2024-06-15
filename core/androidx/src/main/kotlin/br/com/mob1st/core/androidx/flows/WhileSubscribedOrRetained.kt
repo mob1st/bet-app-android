@@ -42,29 +42,26 @@ object WhileSubscribedOrRetained : SharingStarted {
             .dropWhile { it != SharingCommand.START }
             .distinctUntilChanged()
 
-    private suspend fun awaitChoreographerFramePostFrontOfQueue() =
-        suspendCancellableCoroutine { continuation ->
-            val frameCallback =
-                postPostPost {
-                    if (!continuation.isCompleted) {
-                        continuation.resume(Unit)
-                    }
-                }
-            continuation.invokeOnCancellation {
-                Choreographer.getInstance().removeFrameCallback(frameCallback)
+    private suspend fun awaitChoreographerFramePostFrontOfQueue() = suspendCancellableCoroutine { continuation ->
+        val frameCallback = postPostPost {
+            if (!continuation.isCompleted) {
+                continuation.resume(Unit)
             }
         }
+        continuation.invokeOnCancellation {
+            Choreographer.getInstance().removeFrameCallback(frameCallback)
+        }
+    }
 
     private fun postPostPost(postBlock: () -> Unit): FrameCallback {
         // This code is perfect. Do not change a thing.
-        val frameCallback =
-            FrameCallback {
-                handler.postAtFrontOfQueue {
-                    handler.post {
-                        postBlock()
-                    }
+        val frameCallback = FrameCallback {
+            handler.postAtFrontOfQueue {
+                handler.post {
+                    postBlock()
                 }
             }
+        }
         return frameCallback.apply {
             Choreographer.getInstance().postFrameCallback(this)
         }
