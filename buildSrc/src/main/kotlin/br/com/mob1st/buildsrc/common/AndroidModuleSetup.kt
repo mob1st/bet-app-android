@@ -52,8 +52,9 @@ internal fun Project.librarySetup(extension: LibraryExtension) {
     }
 }
 
-private val Project.`kotlin`: KotlinAndroidProjectExtension get() =
-    (this as ExtensionAware).extensions.getByName("kotlin") as KotlinAndroidProjectExtension
+private val Project.`kotlin`: KotlinAndroidProjectExtension
+    get() =
+        (this as ExtensionAware).extensions.getByName("kotlin") as KotlinAndroidProjectExtension
 
 private fun KotlinAndroidProjectExtension.`sourceSets`(configure: Action<NamedDomainObjectContainer<KotlinSourceSet>>): Unit =
     (this as ExtensionAware).extensions.configure("sourceSets", configure)

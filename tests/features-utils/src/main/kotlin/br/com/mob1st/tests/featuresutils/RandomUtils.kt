@@ -1,7 +1,7 @@
 package br.com.mob1st.tests.featuresutils
 
-import br.com.mob1st.core.kotlinx.structures.Id
 import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.core.kotlinx.structures.Uuid
 import com.appmattus.kotlinfixture.config.ConfigurationBuilder
 import com.appmattus.kotlinfixture.kotlinFixture
 
@@ -26,8 +26,8 @@ fun randomBoolean() = (0..1).random() == 1
  */
 inline fun <reified T> fixture(noinline configuration: ConfigurationBuilder.() -> Unit = {}): T {
     val kotlinFixture = kotlinFixture {
-        factory<Id> {
-            Id()
+        factory<Uuid> {
+            Uuid()
         }
         factory<Money> {
             Money.Zero

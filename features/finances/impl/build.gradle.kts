@@ -7,6 +7,7 @@ plugins {
     id("app.cash.sqldelight")
     id("commonSetup")
     id("kotlinx-serialization")
+    alias(libs.plugins.google.ksp)
 }
 
 android {
@@ -31,6 +32,8 @@ dependencies {
     // bundles
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
+    implementation(libs.bundles.arrow)
+    ksp(libs.arrow.optics.compiler)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.koin)
@@ -46,6 +49,7 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     implementation(libs.timber)
     implementation(libs.lottie)
+    implementation(project(":features:builder:impl"))
 
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)
@@ -55,7 +59,6 @@ dependencies {
     dokkaPlugin(libs.plugin.dokka.android)
 
     testImplementation(libs.bundles.unittest.android)
-    testImplementation(projects.tests.unit)
     testImplementation(projects.tests.featuresUtils)
 
     androidTestImplementation(libs.bundles.android.test)
@@ -65,7 +68,7 @@ dependencies {
 
 sqldelight {
     databases {
-        create("PorkyDb") {
+        create("TwoCentsDb") {
             packageName = "br.com.mob1st.features.finances.impl"
             dependency(projects.core.database)
         }

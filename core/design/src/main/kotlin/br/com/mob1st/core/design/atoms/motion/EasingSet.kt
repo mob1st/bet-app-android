@@ -6,7 +6,7 @@ import androidx.compose.runtime.Immutable
 /**
  * A set of [CubicBezierEasing] to apply on transitions and general motions
  *
- * @see <a href="https://m3.material.io/styles/motion/easing-and-duration/applying-easing-and-duration">Easing and Duration</a>
+ * @see [https://m3.material.io/styles/motion/easing-and-duration/applying-easing-and-duration]
  */
 @Immutable
 internal sealed interface EasingSet {

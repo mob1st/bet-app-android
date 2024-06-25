@@ -17,7 +17,7 @@ dependencies {
     implementation(libs.bundles.lifecycle)
 
     implementation(projects.morpheus.annotation)
+    implementation(libs.bundles.arrow)
 
     testImplementation(libs.bundles.unittest.android)
-    testImplementation(projects.tests.unit)
 }

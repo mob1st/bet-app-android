@@ -19,6 +19,12 @@ android {
             it.useJUnitPlatform()
         }
     }
+    packaging {
+        resources.excludes.add("META-INF/AL2.0")
+        resources.excludes.add("META-INF/LGPL2.1")
+        resources.excludes.add("win32-x86-64/attach_hotspot_windows.dll")
+        resources.excludes.add("win32-x86-64/**")
+    }
 }
 
 dependencies {
@@ -42,7 +48,6 @@ dependencies {
     dokkaPlugin(libs.plugin.dokka.android)
 
     testImplementation(libs.bundles.unittest.android)
-    testImplementation(projects.tests.unit)
     testImplementation(projects.tests.featuresUtils)
 
     androidTestImplementation(libs.bundles.android.test)

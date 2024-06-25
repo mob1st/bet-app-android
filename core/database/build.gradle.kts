@@ -14,15 +14,13 @@ android {
 dependencies {
     api(libs.bundles.sqldelight)
     implementation(libs.timber)
-
     testImplementation(libs.bundles.unittest.android)
     testImplementation(libs.bundles.unittest.kotlin)
-    testImplementation(projects.tests.unit)
 }
 
 sqldelight {
     databases {
-        create("PorkyDb") {
+        create("TwoCentsDb") {
             packageName = "br.com.mob1st.core.database"
         }
     }

@@ -4,21 +4,33 @@ import java.io.Serializable
 import java.util.UUID
 
 /**
- * Something that can be identified by an [Id].
+ * Something that can be identified by an [Uuid].
  */
-interface Identifiable {
+interface Identifiable<T : Comparable<T>> {
     /**
      * The unique identifier.
      */
-    val id: Id
+    val id: T
 }
 
 /**
- * A unique identifier.
+ * A unique identifier in text format.
+ * It's usually a UUID style string that can be used to identify an entity.
  */
 @JvmInline
-value class Id(private val value: String = generateId()) : Comparable<Id>, Serializable by value {
-    override fun compareTo(other: Id): Int {
+value class Uuid(private val value: String = generateStringId()) : Comparable<Uuid>, Serializable by value {
+    override fun compareTo(other: Uuid): Int {
+        return value.compareTo(other.value)
+    }
+}
+
+/**
+ * A unique identifier in long format.
+ * It can be an auto-incremented number or a random number.
+ */
+@JvmInline
+value class RowId(val value: Long = 0) : Comparable<RowId>, Serializable by value {
+    override fun compareTo(other: RowId): Int {
         return value.compareTo(other.value)
     }
 }
@@ -26,4 +38,4 @@ value class Id(private val value: String = generateId()) : Comparable<Id>, Seria
 /**
  * Generates a random id.
  */
-fun generateId() = UUID.randomUUID().toString()
+fun generateStringId() = UUID.randomUUID().toString()

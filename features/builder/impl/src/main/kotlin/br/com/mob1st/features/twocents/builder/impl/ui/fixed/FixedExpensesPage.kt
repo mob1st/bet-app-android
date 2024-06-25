@@ -64,7 +64,7 @@ fun FixedExpensesPage(
 
     FixedExpensesContent(
         state = uiState,
-        error = error,
+        error = null,
         dialog = dialog,
         bottomSheet = bottomSheet,
         onClickBack = onClickBack,

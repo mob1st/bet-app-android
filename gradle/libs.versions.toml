@@ -5,7 +5,7 @@ kotlin = "1.9.23"
 koin = "3.5.0"
 koin-ksp = "1.1.1"
 kotest = "5.6.2"
-lifecycle = "2.8.1"
+lifecycle = "2.8.2"
 arrow = "1.2.0"
 accompaninst = "0.34.0"
 gradle-plugin = "8.2.2"
@@ -21,7 +21,7 @@ junit5-plugin = "1.10.0.0"
 junit5 = "5.10.2"
 coroutines = "1.8.1"
 turbine = "1.1.0"
-navigation = "2.8.0-beta02"
+navigation = "2.8.0-beta03"
 
 [libraries]
 # androidx
@@ -49,7 +49,7 @@ compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.r
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 compose-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
-compose-material3 = "androidx.compose.material3:material3:1.3.0-beta02"
+compose-material3 = "androidx.compose.material3:material3:1.3.0-beta03"
 compose-windowclass = "androidx.compose.material3:material3-window-size-class:1.2.1"
 compose-activity = "androidx.activity:activity-compose:1.9.0"
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
@@ -83,7 +83,7 @@ kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" 
 kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }
 
 # firebase & play services
-firebase-bom = "com.google.firebase:firebase-bom:33.1.0"
+firebase-bom = "com.google.firebase:firebase-bom:33.1.1"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
@@ -128,7 +128,7 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # classpath plugins
 plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle-plugin" }
-plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.1" }
+plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.2" }
 plugin-google = { module = "com.google.gms:google-services", version = "4.4.2" }
 plugin-detekt-libraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
 plugin-detekt-twitter-compose = { module = "com.twitter.compose.rules:detekt", version = "0.0.22" }

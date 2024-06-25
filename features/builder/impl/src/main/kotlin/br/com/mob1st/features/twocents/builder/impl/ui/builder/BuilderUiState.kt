@@ -1,14 +1,21 @@
 package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import androidx.compose.runtime.Immutable
+import arrow.optics.Copy
+import arrow.optics.copy
+import arrow.optics.optics
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategoryBatch
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategoryInput
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
+
+typealias CopyBlock<T> = Copy<T>.(me: T) -> Unit
 
 /**
  * Ui state for the category builder
@@ -16,11 +23,17 @@ import kotlinx.collections.immutable.toPersistentList
  * @property suggestedSection The suggested categories.
  */
 @Immutable
-internal data class BuilderUiState(
+@optics
+data class BuilderUiState(
     val categoryType: CategoryType,
     val manuallyAddedSection: ManualCategoryBuilderSection = ManualCategoryBuilderSection(),
     val suggestedSection: SuggestedCategoryBuilderSection = SuggestedCategoryBuilderSection(),
     val isSaving: Boolean = false,
+    val snackbar: BuilderSnackbar? = null,
+    val navigation: Unit? = null,
+    val dialog: CategoryNameDialogState? = null,
+    val sheet: CategorySheetState? = null,
+    val manualCategories: PersistentList<BuilderListItemState> = persistentListOf(),
 ) {
     /**
      * Converts the state visible on screen to a structure that can be parcelized.
@@ -59,6 +72,17 @@ internal data class BuilderUiState(
             categoryType = categoryType,
             inputs = manualInputs + suggestedInputs,
         )
+    }
+
+    fun applyCopy(copyBlock: Copy<BuilderUiState>.() -> Unit) {
+        copy {
+            inside(BuilderUiState.manuallyAddedSection) {
+            }
+            BuilderUiState.manualCategories transform { list ->
+                list.removeAt(0)
+            }
+        }
+        copy(copyBlock)
     }
 
     /**
@@ -139,7 +163,7 @@ internal data class BuilderUiState(
  * @property isSubmitEnabled If the submit button is enabled.
  */
 @Immutable
-internal data class CategoryNameDialogState(
+data class CategoryNameDialogState(
     val text: String = "",
     val isSubmitEnabled: Boolean = false,
 )
@@ -151,7 +175,7 @@ internal data class CategoryNameDialogState(
  * @property input The data to be updated.
  */
 @Immutable
-internal data class CategorySheetState(
+data class CategorySheetState(
     val operation: Operation,
     val input: CategoryInput,
 ) {

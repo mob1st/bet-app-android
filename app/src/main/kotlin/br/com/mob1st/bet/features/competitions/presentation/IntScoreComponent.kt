@@ -184,14 +184,12 @@ fun ScoreDialog(
     onDone: (Duo<Int>) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val firstRequester =
-        remember {
-            FocusRequester()
-        }
-    val secondRequester =
-        remember {
-            FocusRequester()
-        }
+    val firstRequester = remember {
+        FocusRequester()
+    }
+    val secondRequester = remember {
+        FocusRequester()
+    }
     var firstScore by remember(currentScore?.first) {
         mutableStateOf(currentScore?.first?.toString().orEmpty())
     }

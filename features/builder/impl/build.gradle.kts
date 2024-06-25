@@ -7,6 +7,7 @@ plugins {
     id("commonSetup")
     id("kotlinx-serialization")
     id("kotlin-parcelize")
+    alias(libs.plugins.google.ksp)
 }
 
 android {
@@ -46,6 +47,8 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     implementation(libs.timber)
     implementation(libs.lottie)
+    implementation(libs.bundles.arrow)
+    ksp(libs.arrow.optics.compiler)
 
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)
@@ -55,7 +58,6 @@ dependencies {
     dokkaPlugin(libs.plugin.dokka.android)
 
     testImplementation(libs.bundles.unittest.android)
-    testImplementation(projects.tests.unit)
     testImplementation(projects.tests.featuresUtils)
 
     androidTestImplementation(libs.bundles.android.test)

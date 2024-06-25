@@ -8,6 +8,14 @@ plugins {
 
 android {
     namespace = "br.com.mob1st.tests.featuresutils"
+    packaging {
+        resources.excludes.add("META-INF/**")
+    }
+    configurations.all {
+        resolutionStrategy {
+            exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-debug")
+        }
+    }
 }
 
 dependencies {

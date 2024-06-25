@@ -4,7 +4,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import br.com.mob1st.core.design.atoms.spacing.Spacings
 
 @Composable
 fun HelperBottomSheet(
@@ -15,11 +14,6 @@ fun HelperBottomSheet(
     negativeButton: @Composable () -> Unit,
 ) {
     AlertDialog(onDismissRequest = { /*TODO*/ }, confirmButton = { /*TODO*/ })
-}
-
-object HelperBottomSheetDefaults {
-    val textDistance = Spacings.x3
-    val buttonDistance = Spacings.x2
 }
 
 @Composable

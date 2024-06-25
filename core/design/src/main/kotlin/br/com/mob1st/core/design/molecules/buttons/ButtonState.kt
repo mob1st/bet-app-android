@@ -1,8 +1,5 @@
 package br.com.mob1st.core.design.molecules.buttons
 
-import androidx.compose.animation.Crossfade
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.icons.IconState
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
@@ -57,17 +54,3 @@ private data class IconButtonImpl(
     override val isLoading: Boolean = false,
     override val isEnabled: Boolean = true,
 ) : ButtonState.Icon
-
-@Composable
-private fun LoadingAnimation(
-    isLoading: Boolean,
-    content: @Composable () -> Unit,
-) {
-    Crossfade(targetState = isLoading, label = "buttonCrossfade") { target ->
-        if (target) {
-            CircularProgressIndicator()
-        } else {
-            content()
-        }
-    }
-}

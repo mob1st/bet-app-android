@@ -5,7 +5,7 @@ package br.com.mob1st.core.kotlinx.structures
  * @property cents The amount of cents.
  */
 @JvmInline
-value class Money(val cents: Int) : Comparable<Money> {
+value class Money(val cents: Long) : Comparable<Money> {
     /**
      * Adds two [Money] values generating a new one.
      */
@@ -16,7 +16,7 @@ value class Money(val cents: Int) : Comparable<Money> {
      */
     operator fun minus(other: Money) = Money(cents - other.cents)
 
-    operator fun times(other: Float) = Money((cents * other).toInt())
+    operator fun times(other: Float) = Money((cents * other).toLong())
 
     /**
      * Compares two [Money] values.
@@ -37,7 +37,7 @@ value class Money(val cents: Int) : Comparable<Money> {
             string: String,
         ): Money {
             val onlyNumericCharacters = string.replace(Regex(CURRENCY_REGEX), "")
-            return Money(onlyNumericCharacters.toInt())
+            return Money(onlyNumericCharacters.toLong())
         }
 
         fun fromOrDefault(

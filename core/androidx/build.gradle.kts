@@ -24,6 +24,5 @@ dependencies {
 
     testImplementation(libs.bundles.unittest.android)
     testImplementation(libs.bundles.unittest.kotlin)
-    testImplementation(projects.tests.unit)
     androidTestImplementation(libs.bundles.android.test)
 }

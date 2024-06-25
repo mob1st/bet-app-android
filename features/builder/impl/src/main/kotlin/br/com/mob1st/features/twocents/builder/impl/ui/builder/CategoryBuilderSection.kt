@@ -2,8 +2,8 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
-import br.com.mob1st.core.kotlinx.structures.Id
 import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategoryInput
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
 import kotlinx.collections.immutable.ImmutableList
@@ -19,7 +19,7 @@ internal interface CategoryBuilderSection {
 }
 
 @Immutable
-internal data class ManualCategoryBuilderSection(
+data class ManualCategoryBuilderSection(
     override val categories: PersistentList<BuilderListItemState> = persistentListOf(),
 ) : CategoryBuilderSection {
     override fun applyUpdate(categorySheet: CategorySheetState): ManualCategoryBuilderSection {
@@ -36,7 +36,7 @@ internal data class ManualCategoryBuilderSection(
     }
 }
 
-internal data class SuggestedCategoryBuilderSection(
+data class SuggestedCategoryBuilderSection(
     val suggestions: ImmutableList<CategorySuggestion> = persistentListOf(),
     override val categories: PersistentList<BuilderListItemState> = persistentListOf(),
 ) : CategoryBuilderSection {
@@ -44,7 +44,7 @@ internal data class SuggestedCategoryBuilderSection(
         return copy(categories = categories.applyUpdate(categorySheet))
     }
 
-    fun toSuggestedEntryMap(): Map<Id, BuilderUserInput.Entry> {
+    fun toSuggestedEntryMap(): Map<RowId, BuilderUserInput.Entry> {
         return suggestions.zip(categories).associate { (suggestion, item) ->
             suggestion.id to BuilderUserInput.Entry(
                 name = item.input.name,
@@ -55,7 +55,7 @@ internal data class SuggestedCategoryBuilderSection(
 }
 
 @Immutable
-internal data class BuilderListItemState(
+data class BuilderListItemState(
     val input: CategoryInput,
 ) {
     val name: TextState = input.localizedName()

@@ -11,6 +11,5 @@ object MapParceler : Parceler<Map<String, String>> {
     override fun Map<String, String>.write(
         parcel: Parcel,
         flags: Int,
-    ) {
-    }
+    ) = Unit
 }

@@ -1,6 +1,6 @@
 package br.com.mob1st.features.twocents.builder.impl.domain.usecases
 
-import br.com.mob1st.core.kotlinx.structures.Id
+import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
 import kotlinx.coroutines.flow.Flow
@@ -16,13 +16,13 @@ internal class GetSuggestionsUseCase {
         private val suggestionsPerCategory = mapOf(
             CategoryType.Fixed to listOf(
                 CategorySuggestion(
-                    id = Id(),
+                    id = RowId(),
                     name = CategorySuggestion.Name.RENT,
                 ),
             ),
             CategoryType.Variable to listOf(
                 CategorySuggestion(
-                    id = Id(),
+                    id = RowId(),
                     name = CategorySuggestion.Name.PARTY,
                 ),
             ),

@@ -3,12 +3,12 @@ package br.com.mob1st.features.twocents.builder.impl.domain.entities
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 
-internal data class CategoryBatch(
+data class CategoryBatch(
     val categoryType: CategoryType,
     val inputs: List<CategoryInput>,
 )
 
-internal data class CategoryInput(
+data class CategoryInput(
     val type: CategoryType,
     val name: String = "",
     val value: Money = Money.Zero,

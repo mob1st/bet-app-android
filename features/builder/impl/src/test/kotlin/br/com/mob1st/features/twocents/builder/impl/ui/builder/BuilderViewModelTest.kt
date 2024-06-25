@@ -2,8 +2,8 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
-import br.com.mob1st.core.kotlinx.structures.Id
 import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.core.kotlinx.structures.Uuid
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategoryInput
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.GetSuggestionsUseCase
@@ -414,7 +414,7 @@ internal class BuilderViewModelTest {
 
     companion object {
         private val defaultSuggestion = CategorySuggestion(
-            id = Id(),
+            id = Uuid(),
             name = CategorySuggestion.Name.RENT,
         )
 

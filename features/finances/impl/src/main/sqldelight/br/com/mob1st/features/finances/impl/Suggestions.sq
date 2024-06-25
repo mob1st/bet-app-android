@@ -1,0 +1,10 @@
+selectSuggestions:
+SELECT
+    sug.id AS sug_id, sug.name AS sug_name,
+    cat_view.*
+FROM Suggestions AS sug
+INNER JOIN CategoryTypes AS ct ON sug.type_id = ct.id
+LEFT JOIN category_view AS cat_view ON sug.id = cat_view.cat_linked_suggestion_id
+WHERE sug.is_expense = :is_expense
+AND ct.description = :type
+ORDER BY sug.created_at ASC;

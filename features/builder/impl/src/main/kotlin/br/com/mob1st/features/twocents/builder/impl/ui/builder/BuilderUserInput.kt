@@ -1,7 +1,7 @@
 package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import android.os.Parcelable
-import br.com.mob1st.core.kotlinx.structures.Id
+import br.com.mob1st.core.kotlinx.structures.RowId
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -11,9 +11,9 @@ import kotlinx.parcelize.Parcelize
  * @param suggested The suggested categories.
  */
 @Parcelize
-internal data class BuilderUserInput(
+data class BuilderUserInput(
     val manuallyAdded: List<Entry> = emptyList(),
-    val suggested: Map<Id, Entry> = emptyMap(),
+    val suggested: Map<RowId, Entry> = emptyMap(),
 ) : Parcelable {
     /**
      * Category entry state. It can be a manually added category or a suggested category.
@@ -21,7 +21,7 @@ internal data class BuilderUserInput(
      * @param amount The value of the category.
      */
     @Parcelize
-    internal data class Entry(
+    data class Entry(
         val name: String = "",
         val amount: String = "",
     ) : Parcelable

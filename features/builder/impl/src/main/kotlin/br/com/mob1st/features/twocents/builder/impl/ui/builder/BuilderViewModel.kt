@@ -2,17 +2,23 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.optics.Lens
 import br.com.mob1st.core.androidx.flows.stateInRetained
 import br.com.mob1st.core.state.async.AsyncTask
 import br.com.mob1st.core.state.contracts.NavigationDelegate
 import br.com.mob1st.core.state.contracts.NavigationManager
+import br.com.mob1st.core.state.managers.ErrorHandler
 import br.com.mob1st.core.state.managers.SnackbarManager
 import br.com.mob1st.core.state.managers.catchIn
+import br.com.mob1st.core.state.managers.launchIn
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.GetSuggestionsUseCase
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.SetCategoryBatchUseCase
+import br.com.mob1st.features.utils.errors.CommonError
+import br.com.mob1st.features.utils.errors.toCommonError
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -44,6 +50,8 @@ internal class BuilderViewModel(
         uiStateOutput.value.toSavedState()
     }
 
+    private val copies = MutableSharedFlow<CopyBlock<BuilderUiState>>()
+
     override val uiStateOutput: StateFlow<BuilderUiState> = combine(
         getManualAddedItems(initialState),
         getSuggestionItems(initialState),
@@ -67,6 +75,14 @@ internal class BuilderViewModel(
                 showSheet(it)
             }
             .launchIn(viewModelScope)
+    }
+
+    override fun consumeSnackbar() {
+        launchIn {
+            copies.emit {
+                BuilderUiState.nullableSnackbar set null
+            }
+        }
     }
 
     override fun selectManualCategory(position: Int) = with(uiStateOutput.value) {
@@ -139,4 +155,40 @@ internal class BuilderViewModel(
         val categorySheetDelegate: CategorySheetDelegate = CategorySheetDelegate(snackbarErrorHandler),
         val categoryNameDialogDelegate: CategoryNameDialogDelegate = CategoryNameDialogDelegate(snackbarErrorHandler),
     )
+}
+
+class LensSideEffectDelegate<State> {
+    val copiesFlow = MutableSharedFlow<CopyBlock<State>>(
+        extraBufferCapacity = 1,
+    )
+
+    fun <Property : Any> consume(lens: Lens<State, Property?>) {
+        copiesFlow.tryEmit {
+            lens set null
+        }
+    }
+}
+
+class BuilderSideEffectManager {
+    val snackbarDelegate = LensSideEffectDelegate<BuilderUiState>()
+
+    fun x() {
+        snackbarDelegate.consume(BuilderUiState.nullableSnackbar)
+        snackbarDelegate.consume(BuilderUiState.nullableSheet)
+    }
+}
+
+class LensErrorHandler<State>(
+    private val lens: Lens<State, CommonError?>,
+) : ErrorHandler() {
+    val copiesFlow = MutableSharedFlow<CopyBlock<State>>(
+        extraBufferCapacity = 1,
+    )
+
+    override fun catch(throwable: Throwable) {
+        super.catch(throwable)
+        copiesFlow.tryEmit {
+            lens set throwable.toCommonError()
+        }
+    }
 }

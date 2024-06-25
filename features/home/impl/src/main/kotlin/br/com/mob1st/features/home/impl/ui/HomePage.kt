@@ -34,9 +34,6 @@ internal fun HomePage() {
     }
 }
 
-private fun HomePageView() {
-}
-
 @Preview
 @Composable
 private fun HomePagePreview() {

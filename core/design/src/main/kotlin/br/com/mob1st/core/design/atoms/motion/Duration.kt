@@ -4,7 +4,7 @@ package br.com.mob1st.core.design.atoms.motion
  * Duration tokens to apply on transitions.
  *
  * Check the material 3 documentation to understand how to combine Easing and durations.
- * @see <a href="https://m3.material.io/styles/motion/easing-and-duration/applying-easing-and-duration">Easing and Duration</a>
+ * @see [https://m3.material.io/styles/motion/easing-and-duration/applying-easing-and-duration]
  */
 internal sealed interface Duration {
     val one: Int

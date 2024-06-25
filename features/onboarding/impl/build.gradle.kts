@@ -57,7 +57,6 @@ dependencies {
     dokkaPlugin(libs.plugin.dokka.android)
 
     testImplementation(libs.bundles.unittest.android)
-    testImplementation(projects.tests.unit)
 
     androidTestImplementation(libs.bundles.android.test)
     androidTestImplementation(libs.compose.test)
