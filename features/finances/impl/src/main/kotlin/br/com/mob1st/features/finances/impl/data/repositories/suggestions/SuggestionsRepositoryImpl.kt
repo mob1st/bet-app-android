@@ -19,7 +19,6 @@ internal class SuggestionsRepositoryImpl(
     private val queries: SuggestionsQueries,
     private val mapper: SuggestionDataMapper,
 ) : SuggestionsRepository {
-
     override fun getByTypeAndIsExpense(
         step: BuilderNextAction.Step,
     ): Flow<List<CategorySuggestion>> {
