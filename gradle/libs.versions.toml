@@ -68,6 +68,7 @@ lottie = "com.airbnb.android:lottie-compose:6.4.0"
 # sqldelight
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions-jvm", version.ref = "sqldelight" }
+sqldelight-primitives = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqldelight" }
 
 # koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -139,7 +140,7 @@ plugin-junit5 = { module = "de.mannodermaus.gradle.plugins:android-junit5", vers
 [bundles]
 android = ["android-core"]
 android-test = ["android-test-junit", "android-test-espresso"]
-sqldelight = ["sqldelight-android", "sqldelight-coroutines"]
+sqldelight = ["sqldelight-android", "sqldelight-coroutines", "sqldelight-primitives"]
 junit5 = ["junit5-api", "junit5-engine", "junit5-params"]
 unittest-kotlin = [
     "kotest-runner",

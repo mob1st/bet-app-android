@@ -4,9 +4,9 @@ SELECT
     cat.amount AS cat_amount, cat.is_expense AS cat_is_expense,
     cat.linked_suggestion_id AS cat_linked_suggestion_id,
     cat.created_at AS cat_created_at,
-    frc.day_of_month,
-    vrc.day_of_week,
-    src.month, src.day
+    frc.day_of_month AS frc_day_of_month,
+    vrc.day_of_week AS vrc_day_of_week,
+    src.month AS src_month, src.day AS src_day
 FROM Categories AS cat
 LEFT JOIN FixedRecurrences AS frc ON cat.id = frc.category_id
 LEFT JOIN VariableRecurrences AS vrc ON cat.id = vrc.category_id

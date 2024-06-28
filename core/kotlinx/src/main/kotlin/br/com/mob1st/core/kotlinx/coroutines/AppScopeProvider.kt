@@ -19,6 +19,6 @@ interface AppScopeProvider {
  * A wrapper to the [CoroutineScope] attached into the App lifecycle.
  */
 @JvmInline
-value class AppCoroutineScope constructor(
+value class AppCoroutineScope(
     private val delegated: CoroutineScope = MainScope() + CoroutineName("AppCoroutine"),
 ) : CoroutineScope by delegated

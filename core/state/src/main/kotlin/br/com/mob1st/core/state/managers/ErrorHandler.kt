@@ -15,7 +15,9 @@ import kotlin.coroutines.CoroutineContext
  * It implements [CoroutineExceptionHandler] to catch errors in coroutines but also handle errors in a standalone way.
  * through the [catch] method.
  */
-open class ErrorHandler : CoroutineExceptionHandler {
+open class ErrorHandler(
+    private val onCatch: (throwable: Throwable) -> Unit = {},
+) : CoroutineExceptionHandler {
     override val key: CoroutineContext.Key<*> = CoroutineExceptionHandler
 
     override fun handleException(
@@ -27,6 +29,7 @@ open class ErrorHandler : CoroutineExceptionHandler {
 
     open fun catch(throwable: Throwable) {
         Timber.e(throwable)
+        onCatch(throwable)
     }
 }
 

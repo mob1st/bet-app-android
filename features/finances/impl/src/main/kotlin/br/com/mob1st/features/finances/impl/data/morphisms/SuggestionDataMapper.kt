@@ -7,9 +7,22 @@ import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 
+/**
+ * Maps a list of [SelectSuggestions] provided by the database to a list of [CategorySuggestion] domain entity.
+ * It uses the [CategoryDataMapper] to map the linked categories. For that it's important to use the same contract
+ * in the query used to get the category data.
+ * @property listCategoryViewMapper The mapper for the category data.
+ */
 internal class SuggestionDataMapper(
-    private val listCategoryViewMapper: ListCategoryViewMapper,
+    private val listCategoryViewMapper: CategoryDataMapper,
 ) {
+    /**
+     * Maps the given [query] to a list of [CategorySuggestion] domain entities.
+     * @param type The type of the categories to be mapped.
+     * @param query The list of [SelectSuggestions] to be mapped.
+     * @return The list of [CategorySuggestion] domain entities.
+     * @see CategoryDataMapper
+     */
     fun map(type: CategoryType, query: List<SelectSuggestions>): List<CategorySuggestion> {
         return query.groupBy { it.sug_id }.mapNotNull { entry ->
             val first = entry.value.first()
@@ -30,7 +43,7 @@ private fun String.asSuggestionName(): CategorySuggestion.Name? {
     }
 }
 
-private fun ListCategoryViewMapper.map(
+private fun CategoryDataMapper.map(
     type: CategoryType,
     entry: Map.Entry<Long, List<SelectSuggestions>>,
 ): Category? {
@@ -43,6 +56,7 @@ private fun ListCategoryViewMapper.map(
 private fun SelectSuggestions.asCategoryView(): Category_view? {
     return cat_id?.let {
         check(cat_linked_suggestion_id == sug_id)
+        // manually creates the SqlDelight generated class to reuse the mapper
         Category_view(
             cat_id = cat_id,
             cat_name = sug_name,
@@ -50,10 +64,10 @@ private fun SelectSuggestions.asCategoryView(): Category_view? {
             cat_amount = checkNotNull(cat_amount),
             cat_created_at = checkNotNull(cat_created_at),
             cat_linked_suggestion_id = cat_linked_suggestion_id,
-            day_of_month = day_of_month,
-            day_of_week = day_of_week,
-            day = day,
-            month = month,
+            frc_day_of_month = frc_day_of_month,
+            vrc_day_of_week = vrc_day_of_week,
+            src_day = src_day,
+            src_month = src_month,
         )
     }
 }

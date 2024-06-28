@@ -2,29 +2,35 @@ package br.com.mob1st.features.finances.impl.data.repositories.categories
 
 import br.com.mob1st.core.data.suspendTransaction
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
-import br.com.mob1st.features.finances.impl.TwoCentsDb
-import br.com.mob1st.features.finances.impl.data.morphisms.ListCategoryViewMapper
+import br.com.mob1st.features.finances.impl.CategoriesQueries
+import br.com.mob1st.features.finances.impl.data.morphisms.CategoryDataMapper
+import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
-import br.com.mob1st.features.finances.impl.domain.repositories.CategoryRepository
-import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
+import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
+/**
+ * Concrete implementation of the [CategoriesRepository] interface.
+ * @property io The IO dispatcher.
+ * @property queries The queries for the categories.
+ * @property categoryDataMapper The mapper for the category data.
+ */
 internal class CategoriesRepositoryImpl(
-    private val db: TwoCentsDb,
     private val io: IoCoroutineDispatcher,
-    private val categoryDataMapper: ListCategoryViewMapper,
-) : CategoryRepository {
-    private val queries by lazy { db.categoriesQueries }
-
+    private val queries: CategoriesQueries,
+    private val categoryDataMapper: CategoryDataMapper,
+) : CategoriesRepository {
     override fun getManuallyCreatedBy(
-        type: CategoryType,
-        isExpense: Boolean,
+        step: BuilderNextAction.Step,
     ): Flow<List<Category>> {
-        return queries.selectManuallyCreatedCategories(io, isExpense) { query ->
-            categoryDataMapper.map(type, query)
-        }
+        return queries
+            .selectManuallyCreatedCategories(io, step.isExpense)
+            .map { query ->
+                categoryDataMapper.map(step.type, query)
+            }
     }
 
     override suspend fun add(

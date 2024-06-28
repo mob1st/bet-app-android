@@ -113,6 +113,7 @@ dependencies {
     implementation(projects.core.androidx)
     implementation(projects.libs.firebase)
     implementation(projects.core.kotlinx)
+    implementation(projects.core.database)
     implementation(projects.features.builder.impl)
     implementation(projects.features.dev.impl)
     implementation(projects.features.home.impl)

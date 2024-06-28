@@ -20,6 +20,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.getAndUpdate
@@ -88,12 +89,6 @@ internal class BuilderViewModel2(
                     position = null,
                 ),
             )
-        }
-    }
-
-    fun setCategoryName(name: String) {
-        consumablesState.update {
-            BuilderConsumables.dialog.set(it, BuilderDialog.CategoryNameDialog(name))
         }
     }
 
@@ -172,4 +167,7 @@ internal class BuilderViewModel2(
     override fun <Property> consume(lens: Lens<BuilderConsumables, Property?>) = consumablesState.update {
         it.copy { lens set null }
     }
+
+    override val consumableUiState: StateFlow<BuilderConsumables>
+        get() = TODO("Not yet implemented")
 }

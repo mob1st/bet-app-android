@@ -24,7 +24,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.mob1st.core.design.atoms.properties.texts.rememberAnnotatedString
+import br.com.mob1st.core.design.atoms.properties.texts.rememberTextState
 import br.com.mob1st.core.design.molecules.buttons.PrimaryButton
 import br.com.mob1st.core.design.organisms.lists.selectableItem
 import br.com.mob1st.core.design.organisms.section.section
@@ -180,7 +180,7 @@ private fun LazyListScope.customSection(
         if (item is BuilderListItemState) {
             ListItem(
                 modifier = Modifier.selectableItem { onSelectItem(index) },
-                headlineContent = { Text(rememberAnnotatedString(item.name)) },
+                headlineContent = { Text(rememberTextState(item.name)) },
                 trailingContent = { Text(item.amount) },
             )
         } else {
@@ -206,7 +206,7 @@ private fun LazyListScope.suggestedSection(
     ) { index, item ->
         ListItem(
             modifier = Modifier.selectableItem { onSelectItem(index) },
-            headlineContent = { Text(rememberAnnotatedString(item.name)) },
+            headlineContent = { Text(rememberTextState(item.name)) },
             trailingContent = { Text(item.amount) },
         )
     }
@@ -265,7 +265,7 @@ private fun CategoryBottomSheet(
         onDismissRequest = onDismissSheet,
     ) {
         Column {
-            Text(rememberAnnotatedString(state.name))
+            Text(rememberTextState(state.name))
             OutlinedTextField(
                 value = state.amount,
                 onValueChange = onTypeCategoryAmount,

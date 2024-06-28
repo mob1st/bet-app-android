@@ -2,19 +2,16 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import arrow.optics.Lens
 import br.com.mob1st.core.androidx.flows.stateInRetained
 import br.com.mob1st.core.state.async.AsyncTask
 import br.com.mob1st.core.state.contracts.NavigationDelegate
 import br.com.mob1st.core.state.contracts.NavigationManager
 import br.com.mob1st.core.state.managers.ErrorHandler
+import br.com.mob1st.core.state.managers.SnackbarDelegate
 import br.com.mob1st.core.state.managers.SnackbarManager
-import br.com.mob1st.core.state.managers.catchIn
 import br.com.mob1st.core.state.managers.launchIn
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.GetSuggestionsUseCase
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.SetCategoryBatchUseCase
-import br.com.mob1st.features.utils.errors.CommonError
-import br.com.mob1st.features.utils.errors.toCommonError
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -42,7 +39,7 @@ internal class BuilderViewModel(
     BuilderUiStateManager,
     CategorySheetManager by sideEffects.categorySheetDelegate,
     CategoryNameDialogManager by sideEffects.categoryNameDialogDelegate,
-    SnackbarManager<BuilderSnackbar> by sideEffects.snackbarErrorHandler,
+    SnackbarManager<BuilderSnackbar> by SnackbarDelegate(),
     NavigationManager<Unit> by sideEffects.navigationDelegate {
     private val savingTask = AsyncTask(viewModelScope)
 
@@ -109,7 +106,6 @@ internal class BuilderViewModel(
             .onEach { update ->
                 manuallyAddedItems.update { section -> section.applyUpdate(update) }
             }
-            .catchIn(sideEffects.snackbarErrorHandler)
             .launchIn(viewModelScope)
         manuallyAddedItems.asStateFlow()
     }
@@ -137,10 +133,9 @@ internal class BuilderViewModel(
                     .map(section::applyUpdate)
                 emitAll(updatedItems)
             }
-            .catchIn(sideEffects.snackbarErrorHandler)
     }
 
-    override fun save() = savingTask.launchIn(sideEffects.snackbarErrorHandler) {
+    override fun save() = savingTask.launchIn {
         setCategoryBatchUseCase(uiStateOutput.value.toBatch())
         goTo(Unit)
     }
@@ -151,44 +146,7 @@ internal class BuilderViewModel(
      */
     class SideEffects(
         val navigationDelegate: NavigationDelegate<Unit> = NavigationDelegate(),
-        val snackbarErrorHandler: BuilderSnackbarErrorHandler = BuilderSnackbarErrorHandler(),
-        val categorySheetDelegate: CategorySheetDelegate = CategorySheetDelegate(snackbarErrorHandler),
-        val categoryNameDialogDelegate: CategoryNameDialogDelegate = CategoryNameDialogDelegate(snackbarErrorHandler),
+        val categorySheetDelegate: CategorySheetDelegate = CategorySheetDelegate(ErrorHandler()),
+        val categoryNameDialogDelegate: CategoryNameDialogDelegate = CategoryNameDialogDelegate(ErrorHandler()),
     )
-}
-
-class LensSideEffectDelegate<State> {
-    val copiesFlow = MutableSharedFlow<CopyBlock<State>>(
-        extraBufferCapacity = 1,
-    )
-
-    fun <Property : Any> consume(lens: Lens<State, Property?>) {
-        copiesFlow.tryEmit {
-            lens set null
-        }
-    }
-}
-
-class BuilderSideEffectManager {
-    val snackbarDelegate = LensSideEffectDelegate<BuilderUiState>()
-
-    fun x() {
-        snackbarDelegate.consume(BuilderUiState.nullableSnackbar)
-        snackbarDelegate.consume(BuilderUiState.nullableSheet)
-    }
-}
-
-class LensErrorHandler<State>(
-    private val lens: Lens<State, CommonError?>,
-) : ErrorHandler() {
-    val copiesFlow = MutableSharedFlow<CopyBlock<State>>(
-        extraBufferCapacity = 1,
-    )
-
-    override fun catch(throwable: Throwable) {
-        super.catch(throwable)
-        copiesFlow.tryEmit {
-            lens set throwable.toCommonError()
-        }
-    }
 }

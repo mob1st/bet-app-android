@@ -6,31 +6,63 @@ import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.plus
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toPersistentList
 
+/**
+ * The root UI state for the category builder screen.
+ * @property builder The category builder. It's loaded from the domain layer and the initial value is null.
+ */
 @Immutable
-data class CategoryBuilderUiState(
+internal data class CategoryBuilderUiState(
     val builder: CategoryBuilder? = null,
-    val consumables: CategoryBuilderConsumables = CategoryBuilderConsumables(),
 ) {
+    /**
+     * The manually added categories.
+     * The list is composed of the manually added categories and the "Add category" item.
+     */
     val manuallyAdded: ImmutableList<CategoryListItem> = builder?.manuallyAdded.orEmpty().map {
         ManualCategoryListItem(it)
-    }.toImmutableList()
+    }.toPersistentList() + AddCategoryListItem
 
-    val suggestions: ImmutableList<CategoryListItem> = builder?.suggestions.orEmpty().map {
+    /**
+     * The suggestions presented to the user.
+     */
+    val suggestions: ImmutableList<SuggestionListItem> = builder?.suggestions.orEmpty().map {
         SuggestionListItem(it)
     }.toImmutableList()
 }
 
+/**
+ * Abstraction of a list item to present in the category builder screen.
+ * It can be a suggestion, a manually added category, or the "Add category" item.
+ */
 @Immutable
 sealed interface CategoryListItem {
+    /**
+     * The leading text of the item. Usually it's the category name or the main instruction
+     */
     val leading: TextState
+
+    /**
+     * The value text of the item. It's usually the category amount, if any.
+     */
     val value: TextState?
+
+    /**
+     * The supporting text of the item. Some category types can use it to describe the total amount per month.
+     */
     val supporting: TextState?
 }
 
+/**
+ * Used by the [CategoryBuilderUiState.suggestions] to show the automatic suggestions provided by the app.
+ * It's a handy way to facilitate the user's choice.
+ * @property suggestion The suggestion.
+ */
 @Immutable
-internal data class SuggestionListItem(
+data class SuggestionListItem(
     val suggestion: CategorySuggestion,
 ) : CategoryListItem {
     override val leading: TextState
@@ -42,7 +74,7 @@ internal data class SuggestionListItem(
 }
 
 @Immutable
-internal data class ManualCategoryListItem(val category: Category) : CategoryListItem {
+data class ManualCategoryListItem(val category: Category) : CategoryListItem {
     override val leading: TextState
         get() = TODO("Not yet implemented")
     override val value: TextState?

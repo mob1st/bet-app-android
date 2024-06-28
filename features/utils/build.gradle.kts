@@ -31,6 +31,7 @@ dependencies {
     // bundles
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
+    implementation(libs.bundles.arrow)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.lifecycle)
 

@@ -2,8 +2,8 @@ package br.com.mob1st.bet.init
 
 import android.content.Context
 import androidx.startup.Initializer
-import br.com.mob1st.bet.di.AppModule
 import br.com.mob1st.bet.di.coroutinesModule
+import br.com.mob1st.bet.di.databaseModule
 import br.com.mob1st.bet.di.firebaseModule
 import br.com.mob1st.bet.di.serializationModule
 import br.com.mob1st.bet.di.timberModule
@@ -40,8 +40,8 @@ private fun Context.createDependencyGraph() =
             firebaseModule,
             coroutinesModule,
             timberModule,
+            databaseModule,
             serializationModule,
-            AppModule().module,
             devSettingsModule,
             financesModule,
             builderModule,

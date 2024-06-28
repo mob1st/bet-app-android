@@ -7,6 +7,7 @@ plugins {
     id("app.cash.sqldelight")
     id("commonSetup")
     id("kotlinx-serialization")
+    id("kotlin-parcelize")
     alias(libs.plugins.google.ksp)
 }
 

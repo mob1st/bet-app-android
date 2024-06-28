@@ -7,8 +7,7 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val timberModule =
-    module {
-        single { TimberTreeFactory.create(get()) }
-        factoryOf(::TimberLogger).bind<Logger>()
-    }
+val timberModule = module {
+    single { TimberTreeFactory.create(get()) }
+    factoryOf(::TimberLogger).bind<Logger>()
+}
