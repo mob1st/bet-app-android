@@ -2,7 +2,6 @@ package br.com.mob1st.features.finances.impl.data.repositories.suggestions
 
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.finances.impl.SuggestionsQueries
-import br.com.mob1st.features.finances.impl.data.morphisms.SuggestionDataMapper
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.repositories.SuggestionsRepository

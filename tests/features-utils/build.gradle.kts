@@ -32,4 +32,5 @@ dependencies {
     implementation(projects.core.state)
     implementation(projects.features.utils)
     implementation(libs.kotlin.coroutines.test)
+    implementation(project(":features:finances:impl"))
 }

@@ -3,7 +3,6 @@ package br.com.mob1st.features.finances.impl.data.repositories.categories
 import br.com.mob1st.core.data.suspendTransaction
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.finances.impl.CategoriesQueries
-import br.com.mob1st.features.finances.impl.data.morphisms.CategoryDataMapper
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion

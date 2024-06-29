@@ -1,8 +1,9 @@
-package br.com.mob1st.features.finances.impl.data.morphisms
+package br.com.mob1st.features.finances.impl.data.repositories.suggestions
 
 import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.Category_view
 import br.com.mob1st.features.finances.impl.SelectSuggestions
+import br.com.mob1st.features.finances.impl.data.repositories.categories.CategoryDataMapper
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
@@ -34,6 +35,7 @@ internal class SuggestionDataMapper(
             )
         }
     }
+
 }
 
 private fun String.asSuggestionName(): CategorySuggestion.Name? {

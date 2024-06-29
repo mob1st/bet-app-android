@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.data.morphisms
+package br.com.mob1st.features.finances.impl.data.repositories.categories
 
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.RowId
