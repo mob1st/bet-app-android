@@ -1,6 +1,5 @@
 package br.com.mob1st.features.finances.impl.dependencies
 
-import br.com.mob1st.features.finances.impl.TwoCentsDb
 import br.com.mob1st.features.finances.impl.data.preferences.RecurrenceBuilderCompletionsDataSource
 import br.com.mob1st.features.finances.impl.data.ram.RecurrenceBuilderListsDataSource
 import br.com.mob1st.features.finances.impl.data.repositories.RecurrenceBuilderRepositoryImpl
@@ -31,9 +30,6 @@ val dataModule
 private val databaseModule = module {
     single {
         DatabaseFactory.create(get())
-    }
-    factory {
-        get<TwoCentsDb>().commonsQueries
     }
 }
 

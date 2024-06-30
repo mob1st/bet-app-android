@@ -21,9 +21,9 @@ android {
 dependencies {
     implementation(libs.kotest.runner)
     implementation(libs.kotlin.test)
+    implementation(libs.timber)
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.unittest.android)
-
     implementation(projects.core.androidx)
     implementation(projects.core.database)
     implementation(projects.core.design)
