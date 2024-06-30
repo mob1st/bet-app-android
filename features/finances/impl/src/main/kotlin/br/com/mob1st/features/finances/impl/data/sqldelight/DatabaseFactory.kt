@@ -8,9 +8,14 @@ import br.com.mob1st.core.database.VariableRecurrences
 import br.com.mob1st.features.finances.impl.TwoCentsDb
 
 /**
- *
+ * Factory for creating the database instance.
  */
 object DatabaseFactory {
+    /**
+     * Creates the database instance.
+     * @param driver the SQL driver
+     * @return the database instance
+     */
     fun create(driver: SqlDriver): TwoCentsDb {
         return TwoCentsDb(
             driver = driver,

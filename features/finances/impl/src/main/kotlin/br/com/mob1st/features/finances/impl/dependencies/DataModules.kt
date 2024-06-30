@@ -5,8 +5,8 @@ import br.com.mob1st.features.finances.impl.data.preferences.RecurrenceBuilderCo
 import br.com.mob1st.features.finances.impl.data.ram.RecurrenceBuilderListsDataSource
 import br.com.mob1st.features.finances.impl.data.repositories.RecurrenceBuilderRepositoryImpl
 import br.com.mob1st.features.finances.impl.data.repositories.categories.CategoriesRepositoryImpl
-import br.com.mob1st.features.finances.impl.data.repositories.categories.CategoryDataMapper
-import br.com.mob1st.features.finances.impl.data.repositories.suggestions.SuggestionDataMapper
+import br.com.mob1st.features.finances.impl.data.repositories.categories.SelectCategoryViewsMapper
+import br.com.mob1st.features.finances.impl.data.repositories.suggestions.SelectSuggestionsMapper
 import br.com.mob1st.features.finances.impl.data.repositories.suggestions.SuggestionsRepositoryImpl
 import br.com.mob1st.features.finances.impl.data.sqldelight.DatabaseFactory
 import br.com.mob1st.features.finances.impl.data.system.AndroidRecurrenceLocalizationProvider
@@ -32,21 +32,18 @@ private val databaseModule = module {
     single {
         DatabaseFactory.create(get())
     }
+    factory {
+        get<TwoCentsDb>().commonsQueries
+    }
 }
 
 private val categoriesDataModule = module {
-    factory { CategoryDataMapper }
-    factory {
-        get<TwoCentsDb>().categoriesQueries
-    }
+    factory { SelectCategoryViewsMapper }
     factoryOf(::CategoriesRepositoryImpl) bind CategoriesRepository::class
 }
 
 private val suggestionsDataModule = module {
-    factory {
-        get<TwoCentsDb>().suggestionsQueries
-    }
-    factoryOf(::SuggestionDataMapper)
+    factoryOf(::SelectSuggestionsMapper)
     factoryOf(::SuggestionsRepositoryImpl) bind SuggestionsRepository::class
 }
 

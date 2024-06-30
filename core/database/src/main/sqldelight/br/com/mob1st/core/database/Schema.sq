@@ -216,7 +216,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_fixed_recurrent_category_day_of_month ON F
 */
 CREATE TABLE IF NOT EXISTS VariableRecurrences(
     category_id INTEGER NOT NULL,
-    day_of_week INTEGER AS Int NOT NULL CHECK(day_of_week BETWEEN 0 AND 6),
+    day_of_week INTEGER AS Int NOT NULL CHECK(day_of_week BETWEEN 1 AND 7),
     FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE CASCADE,
     UNIQUE(category_id, day_of_week)
 );

@@ -9,7 +9,7 @@ import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfWeek
 import br.com.mob1st.features.finances.impl.domain.values.Month
-import br.com.mob1st.features.finances.impl.fixtures.moduleFixture
+import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 import com.appmattus.kotlinfixture.Fixture
 import org.junit.jupiter.api.BeforeEach
@@ -17,7 +17,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
-class CategoryDataMapperTest {
+class SelectCategoryViewsMapperTest {
+
     private lateinit var fixture: Fixture
 
     @BeforeEach
@@ -49,7 +50,7 @@ class CategoryDataMapperTest {
             fixture<Category_view>().copy(cat_id = 2),
             fixture<Category_view>().copy(cat_id = 2),
         )
-        val actual = CategoryDataMapper.map(fixture(), data)
+        val actual = SelectCategoryViewsMapper.map(fixture(), data)
         assertEquals(
             1L,
             actual.first().id.value,
@@ -67,7 +68,7 @@ class CategoryDataMapperTest {
         val categoryView = fixture<Category_view>().copy(
             frc_day_of_month = dayOfMonth.value,
         )
-        val actual = CategoryDataMapper.map(CategoryType.Fixed, listOf(categoryView))
+        val actual = SelectCategoryViewsMapper.map(CategoryType.Fixed, listOf(categoryView))
         assertEquals(
             Recurrences.Fixed(listOf(dayOfMonth)),
             actual[0].recurrences,
@@ -80,7 +81,7 @@ class CategoryDataMapperTest {
             frc_day_of_month = null,
         )
         assertThrows<IllegalStateException> {
-            CategoryDataMapper.map(CategoryType.Fixed, listOf(categoryView))
+            SelectCategoryViewsMapper.map(CategoryType.Fixed, listOf(categoryView))
         }
     }
 
@@ -90,7 +91,7 @@ class CategoryDataMapperTest {
         val categoryView = fixture<Category_view>().copy(
             vrc_day_of_week = dayOfWeek.value,
         )
-        val actual = CategoryDataMapper.map(CategoryType.Variable, listOf(categoryView))
+        val actual = SelectCategoryViewsMapper.map(CategoryType.Variable, listOf(categoryView))
         assertEquals(
             Recurrences.Variable(listOf(dayOfWeek)),
             actual[0].recurrences,
@@ -103,7 +104,7 @@ class CategoryDataMapperTest {
             vrc_day_of_week = null,
         )
         assertThrows<IllegalStateException> {
-            CategoryDataMapper.map(CategoryType.Variable, listOf(categoryView))
+            SelectCategoryViewsMapper.map(CategoryType.Variable, listOf(categoryView))
         }
     }
 
@@ -114,7 +115,7 @@ class CategoryDataMapperTest {
             src_day = day.value,
             src_month = month.value,
         )
-        val actual = CategoryDataMapper.map(CategoryType.Seasonal, listOf(categoryView))
+        val actual = SelectCategoryViewsMapper.map(CategoryType.Seasonal, listOf(categoryView))
         assertEquals(
             Recurrences.Seasonal(listOf(DayAndMonth(day, month))),
             actual[0].recurrences,
@@ -128,7 +129,7 @@ class CategoryDataMapperTest {
             src_month = null,
         )
         assertThrows<IllegalStateException> {
-            CategoryDataMapper.map(CategoryType.Seasonal, listOf(categoryView))
+            SelectCategoryViewsMapper.map(CategoryType.Seasonal, listOf(categoryView))
         }
     }
 
@@ -145,7 +146,7 @@ class CategoryDataMapperTest {
             cat_amount = amount.cents,
         )
         val anyRecurrences = fixture<Recurrences>()
-        val actual = CategoryDataMapper.map(
+        val actual = SelectCategoryViewsMapper.map(
             CategoryType.entries.random(),
             listOf(categoryView),
         ).first().copy(

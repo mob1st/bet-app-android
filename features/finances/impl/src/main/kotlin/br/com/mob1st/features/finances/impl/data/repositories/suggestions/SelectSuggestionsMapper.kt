@@ -3,26 +3,26 @@ package br.com.mob1st.features.finances.impl.data.repositories.suggestions
 import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.Category_view
 import br.com.mob1st.features.finances.impl.SelectSuggestions
-import br.com.mob1st.features.finances.impl.data.repositories.categories.CategoryDataMapper
+import br.com.mob1st.features.finances.impl.data.repositories.categories.SelectCategoryViewsMapper
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 
 /**
  * Maps a list of [SelectSuggestions] provided by the database to a list of [CategorySuggestion] domain entity.
- * It uses the [CategoryDataMapper] to map the linked categories. For that it's important to use the same contract
+ * It uses the [SelectCategoryViewsMapper] to map the linked categories. For that it's important to use the same contract
  * in the query used to get the category data.
  * @property listCategoryViewMapper The mapper for the category data.
  */
-internal class SuggestionDataMapper(
-    private val listCategoryViewMapper: CategoryDataMapper,
+internal class SelectSuggestionsMapper(
+    private val listCategoryViewMapper: SelectCategoryViewsMapper,
 ) {
     /**
      * Maps the given [query] to a list of [CategorySuggestion] domain entities.
      * @param type The type of the categories to be mapped.
      * @param query The list of [SelectSuggestions] to be mapped.
      * @return The list of [CategorySuggestion] domain entities.
-     * @see CategoryDataMapper
+     * @see SelectCategoryViewsMapper
      */
     fun map(type: CategoryType, query: List<SelectSuggestions>): List<CategorySuggestion> {
         return query.groupBy { it.sug_id }.mapNotNull { entry ->
@@ -35,7 +35,6 @@ internal class SuggestionDataMapper(
             )
         }
     }
-
 }
 
 private fun String.asSuggestionName(): CategorySuggestion.Name? {
@@ -45,7 +44,7 @@ private fun String.asSuggestionName(): CategorySuggestion.Name? {
     }
 }
 
-private fun CategoryDataMapper.map(
+private fun SelectCategoryViewsMapper.map(
     type: CategoryType,
     entry: Map.Entry<Long, List<SelectSuggestions>>,
 ): Category? {

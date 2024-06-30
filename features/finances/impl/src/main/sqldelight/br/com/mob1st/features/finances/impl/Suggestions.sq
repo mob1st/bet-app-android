@@ -8,3 +8,11 @@ LEFT JOIN category_view AS cat_view ON sug.id = cat_view.cat_linked_suggestion_i
 WHERE sug.is_expense = :is_expense
 AND ct.description = :type
 ORDER BY sug.created_at ASC;
+
+selectSuggestionsByCategory:
+SELECT
+    sug.id AS sug_id, sug.name AS sug_name,
+    cat_view.*
+FROM Suggestions AS sug
+INNER JOIN category_view AS cat_view ON sug.id = cat_view.cat_linked_suggestion_id
+WHERE cat_view.cat_id = :cat_id;

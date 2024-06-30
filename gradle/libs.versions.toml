@@ -9,7 +9,7 @@ lifecycle = "2.8.2"
 arrow = "1.2.0"
 accompaninst = "0.34.0"
 gradle-plugin = "8.2.2"
-sqldelight = "2.0.1"
+sqldelight = "2.0.2"
 detekt = "1.23.6"
 kotlin-poet = "1.16.0"
 work-manager = "2.9.0"
@@ -21,7 +21,14 @@ junit5-plugin = "1.10.0.0"
 junit5 = "5.10.2"
 coroutines = "1.8.1"
 turbine = "1.1.0"
-navigation = "2.8.0-beta03"
+navigation = "2.8.0-beta04"
+# Do not update this version unless the minimum version of the Android SDK.
+# This is the SQLite JDBC driver used by the Android SDK 26.
+# Check https://developer.android.com/reference/android/database/sqlite/package-summary
+#noinspection GradleDependency
+sqlite-jdbc = "3.18.0"
+# required by sqlite-jdbc. do not use it for production code
+slf4j = "2.0.13"
 
 [libraries]
 # androidx
@@ -29,8 +36,8 @@ android-core = "androidx.core:core-ktx:1.13.1"
 android-window = "androidx.window:window:1.3.0"
 android-startup = "androidx.startup:startup-runtime:1.1.1"
 android-profileinstaller = "androidx.profileinstaller:profileinstaller:1.3.1"
-android-test-junit = "androidx.test.ext:junit:1.1.5"
-android-test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
+android-test-junit = "androidx.test.ext:junit:1.2.1"
+android-test-espresso = "androidx.test.espresso:espresso-core:3.6.1"
 android-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0"
 android-test-macrobenchmark = "androidx.benchmark:benchmark-macro-junit4:1.2.4"
 android-test-arch = "androidx.arch.core:core-testing:2.2.0"
@@ -49,7 +56,7 @@ compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.r
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 compose-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
-compose-material3 = "androidx.compose.material3:material3:1.3.0-beta03"
+compose-material3 = "androidx.compose.material3:material3:1.3.0-beta04"
 compose-windowclass = "androidx.compose.material3:material3-window-size-class:1.2.1"
 compose-activity = "androidx.activity:activity-compose:1.9.0"
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
@@ -69,6 +76,10 @@ lottie = "com.airbnb.android:lottie-compose:6.4.0"
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions-jvm", version.ref = "sqldelight" }
 sqldelight-primitives = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqldelight" }
+sqldelight-test = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
+sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite-jdbc" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j" }
 
 # koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -164,7 +175,11 @@ unittest-android = [
     "junit5-api",
     "junit5-engine",
     "junit5-params",
-    "turbine"
+    "turbine",
+    "sqldelight-test",
+    "sqlite-jdbc",
+    "slf4j-api",
+    "slf4j-nop",
 ]
 
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]

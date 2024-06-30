@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.fixtures
+package br.com.mob1st.features.finances.impl.utils
 
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfWeek
