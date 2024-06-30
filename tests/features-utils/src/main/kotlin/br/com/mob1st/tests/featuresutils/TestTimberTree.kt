@@ -11,5 +11,13 @@ class TestTimberTree : Timber.Tree() {
         _logs.add(Log(priority, tag, message, t))
     }
 
-    data class Log(val priority: Int, val tag: String?, val message: String, val t: Throwable?)
+    data class Log(val priority: Int, val tag: String?, val message: String, val t: Throwable?) {
+        val isError get() = priority == ERROR_PRIORITY
+        val isWarning get() = priority == WARNING_PRIORITY
+    }
+
+    companion object {
+        private const val ERROR_PRIORITY = 6
+        private const val WARNING_PRIORITY = 5
+    }
 }
