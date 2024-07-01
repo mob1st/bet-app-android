@@ -45,16 +45,16 @@ class GetCategoryBuilderUseCaseTest {
     }
 
     @Test
-    fun `GIVEN multiple list of suggestions And categories WHEN get category builder THEN verify event is logged only once`() = runTest {
+    fun `GIVEN multiple list of suggestions And categories WHEN get category builder THEN verify screen view event is logged only once`() = runTest {
         // Given
         val categoriesFlow = MutableSharedFlow<List<Category>>()
         val suggestionsFlow = MutableSharedFlow<List<CategorySuggestion>>()
         val step = fixture<BuilderNextAction.Step>()
-        val event = fixture<ScreenViewEvent>()
+        val screenViewEvent = fixture<ScreenViewEvent>()
 
         every { categoryRepository.getManuallyCreatedBy(step) } returns categoriesFlow
         every { suggestionsRepository.getByStep(step) } returns suggestionsFlow
-        every { builderStepScreenViewFactory.create(step) } returns event
+        every { builderStepScreenViewFactory.create(step) } returns screenViewEvent
 
         // When
         useCase[step].test {
@@ -66,7 +66,7 @@ class GetCategoryBuilderUseCaseTest {
             suggestionsFlow.emit(listOf(fixture()))
             awaitItem()
             // Then
-            verify(exactly = 1) { analyticsReporter.log(event) }
+            verify(exactly = 1) { analyticsReporter.log(screenViewEvent) }
         }
     }
 }

@@ -6,7 +6,7 @@ import java.util.UUID
 /**
  * Something that can be identified by an [Uuid].
  */
-interface Identifiable<T : Comparable<T>> {
+interface Identifiable<T> {
     /**
      * The unique identifier.
      */

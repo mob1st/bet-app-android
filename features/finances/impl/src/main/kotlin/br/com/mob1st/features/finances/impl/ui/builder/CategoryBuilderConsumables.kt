@@ -7,7 +7,7 @@ import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputs
+import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.toCommonError
 
@@ -27,11 +27,17 @@ data class CategoryBuilderConsumables(
     /**
      * Handles the given [throwable] error.
      * It sets the snackbar to show the error message.
+     * If the error is a [NotEnoughInputsException], it will show a snackbar indicating the remaining inputs to be
+     * added. Otherwise, it will show a generic error message.
      * @param throwable The error.
      * @return The next consumable state.
      */
     fun handleError(throwable: Throwable) = copy {
-        CategoryBuilderConsumables.snackbar set CategoryBuilderSnackbar.Failure(throwable.toCommonError())
+        CategoryBuilderConsumables.snackbar set if (throwable is NotEnoughInputsException) {
+            CategoryBuilderSnackbar.NotAllowedToProceed(throwable.remainingInputs)
+        } else {
+            CategoryBuilderSnackbar.Failure(throwable.toCommonError())
+        }
     }
 
     /**
@@ -97,16 +103,6 @@ data class CategoryBuilderConsumables(
             linkedSuggestion = null,
         )
         CategoryBuilderConsumables.nullableDialog set null
-    }
-
-    /**
-     * Show a snackbar indicating that the user is not allowed to proceed to the next step because there are not enough
-     * categories added.
-     * @param notEnoughInputs The remaining number of categories to be added before allowing the user to proceed.
-     * @return The next consumable state.
-     */
-    fun showNotEnoughInputsSnackbar(notEnoughInputs: NotEnoughInputs) = copy {
-        CategoryBuilderConsumables.snackbar set CategoryBuilderSnackbar.NotAllowedToProceed(notEnoughInputs)
     }
 
     /**
@@ -208,10 +204,10 @@ sealed interface CategoryBuilderNavTarget {
 sealed interface CategoryBuilderSnackbar {
     /**
      * Snackbar to show when there are not enough suggestions to proceed to the next builder step.
-     * @property notEnoughInputs The remaining number of suggestions to be added before allowing the user to proceed.
+     * @property remaining The remaining number of suggestions to be added before allowing the user to proceed.
      */
     @Immutable
-    data class NotAllowedToProceed(val notEnoughInputs: NotEnoughInputs) : CategoryBuilderSnackbar
+    data class NotAllowedToProceed(val remaining: Int) : CategoryBuilderSnackbar
 
     /**
      * Snackbar to show when an error occurs.

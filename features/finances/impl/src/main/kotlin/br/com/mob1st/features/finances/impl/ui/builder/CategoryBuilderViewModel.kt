@@ -9,7 +9,9 @@ import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.core.state.managers.ConsumableManager
 import br.com.mob1st.core.state.managers.catchIn
 import br.com.mob1st.core.state.managers.catching
+import br.com.mob1st.core.state.managers.launchIn
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCategoryBuilderUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderStepUseCase
 import br.com.mob1st.features.utils.states.errorHandler
@@ -23,7 +25,7 @@ internal class CategoryBuilderViewModel(
     step: BuilderNextAction.Step,
     getCategoryBuilder: GetCategoryBuilderUseCase,
     private val proceedBuilderStep: ProceedBuilderStepUseCase,
-    default: DefaultCoroutineDispatcher,
+    private val default: DefaultCoroutineDispatcher,
     private val consumableDelegate: ConsumableDelegate<CategoryBuilderConsumables> = ConsumableDelegate(
         CategoryBuilderConsumables(),
     ),
@@ -83,10 +85,18 @@ internal class CategoryBuilderViewModel(
     /**
      * Proceeds to the next step of the builder.
      */
-    fun next() = errorHandler.catching {
-        val result = proceedBuilderStep(checkNotNull(uiStateOutput.value.builder))
-        consumableDelegate.update {
-            result.fold(it::showNotEnoughInputsSnackbar, it::navigateToNext)
+    fun next() = launchIn(default + errorHandler) {
+        val builder = checkNotNull(uiStateOutput.value.builder)
+        try {
+            val result = proceedBuilderStep(builder)
+            consumableDelegate.update {
+                it.navigateToNext(result)
+            }
+        } catch (e: NotEnoughInputsException) {
+            // avoid logging the exception as an error
+            consumableDelegate.update {
+                it.handleError(e)
+            }
         }
     }
 }

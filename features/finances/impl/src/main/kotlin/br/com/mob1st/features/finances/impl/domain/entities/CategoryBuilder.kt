@@ -1,6 +1,5 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
-import arrow.core.raise.either
 import br.com.mob1st.core.kotlinx.structures.Identifiable
 import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 
@@ -17,11 +16,22 @@ data class CategoryBuilder(
     val suggestions: List<CategorySuggestion>,
 ) : Identifiable<BuilderNextAction.Step> {
     /**
-     * Moves to the next step in the category builder if there are enough inputs added in [manuallyAdded] or
-     * [suggestions].
-     * @return The next step in the category builder or [NotEnoughInputs] if there are not enough inputs yet.
+     * Moves the user to the next step in the category builder.
+     * It can be the next step or a completion action, which indicates
+     * that the user can proceed to the main area of the app.
+     * @return The next action that the user can take.
+     * @throws NotEnoughInputsException If there are not enough inputs to proceed to the next step.
+     * @see BuilderNextAction.Step.minimumRequiredToProceed
+     * @see BuilderNextAction.Step.next
      */
-    fun next() = id.next(countAddedItems())
+    fun next(): BuilderNextAction {
+        val currentInputs = countAddedItems()
+        return if (currentInputs >= id.minimumRequiredToProceed) {
+            id.next
+        } else {
+            throw NotEnoughInputsException(id.minimumRequiredToProceed - currentInputs)
+        }
+    }
 
     private fun countAddedItems(): Int {
         return manuallyAdded.count { it.amount.cents > 0 } +
@@ -48,11 +58,16 @@ sealed interface BuilderNextAction {
     /**
      * A specific step in the category builder.
      */
-    sealed interface Step : BuilderNextAction, Comparable<Step> {
+    sealed interface Step : BuilderNextAction {
         /**
          * Whether the step is related to expenses or incomes.
          */
         val isExpense: Boolean
+
+        /**
+         * The minimum number of inputs required to proceed to the next step.
+         */
+        val minimumRequiredToProceed: Int
 
         /**
          * The type of the category that will be added in this step.
@@ -63,30 +78,6 @@ sealed interface BuilderNextAction {
          * The next action in the category builder.
          */
         val next: BuilderNextAction
-
-        /**
-         * Returns the next action in the category builder if there are enough inputs added.
-         * Otherwise, it raises a [NotEnoughInputs] error.
-         * @param currentInputs The number of inputs added in the current step.
-         * @return The next action in the category builder or [NotEnoughInputs] if there are not enough inputs yet.
-         */
-        fun next(currentInputs: Int) = either {
-            val minimumRequiredToProceed = if (isExpense) {
-                MIN_EXPENSES
-            } else {
-                MIN_INCOMES
-            }
-            if (currentInputs < minimumRequiredToProceed) {
-                raise(NotEnoughInputs(minimumRequiredToProceed - currentInputs))
-            } else {
-                next
-            }
-        }
-
-        companion object {
-            private const val MIN_EXPENSES = 3
-            private const val MIN_INCOMES = 1
-        }
     }
 }
 
@@ -95,17 +86,11 @@ sealed interface BuilderNextAction {
  * It is used to add fixed expenses.
  */
 data object FixedExpensesStep : BuilderNextAction.Step {
+    private const val REQUIRED_INPUTS = 3
     override val isExpense: Boolean = true
+    override val minimumRequiredToProceed: Int = REQUIRED_INPUTS
     override val type: CategoryType = CategoryType.Fixed
     override val next: BuilderNextAction = VariableExpensesStep
-
-    override fun compareTo(other: BuilderNextAction.Step): Int {
-        return when (other) {
-            is FixedExpensesStep -> 0
-            is VariableExpensesStep -> -1
-            is FixedIncomesStep -> -1
-        }
-    }
 }
 
 /**
@@ -113,17 +98,11 @@ data object FixedExpensesStep : BuilderNextAction.Step {
  * It is used to add variable expenses.
  */
 data object VariableExpensesStep : BuilderNextAction.Step {
+    private const val REQUIRED_INPUTS = 3
     override val isExpense: Boolean = true
+    override val minimumRequiredToProceed: Int = REQUIRED_INPUTS
     override val type: CategoryType = CategoryType.Variable
     override val next: BuilderNextAction = FixedIncomesStep
-
-    override fun compareTo(other: BuilderNextAction.Step): Int {
-        return when (other) {
-            is FixedExpensesStep -> 1
-            is VariableExpensesStep -> 0
-            is FixedIncomesStep -> -1
-        }
-    }
 }
 
 /**
@@ -132,16 +111,9 @@ data object VariableExpensesStep : BuilderNextAction.Step {
  */
 data object FixedIncomesStep : BuilderNextAction.Step {
     override val isExpense: Boolean = false
+    override val minimumRequiredToProceed: Int = 1
     override val type: CategoryType = CategoryType.Fixed
     override val next: BuilderNextAction = BuilderNextAction.Complete
-
-    override fun compareTo(other: BuilderNextAction.Step): Int {
-        return when (other) {
-            is FixedExpensesStep -> 1
-            is VariableExpensesStep -> 1
-            is FixedIncomesStep -> 0
-        }
-    }
 }
 
 /**
@@ -149,4 +121,4 @@ data object FixedIncomesStep : BuilderNextAction.Step {
  * not enough inputs yet.
  * @property remainingInputs The number of missing inputs to proceed to the next step.
  */
-data class NotEnoughInputs(val remainingInputs: Int)
+class NotEnoughInputsException(val remainingInputs: Int) : Exception("Not enough inputs to proceed to the next step")
