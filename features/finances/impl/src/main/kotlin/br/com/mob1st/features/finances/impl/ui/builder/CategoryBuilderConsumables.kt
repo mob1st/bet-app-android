@@ -59,7 +59,9 @@ data class CategoryBuilderConsumables(
                 )
             }
 
-            is SuggestionListItem -> error("Invalid item type")
+            is SuggestionListItem -> require(false) {
+                "A suggestion should never be selected in the manual category section."
+            }
         }
     }
 

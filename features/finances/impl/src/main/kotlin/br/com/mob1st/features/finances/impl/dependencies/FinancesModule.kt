@@ -3,7 +3,6 @@ package br.com.mob1st.features.finances.impl.dependencies
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCashFlowUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCategoryBuilderUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.GetFixedExpensesUseCaseImpl
-import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderStepUseCase
 import br.com.mob1st.features.finances.impl.ui.navgraph.FinancesNavGraphImpl
 import br.com.mob1st.features.finances.impl.ui.tabs.CashFlowUiStateHolder
 import br.com.mob1st.features.finances.impl.ui.tabs.CashFlowViewModel
@@ -27,7 +26,6 @@ private val domainModule = module {
     factoryOf(::GetFixedExpensesUseCaseImpl) bind GetFixedExpensesUseCase::class
     factoryOf(::GetCategoryBuilderUseCase)
     factoryOf(::GetCashFlowUseCase)
-    factoryOf(::ProceedBuilderStepUseCase)
 }
 
 private val uiModule = module {

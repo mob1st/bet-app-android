@@ -65,28 +65,29 @@ sealed interface CategoryListItem {
 data class SuggestionListItem(
     val suggestion: CategorySuggestion,
 ) : CategoryListItem {
-    override val leading: TextState
-        get() = TODO("Not yet implemented")
-    override val value: TextState?
-        get() = TODO("Not yet implemented")
-    override val supporting: TextState?
-        get() = TODO("Not yet implemented")
+    override val leading: TextState = if (suggestion.linkedCategory != null) {
+        TextState(suggestion.linkedCategory.name)
+    } else {
+        TextState(0)
+    }
+    override val value: TextState? = suggestion.linkedCategory?.amount?.let {
+        TextState(it.toString())
+    }
+    override val supporting: TextState? = suggestion.linkedCategory?.recurrences?.let {
+        TextState(it.toString())
+    }
 }
 
 @Immutable
 data class ManualCategoryListItem(val category: Category) : CategoryListItem {
-    override val leading: TextState
-        get() = TODO("Not yet implemented")
-    override val value: TextState?
-        get() = TODO("Not yet implemented")
-    override val supporting: TextState?
-        get() = TODO("Not yet implemented")
+    override val leading: TextState = TextState(category.name)
+    override val value: TextState = TextState(category.amount.toString())
+    override val supporting: TextState = TextState(category.recurrences.toString())
 }
 
 @Immutable
 internal data object AddCategoryListItem : CategoryListItem {
-    override val leading: TextState
-        get() = TODO("Not yet implemented")
+    override val leading: TextState = TextState(0)
     override val value: TextState? = null
     override val supporting: TextState? = null
 }
