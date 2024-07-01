@@ -2,14 +2,13 @@ package br.com.mob1st.features.finances.impl.data.repositories.suggestions
 
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.finances.impl.TwoCentsDb
+import br.com.mob1st.features.finances.impl.data.repositories.categories.SelectCategoryViewsMapper
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.utils.testTwoCentsDb
-import io.mockk.every
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -35,11 +34,7 @@ class SuggestionsRepositoryImplTest {
     @BeforeEach
     fun setUp() {
         db = testTwoCentsDb()
-        mapper = SelectSuggestionsMapper(
-            mockk {
-                every { map(any(), any()) } returns emptyList()
-            },
-        )
+        mapper = SelectSuggestionsMapper(SelectCategoryViewsMapper)
         repository = SuggestionsRepositoryImpl(
             io = io,
             db = db,

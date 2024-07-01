@@ -6,7 +6,15 @@ import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 
+/**
+ * Creates the screen event related to a builder step.
+ */
 internal object BuilderStepScreenViewFactory {
+    /**
+     * Uses the given [step] to create the screen view event.
+     * @param step The step of the builder.
+     * @return The screen view event.
+     */
     fun create(
         step: BuilderNextAction.Step,
     ): ScreenViewEvent {
