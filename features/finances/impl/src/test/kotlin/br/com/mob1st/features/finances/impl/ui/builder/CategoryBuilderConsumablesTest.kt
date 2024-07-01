@@ -2,7 +2,6 @@ package br.com.mob1st.features.finances.impl.ui.builder
 
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.entities.CategoryBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
@@ -179,10 +178,6 @@ class CategoryBuilderConsumablesTest {
     fun `GIVEN a next step WHEN navigate THEN navigate to the next step`() {
         // Given
         val categoryBuilderConsumables = CategoryBuilderConsumables()
-        val categoryBuilder = moduleFixture<CategoryBuilder>().copy(
-            manuallyAdded = listOf(moduleFixture()),
-            suggestions = listOf(moduleFixture()),
-        )
 
         // When
         val step = moduleFixture<BuilderNextAction.Step>()

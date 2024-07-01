@@ -6,6 +6,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.plus
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
@@ -22,9 +23,14 @@ internal data class CategoryBuilderUiState(
      * The manually added categories.
      * The list is composed of the manually added categories and the "Add category" item.
      */
-    val manuallyAdded: ImmutableList<CategoryListItem> = builder?.manuallyAdded.orEmpty().map {
-        ManualCategoryListItem(it)
-    }.toPersistentList() + AddCategoryListItem
+    val manuallyAdded: ImmutableList<CategoryListItem> = if (builder != null) {
+        val categories = builder.manuallyAdded.map {
+            ManualCategoryListItem(it)
+        }.toPersistentList()
+        categories + AddCategoryListItem
+    } else {
+        persistentListOf()
+    }
 
     /**
      * The suggestions presented to the user.
@@ -78,6 +84,10 @@ data class SuggestionListItem(
     }
 }
 
+/**
+ * Used by the [CategoryBuilderUiState.manuallyAdded] to show the manually added categories.
+ * @property category The manually added category.
+ */
 @Immutable
 data class ManualCategoryListItem(val category: Category) : CategoryListItem {
     override val leading: TextState = TextState(category.name)
@@ -85,6 +95,9 @@ data class ManualCategoryListItem(val category: Category) : CategoryListItem {
     override val supporting: TextState = TextState(category.recurrences.toString())
 }
 
+/**
+ * Used by the [CategoryBuilderUiState.manuallyAdded] to show the "Add category" item.
+ */
 @Immutable
 internal data object AddCategoryListItem : CategoryListItem {
     override val leading: TextState = TextState(0)
