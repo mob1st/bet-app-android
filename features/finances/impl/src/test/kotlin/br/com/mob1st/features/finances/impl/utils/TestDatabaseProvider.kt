@@ -10,7 +10,7 @@ import br.com.mob1st.features.finances.impl.data.sqldelight.DatabaseFactory
  * be used in the database creation.
  * @return the database instance
  */
-fun testDatabase(): TwoCentsDb {
+fun testTwoCentsDb(): TwoCentsDb {
     val driver = LogSqliteDriver(JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)) {
         println(it)
     }

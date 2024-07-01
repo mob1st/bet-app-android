@@ -14,7 +14,7 @@ import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfWeek
 import br.com.mob1st.features.finances.impl.domain.values.Month
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
-import br.com.mob1st.features.finances.impl.utils.testDatabase
+import br.com.mob1st.features.finances.impl.utils.testTwoCentsDb
 import com.appmattus.kotlinfixture.Fixture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -48,7 +48,7 @@ class CategoriesRepositoryImplTest {
     @BeforeEach
     fun setUp() {
         fixture = moduleFixture
-        db = testDatabase()
+        db = testTwoCentsDb()
         selectCategoryViewMapper = SelectCategoryViewsMapper
         deleteRecurrenceMapper = DeleteRecurrenceMapper
         repository = CategoriesRepositoryImpl(

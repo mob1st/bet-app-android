@@ -18,7 +18,7 @@ internal class SuggestionsRepositoryImpl(
     private val db: TwoCentsDb,
     private val mapper: SelectSuggestionsMapper,
 ) : SuggestionsRepository {
-    override fun getByTypeAndIsExpense(
+    override fun getByStep(
         step: BuilderNextAction.Step,
     ): Flow<List<CategorySuggestion>> {
         return db.suggestionsQueries.selectSuggestions(

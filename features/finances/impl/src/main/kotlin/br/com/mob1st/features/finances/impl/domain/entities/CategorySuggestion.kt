@@ -35,6 +35,7 @@ data class CategorySuggestion(
         TransportationFuel,
         PublicTransportTickets,
         Cinema,
+        Concerts,
         SportsTickets,
         ElectronicGames,
         Bars,

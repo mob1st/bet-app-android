@@ -16,7 +16,7 @@ internal interface SuggestionsRepository {
      * @return A flow of the suggestions.
      * @see CategoriesRepository to check how to execute write operations in the categories.
      */
-    fun getByTypeAndIsExpense(
+    fun getByStep(
         step: BuilderNextAction.Step,
     ): Flow<List<CategorySuggestion>>
 }

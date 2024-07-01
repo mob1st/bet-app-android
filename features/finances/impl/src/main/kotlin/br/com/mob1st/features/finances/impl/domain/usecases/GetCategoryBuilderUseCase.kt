@@ -21,7 +21,7 @@ internal class GetCategoryBuilderUseCase(
     ): Flow<CategoryBuilder> {
         return combine(
             categoryRepository.getManuallyCreatedBy(step),
-            suggestionsRepository.getByTypeAndIsExpense(step),
+            suggestionsRepository.getByStep(step),
         ) { manuallyAdded, suggestions ->
             CategoryBuilder(
                 id = step,

@@ -31,7 +31,7 @@ internal class SelectSuggestionsMapper(
     ): List<CategorySuggestion> {
         return query.groupBy { it.sug_id }.mapNotNull { entry ->
             val first = entry.value.first()
-            val name = first.sug_name.asSuggestionName()
+            val name = names[first.sug_name]
             if (name == null) {
                 Timber.w("Unknown suggestion name: $this. Suggestion will be discarded from the list.")
                 return@mapNotNull null
@@ -49,57 +49,57 @@ internal class SelectSuggestionsMapper(
             )
         }
     }
-}
 
-@Suppress("CyclomaticComplexMethod")
-private fun String.asSuggestionName(): CategorySuggestion.Name? {
-    return when (this) {
-        "rent_or_mortgage" -> CategorySuggestion.Name.RentOrMortgage
-        "property_taxes" -> CategorySuggestion.Name.PropertyTaxes
-        "health_insurance" -> CategorySuggestion.Name.HealthInsurance
-        "car_insurance" -> CategorySuggestion.Name.CarInsurance
-        "public_transport" -> CategorySuggestion.Name.PublicTransport
-        "home_insurance" -> CategorySuggestion.Name.HomeInsurance
-        "loan_payments" -> CategorySuggestion.Name.LoanPayments
-        "internet_subscription" -> CategorySuggestion.Name.InternetSubscription
-        "cell_phone_plan" -> CategorySuggestion.Name.CellPhonePlan
-        "cable_or_streaming_services" -> CategorySuggestion.Name.CableOrStreamingServices
-        "music_streaming_services" -> CategorySuggestion.Name.MusicStreamingServices
-        "magazine_or_newspaper_subscriptions" -> CategorySuggestion.Name.MagazineOrNewspaperSubscriptions
-        "gym" -> CategorySuggestion.Name.Gym
-        "association_fees" -> CategorySuggestion.Name.AssociationFees
-        "private_retirement_plans" -> CategorySuggestion.Name.PrivateRetirementPlans
-        "personal_education" -> CategorySuggestion.Name.PersonalEducation
-        "children_school" -> CategorySuggestion.Name.ChildrenSchool
-        "childcare" -> CategorySuggestion.Name.Childcare
-        "groceries" -> CategorySuggestion.Name.Groceries
-        "dining_out" -> CategorySuggestion.Name.DiningOut
-        "food_delivery" -> CategorySuggestion.Name.FoodDelivery
-        "weekday_lunch" -> CategorySuggestion.Name.WeekdayLunch
-        "coffee_snacks" -> CategorySuggestion.Name.CoffeeSnacks
-        "transportation_fuel" -> CategorySuggestion.Name.TransportationFuel
-        "public_transport_tickets" -> CategorySuggestion.Name.PublicTransportTickets
-        "cinema" -> CategorySuggestion.Name.Cinema
-        "sports_tickets" -> CategorySuggestion.Name.SportsTickets
-        "electronic_games" -> CategorySuggestion.Name.ElectronicGames
-        "bars" -> CategorySuggestion.Name.Bars
-        "night_clubs" -> CategorySuggestion.Name.NightClubs
-        "household_supplies" -> CategorySuggestion.Name.HouseholdSupplies
-        "fitness_recreation" -> CategorySuggestion.Name.FitnessRecreation
-        "holiday_gifts" -> CategorySuggestion.Name.HolidayGifts
-        "vacation_travel" -> CategorySuggestion.Name.VacationTravel
-        "back_to_school_supplies" -> CategorySuggestion.Name.BackToSchoolSupplies
-        "winter_clothing" -> CategorySuggestion.Name.WinterClothing
-        "summer_activities" -> CategorySuggestion.Name.SummerActivities
-        "garden_supplies" -> CategorySuggestion.Name.GardenSupplies
-        "home_heating" -> CategorySuggestion.Name.HomeHeating
-        "holiday_decorations" -> CategorySuggestion.Name.HolidayDecorations
-        "tax_preparation_fees" -> CategorySuggestion.Name.TaxPreparationFees
-        "spring_cleaning" -> CategorySuggestion.Name.SpringCleaning
-        "salary" -> CategorySuggestion.Name.Salary
-        "pension" -> CategorySuggestion.Name.Pension
-        "rental_income" -> CategorySuggestion.Name.RentalIncome
-        else -> null
+    companion object {
+        private val names = mapOf(
+            "rent_or_mortgage" to CategorySuggestion.Name.RentOrMortgage,
+            "property_taxes" to CategorySuggestion.Name.PropertyTaxes,
+            "health_insurance" to CategorySuggestion.Name.HealthInsurance,
+            "car_insurance" to CategorySuggestion.Name.CarInsurance,
+            "public_transport" to CategorySuggestion.Name.PublicTransport,
+            "home_insurance" to CategorySuggestion.Name.HomeInsurance,
+            "loan_payments" to CategorySuggestion.Name.LoanPayments,
+            "internet_subscription" to CategorySuggestion.Name.InternetSubscription,
+            "cell_phone_plan" to CategorySuggestion.Name.CellPhonePlan,
+            "cable_or_streaming_services" to CategorySuggestion.Name.CableOrStreamingServices,
+            "music_streaming_services" to CategorySuggestion.Name.MusicStreamingServices,
+            "gym" to CategorySuggestion.Name.Gym,
+            "magazine_or_newspaper_subscriptions" to CategorySuggestion.Name.MagazineOrNewspaperSubscriptions,
+            "association_fees" to CategorySuggestion.Name.AssociationFees,
+            "private_retirement_plans" to CategorySuggestion.Name.PrivateRetirementPlans,
+            "personal_education" to CategorySuggestion.Name.PersonalEducation,
+            "children_school" to CategorySuggestion.Name.ChildrenSchool,
+            "childcare" to CategorySuggestion.Name.Childcare,
+            "groceries" to CategorySuggestion.Name.Groceries,
+            "dining_out" to CategorySuggestion.Name.DiningOut,
+            "food_delivery" to CategorySuggestion.Name.FoodDelivery,
+            "weekday_lunch" to CategorySuggestion.Name.WeekdayLunch,
+            "coffee_snacks" to CategorySuggestion.Name.CoffeeSnacks,
+            "transportation_fuel" to CategorySuggestion.Name.TransportationFuel,
+            "public_transport_tickets" to CategorySuggestion.Name.PublicTransportTickets,
+            "cinema" to CategorySuggestion.Name.Cinema,
+            "concerts" to CategorySuggestion.Name.Concerts,
+            "electronic_games" to CategorySuggestion.Name.ElectronicGames,
+            "sports_tickets" to CategorySuggestion.Name.SportsTickets,
+            "electronic_games" to CategorySuggestion.Name.ElectronicGames,
+            "bars" to CategorySuggestion.Name.Bars,
+            "night_clubs" to CategorySuggestion.Name.NightClubs,
+            "household_supplies" to CategorySuggestion.Name.HouseholdSupplies,
+            "fitness_recreation" to CategorySuggestion.Name.FitnessRecreation,
+            "holiday_gifts" to CategorySuggestion.Name.HolidayGifts,
+            "vacation_travel" to CategorySuggestion.Name.VacationTravel,
+            "back_to_school_supplies" to CategorySuggestion.Name.BackToSchoolSupplies,
+            "winter_clothing" to CategorySuggestion.Name.WinterClothing,
+            "summer_activities" to CategorySuggestion.Name.SummerActivities,
+            "garden_supplies" to CategorySuggestion.Name.GardenSupplies,
+            "home_heating" to CategorySuggestion.Name.HomeHeating,
+            "holiday_decorations" to CategorySuggestion.Name.HolidayDecorations,
+            "tax_preparation_fees" to CategorySuggestion.Name.TaxPreparationFees,
+            "spring_cleaning" to CategorySuggestion.Name.SpringCleaning,
+            "salary" to CategorySuggestion.Name.Salary,
+            "pension" to CategorySuggestion.Name.Pension,
+            "rental_income" to CategorySuggestion.Name.RentalIncome,
+        )
     }
 }
 

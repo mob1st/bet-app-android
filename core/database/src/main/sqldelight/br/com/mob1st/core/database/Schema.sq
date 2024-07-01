@@ -124,6 +124,12 @@ INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'cinema', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'concerts', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'electronic_games', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'sports_tickets', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
