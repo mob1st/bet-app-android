@@ -2,6 +2,7 @@ package br.com.mob1st.features.finances.impl.ui.builder
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.core.kotlinx.structures.toCurrencyString
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
@@ -74,10 +75,10 @@ data class SuggestionListItem(
     override val leading: TextState = if (suggestion.linkedCategory != null) {
         TextState(suggestion.linkedCategory.name)
     } else {
-        TextState(0)
+        TextState(suggestion.nameResId)
     }
     override val value: TextState? = suggestion.linkedCategory?.amount?.let {
-        TextState(it.toString())
+        TextState(it.toCurrencyString())
     }
     override val supporting: TextState? = suggestion.linkedCategory?.recurrences?.let {
         TextState(it.toString())

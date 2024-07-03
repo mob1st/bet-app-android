@@ -1,0 +1,108 @@
+package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
+
+import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.core.kotlinx.structures.RowId
+import br.com.mob1st.features.finances.impl.SelectSuggestions
+import br.com.mob1st.features.finances.impl.domain.entities.Category
+import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
+import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
+import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import com.appmattus.kotlinfixture.Fixture
+
+class TestGroupingSuggestionsFixtures(
+    fixture: Fixture,
+) {
+    val suggestionsWithLinkedCategory = listOf(
+        fixture<SelectSuggestions>().copy(
+            sug_id = 1,
+            sug_name = "rent_or_mortgage",
+            cat_id = 1,
+            cat_name = "Rent",
+            cat_is_expense = true,
+            cat_amount = 300_000,
+            cat_linked_suggestion_id = 1,
+            frc_day_of_month = 1,
+        ),
+        fixture<SelectSuggestions>().copy(
+            sug_id = 1,
+            sug_name = "rent_or_mortgage",
+            cat_id = 1,
+            cat_name = "Rent",
+            cat_is_expense = true,
+            cat_amount = 300_000,
+            cat_linked_suggestion_id = 1,
+            frc_day_of_month = 2,
+        ),
+        fixture<SelectSuggestions>().copy(
+            sug_id = 2,
+            sug_name = "gym",
+            cat_id = 2,
+            cat_name = "Gym",
+            cat_linked_suggestion_id = 2,
+            cat_amount = 2500,
+            cat_is_expense = true,
+            frc_day_of_month = 3,
+        ),
+    )
+    val suggestionsWithoutLinkedCategory = listOf(
+        fixture<SelectSuggestions>().copy(
+            sug_id = 3,
+            sug_name = "public_transport",
+            cat_id = null,
+        ),
+        fixture<SelectSuggestions>().copy(
+            sug_id = 4,
+            sug_name = "health_insurance",
+            cat_id = null,
+        ),
+    )
+
+    fun expected(
+        nameSuggestion1: Int,
+        nameSuggestion2: Int,
+        nameSuggestion3: Int,
+        nameSuggestion4: Int,
+    ) = listOf(
+        CategorySuggestion(
+            id = RowId(1),
+            nameResId = nameSuggestion1,
+            linkedCategory = Category(
+                id = RowId(1),
+                name = "Rent",
+                isExpense = true,
+                amount = Money(3000_00),
+                recurrences = Recurrences.Fixed(
+                    listOf(
+                        DayOfMonth(1),
+                        DayOfMonth(2),
+                    ),
+                ),
+            ),
+        ),
+        CategorySuggestion(
+            id = RowId(2),
+            nameResId = nameSuggestion2,
+            linkedCategory = Category(
+                id = RowId(2),
+                name = "Gym",
+                isExpense = true,
+                amount = Money(25_00),
+                recurrences = Recurrences.Fixed(
+                    listOf(
+                        DayOfMonth(3),
+                    ),
+                ),
+            ),
+        ),
+        CategorySuggestion(
+            id = RowId(3),
+            nameResId = nameSuggestion3,
+            linkedCategory = null,
+        ),
+        CategorySuggestion(
+            id = RowId(4),
+            nameResId = nameSuggestion4,
+            linkedCategory = null,
+        ),
+    )
+}

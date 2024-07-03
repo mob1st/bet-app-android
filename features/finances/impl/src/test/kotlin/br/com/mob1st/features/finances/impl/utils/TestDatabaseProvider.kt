@@ -3,7 +3,7 @@ package br.com.mob1st.features.finances.impl.utils
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import app.cash.sqldelight.logs.LogSqliteDriver
 import br.com.mob1st.features.finances.impl.TwoCentsDb
-import br.com.mob1st.features.finances.impl.data.sqldelight.DatabaseFactory
+import br.com.mob1st.features.finances.impl.infra.data.sqldelight.DatabaseFactory
 
 /**
  * Creates an in-memory database instance for tests, initializing the schema with the same driver that will
@@ -11,9 +11,10 @@ import br.com.mob1st.features.finances.impl.data.sqldelight.DatabaseFactory
  * @return the database instance
  */
 fun testTwoCentsDb(): TwoCentsDb {
-    val driver = LogSqliteDriver(JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)) {
+    val sqlDriver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+    val logDriver = LogSqliteDriver(sqlDriver) {
         println(it)
     }
-    TwoCentsDb.Schema.create(driver)
-    return DatabaseFactory.create(driver)
+    TwoCentsDb.Schema.create(sqlDriver)
+    return DatabaseFactory.create(logDriver)
 }

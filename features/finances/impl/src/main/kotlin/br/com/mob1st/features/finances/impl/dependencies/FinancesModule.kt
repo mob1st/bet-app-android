@@ -17,7 +17,7 @@ val financesModule
     get() = module {
         includes(
             domainModule,
-            dataModule,
+            infraModule,
             uiModule,
         )
     }

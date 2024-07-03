@@ -1,11 +1,16 @@
 package br.com.mob1st.core.kotlinx.structures
 
+import java.text.NumberFormat
+import java.util.Locale
+
 /**
  * Immutable value object to be used as money in cents.
  * @property cents The amount of cents.
  */
 @JvmInline
-value class Money(val cents: Long) : Comparable<Money> {
+value class Money(
+    val cents: Long,
+) : Comparable<Money> {
     /**
      * Adds two [Money] values generating a new one.
      */
@@ -16,6 +21,9 @@ value class Money(val cents: Long) : Comparable<Money> {
      */
     operator fun minus(other: Money) = Money(cents - other.cents)
 
+    /**
+     * Multiplies the [Money] value by a scalar.
+     */
     operator fun times(other: Float) = Money((cents * other).toLong())
 
     /**
@@ -26,6 +34,7 @@ value class Money(val cents: Long) : Comparable<Money> {
     }
 
     companion object {
+        internal const val SCALE = 100.0
         private const val CURRENCY_REGEX = "[^\\d-]"
 
         val Zero = Money(0)
@@ -51,4 +60,14 @@ value class Money(val cents: Long) : Comparable<Money> {
             }
         }
     }
+}
+
+/**
+ * Converts the [Money] to a currency string.
+
+ */
+fun Money.toCurrencyString(): String {
+    val locale = Locale.getDefault()
+    val currencyFormat = NumberFormat.getCurrencyInstance(locale)
+    return currencyFormat.format(cents / Money.SCALE)
 }

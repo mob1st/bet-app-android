@@ -89,7 +89,6 @@ class CategoryBuilderUiStateTest {
 
     @Test
     fun `GIVEN a no category builder WHEN get lists THEN assert lists are empty`() {
-        // Given
         val uiState = CategoryBuilderUiState()
         assertTrue(uiState.manuallyAdded.isEmpty())
         assertTrue(uiState.suggestions.isEmpty())

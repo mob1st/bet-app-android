@@ -12,6 +12,7 @@
     <string name="finances_builder_suggestions_item_cable_or_streaming_services">Cable or Streaming Services</string>
     <string name="finances_builder_suggestions_item_music_streaming_services">Music Streaming Services</string>
     <string name="finances_builder_suggestions_item_magazine_or_newspaper_subscriptions">Magazine or Newspaper Subscriptions</string>
+    <string name="finances_builder_suggestions_item_gym">Gym</string>
     <string name="finances_builder_suggestions_item_association_fees">Association Fees</string>
     <string name="finances_builder_suggestions_item_private_retirement_plans">Private Retirement Plans</string>
     <string name="finances_builder_suggestions_item_personal_education">Personal Education</string>
@@ -25,6 +26,7 @@
     <string name="finances_builder_suggestions_item_transportation_fuel">Transportation Fuel</string>
     <string name="finances_builder_suggestions_item_public_transport_tickets">Public Transport Tickets</string>
     <string name="finances_builder_suggestions_item_cinema">Cinema</string>
+    <string name="finances_builder_suggestions_item_concerts">Concerts</string>
     <string name="finances_builder_suggestions_item_sports_tickets">Sports Tickets</string>
     <string name="finances_builder_suggestions_item_electronic_games">Electronic Games</string>
     <string name="finances_builder_suggestions_item_bars">Bars</string>

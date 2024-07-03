@@ -176,7 +176,7 @@ class CategoryBuilderTest {
             factory<CategorySuggestion> {
                 CategorySuggestion(
                     id = fixture(),
-                    name = fixture(),
+                    nameResId = fixture(),
                     linkedCategory = fixture<Category>().copy(
                         amount = fixture(),
                     ),
@@ -193,7 +193,7 @@ class CategoryBuilderTest {
             factory<CategorySuggestion> {
                 CategorySuggestion(
                     id = fixture(),
-                    name = fixture(),
+                    nameResId = fixture(),
                     linkedCategory = fixture<Category>().copy(
                         amount = fixture(),
                     ),
