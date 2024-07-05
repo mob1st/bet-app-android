@@ -42,12 +42,18 @@ internal fun BaseExtension.defaultSetup() {
 
 }
 
-internal fun Project.librarySetup(extension: LibraryExtension) {
-    extension.libraryVariants.configureEach {
+internal fun Project.librarySetup(extension: LibraryExtension) = extension.run {
+    libraryVariants.configureEach {
         project.kotlin.sourceSets {
             getByName(name) {
                 kotlin.srcDir("build/generated/ksp/$name/kotlin")
             }
+        }
+    }
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
         }
     }
 }

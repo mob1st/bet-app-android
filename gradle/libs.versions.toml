@@ -5,7 +5,7 @@ kotlin = "1.9.23"
 koin = "3.5.0"
 koin-ksp = "1.1.1"
 kotest = "5.6.2"
-lifecycle = "2.8.2"
+lifecycle = "2.8.3"
 arrow = "1.2.0"
 accompaninst = "0.34.0"
 gradle-plugin = "8.2.2"
@@ -29,6 +29,7 @@ navigation = "2.8.0-beta04"
 sqlite-jdbc = "3.18.0"
 # required by sqlite-jdbc. do not use it for production code
 slf4j = "2.0.13"
+roboletric = "4.12.2"
 
 [libraries]
 # androidx
@@ -70,7 +71,7 @@ leakcanary-test = { module = "com.squareup.leakcanary:leakcanary-android-instrum
 
 # utils
 coil = "io.coil-kt:coil-compose:2.6.0"
-lottie = "com.airbnb.android:lottie-compose:6.4.0"
+lottie = "com.airbnb.android:lottie-compose:6.4.1"
 
 # sqldelight
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
@@ -80,6 +81,9 @@ sqldelight-test = { module = "app.cash.sqldelight:sqlite-driver", version.ref = 
 sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite-jdbc" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j" }
+
+# roboletric
+roboletric = { module = "org.robolectric:robolectric", version.ref = "roboletric" }
 
 # koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -116,7 +120,7 @@ arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
 arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
 
 # kotlin
-kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+kotlin-collections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7"
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
@@ -133,6 +137,7 @@ mockk-kotlin = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 mockk-agent = { module = "io.mockk:mockk-agent-jvm", version.ref = "mockk" }
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
+junit5-vintage = "org.junit.vintage:junit-vintage-engine:5.11.0-M2"
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
 kotlinfixture = "com.appmattus.fixture:fixture:1.2.0"
@@ -180,6 +185,8 @@ unittest-android = [
     "sqlite-jdbc",
     "slf4j-api",
     "slf4j-nop",
+    "roboletric",
+    "junit5-vintage"
 ]
 
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]

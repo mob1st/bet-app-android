@@ -173,7 +173,7 @@ class SelectSuggestionsMapperTest {
         )
         assertEquals(
             fixtures.expected(
-                recurrenceSuggestion1 = Recurrences.Variable,
+                recurrencesSuggestion1 = Recurrences.Variable,
                 nameResIdSuggestion1 = 1,
                 nameResIdSuggestion3 = 3,
             ),

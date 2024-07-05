@@ -9,7 +9,7 @@ import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
-import br.com.mob1st.features.finances.impl.ui.utils.parcelers.SeasonalRecurrencesParceler
+import br.com.mob1st.features.finances.impl.ui.utils.parcelers.RecurrencesParceler
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -19,7 +19,7 @@ import java.util.Locale
 @Parcelize
 @Immutable
 data class SeasonalRecurrencesTextState(
-    val recurrences: @WriteWith<SeasonalRecurrencesParceler> Recurrences.Seasonal,
+    val recurrences: @WriteWith<RecurrencesParceler> Recurrences.Seasonal,
 ) : TextState {
     @IgnoredOnParcel
     private val immutableDaysAndMonths = recurrences.daysAndMonths.toImmutableList()

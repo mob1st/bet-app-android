@@ -36,7 +36,7 @@ class TestTwoCategoriesWithSameSuggestionFixtures(
     )
 
     fun expected(
-        recurrenceSuggestion1: Recurrences,
+        recurrencesSuggestion1: Recurrences,
         nameResIdSuggestion1: Int,
         nameResIdSuggestion3: Int,
     ) = listOf(
@@ -48,7 +48,7 @@ class TestTwoCategoriesWithSameSuggestionFixtures(
                 name = "cat1",
                 isExpense = true,
                 amount = Money(1000_00),
-                recurrences = recurrenceSuggestion1,
+                recurrences = recurrencesSuggestion1,
             ),
         ),
         CategorySuggestion(

@@ -8,7 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.ui.utils.parcelers.FixedRecurrencesParceler
+import br.com.mob1st.features.finances.impl.ui.utils.parcelers.RecurrencesParceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.WriteWith
 import java.util.Locale
@@ -16,7 +16,7 @@ import java.util.Locale
 @Parcelize
 @Immutable
 data class FixedRecurrencesTextState(
-    val recurrences: @WriteWith<FixedRecurrencesParceler> Recurrences.Fixed,
+    val recurrences: @WriteWith<RecurrencesParceler> Recurrences.Fixed,
 ) : TextState {
     @Composable
     override fun resolve(): String {

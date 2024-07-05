@@ -8,6 +8,12 @@ import br.com.mob1st.features.finances.impl.domain.values.Month
 import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 import kotlinx.parcelize.Parceler
 
+/**
+ * Parcels a [Recurrences] object.
+ * It nests the [FixedRecurrencesParceler] and [SeasonalRecurrencesParceler] to parcel the inner objects.
+ * In case of [Recurrences.Variable], no parceling is needed.
+
+ */
 internal object RecurrencesParceler : Parceler<Recurrences> {
     override fun create(parcel: Parcel): Recurrences {
         val type = CategoryType.entries[parcel.readInt()]
@@ -41,7 +47,7 @@ internal object RecurrencesParceler : Parceler<Recurrences> {
     }
 }
 
-internal object FixedRecurrencesParceler : Parceler<Recurrences.Fixed> {
+private object FixedRecurrencesParceler : Parceler<Recurrences.Fixed> {
     override fun create(parcel: Parcel): Recurrences.Fixed {
         val daysOfMonth = DayOfMonth(parcel.readInt())
         return Recurrences.Fixed(daysOfMonth)
@@ -52,7 +58,7 @@ internal object FixedRecurrencesParceler : Parceler<Recurrences.Fixed> {
     }
 }
 
-internal object SeasonalRecurrencesParceler : Parceler<Recurrences.Seasonal> {
+private object SeasonalRecurrencesParceler : Parceler<Recurrences.Seasonal> {
     override fun create(parcel: Parcel): Recurrences.Seasonal {
         val daysAndMonths = parcel.createIntArray()
             ?.asSequence()
