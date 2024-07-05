@@ -55,7 +55,7 @@
     <string name="finances_operations_empty_helper_description">Define your recurrent expenses and incomes to start the financial tracking</string>
     <string name="finances_operations_empty_helper_button">Setup Budget</string>
 
-    <string name="finances_category_fixed_recurrence_item_supporting">Every %1$d day</string>
+    <string name="finances_category_fixed_recurrence_item_supporting">Every %1$s day</string>
 
     <plurals name="finances_category_seasonal_recurrence_item_supporting">
         <item quantity="one">%1$s</item>

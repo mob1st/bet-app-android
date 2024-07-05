@@ -65,4 +65,4 @@ private fun List<DayAndMonth>.toTextStateFirstItems(
 private fun DayAndMonth.toShortMonth(
     locale: Locale,
     symbols: DateFormatSymbols,
-): String = symbols.shortMonths[month.value + 1].uppercase(locale)
+): String = symbols.shortMonths[month.value - 1].uppercase(locale)

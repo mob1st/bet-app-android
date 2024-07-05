@@ -1,6 +1,6 @@
 [versions]
 compose-compiler = '1.5.13'
-compose = '1.6.7'
+compose = '1.6.8'
 kotlin = "1.9.23"
 koin = "3.5.0"
 koin-ksp = "1.1.1"
@@ -186,7 +186,8 @@ unittest-android = [
     "slf4j-api",
     "slf4j-nop",
     "roboletric",
-    "junit5-vintage"
+    "junit5-vintage",
+    "compose-test"
 ]
 
 lifecycle = ["lifecycle-runtime", "lifecycle-compose", "lifecycle-viewmodel"]

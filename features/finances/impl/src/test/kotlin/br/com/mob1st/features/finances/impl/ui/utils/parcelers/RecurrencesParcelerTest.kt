@@ -1,6 +1,7 @@
 package br.com.mob1st.features.finances.impl.ui.utils.parcelers
 
 import android.os.Parcel
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
@@ -9,9 +10,8 @@ import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 
-@RunWith(RobolectricTestRunner::class)
+@RunWith(AndroidJUnit4::class)
 class RecurrencesParcelerTest {
     @Test
     fun `GIVEN a parcel WHEN write fixed recurrence THEN assert recurrences are serialized`() {

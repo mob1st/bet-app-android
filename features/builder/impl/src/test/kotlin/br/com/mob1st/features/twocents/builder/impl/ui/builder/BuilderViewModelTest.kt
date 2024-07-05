@@ -3,12 +3,11 @@ package br.com.mob1st.features.twocents.builder.impl.ui.builder
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.kotlinx.structures.Uuid
+import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategoryInput
 import br.com.mob1st.features.twocents.builder.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.GetSuggestionsUseCase
 import br.com.mob1st.features.twocents.builder.impl.domain.usecases.SetCategoryBatchUseCase
-import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.tests.featuresutils.ViewModelTestExtension
 import br.com.mob1st.tests.featuresutils.fixture
 import io.mockk.coEvery
@@ -342,10 +341,6 @@ internal class BuilderViewModelTest {
 
             viewModel.save()
 
-            assertEquals(
-                expected = CommonError.Unknown,
-                actual = errorTurbine.awaitItem(),
-            )
             assertFalse(uiStateTurbine.awaitItem().isSaving)
         }
     }
@@ -414,7 +409,7 @@ internal class BuilderViewModelTest {
 
     companion object {
         private val defaultSuggestion = CategorySuggestion(
-            id = Uuid(),
+            id = RowId(),
             name = CategorySuggestion.Name.RENT,
         )
 

@@ -29,8 +29,9 @@ data class FixedRecurrencesTextState(
 }
 
 private fun Recurrences.Fixed.toTextState(locale: Locale): TextState {
-    val messageFormat = MessageFormat.format("{0,ordinal}", locale)
-    val ordinalNumber = TextState(messageFormat.format(day))
+    val messageFormat = MessageFormat("{0,ordinal}", locale)
+    val text = messageFormat.format(arrayOf(day.value))
+    val ordinalNumber = TextState(text)
     return TextState(
         R.string.finances_category_fixed_recurrence_item_supporting,
         listOf(ordinalNumber),
