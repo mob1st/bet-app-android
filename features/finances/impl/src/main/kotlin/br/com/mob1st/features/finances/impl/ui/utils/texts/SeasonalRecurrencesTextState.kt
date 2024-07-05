@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.util.fastMap
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
@@ -37,7 +38,7 @@ data class SeasonalRecurrencesTextState(
 private fun List<DayAndMonth>.resolve(locale: Locale): TextState {
     val symbols = DateFormatSymbols.getInstance(locale)
     val arguments = when (size) {
-        1, 2 -> map {
+        1, 2 -> fastMap {
             TextState(it.toShortMonth(locale, symbols))
         }
 

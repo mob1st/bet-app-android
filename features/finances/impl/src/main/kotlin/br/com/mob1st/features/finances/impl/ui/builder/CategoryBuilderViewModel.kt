@@ -67,7 +67,7 @@ internal class CategoryBuilderViewModel(
      * Adds the given [name] to the manually added categories.
      * @param name The name of the category.
      */
-    fun typeCategoryName(name: String) = errorHandler.catching {
+    fun typeCategoryName(name: String) {
         consumableDelegate.update {
             it.typeCategoryName(name)
         }
