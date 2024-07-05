@@ -2,11 +2,9 @@ package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
 import br.com.mob1st.features.finances.impl.SelectSuggestions
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayOfWeek
 import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.SelectCategoryViewsMapper
 import br.com.mob1st.features.finances.impl.infra.data.system.StringIdProvider
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
-import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 import br.com.mob1st.tests.featuresutils.TestTimberTree
 import com.appmattus.kotlinfixture.Fixture
 import io.mockk.every
@@ -44,7 +42,6 @@ class SelectSuggestionsMapperTest {
                     cat_is_expense = null,
                     cat_created_at = null,
                     frc_day_of_month = null,
-                    vrc_day_of_week = null,
                     src_month = null,
                     src_day = null,
                 )
@@ -74,7 +71,6 @@ class SelectSuggestionsMapperTest {
 
         // When
         val actual = mapper.map(
-            type = CategoryType.Fixed,
             query = fixtures.suggestionsWithLinkedCategory + fixtures.suggestionsWithoutLinkedCategory,
         )
 
@@ -97,10 +93,9 @@ class SelectSuggestionsMapperTest {
         val fixtures = TestDiscardNullFixtures(fixture)
         val discardedSuggestion = fixtures.suggestionWithCategory.copy(
             sug_name = "discarded",
-            vrc_day_of_week = 3,
         )
         val persistedSuggestion = fixtures.suggestionWithoutCategory.copy(sug_name = "persisted")
-        val actual = mapper.map(CategoryType.Variable, listOf(discardedSuggestion, persistedSuggestion))
+        val actual = mapper.map(listOf(discardedSuggestion, persistedSuggestion))
         assertEquals(fixtures.expected(2), actual)
         assertIs<IllegalStateException>(timberTree.logs[0].t)
     }
@@ -112,12 +107,9 @@ class SelectSuggestionsMapperTest {
         val fixtures = TestDiscardNullFixtures(fixture)
         val discardedSuggestion = fixtures.suggestionWithCategory.copy(
             sug_name = "discarded",
-            src_month = 1,
-            src_day = 12,
         )
         val persistedSuggestion = fixtures.suggestionWithoutCategory.copy(sug_name = "persisted")
         val actual = mapper.map(
-            CategoryType.Seasonal,
             listOf(discardedSuggestion, persistedSuggestion),
         )
         assertEquals(fixtures.expected(2), actual)
@@ -131,10 +123,9 @@ class SelectSuggestionsMapperTest {
         val fixtures = TestDiscardNullFixtures(fixture)
         val discardedSuggestion = fixtures.suggestionWithCategory.copy(
             sug_name = "discarded",
-            vrc_day_of_week = 3,
         )
         val persistedSuggestion = fixtures.suggestionWithoutCategory.copy(sug_name = "persisted")
-        val actual = mapper.map(CategoryType.Variable, listOf(discardedSuggestion, persistedSuggestion))
+        val actual = mapper.map(listOf(discardedSuggestion, persistedSuggestion))
         assertEquals(fixtures.expected(2), actual)
         assertIs<IllegalStateException>(timberTree.logs[0].t)
     }
@@ -144,12 +135,9 @@ class SelectSuggestionsMapperTest {
         every { stringIdProvider["discarded"] } returns 1
         every { stringIdProvider["persisted"] } returns 2
         val fixtures = TestDiscardNullFixtures(fixture)
-        val discardedSuggestion = fixtures.suggestionWithCategory.copy(
-            sug_name = "discarded",
-            vrc_day_of_week = 3,
-        )
+        val discardedSuggestion = fixtures.suggestionWithCategory.copy(sug_name = "discarded")
         val persistedSuggestion = fixtures.suggestionWithoutCategory.copy(sug_name = "persisted")
-        val actual = mapper.map(CategoryType.Seasonal, listOf(discardedSuggestion, persistedSuggestion))
+        val actual = mapper.map(listOf(discardedSuggestion, persistedSuggestion))
         assertEquals(fixtures.expected(2), actual)
         assertIs<IllegalStateException>(timberTree.logs[0].t)
     }
@@ -165,10 +153,7 @@ class SelectSuggestionsMapperTest {
             src_day = 12,
         )
         val persistedSuggestion = fixtures.suggestionWithoutCategory.copy(sug_name = "persisted")
-        val actual = mapper.map(
-            CategoryType.Seasonal,
-            listOf(discardedSuggestion, persistedSuggestion),
-        )
+        val actual = mapper.map(listOf(discardedSuggestion, persistedSuggestion))
         assertEquals(fixtures.expected(2), actual)
         assertTrue(timberTree.logs[0].isWarning)
     }
@@ -180,22 +165,15 @@ class SelectSuggestionsMapperTest {
         every { stringIdProvider["third"] } returns 3
 
         val fixtures = TestTwoCategoriesWithSameSuggestionFixtures(fixture)
-        val firstRegistryWithCategory = fixtures.firstRegistryWithCategory.copy(
-            sug_name = "first",
-            vrc_day_of_week = 1,
-        )
-        val secondRegistryWithCategory = fixtures.secondRegistryWithCategory.copy(
-            sug_name = "second",
-            vrc_day_of_week = 2,
-        )
+        val firstRegistryWithCategory = fixtures.firstRegistryWithCategory.copy(sug_name = "first")
+        val secondRegistryWithCategory = fixtures.secondRegistryWithCategory.copy(sug_name = "second")
 
         val actual = mapper.map(
-            CategoryType.Variable,
             listOf(firstRegistryWithCategory, secondRegistryWithCategory, fixtures.thirdRegistryNoCategory),
         )
         assertEquals(
             fixtures.expected(
-                recurrenceSuggestion1 = Recurrences.Variable(listOf(DayOfWeek(1))),
+                recurrenceSuggestion1 = Recurrences.Variable,
                 nameResIdSuggestion1 = 1,
                 nameResIdSuggestion3 = 3,
             ),

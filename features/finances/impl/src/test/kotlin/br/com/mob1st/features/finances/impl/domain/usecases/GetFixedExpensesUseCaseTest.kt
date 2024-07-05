@@ -1,7 +1,6 @@
 package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.observability.events.ScreenViewEvent
 import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceBuilder
 import br.com.mob1st.features.finances.impl.fakes.FakeRecurrenceBuilderRepository
 import br.com.mob1st.features.finances.publicapi.domain.entities.BudgetItem
@@ -74,22 +73,6 @@ class GetFixedExpensesUseCaseTest {
             assertEquals(
                 expected,
                 actual,
-            )
-        }
-
-    @Test
-    fun `GIVEN a builder WHEN get THEN log the screen view event`() =
-        runTest {
-            // GIVEN
-            recurrenceBuilderRepository.getSetState.value = fixture()
-
-            // WHEN
-            subject().first()
-
-            // THEN
-            assertEquals(
-                ScreenViewEvent("fin_builder_fixed_expenses"),
-                analyticsReporter.logState.first(),
             )
         }
 }

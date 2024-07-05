@@ -5,11 +5,9 @@ SELECT
     cat.linked_suggestion_id AS cat_linked_suggestion_id,
     cat.created_at AS cat_created_at,
     frc.day_of_month AS frc_day_of_month,
-    vrc.day_of_week AS vrc_day_of_week,
     src.month AS src_month, src.day AS src_day
 FROM Categories AS cat
 LEFT JOIN FixedRecurrences AS frc ON cat.id = frc.category_id
-LEFT JOIN VariableRecurrences AS vrc ON cat.id = vrc.category_id
 LEFT JOIN SeasonalRecurrences AS src ON cat.id = src.category_id;
 
 selectManuallyCreatedCategories:
@@ -19,7 +17,6 @@ WHERE cat_view.cat_linked_suggestion_id IS NULL
 AND cat_view.cat_is_expense = :is_expense
 ORDER BY cat_view.cat_created_at ASC,
 cat_view.frc_day_of_month ASC,
-cat_view.vrc_day_of_week ASC,
 cat_view.src_month ASC,
 cat_view.src_day ASC;
 
@@ -46,16 +43,11 @@ insertFixedRecurrence:
 INSERT INTO FixedRecurrences(category_id, day_of_month)
 VALUES (:id, :day_of_month);
 
-insertVariableRecurrence:
-INSERT INTO VariableRecurrences(category_id, day_of_week)
-VALUES (:id, :day_of_week);
-
 insertSeasonalRecurrence:
 INSERT INTO SeasonalRecurrences(category_id, day, month)
 VALUES (:id, :day, :month);
 
-deleteRecurrence {
-    DELETE FROM FixedRecurrences WHERE category_id = :id AND day_of_month = :p1;
-    DELETE FROM VariableRecurrences WHERE category_id = :id AND day_of_week = :p1;
-    DELETE FROM SeasonalRecurrences WHERE category_id = :id AND day = :p1 AND month = :p2;
+deleteRecurrences {
+    DELETE FROM FixedRecurrences WHERE category_id = :id;
+    DELETE FROM SeasonalRecurrences WHERE category_id = :id;
 }

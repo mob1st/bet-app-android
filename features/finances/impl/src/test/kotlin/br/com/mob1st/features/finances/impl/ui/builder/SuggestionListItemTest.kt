@@ -5,6 +5,7 @@ import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
+import br.com.mob1st.features.finances.impl.ui.utils.texts.MoneyTextState
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -71,7 +72,7 @@ class SuggestionListItemTest {
         val listItem = SuggestionListItem(suggestion)
         val actual = listItem.value
         assertEquals(
-            TextState("100.0"),
+            MoneyTextState(Money(4000)),
             actual,
         )
     }

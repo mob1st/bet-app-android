@@ -6,13 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
-import br.com.mob1st.core.design.atoms.properties.texts.rememberTextState
 
 @Composable
 fun Display(
+    modifier: Modifier = Modifier,
     text: TextState,
     textSize: TextSize = TextSize.Medium,
-    modifier: Modifier = Modifier,
 ) {
     BaseText(
         text = text,
@@ -24,9 +23,9 @@ fun Display(
 
 @Composable
 fun Headline(
+    modifier: Modifier = Modifier,
     text: TextState,
     textSize: TextSize = TextSize.Medium,
-    modifier: Modifier = Modifier,
 ) {
     BaseText(
         text = text,
@@ -38,9 +37,9 @@ fun Headline(
 
 @Composable
 fun Title(
+    modifier: Modifier = Modifier,
     text: TextState,
     textSize: TextSize = TextSize.Medium,
-    modifier: Modifier = Modifier,
 ) {
     BaseText(
         text = text,
@@ -52,9 +51,9 @@ fun Title(
 
 @Composable
 fun Body(
+    modifier: Modifier = Modifier,
     text: TextState,
     textSize: TextSize = TextSize.Medium,
-    modifier: Modifier = Modifier,
 ) {
     BaseText(
         text = text,
@@ -66,9 +65,9 @@ fun Body(
 
 @Composable
 fun Label(
+    modifier: Modifier = Modifier,
     text: TextState,
     textSize: TextSize = TextSize.Medium,
-    modifier: Modifier = Modifier,
 ) {
     BaseText(
         text = text,
@@ -86,12 +85,13 @@ internal fun BaseText(
     modifier: Modifier,
 ) {
     val typography = MaterialTheme.typography
-    val annotatedString = rememberTextState(text)
+
     val style = remember(textSize) {
         textStyleProvider.of(typography, textSize)
     }
     Text(
-        text = annotatedString,
+        modifier = modifier,
+        text = text.resolve(),
         style = style,
     )
 }

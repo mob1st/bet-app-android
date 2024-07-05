@@ -5,7 +5,6 @@ import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.values.DayOfWeek
 
 data class Category(
     override val id: RowId = RowId(),
@@ -17,12 +16,10 @@ data class Category(
 
 sealed interface Recurrences {
     data class Fixed(
-        val daysOfMonth: List<DayOfMonth>,
+        val day: DayOfMonth,
     ) : Recurrences
 
-    data class Variable(
-        val daysOfWeek: List<DayOfWeek>,
-    ) : Recurrences
+    data object Variable : Recurrences
 
     data class Seasonal(
         val daysAndMonths: List<DayAndMonth>,

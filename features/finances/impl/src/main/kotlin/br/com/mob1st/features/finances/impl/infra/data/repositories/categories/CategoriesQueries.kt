@@ -41,8 +41,8 @@ internal fun CategoriesQueries.insertRecurrences(
 ) {
     when (recurrences) {
         is Recurrences.Fixed -> insertFixedRecurrence(id, recurrences)
-        is Recurrences.Variable -> insertVariableRecurrence(id, recurrences)
         is Recurrences.Seasonal -> insertSeasonalRecurrence(id, recurrences)
+        is Recurrences.Variable -> {}
     }
 }
 
@@ -50,24 +50,10 @@ private fun CategoriesQueries.insertFixedRecurrence(
     id: Long,
     recurrences: Recurrences.Fixed,
 ) {
-    recurrences.daysOfMonth.forEach { day ->
-        insertFixedRecurrence(
-            id = id,
-            day_of_month = day.value,
-        )
-    }
-}
-
-private fun CategoriesQueries.insertVariableRecurrence(
-    id: Long,
-    recurrences: Recurrences.Variable,
-) {
-    recurrences.daysOfWeek.forEach { day ->
-        insertVariableRecurrence(
-            id = id,
-            day_of_week = day.value,
-        )
-    }
+    insertFixedRecurrence(
+        id = id,
+        day_of_month = recurrences.day.value,
+    )
 }
 
 private fun CategoriesQueries.insertSeasonalRecurrence(

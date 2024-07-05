@@ -22,25 +22,25 @@ internal data class RecurrenceBuilderCache(
 internal fun br.com.mob1st.features.finances.impl.infra.data.morphisms.RecurrenceBuilderCache.toDomain() =
     RecurrenceBuilder(
         fixedExpensesStep =
-        RecurrenceBuilder.Step(
-            isCompleted = completions.isFixedExpansesCompleted,
-            list = lists.fixedExpensesList,
-        ),
+            RecurrenceBuilder.Step(
+                isCompleted = completions.isFixedExpansesCompleted,
+                list = lists.fixedExpensesList,
+            ),
         variableExpensesStep =
-        RecurrenceBuilder.Step(
-            isCompleted = completions.isVariableExpansesCompleted,
-            list = lists.variableExpensesList,
-        ),
+            RecurrenceBuilder.Step(
+                isCompleted = completions.isVariableExpansesCompleted,
+                list = lists.variableExpensesList,
+            ),
         seasonalExpensesStep =
-        RecurrenceBuilder.Step(
-            isCompleted = completions.isSeasonalExpansesCompleted,
-            list = lists.seasonalExpensesList,
-        ),
+            RecurrenceBuilder.Step(
+                isCompleted = completions.isSeasonalExpansesCompleted,
+                list = lists.seasonalExpensesList,
+            ),
         incomesStep =
-        RecurrenceBuilder.Step(
-            isCompleted = completions.isIncomesCompleted,
-            list = lists.incomesList,
-        ),
+            RecurrenceBuilder.Step(
+                isCompleted = completions.isIncomesCompleted,
+                list = lists.incomesList,
+            ),
     )
 
 /**

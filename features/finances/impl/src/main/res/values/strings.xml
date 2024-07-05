@@ -47,7 +47,6 @@
     <string name="finances_builder_suggestions_item_pension">Pension</string>
     <string name="finances_builder_suggestions_item_rental_income">Rental Income</string>
 
-
     <string name="finances_builder_variable_suggestions_header">Variable Expanses</string>
     <string name="finances_builder_variable_suggestions_subheader">Enter the approximate amounts of expenses that you know you will have to pay every month.</string>
     <string name="finances_builder_variable_suggestions_list_header">Suggestions</string>
@@ -55,4 +54,11 @@
     <string name="finances_operations_empty_helper_title">Let\'s start</string>
     <string name="finances_operations_empty_helper_description">Define your recurrent expenses and incomes to start the financial tracking</string>
     <string name="finances_operations_empty_helper_button">Setup Budget</string>
+
+    <string name="finances_category_fixed_recurrence_item_supporting">Every %1$d day</string>
+
+    <plurals name="finances_category_seasonal_recurrence_item_supporting">
+        <item quantity="one">%1$s</item>
+        <item quantity="other">%1$s and %2$s</item>
+    </plurals>
 </resources>

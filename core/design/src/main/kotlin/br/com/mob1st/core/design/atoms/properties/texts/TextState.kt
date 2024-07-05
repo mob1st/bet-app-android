@@ -1,37 +1,25 @@
 package br.com.mob1st.core.design.atoms.properties.texts
 
-import android.content.res.Resources
 import android.os.Parcelable
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.runtime.Immutable
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
 
 /**
  * A text that can be resolved to a string.
  * It can be a simple actual string or a localized string resource, for example.
  */
-sealed interface TextState : Parcelable {
+@Immutable
+interface TextState : Parcelable {
     /**
-     * Resolves the text state to an [AnnotatedString].
+     * Resolves the text to a string.
      */
-    fun resolve(resources: Resources): String
-}
-
-/**
- * Remembers the resolved string of the given [TextState].
- * @param text The text state to remember.
- * @return The resolved string.
- */
-@Composable
-fun rememberTextState(text: TextState): String {
-    val resources = LocalContext.current.resources
-    return remember(text) {
-        text.resolve(resources)
-    }
+    @Composable
+    fun resolve(): String
 }
 
 /**
@@ -75,8 +63,10 @@ fun TextState(
 
 @JvmInline
 @Parcelize
+@Immutable
 private value class ActualString(private val value: String) : TextState {
-    override fun resolve(resources: Resources): String = value
+    @Composable
+    override fun resolve(): String = value
 
     override fun toString(): String {
         return value
@@ -84,14 +74,16 @@ private value class ActualString(private val value: String) : TextState {
 }
 
 @Parcelize
+@Immutable
 private data class ParameterizedResourceString(
     val value: Int,
     val parameters: List<TextState>,
 ) : TextState {
     @Suppress("SpreadOperator")
-    override fun resolve(resources: Resources): String {
-        val params = parameters.toStrings(resources)
-        return resources.getString(value, *params)
+    @Composable
+    override fun resolve(): String {
+        val params = parameters.toStrings()
+        return stringResource(value, *params)
     }
 }
 
@@ -100,8 +92,9 @@ private data class ParameterizedResourceString(
 private value class ResourceString(
     @StringRes val id: Int,
 ) : TextState {
-    override fun resolve(resources: Resources): String {
-        return resources.getString(id)
+    @Composable
+    override fun resolve(): String {
+        return stringResource(id = id)
     }
 }
 
@@ -111,14 +104,15 @@ private data class PluralString(
     val quantity: Int,
     val parameters: List<TextState>,
 ) : TextState {
-    override fun resolve(resources: Resources): String {
-        val params = parameters.toStrings(resources)
-        params.copyOf(params.size)
+    @Composable
+    override fun resolve(): String {
+        val params = parameters.toStrings()
         @Suppress("SpreadOperator")
-        return resources.getQuantityString(id, quantity, *params)
+        return pluralStringResource(id, quantity, *params)
     }
 }
 
-private fun List<TextState>.toStrings(resources: Resources): Array<String> {
-    return map { it.resolve(resources) }.toTypedArray()
+@Composable
+private fun List<TextState>.toStrings(): Array<String> {
+    return map { it.resolve() }.toTypedArray()
 }

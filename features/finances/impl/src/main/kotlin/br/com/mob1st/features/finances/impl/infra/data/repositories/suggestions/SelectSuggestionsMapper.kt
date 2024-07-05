@@ -7,7 +7,6 @@ import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.SelectCategoryViewsMapper
 import br.com.mob1st.features.finances.impl.infra.data.system.StringIdProvider
-import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
 import timber.log.Timber
 
 /**
@@ -23,15 +22,12 @@ internal class SelectSuggestionsMapper(
 ) {
     /**
      * Maps the given [query] to a list of [CategorySuggestion] domain entities.
-     * @param type The type of the categories to be mapped.
+     * It uses the [SelectCategoryViewsMapper] to map the linked categories.
      * @param query The list of [SelectSuggestions] to be mapped.
      * @return The list of [CategorySuggestion] domain entities.
      * @see SelectCategoryViewsMapper
      */
-    fun map(
-        type: CategoryType,
-        query: List<SelectSuggestions>,
-    ): List<CategorySuggestion> {
+    fun map(query: List<SelectSuggestions>): List<CategorySuggestion> {
         return query.groupBy { it.sug_id }.mapNotNull { entry ->
             val first = entry.value.first()
             val name = stringIdProvider[first.sug_name]
@@ -40,7 +36,7 @@ internal class SelectSuggestionsMapper(
                 return@mapNotNull null
             }
             val linkedCategory = runCatching {
-                selectCategoryViewMapper.map(type, entry)
+                selectCategoryViewMapper.map(entry)
             }.onFailure {
                 Timber.e(it, "Error mapping category view ${first.cat_id} from suggestion ${first.sug_id}.")
                 return@mapNotNull null
@@ -55,13 +51,12 @@ internal class SelectSuggestionsMapper(
 }
 
 private fun SelectCategoryViewsMapper.map(
-    type: CategoryType,
     entry: Map.Entry<Long, List<SelectSuggestions>>,
 ): Category? {
     val views = entry.value.mapNotNull {
         it.asCategoryView()
     }
-    val categories = map(type, views)
+    val categories = map(views)
     if (categories.size > 1) {
         // the relation contract between suggestion and category should be 1:1
         // it can be ignored, but it's important to log it.
@@ -84,7 +79,6 @@ private fun SelectSuggestions.asCategoryView(): Category_view? {
             cat_created_at = cat_created_at.orEmpty(),
             cat_linked_suggestion_id = cat_linked_suggestion_id,
             frc_day_of_month = frc_day_of_month,
-            vrc_day_of_week = vrc_day_of_week,
             src_day = src_day,
             src_month = src_month,
         )

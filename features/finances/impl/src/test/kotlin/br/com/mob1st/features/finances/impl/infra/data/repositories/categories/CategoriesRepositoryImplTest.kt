@@ -11,7 +11,6 @@ import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.values.DayOfWeek
 import br.com.mob1st.features.finances.impl.domain.values.Month
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import br.com.mob1st.features.finances.impl.utils.testTwoCentsDb
@@ -37,7 +36,6 @@ class CategoriesRepositoryImplTest {
 
     private lateinit var db: TwoCentsDb
     private lateinit var selectCategoryViewMapper: SelectCategoryViewsMapper
-    private lateinit var deleteRecurrenceMapper: DeleteRecurrenceMapper
 
     private lateinit var fixture: Fixture
 
@@ -50,12 +48,10 @@ class CategoriesRepositoryImplTest {
         fixture = moduleFixture
         db = testTwoCentsDb()
         selectCategoryViewMapper = SelectCategoryViewsMapper
-        deleteRecurrenceMapper = DeleteRecurrenceMapper
         repository = CategoriesRepositoryImpl(
             io = io,
             db = db,
             selectCategoryViewMapper = selectCategoryViewMapper,
-            deleteRecurrenceMapper = deleteRecurrenceMapper,
         )
     }
 
@@ -69,48 +65,15 @@ class CategoriesRepositoryImplTest {
         )
         val id = db.commonsQueries.lastInsertRowId().executeAsOne()
         db.categoriesQueries.insertFixedRecurrence(id, 1)
-        db.categoriesQueries.insertFixedRecurrence(id, 15)
         val actual = repository.getManuallyCreatedBy(FixedExpensesStep).first().first()
         val expected = Category(
             id = RowId(id),
             name = "category",
             amount = Money(100),
             isExpense = true,
-            recurrences = Recurrences.Fixed(
-                listOf(
-                    DayOfMonth(1),
-                    DayOfMonth(15),
-                ),
-            ),
+            recurrences = Recurrences.Fixed(DayOfMonth(1)),
         )
         assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `GIVEN a fixed category WHEN delete recurrence THEN verify mapping is done`() = runTest(io) {
-        db.categoriesQueries.insertCategory(
-            name = "category",
-            amount = 100,
-            is_expense = false,
-            linked_suggestion_id = null,
-        )
-        val id = db.commonsQueries.lastInsertRowId().executeAsOne()
-        db.categoriesQueries.insertFixedRecurrence(id, 2)
-        db.categoriesQueries.insertFixedRecurrence(id, 3)
-        db.categoriesQueries.insertFixedRecurrence(id, 10)
-        val category = fixture<Category>().copy(
-            id = RowId(id),
-            recurrences = Recurrences.Fixed(
-                listOf(
-                    DayOfMonth(2),
-                    DayOfMonth(3),
-                    DayOfMonth(10),
-                ),
-            ),
-        )
-        repository.deleteRecurrence(category, 1)
-        val categoryViews = db.categoriesQueries.selectCategoryById(id).executeAsList()
-        assertEquals(listOf(2, 10), categoryViews.map { it.frc_day_of_month })
     }
 
     @Test
@@ -122,7 +85,6 @@ class CategoriesRepositoryImplTest {
             linked_suggestion_id = null,
         )
         val id = db.commonsQueries.lastInsertRowId().executeAsOne()
-        db.categoriesQueries.insertVariableRecurrence(id, 2)
 
         val categoryView = db.categoriesQueries.selectCategoryById(id).executeAsOne()
         val category = fixture<Category>().copy(id = RowId(categoryView.cat_id))
@@ -135,12 +97,7 @@ class CategoriesRepositoryImplTest {
 
     @Test
     fun `GIVEN a category with fixed recurrence WHEN add THEN assert category is inserted`() = runTest(io) {
-        val recurrences = Recurrences.Fixed(
-            listOf(
-                DayOfMonth(1),
-                DayOfMonth(2),
-            ),
-        )
+        val recurrences = Recurrences.Fixed(DayOfMonth(1))
         val category = fixture<Category>().copy(recurrences = recurrences)
         repository.add(category, null)
 
@@ -154,19 +111,6 @@ class CategoriesRepositoryImplTest {
                 cat_amount = category.amount.cents,
                 cat_created_at = actual.first().cat_created_at,
                 frc_day_of_month = 1,
-                vrc_day_of_week = null,
-                src_day = null,
-                src_month = null,
-            ),
-            Category_view(
-                cat_id = 1,
-                cat_name = category.name,
-                cat_is_expense = category.isExpense,
-                cat_linked_suggestion_id = null,
-                cat_amount = category.amount.cents,
-                cat_created_at = actual.last().cat_created_at,
-                frc_day_of_month = 2,
-                vrc_day_of_week = null,
                 src_day = null,
                 src_month = null,
             ),
@@ -176,12 +120,7 @@ class CategoriesRepositoryImplTest {
 
     @Test
     fun `GIVEN a category with variable recurrence WHEN add THEN assert category is inserted`() = runTest(io) {
-        val recurrences = Recurrences.Variable(
-            listOf(
-                DayOfWeek(1),
-                DayOfWeek(2),
-            ),
-        )
+        val recurrences = Recurrences.Variable
         val category = fixture<Category>().copy(recurrences = recurrences)
         repository.add(category, null)
 
@@ -195,19 +134,6 @@ class CategoriesRepositoryImplTest {
                 cat_amount = category.amount.cents,
                 cat_created_at = actual.first().cat_created_at,
                 frc_day_of_month = null,
-                vrc_day_of_week = 1,
-                src_day = null,
-                src_month = null,
-            ),
-            Category_view(
-                cat_id = 1,
-                cat_name = category.name,
-                cat_is_expense = category.isExpense,
-                cat_linked_suggestion_id = null,
-                cat_amount = category.amount.cents,
-                cat_created_at = actual.last().cat_created_at,
-                frc_day_of_month = null,
-                vrc_day_of_week = 2,
                 src_day = null,
                 src_month = null,
             ),
@@ -236,7 +162,6 @@ class CategoriesRepositoryImplTest {
                 cat_amount = category.amount.cents,
                 cat_created_at = actual.first().cat_created_at,
                 frc_day_of_month = null,
-                vrc_day_of_week = null,
                 src_day = 1,
                 src_month = 1,
             ),
@@ -248,7 +173,6 @@ class CategoriesRepositoryImplTest {
                 cat_amount = category.amount.cents,
                 cat_created_at = actual.last().cat_created_at,
                 frc_day_of_month = null,
-                vrc_day_of_week = null,
                 src_day = 1,
                 src_month = 2,
             ),
@@ -290,7 +214,7 @@ class CategoriesRepositoryImplTest {
             name = "new category",
             amount = Money(200),
             isExpense = true,
-            recurrences = Recurrences.Fixed(listOf(DayOfMonth(2))),
+            recurrences = Recurrences.Fixed(DayOfMonth(2)),
         )
 
         repository.set(updatedCategory)
@@ -306,7 +230,6 @@ class CategoriesRepositoryImplTest {
             cat_amount = 200,
             cat_created_at = actual.cat_created_at,
             frc_day_of_month = 2,
-            vrc_day_of_week = null,
             src_day = null,
             src_month = null,
         )

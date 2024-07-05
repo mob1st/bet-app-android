@@ -6,7 +6,9 @@ import br.com.mob1st.features.finances.impl.SelectSuggestions
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
+import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.Month
 import com.appmattus.kotlinfixture.Fixture
 
 class TestGroupingSuggestionsFixtures(
@@ -21,7 +23,9 @@ class TestGroupingSuggestionsFixtures(
             cat_is_expense = true,
             cat_amount = 300_000,
             cat_linked_suggestion_id = 1,
-            frc_day_of_month = 1,
+            frc_day_of_month = null,
+            src_month = 1,
+            src_day = 1,
         ),
         fixture<SelectSuggestions>().copy(
             sug_id = 1,
@@ -31,17 +35,21 @@ class TestGroupingSuggestionsFixtures(
             cat_is_expense = true,
             cat_amount = 300_000,
             cat_linked_suggestion_id = 1,
-            frc_day_of_month = 2,
+            frc_day_of_month = null,
+            src_month = 1,
+            src_day = 2,
         ),
         fixture<SelectSuggestions>().copy(
             sug_id = 2,
             sug_name = "gym",
             cat_id = 2,
             cat_name = "Gym",
+            cat_is_expense = true,
             cat_linked_suggestion_id = 2,
             cat_amount = 2500,
-            cat_is_expense = true,
-            frc_day_of_month = 3,
+            frc_day_of_month = null,
+            src_month = 1,
+            src_day = 2,
         ),
     )
     val suggestionsWithoutLinkedCategory = listOf(
@@ -71,10 +79,16 @@ class TestGroupingSuggestionsFixtures(
                 name = "Rent",
                 isExpense = true,
                 amount = Money(3000_00),
-                recurrences = Recurrences.Fixed(
+                recurrences = Recurrences.Seasonal(
                     listOf(
-                        DayOfMonth(1),
-                        DayOfMonth(2),
+                        DayAndMonth(
+                            DayOfMonth(1),
+                            Month(1),
+                        ),
+                        DayAndMonth(
+                            DayOfMonth(2),
+                            Month(1),
+                        ),
                     ),
                 ),
             ),
@@ -87,9 +101,12 @@ class TestGroupingSuggestionsFixtures(
                 name = "Gym",
                 isExpense = true,
                 amount = Money(25_00),
-                recurrences = Recurrences.Fixed(
+                recurrences = Recurrences.Seasonal(
                     listOf(
-                        DayOfMonth(3),
+                        DayAndMonth(
+                            DayOfMonth(2),
+                            Month(1),
+                        ),
                     ),
                 ),
             ),

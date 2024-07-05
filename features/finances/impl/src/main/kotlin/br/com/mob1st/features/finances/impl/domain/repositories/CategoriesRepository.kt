@@ -39,15 +39,4 @@ internal interface CategoriesRepository {
      * @param category The category to be deleted.
      */
     suspend fun delete(category: Category)
-
-    /**
-     * Delete a recurrence in a specific position in the recurrence list of a category.
-     * It can be used to remove a day in a month for a monthly recurrence, for example.
-     * @param category The category to have the recurrence removed.
-     * @param recurrenceIndex The index of the recurrence to be removed.
-     */
-    suspend fun deleteRecurrence(
-        category: Category,
-        recurrenceIndex: Int,
-    )
 }

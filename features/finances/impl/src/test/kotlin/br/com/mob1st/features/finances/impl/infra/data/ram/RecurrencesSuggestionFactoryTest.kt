@@ -93,10 +93,10 @@ internal class RecurrencesSuggestionFactoryTest {
                     amount = Money.Zero,
                     type = BudgetItem.Type.EXPENSE,
                     recurrence =
-                    Recurrence.Seasonal(
-                        month = Month.JANUARY,
-                        day = 1,
-                    ),
+                        Recurrence.Seasonal(
+                            month = Month.JANUARY,
+                            day = 1,
+                        ),
                 )
             }
 

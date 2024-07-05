@@ -24,6 +24,6 @@ internal class SuggestionsRepositoryImpl(
         return db.suggestionsQueries.selectSuggestions(
             context = io,
             step = step,
-        ) { query -> mapper.map(step.type, query) }
+        ) { query -> mapper.map(query) }
     }
 }

@@ -10,11 +10,11 @@ import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.SelectCategoryViewsMapper
 import br.com.mob1st.features.finances.impl.infra.data.system.StringIdProvider
 import br.com.mob1st.features.finances.impl.utils.testTwoCentsDb
-import io.mockk.every
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions.assertIterableEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -22,7 +22,6 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
-import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SuggestionsRepositoryImplTest {
@@ -48,22 +47,21 @@ class SuggestionsRepositoryImplTest {
     @ArgumentsSource(StepProvider::class)
     fun `GIVEN a list of suggestions WHEN get by step THEN assert type and expense is used`(
         step: BuilderNextAction.Step,
-        expectedSuggestions: Set<Int>,
+        expectedSuggestions: Collection<Int>,
     ) = runTest(io) {
-        every { }
         val suggestions = repository.getByStep(step).first()
-        assertEquals(
+        assertIterableEquals(
             expectedSuggestions,
-            suggestions.map { it.nameResId }.toSet(),
+            suggestions.map { it.nameResId },
         )
     }
 
     object StepProvider : ArgumentsProvider {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments>? {
             return Stream.of(
-                Arguments.of(FixedExpensesStep, FakeStringIdProvider.fixedExpensesSuggestions),
-                Arguments.of(VariableExpensesStep, FakeStringIdProvider.variableExpensesSuggestions),
-                Arguments.of(FixedIncomesStep, FakeStringIdProvider.fixedIncomeSuggestions),
+                Arguments.of(FixedExpensesStep, FakeStringIdProvider.fixedExpensesSuggestions.values),
+                Arguments.of(VariableExpensesStep, FakeStringIdProvider.variableExpensesSuggestions.values),
+                Arguments.of(FixedIncomesStep, FakeStringIdProvider.fixedIncomeSuggestions.values),
             )
         }
     }

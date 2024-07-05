@@ -1,8 +1,5 @@
 package br.com.mob1st.core.kotlinx.structures
 
-import java.text.NumberFormat
-import java.util.Locale
-
 /**
  * Immutable value object to be used as money in cents.
  * @property cents The amount of cents.
@@ -34,7 +31,7 @@ value class Money(
     }
 
     companion object {
-        internal const val SCALE = 100.0
+        const val SCALE = 100.0
         private const val CURRENCY_REGEX = "[^\\d-]"
 
         val Zero = Money(0)
@@ -60,14 +57,4 @@ value class Money(
             }
         }
     }
-}
-
-/**
- * Converts the [Money] to a currency string.
-
- */
-fun Money.toCurrencyString(): String {
-    val locale = Locale.getDefault()
-    val currencyFormat = NumberFormat.getCurrencyInstance(locale)
-    return currencyFormat.format(cents / Money.SCALE)
 }

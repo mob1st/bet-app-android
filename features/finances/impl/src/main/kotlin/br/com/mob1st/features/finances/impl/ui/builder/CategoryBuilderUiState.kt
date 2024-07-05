@@ -2,10 +2,11 @@ package br.com.mob1st.features.finances.impl.ui.builder
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
-import br.com.mob1st.core.kotlinx.structures.toCurrencyString
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
+import br.com.mob1st.features.finances.impl.ui.utils.texts.MoneyTextState
+import br.com.mob1st.features.finances.impl.ui.utils.texts.RecurrencesTextStateFactory
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.plus
@@ -78,10 +79,11 @@ data class SuggestionListItem(
         TextState(suggestion.nameResId)
     }
     override val value: TextState? = suggestion.linkedCategory?.amount?.let {
-        TextState(it.toCurrencyString())
+        MoneyTextState(it)
     }
+
     override val supporting: TextState? = suggestion.linkedCategory?.recurrences?.let {
-        TextState(it.toString())
+        RecurrencesTextStateFactory.create(it)
     }
 }
 
@@ -92,8 +94,8 @@ data class SuggestionListItem(
 @Immutable
 data class ManualCategoryListItem(val category: Category) : CategoryListItem {
     override val leading: TextState = TextState(category.name)
-    override val value: TextState = TextState(category.amount.toString())
-    override val supporting: TextState = TextState(category.recurrences.toString())
+    override val value: TextState = MoneyTextState(category.amount)
+    override val supporting: TextState? = RecurrencesTextStateFactory.create(category.recurrences)
 }
 
 /**
