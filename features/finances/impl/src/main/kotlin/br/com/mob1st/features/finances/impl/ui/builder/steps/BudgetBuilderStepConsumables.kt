@@ -147,14 +147,12 @@ sealed interface BudgetBuilderStepDialog {
         /**
          * Indicates if the submit button should be enabled.
          * Very short names are or very long names are not allowed.
-         * The length should be between [MIN_NAME_LENGTH] and [MAX_NAME_LENGTH].
          */
-        val isSubmitEnabled: Boolean = name.isNotBlank() && name.length in MIN_NAME_LENGTH..MAX_NAME_LENGTH
+        val isSubmitEnabled: Boolean = name.isNotBlank() && name.length >= MIN_NAME_LENGTH
     }
 
     companion object {
         private const val MIN_NAME_LENGTH = 3
-        private const val MAX_NAME_LENGTH = 50
     }
 }
 
