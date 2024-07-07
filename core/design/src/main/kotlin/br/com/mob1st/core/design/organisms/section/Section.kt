@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import br.com.mob1st.core.design.atoms.spacing.Spacings
 import br.com.mob1st.core.design.atoms.theme.BetTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import kotlinx.collections.immutable.ImmutableList
@@ -54,8 +54,8 @@ fun SectionTitle(
 ) {
     Box(
         modifier = Modifier
-            .height(48.dp)
-            .padding(horizontal = 16.dp),
+            .height(Spacings.x12)
+            .padding(horizontal = Spacings.x4),
         contentAlignment = Alignment.CenterStart,
     ) {
         ProvideTextStyle(MaterialTheme.typography.headlineSmall) {

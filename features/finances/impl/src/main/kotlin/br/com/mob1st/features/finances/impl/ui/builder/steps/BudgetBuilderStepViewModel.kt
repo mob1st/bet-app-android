@@ -15,6 +15,8 @@ import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
 import br.com.mob1st.features.finances.impl.domain.events.NotEnoughItemsToCompleteEvent
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCategoryBuilderUseCase
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Empty
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Packed
 import br.com.mob1st.features.utils.states.errorHandler
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,17 +41,17 @@ internal class BudgetBuilderStepViewModel(
 
     override val consumableUiState: StateFlow<BudgetBuilderStepConsumables> = consumableDelegate.asStateFlow()
     override val uiStateOutput: StateFlow<BudgetBuilderStepUiState> = getCategoryBuilder[step]
-        .map(::FilledBudgetBuilderStepUiState)
+        .map(::Packed)
         .catchIn(errorHandler)
         .flowOn(default)
-        .stateInRetained(viewModelScope, EmptyBudgetBuilderStepUiState)
+        .stateInRetained(viewModelScope, Empty)
 
     /**
      * Selects the manually added item at the given [position].
      * @param position The position of the selected item.
      */
     fun selectManuallyAddedItem(position: Int) = errorHandler.catching {
-        val uiState = checkIs<FilledBudgetBuilderStepUiState>(uiStateOutput.value)
+        val uiState = checkIs<Packed>(uiStateOutput.value)
         consumableDelegate.update {
             it.selectManualItem(uiState.manuallyAdded[position])
         }
@@ -60,7 +62,7 @@ internal class BudgetBuilderStepViewModel(
      * @param position The position of the selected item.
      */
     fun selectSuggestedItem(position: Int) = errorHandler.catching {
-        val uiState = checkIs<FilledBudgetBuilderStepUiState>(uiStateOutput.value)
+        val uiState = checkIs<Packed>(uiStateOutput.value)
         consumableDelegate.update {
             it.selectUserSuggestion(uiState.suggestions[position])
         }
@@ -89,7 +91,7 @@ internal class BudgetBuilderStepViewModel(
      * Proceeds to the next step of the builder.
      */
     fun next() = errorHandler.catching {
-        val uiState = checkIs<FilledBudgetBuilderStepUiState>(uiStateOutput.value)
+        val uiState = checkIs<Packed>(uiStateOutput.value)
         try {
             val result = uiState.builder.next()
             consumableDelegate.update {

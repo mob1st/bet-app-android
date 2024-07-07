@@ -22,59 +22,59 @@ import org.koin.ext.getFullName
  * The UI state for the category builder screen.
  */
 @Immutable
-internal sealed interface BudgetBuilderStepUiState
+internal sealed interface BudgetBuilderStepUiState {
+    /**
+     * The initial UI state for the category builder screen.
+     */
+    @Immutable
+    data object Empty : BudgetBuilderStepUiState
 
-/**
- * The initial UI state for the category builder screen.
- */
-@Immutable
-internal data object EmptyBudgetBuilderStepUiState : BudgetBuilderStepUiState
+    /**
+     * The root UI state for the category builder screen.
+     * @property builder The category builder. It's loaded from the domain layer and the initial value is null.
+     */
+    @Immutable
+    data class Packed(
+        val builder: BudgetBuilder,
+    ) : BudgetBuilderStepUiState {
+        val header: Header = when (builder.id) {
+            FixedExpensesStep -> Header(
+                title = R.string.finances_builder_fixed_expenses_header,
+                description = R.string.finances_builder_fixed_expenses_subheader,
+            )
 
-/**
- * The root UI state for the category builder screen.
- * @property builder The category builder. It's loaded from the domain layer and the initial value is null.
- */
-@Immutable
-internal data class FilledBudgetBuilderStepUiState(
-    val builder: BudgetBuilder,
-) : BudgetBuilderStepUiState {
-    val header: Header = when (builder.id) {
-        FixedExpensesStep -> Header(
-            title = R.string.finances_builder_fixed_expenses_header,
-            description = R.string.finances_builder_fixed_expenses_subheader,
-        )
+            FixedIncomesStep -> Header(
+                title = R.string.finances_builder_fixed_incomes_header,
+                description = R.string.finances_builder_fixed_incomes_subheader,
+            )
 
-        FixedIncomesStep -> Header(
-            title = R.string.finances_builder_fixed_incomes_header,
-            description = R.string.finances_builder_fixed_incomes_subheader,
-        )
+            VariableExpensesStep -> Header(
+                title = R.string.finances_builder_variable_expenses_header,
+                description = R.string.finances_builder_variable_expenses_subheader,
+            )
+        }
 
-        VariableExpensesStep -> Header(
-            title = R.string.finances_builder_variable_expenses_header,
-            description = R.string.finances_builder_variable_expenses_subheader,
+        /**
+         * The manually added categories.
+         * The list is composed of the manually added categories and the "Add category" item.
+         */
+        val manuallyAdded: ImmutableList<CategoryListItem> = builder.manuallyAdded.map {
+            ManualCategoryListItem(it)
+        }.toPersistentList() + AddCategoryListItem
+
+        /**
+         * The suggestions presented to the user.
+         */
+        val suggestions: ImmutableList<SuggestionListItem> = builder.suggestions.map {
+            SuggestionListItem(it)
+        }.toImmutableList()
+
+        @Immutable
+        internal data class Header(
+            @StringRes val title: Int,
+            @StringRes val description: Int,
         )
     }
-
-    /**
-     * The manually added categories.
-     * The list is composed of the manually added categories and the "Add category" item.
-     */
-    val manuallyAdded: ImmutableList<CategoryListItem> = builder.manuallyAdded.map {
-        ManualCategoryListItem(it)
-    }.toPersistentList() + AddCategoryListItem
-
-    /**
-     * The suggestions presented to the user.
-     */
-    val suggestions: ImmutableList<SuggestionListItem> = builder.suggestions.map {
-        SuggestionListItem(it)
-    }.toImmutableList()
-
-    @Immutable
-    internal data class Header(
-        @StringRes val title: Int,
-        @StringRes val description: Int,
-    )
 }
 
 /**
@@ -105,7 +105,7 @@ sealed interface CategoryListItem {
 }
 
 /**
- * Used by the [FilledBudgetBuilderStepUiState.suggestions] to show the automatic suggestions provided by the app.
+ * Used by the [BudgetBuilderStepUiState.Packed.suggestions] to show the automatic suggestions provided by the app.
  * It's a handy way to facilitate the user's choice.
  * @property suggestion The suggestion.
  */
@@ -129,7 +129,7 @@ data class SuggestionListItem(
 }
 
 /**
- * Used by the [FilledBudgetBuilderStepUiState.manuallyAdded] to show the manually added categories.
+ * Used by the [BudgetBuilderStepUiState.Packed.manuallyAdded] to show the manually added categories.
  * @property category The manually added category.
  */
 @Immutable
@@ -141,12 +141,12 @@ data class ManualCategoryListItem(val category: Category) : CategoryListItem {
 }
 
 /**
- * Used by the [FilledBudgetBuilderStepUiState.manuallyAdded] to show the "Add category" item.
+ * Used by the [BudgetBuilderStepUiState.Packed.manuallyAdded] to show the "Add category" item.
  */
 @Immutable
 internal data object AddCategoryListItem : CategoryListItem {
     override val key: Any = AddCategoryListItem::class.getFullName()
-    override val headline: TextState = TextState(0)
+    override val headline: TextState = TextState(R.string.finances_builder_commons_custom_section_add_item)
     override val value: TextState? = null
     override val supporting: TextState? = null
 }

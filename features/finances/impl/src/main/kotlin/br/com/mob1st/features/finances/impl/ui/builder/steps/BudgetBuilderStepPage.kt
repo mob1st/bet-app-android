@@ -1,5 +1,7 @@
 package br.com.mob1st.features.finances.impl.ui.builder.steps
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ListItem
@@ -12,7 +14,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.mob1st.core.design.atoms.theme.BetTheme
 import br.com.mob1st.core.design.organisms.lists.selectableItem
 import br.com.mob1st.core.design.organisms.section.section
 import br.com.mob1st.core.design.organisms.snack.Snackbar
@@ -91,7 +95,7 @@ private fun CategoryBuilderStepScreen(
         target = consumables.navEvent,
         onNavigate = onNavigate,
     )
-    if (uiState !is FilledBudgetBuilderStepUiState) {
+    if (uiState !is BudgetBuilderStepUiState.Packed) {
         return
     }
     FeatureStepScaffold(
@@ -122,7 +126,7 @@ private fun CategoryBuilderStepScreen(
 
 @Composable
 private fun BudgetBuilderScreenContent(
-    uiState: FilledBudgetBuilderStepUiState,
+    uiState: BudgetBuilderStepUiState.Packed,
     onSelectManualCategory: (position: Int) -> Unit,
     onSelectSuggestion: (position: Int) -> Unit,
 ) {
@@ -130,7 +134,9 @@ private fun BudgetBuilderScreenContent(
         section(
             items = uiState.manuallyAdded,
             key = { it.key },
-            titleContent = {},
+            titleContent = {
+                Text(text = stringResource(id = R.string.finances_builder_commons_custom_section_headline))
+            },
             itemContent = { index, item ->
                 CategoryListItemContent(
                     index = index,
@@ -139,10 +145,15 @@ private fun BudgetBuilderScreenContent(
                 )
             },
         )
+        item {
+            Spacer(modifier = Modifier.height(32.dp))
+        }
         section(
             items = uiState.suggestions,
             key = { it.key },
-            titleContent = {},
+            titleContent = {
+                Text(text = stringResource(id = R.string.finances_builder_commons_suggestions_section_headline))
+            },
             itemContent = { index, item ->
                 CategoryListItemContent(
                     index = index,
@@ -160,11 +171,25 @@ private fun CategoryListItemContent(
     categoryListItem: CategoryListItem,
     onSelectItem: (Int) -> Unit,
 ) {
+    val trailingContent: (@Composable () -> Unit)? =
+        categoryListItem.value?.let {
+            {
+                Text(text = it.resolve())
+            }
+        }
+    val supportingContent: (@Composable () -> Unit)? =
+        categoryListItem.supporting?.let {
+            {
+                Text(text = it.resolve())
+            }
+        }
     ListItem(
         modifier = Modifier.selectableItem { onSelectItem(index) },
         headlineContent = {
             Text(text = categoryListItem.headline.resolve())
         },
+        supportingContent = supportingContent,
+        trailingContent = trailingContent,
     )
 }
 
@@ -208,7 +233,7 @@ private fun BudgetBuilderDialog(
 @Composable
 @ThemedPreview
 private fun CategoryBuilderPagePreview() {
-    val uiState = FilledBudgetBuilderStepUiState(
+    val uiState = BudgetBuilderStepUiState.Packed(
         builder = BudgetBuilder(
             id = FixedIncomesStep,
             manuallyAdded = listOf(
@@ -230,17 +255,19 @@ private fun CategoryBuilderPagePreview() {
         ),
     )
     val consumables = BudgetBuilderStepConsumables()
-    CategoryBuilderStepScreen(
-        uiState = uiState,
-        consumables = consumables,
-        onSelectManualCategory = {},
-        onSelectSuggestion = {},
-        onClickNext = {},
-        onDismissSnackbar = {},
-        onTypeCategoryName = {},
-        onSubmitCategoryName = {},
-        onDismissCategoryName = {},
-        onNavigate = {},
-        onBack = {},
-    )
+    BetTheme {
+        CategoryBuilderStepScreen(
+            uiState = uiState,
+            consumables = consumables,
+            onSelectManualCategory = {},
+            onSelectSuggestion = {},
+            onClickNext = {},
+            onDismissSnackbar = {},
+            onTypeCategoryName = {},
+            onSubmitCategoryName = {},
+            onDismissCategoryName = {},
+            onNavigate = {},
+            onBack = {},
+        )
+    }
 }

@@ -7,7 +7,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.ui.builder.steps.AddCategoryListItem
-import br.com.mob1st.features.finances.impl.ui.builder.steps.FilledBudgetBuilderStepUiState
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Packed
 import br.com.mob1st.features.finances.impl.ui.builder.steps.ManualCategoryListItem
 import br.com.mob1st.features.finances.impl.ui.builder.steps.SuggestionListItem
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
@@ -23,7 +23,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
 import kotlin.test.assertEquals
 
-internal class FilledBudgetBuilderStepUiStateTest {
+internal class BudgetBuilderStepUiStateTest {
     private lateinit var fixture: Fixture
 
     @BeforeEach
@@ -65,7 +65,7 @@ internal class FilledBudgetBuilderStepUiStateTest {
             ),
         )
         // When
-        val budgetBuilderStepUiState = FilledBudgetBuilderStepUiState(budgetBuilder)
+        val budgetBuilderStepUiState = Packed(budgetBuilder)
 
         // Then
         assertEquals(
@@ -88,7 +88,7 @@ internal class FilledBudgetBuilderStepUiStateTest {
         val expectedManuallyAdded = persistentListOf(AddCategoryListItem)
         val expectedSuggestions = persistentListOf<SuggestionListItem>()
         // When
-        val budgetBuilderStepUiState = FilledBudgetBuilderStepUiState(budgetBuilder)
+        val budgetBuilderStepUiState = Packed(budgetBuilder)
 
         // Then
         assertEquals(
@@ -105,10 +105,10 @@ internal class FilledBudgetBuilderStepUiStateTest {
     @ArgumentsSource(StepToHeaderProvider::class)
     fun `GIVEN a builder WHEN get header THEN assert header is correct`(
         step: BuilderNextAction.Step,
-        expectedHeader: FilledBudgetBuilderStepUiState.Header,
+        expectedHeader: Packed.Header,
     ) {
         // When
-        val header = FilledBudgetBuilderStepUiState(
+        val header = Packed(
             BudgetBuilder(step, emptyList(), emptyList()),
         ).header
 
@@ -121,21 +121,21 @@ internal class FilledBudgetBuilderStepUiStateTest {
             return Stream.of(
                 Arguments.of(
                     FixedExpensesStep,
-                    FilledBudgetBuilderStepUiState.Header(
+                    Packed.Header(
                         title = R.string.finances_builder_fixed_expenses_header,
                         description = R.string.finances_builder_fixed_expenses_subheader,
                     ),
                 ),
                 Arguments.of(
                     FixedIncomesStep,
-                    FilledBudgetBuilderStepUiState.Header(
+                    Packed.Header(
                         title = R.string.finances_builder_fixed_incomes_header,
                         description = R.string.finances_builder_fixed_incomes_subheader,
                     ),
                 ),
                 Arguments.of(
                     VariableExpensesStep,
-                    FilledBudgetBuilderStepUiState.Header(
+                    Packed.Header(
                         title = R.string.finances_builder_variable_expenses_header,
                         description = R.string.finances_builder_variable_expenses_subheader,
                     ),

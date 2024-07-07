@@ -1,6 +1,7 @@
 package br.com.mob1st.core.design.templates
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import br.com.mob1st.core.design.R
 import br.com.mob1st.core.design.atoms.icons.CheckIcon
 import br.com.mob1st.core.design.atoms.spacing.Spacings
@@ -69,10 +69,12 @@ fun FeatureStepScaffold(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(horizontal = 16.dp),
+                    .padding(),
                 verticalArrangement = Arrangement.spacedBy(space = Spacings.x8),
             ) {
-                subtitleContent()
+                Box(modifier = Modifier.padding(horizontal = Spacings.x4)) {
+                    subtitleContent()
+                }
                 content()
             }
         },
