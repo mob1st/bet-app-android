@@ -50,7 +50,6 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     implementation(libs.timber)
     implementation(libs.lottie)
-    implementation(project(":features:builder:impl"))
 
     debugImplementation(libs.compose.manifest)
     debugImplementation(libs.compose.tooling)

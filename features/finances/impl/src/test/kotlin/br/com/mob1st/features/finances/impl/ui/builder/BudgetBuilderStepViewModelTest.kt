@@ -4,10 +4,10 @@ import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
-import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
+import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
@@ -44,6 +44,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import timber.log.Timber
+import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -124,13 +125,13 @@ class BudgetBuilderStepViewModelTest {
     @Test
     fun `GIVEN a state with a manual item WHEN select manual item THEN assert navigation to edit category`() = runTest {
         val budgetBuilder = moduleFixture<BudgetBuilder>().copy(
-            manuallyAdded = listOf(moduleFixture<Category>().copy(RowId(1))),
+            manuallyAdded = listOf(moduleFixture<Category>().copy(Category.Id(1))),
         )
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
         val viewModel = viewModel(testScheduler)
         val expected = BudgetBuilderStepConsumables(
             navEvent = BudgetBuilderStepNavEvent.EditBudgetCategory(
-                category = RowId(1),
+                category = Category.Id(1),
             ),
         )
         turbineScope {
@@ -146,7 +147,7 @@ class BudgetBuilderStepViewModelTest {
         val budgetBuilder = moduleFixture<BudgetBuilder>().copy(
             suggestions = listOf(
                 CategorySuggestion(
-                    id = RowId(1),
+                    id = CategorySuggestion.Id(1),
                     nameResId = 1,
                     linkedCategory = null,
                 ),
@@ -157,7 +158,7 @@ class BudgetBuilderStepViewModelTest {
         val expected = BudgetBuilderStepConsumables(
             navEvent = BudgetBuilderStepNavEvent.AddBudgetCategory(
                 name = TextState(1),
-                linkedSuggestion = RowId(1),
+                linkedSuggestion = CategorySuggestion.Id(1),
             ),
         )
         turbineScope {
@@ -174,7 +175,7 @@ class BudgetBuilderStepViewModelTest {
             suggestions = listOf(
                 moduleFixture<CategorySuggestion>().copy(
                     linkedCategory = moduleFixture<Category>().copy(
-                        id = RowId(1),
+                        id = Category.Id(1),
                     ),
                 ),
             ),
@@ -183,7 +184,7 @@ class BudgetBuilderStepViewModelTest {
         val viewModel = viewModel(testScheduler)
         val expected = BudgetBuilderStepConsumables(
             navEvent = BudgetBuilderStepNavEvent.EditBudgetCategory(
-                category = RowId(1),
+                category = Category.Id(1),
             ),
         )
         turbineScope {
@@ -235,7 +236,7 @@ class BudgetBuilderStepViewModelTest {
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.submitCategoryName()
             assertEquals(expected, receiveConsumable.awaitItem())
-            assertTrue(timberTree.hasError<IllegalStateException>())
+            assertIs<IllegalStateException>(timberTree.logs[0].t)
         }
     }
 
@@ -245,7 +246,7 @@ class BudgetBuilderStepViewModelTest {
             suggestions = listOf(
                 moduleFixture<CategorySuggestion>().copy(
                     linkedCategory = moduleFixture<Category>().copy(
-                        id = RowId(1),
+                        id = Category.Id(1),
                     ),
                 ),
             ),
@@ -260,7 +261,7 @@ class BudgetBuilderStepViewModelTest {
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.selectSuggestedItem(1)
             assertEquals(expected, receiveConsumable.awaitItem())
-            assertTrue(timberTree.hasError<IndexOutOfBoundsException>())
+            assertIs<IndexOutOfBoundsException>(timberTree.logs[0].t)
         }
     }
 
@@ -279,7 +280,7 @@ class BudgetBuilderStepViewModelTest {
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.selectManuallyAddedItem(2)
             assertEquals(expected, receiveConsumable.awaitItem())
-            assertTrue(timberTree.hasError<IndexOutOfBoundsException>())
+            assertIs<IndexOutOfBoundsException>(timberTree.logs[0].t)
         }
     }
 
@@ -299,7 +300,7 @@ class BudgetBuilderStepViewModelTest {
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
         val viewModel = viewModel(testScheduler)
         val expected = BudgetBuilderStepConsumables(
-            navEvent = BudgetBuilderStepNavEvent.NextStep(VariableExpensesStep),
+            navEvent = BudgetBuilderStepNavEvent.NextAction(VariableExpensesStep),
         )
         turbineScope {
             viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
@@ -358,7 +359,7 @@ class BudgetBuilderStepViewModelTest {
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
         val viewModel = viewModel(testScheduler)
         val expected = BudgetBuilderStepConsumables(
-            navEvent = BudgetBuilderStepNavEvent.BuilderCompletionStep,
+            navEvent = BudgetBuilderStepNavEvent.NextAction(BuilderNextAction.Complete),
         )
         turbineScope {
             viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
@@ -380,7 +381,7 @@ class BudgetBuilderStepViewModelTest {
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.next()
             assertEquals(expected, receiveConsumable.awaitItem())
-            assertTrue(timberTree.hasError<IllegalStateException>())
+            assertIs<IllegalStateException>(timberTree.logs[0].t)
         }
     }
 
@@ -396,7 +397,7 @@ class BudgetBuilderStepViewModelTest {
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.selectManuallyAddedItem(0)
             assertEquals(expected, receiveConsumable.awaitItem())
-            assertTrue(timberTree.hasError<IllegalStateException>())
+            assertIs<IllegalStateException>(timberTree.logs[0].t)
         }
     }
 
@@ -412,7 +413,7 @@ class BudgetBuilderStepViewModelTest {
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.selectSuggestedItem(0)
             assertEquals(expected, receiveConsumable.awaitItem())
-            assertTrue(timberTree.hasError<IllegalStateException>())
+            assertIs<IllegalStateException>(timberTree.logs[0].t)
         }
     }
 

@@ -1,11 +1,9 @@
 package br.com.mob1st.tests.featuresutils
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.core.kotlinx.structures.Uuid
 import com.appmattus.kotlinfixture.config.ConfigurationBuilder
 import com.appmattus.kotlinfixture.kotlinFixture
-import java.util.UUID
 
 /**
  * Returns a random enum value.
@@ -24,9 +22,6 @@ val defaultFixtures = kotlinFixture {
     factory<Uuid> {
         Uuid()
     }
-    factory<RowId> {
-        RowId(UUID.randomUUID().mostSignificantBits)
-    }
     factory<Money> {
         Money((0..Long.MAX_VALUE).random())
     }
@@ -41,16 +36,4 @@ inline fun <reified T> fixture(
     noinline configuration: ConfigurationBuilder.() -> Unit = {},
 ): T {
     return defaultFixtures<T>(configuration = configuration)
-}
-
-/**
- * Creates a list of fixtures for the given type, adding items until the given size is reached.
- * @param size the size of the list
- * @return a list of fixtures
- */
-inline fun <reified T> fixtureList(size: Int = 5): List<T> {
-    val kotlinFixture = kotlinFixture {
-        repeatCount { size }
-    }
-    return kotlinFixture<List<T>>()
 }

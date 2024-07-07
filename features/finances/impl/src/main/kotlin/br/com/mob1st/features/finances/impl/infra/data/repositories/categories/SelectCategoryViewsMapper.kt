@@ -1,7 +1,6 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.categories
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.Category_view
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
@@ -37,7 +36,7 @@ object SelectCategoryViewsMapper {
 private fun Map.Entry<Long, List<Category_view>>.toDomain(): Category {
     val categoryProjection = value.first()
     return Category(
-        id = RowId(categoryProjection.cat_id),
+        id = Category.Id(categoryProjection.cat_id),
         name = categoryProjection.cat_name,
         amount = Money(categoryProjection.cat_amount),
         isExpense = categoryProjection.cat_is_expense,

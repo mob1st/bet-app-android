@@ -2,7 +2,6 @@ package br.com.mob1st.features.finances.impl.infra.data.repositories.categories
 
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.Category_view
 import br.com.mob1st.features.finances.impl.TwoCentsDb
 import br.com.mob1st.features.finances.impl.domain.entities.Category
@@ -67,7 +66,7 @@ class CategoriesRepositoryImplTest {
         db.categoriesQueries.insertFixedRecurrence(id, 1)
         val actual = repository.getManuallyCreatedBy(FixedExpensesStep).first().first()
         val expected = Category(
-            id = RowId(id),
+            id = Category.Id(id),
             name = "category",
             amount = Money(100),
             isExpense = true,
@@ -87,7 +86,7 @@ class CategoriesRepositoryImplTest {
         val id = db.commonsQueries.lastInsertRowId().executeAsOne()
 
         val categoryView = db.categoriesQueries.selectCategoryById(id).executeAsOne()
-        val category = fixture<Category>().copy(id = RowId(categoryView.cat_id))
+        val category = fixture<Category>().copy(id = Category.Id(categoryView.cat_id))
 
         repository.delete(category)
 
@@ -192,7 +191,12 @@ class CategoriesRepositoryImplTest {
         ).executeAsList()
         val suggestion = suggestions.random()
 
-        repository.add(category, fixture<CategorySuggestion>().copy(id = RowId(suggestion.sug_id)))
+        repository.add(
+            category,
+            fixture<CategorySuggestion>().copy(
+                id = CategorySuggestion.Id(suggestion.sug_id),
+            ),
+        )
 
         val actual = db.suggestionsQueries.selectSuggestionsByCategory(1).executeAsOne()
         assertEquals(suggestion.sug_id, actual.sug_id)
@@ -210,7 +214,7 @@ class CategoriesRepositoryImplTest {
         db.categoriesQueries.insertFixedRecurrence(id, 2)
 
         val updatedCategory = Category(
-            id = RowId(id),
+            id = Category.Id(id),
             name = "new category",
             amount = Money(200),
             isExpense = true,

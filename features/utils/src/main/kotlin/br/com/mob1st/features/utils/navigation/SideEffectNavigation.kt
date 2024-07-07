@@ -11,20 +11,16 @@ import androidx.compose.runtime.rememberUpdatedState
  *
  * @param target The target to navigate to.
  * @param onNavigate The navigation function.
- * @param onConsumeNavigation The function to consume the navigation state.
  */
 @Composable
 fun <T> SideEffectNavigation(
     target: T?,
     onNavigate: (T) -> Unit,
-    onConsumeNavigation: () -> Unit,
 ) {
     val currentNavigation by rememberUpdatedState(newValue = onNavigate)
-    val currentConsumeNavigation by rememberUpdatedState(newValue = onConsumeNavigation)
     LaunchedEffect(target) {
         if (target != null) {
             currentNavigation(target)
-            currentConsumeNavigation()
         }
     }
 }

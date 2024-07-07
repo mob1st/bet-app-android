@@ -3,6 +3,7 @@ package br.com.mob1st.features.finances.impl.ui.builder.steps
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
@@ -15,6 +16,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.plus
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
+import org.koin.ext.getFullName
 
 /**
  * The UI state for the category builder screen.
@@ -36,21 +38,20 @@ internal data object EmptyBudgetBuilderStepUiState : BudgetBuilderStepUiState
 internal data class FilledBudgetBuilderStepUiState(
     val builder: BudgetBuilder,
 ) : BudgetBuilderStepUiState {
-
     val header: Header = when (builder.id) {
         FixedExpensesStep -> Header(
-            title = 0,
-            description = 0
+            title = R.string.finances_builder_fixed_expenses_header,
+            description = R.string.finances_builder_fixed_expenses_subheader,
         )
 
         FixedIncomesStep -> Header(
-            title = 0,
-            description = 0
+            title = R.string.finances_builder_fixed_incomes_header,
+            description = R.string.finances_builder_fixed_incomes_subheader,
         )
 
         VariableExpensesStep -> Header(
-            title = 0,
-            description = 0
+            title = R.string.finances_builder_variable_expenses_header,
+            description = R.string.finances_builder_variable_expenses_subheader,
         )
     }
 
@@ -83,9 +84,14 @@ internal data class FilledBudgetBuilderStepUiState(
 @Immutable
 sealed interface CategoryListItem {
     /**
+     * The key of the item. It's used to identify the item in the list and optimize the rendering.
+     */
+    val key: Any
+
+    /**
      * The leading text of the item. Usually it's the category name or the main instruction
      */
-    val leading: TextState
+    val headline: TextState
 
     /**
      * The value text of the item. It's usually the category amount, if any.
@@ -99,7 +105,7 @@ sealed interface CategoryListItem {
 }
 
 /**
- * Used by the [BudgetBuilderStepUiState.suggestions] to show the automatic suggestions provided by the app.
+ * Used by the [FilledBudgetBuilderStepUiState.suggestions] to show the automatic suggestions provided by the app.
  * It's a handy way to facilitate the user's choice.
  * @property suggestion The suggestion.
  */
@@ -107,7 +113,8 @@ sealed interface CategoryListItem {
 data class SuggestionListItem(
     val suggestion: CategorySuggestion,
 ) : CategoryListItem {
-    override val leading: TextState = if (suggestion.linkedCategory != null) {
+    override val key: Any = suggestion.id
+    override val headline: TextState = if (suggestion.linkedCategory != null) {
         TextState(suggestion.linkedCategory.name)
     } else {
         TextState(suggestion.nameResId)
@@ -122,22 +129,24 @@ data class SuggestionListItem(
 }
 
 /**
- * Used by the [BudgetBuilderStepUiState.manuallyAdded] to show the manually added categories.
+ * Used by the [FilledBudgetBuilderStepUiState.manuallyAdded] to show the manually added categories.
  * @property category The manually added category.
  */
 @Immutable
 data class ManualCategoryListItem(val category: Category) : CategoryListItem {
-    override val leading: TextState = TextState(category.name)
+    override val key: Any = category.id
+    override val headline: TextState = TextState(category.name)
     override val value: TextState = MoneyTextState(category.amount)
     override val supporting: TextState? = RecurrencesTextStateFactory.create(category.recurrences)
 }
 
 /**
- * Used by the [BudgetBuilderStepUiState.manuallyAdded] to show the "Add category" item.
+ * Used by the [FilledBudgetBuilderStepUiState.manuallyAdded] to show the "Add category" item.
  */
 @Immutable
 internal data object AddCategoryListItem : CategoryListItem {
-    override val leading: TextState = TextState(0)
+    override val key: Any = AddCategoryListItem::class.getFullName()
+    override val headline: TextState = TextState(0)
     override val value: TextState? = null
     override val supporting: TextState? = null
 }

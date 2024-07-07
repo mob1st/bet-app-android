@@ -1,6 +1,5 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
-import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.SelectSuggestions
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import com.appmattus.kotlinfixture.Fixture
@@ -22,8 +21,8 @@ class TestUnknownNameFixtures(
 
     fun expected(nameResId: Int) = listOf(
         CategorySuggestion(
-            id = RowId(2),
-            nameResId = 2,
+            id = CategorySuggestion.Id(2),
+            nameResId = nameResId,
             linkedCategory = null,
         ),
     )

@@ -48,7 +48,7 @@ private fun List<DayAndMonth>.resolve(locale: Locale): TextState {
         )
     }
     return TextState(
-        R.plurals.finances_builder_not_enough_items_error,
+        R.plurals.finances_suggestion_seasonal_supporting,
         arguments.size,
         arguments,
     )

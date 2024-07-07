@@ -71,11 +71,23 @@
     <string name="finances_operations_empty_helper_description">Define your recurrent expenses and incomes to start the financial tracking</string>
     <string name="finances_operations_empty_helper_button">Setup Budget</string>
 
+    <string name="finances_builder_commons_custom_section_headline">Custom categories</string>
+    <string name="finances_builder_commons_custom_section_add_item">Add category</string>
+    <string name="finances_builder_commons_suggestions_section_headline">Suggestions</string>
+    <string name="finances_builder_commons_dialog_title">Add a name</string>
+    <string name="finances_builder_commons_dialog_submit_button">Add</string>
+    <string name="finances_builder_commons_suggestions_dialog_input_hint">Name</string>
+
     <string name="finances_category_fixed_recurrence_item_supporting">Every %1$s day</string>
 
     <plurals name="finances_builder_not_enough_items_error">
-        <item quantity="one">You need to add more %1$d category to proceed</item>
-        <item quantity="other">You need to add more %1$d categories to proceed</item>
+        <item quantity="one">You need to add more %1$s category to proceed</item>
+        <item quantity="other">You need to add more %1$s categories to proceed</item>
+    </plurals>
+
+    <plurals name="finances_suggestion_seasonal_supporting">
+        <item quantity="one">%1$s</item>
+        <item quantity="other">%1$s and %2$s</item>
     </plurals>
 
 </resources>

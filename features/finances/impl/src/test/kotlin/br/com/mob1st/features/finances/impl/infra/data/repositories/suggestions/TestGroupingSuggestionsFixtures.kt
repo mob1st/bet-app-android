@@ -1,7 +1,6 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.SelectSuggestions
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
@@ -72,10 +71,10 @@ class TestGroupingSuggestionsFixtures(
         nameSuggestion4: Int,
     ) = listOf(
         CategorySuggestion(
-            id = RowId(1),
+            id = CategorySuggestion.Id(1),
             nameResId = nameSuggestion1,
             linkedCategory = Category(
-                id = RowId(1),
+                id = Category.Id(1),
                 name = "Rent",
                 isExpense = true,
                 amount = Money(3000_00),
@@ -94,10 +93,10 @@ class TestGroupingSuggestionsFixtures(
             ),
         ),
         CategorySuggestion(
-            id = RowId(2),
+            id = CategorySuggestion.Id(2),
             nameResId = nameSuggestion2,
             linkedCategory = Category(
-                id = RowId(2),
+                id = Category.Id(2),
                 name = "Gym",
                 isExpense = true,
                 amount = Money(25_00),
@@ -112,12 +111,12 @@ class TestGroupingSuggestionsFixtures(
             ),
         ),
         CategorySuggestion(
-            id = RowId(3),
+            id = CategorySuggestion.Id(3),
             nameResId = nameSuggestion3,
             linkedCategory = null,
         ),
         CategorySuggestion(
-            id = RowId(4),
+            id = CategorySuggestion.Id(4),
             nameResId = nameSuggestion4,
             linkedCategory = null,
         ),

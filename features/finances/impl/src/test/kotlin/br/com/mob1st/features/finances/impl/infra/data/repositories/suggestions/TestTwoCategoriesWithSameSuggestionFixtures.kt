@@ -1,7 +1,6 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.SelectSuggestions
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
@@ -41,10 +40,10 @@ class TestTwoCategoriesWithSameSuggestionFixtures(
         nameResIdSuggestion3: Int,
     ) = listOf(
         CategorySuggestion(
-            id = RowId(1),
+            id = CategorySuggestion.Id(1),
             nameResId = nameResIdSuggestion1,
             linkedCategory = Category(
-                id = RowId(1),
+                id = Category.Id(1),
                 name = "cat1",
                 isExpense = true,
                 amount = Money(1000_00),
@@ -52,7 +51,7 @@ class TestTwoCategoriesWithSameSuggestionFixtures(
             ),
         ),
         CategorySuggestion(
-            id = RowId(2),
+            id = CategorySuggestion.Id(2),
             nameResId = nameResIdSuggestion3,
             linkedCategory = null,
         ),

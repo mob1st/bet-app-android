@@ -1,9 +1,12 @@
 package br.com.mob1st.features.finances.impl.utils
 
+import br.com.mob1st.features.finances.impl.domain.entities.Category
+import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfWeek
 import br.com.mob1st.features.finances.impl.domain.values.Month
 import br.com.mob1st.tests.featuresutils.defaultFixtures
+import java.util.UUID
 
 /**
  * Create fixtures for values specific in this module
@@ -17,5 +20,11 @@ val moduleFixture = defaultFixtures.new {
     }
     factory<Month> {
         Month((1..12).random())
+    }
+    factory<Category.Id> {
+        Category.Id(UUID.randomUUID().leastSignificantBits)
+    }
+    factory<CategorySuggestion.Id> {
+        CategorySuggestion.Id(UUID.randomUUID().leastSignificantBits)
     }
 }

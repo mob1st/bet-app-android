@@ -23,7 +23,7 @@ import kotlinx.collections.immutable.persistentListOf
 inline fun <T> LazyListScope.section(
     crossinline titleContent: @Composable () -> Unit,
     items: ImmutableList<T>,
-    noinline key: ((item: T) -> String)? = null,
+    noinline key: ((item: T) -> Any)? = null,
     crossinline itemsContentType: (index: Int, item: T) -> Any? = { _, _ -> null },
     crossinline itemContent: @Composable (index: Int, item: T) -> Unit,
 ) {

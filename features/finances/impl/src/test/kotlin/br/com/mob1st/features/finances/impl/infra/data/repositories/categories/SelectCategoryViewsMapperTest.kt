@@ -1,7 +1,6 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.categories
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.Category_view
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
@@ -124,7 +123,7 @@ class SelectCategoryViewsMapperTest {
         val name = fixture<String>()
         val isExpense = fixture<Boolean>()
         val amount = fixture<Money>()
-        val id = fixture<RowId>()
+        val id = fixture<Category.Id>()
         val categoryView = fixture<Category_view>().copy(
             cat_id = id.value,
             cat_name = name,

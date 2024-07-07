@@ -2,6 +2,7 @@ package br.com.mob1st.features.finances.impl.ui.builder
 
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
+import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
@@ -103,11 +104,13 @@ internal class FilledBudgetBuilderStepUiStateTest {
     @ParameterizedTest
     @ArgumentsSource(StepToHeaderProvider::class)
     fun `GIVEN a builder WHEN get header THEN assert header is correct`(
-        builder: BudgetBuilder,
+        step: BuilderNextAction.Step,
         expectedHeader: FilledBudgetBuilderStepUiState.Header,
     ) {
         // When
-        val header = FilledBudgetBuilderStepUiState(builder).header
+        val header = FilledBudgetBuilderStepUiState(
+            BudgetBuilder(step, emptyList(), emptyList()),
+        ).header
 
         // Then
         assertEquals(expectedHeader, header)

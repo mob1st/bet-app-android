@@ -11,9 +11,10 @@ import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.design.organisms.snack.SnackbarState
 import br.com.mob1st.core.design.organisms.snack.snackbar
 import br.com.mob1st.core.kotlinx.errors.checkIs
-import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.Category
+import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 
@@ -79,7 +80,7 @@ data class BudgetBuilderStepConsumables(
     fun selectUserSuggestion(item: SuggestionListItem) = copy {
         BudgetBuilderStepConsumables.navEvent set if (item.suggestion.linkedCategory == null) {
             BudgetBuilderStepNavEvent.AddBudgetCategory(
-                name = item.leading,
+                name = item.headline,
                 linkedSuggestion = item.suggestion.id,
             )
         } else {
@@ -121,11 +122,7 @@ data class BudgetBuilderStepConsumables(
      * @return The next consumable state.
      */
     fun navigateToNext(builderNextAction: BuilderNextAction) = copy {
-        val target = when (builderNextAction) {
-            is BuilderNextAction.Complete -> BudgetBuilderStepNavEvent.BuilderCompletionStep
-            is BuilderNextAction.Step -> BudgetBuilderStepNavEvent.NextStep(builderNextAction)
-        }
-        BudgetBuilderStepConsumables.navEvent set target
+        BudgetBuilderStepConsumables.navEvent set BudgetBuilderStepNavEvent.NextAction(builderNextAction)
     }
 
     /**
@@ -168,11 +165,11 @@ sealed interface BudgetBuilderStepDialog {
 sealed interface BudgetBuilderStepNavEvent {
     /**
      * If the builder is not completed and the user wants to go to the next step, this target should be triggered.
-     * @property step The next step to go to.
+     * @property action The next step to go to.
      */
     @Immutable
-    data class NextStep(
-        val step: BuilderNextAction.Step,
+    data class NextAction(
+        val action: BuilderNextAction,
     ) : BudgetBuilderStepNavEvent
 
     /**
@@ -182,7 +179,7 @@ sealed interface BudgetBuilderStepNavEvent {
      */
     @Immutable
     data class EditBudgetCategory(
-        val category: RowId,
+        val category: Category.Id,
     ) : BudgetBuilderStepNavEvent
 
     /**
@@ -194,15 +191,8 @@ sealed interface BudgetBuilderStepNavEvent {
     @Immutable
     data class AddBudgetCategory(
         val name: TextState,
-        val linkedSuggestion: RowId?,
+        val linkedSuggestion: CategorySuggestion.Id?,
     ) : BudgetBuilderStepNavEvent
-
-    /**
-     * Indicates that the builder is completed and the user should be navigated to the next screen.
-     * This target should be triggered when there is no more input to be given and the user wants to finish the builder.
-     */
-    @Immutable
-    data object BuilderCompletionStep : BudgetBuilderStepNavEvent
 }
 
 /**
@@ -210,14 +200,12 @@ sealed interface BudgetBuilderStepNavEvent {
  */
 @Immutable
 sealed interface BudgetBuilderStepSnackbar : SnackbarState {
-
     /**
      * Snackbar to show when there are not enough suggestions to proceed to the next builder step.
      * @property remaining The remaining number of suggestions to be added before allowing the user to proceed.
      */
     @Immutable
     data class NotAllowedToProceed(val remaining: Int) : BudgetBuilderStepSnackbar {
-
         @Composable
         override fun resolve(): SnackbarVisuals {
             val text = pluralStringResource(

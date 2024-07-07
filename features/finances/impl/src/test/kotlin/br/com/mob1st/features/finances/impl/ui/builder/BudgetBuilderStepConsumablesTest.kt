@@ -101,7 +101,7 @@ class BudgetBuilderStepConsumablesTest {
     @Test
     fun `GIVEN a suggestion list item WHEN select a user suggestion THEN navigate to add category`() {
         // Given
-        val item = SuggestionListItem(moduleFixture())
+        val item = SuggestionListItem(moduleFixture<CategorySuggestion>().copy(linkedCategory = null))
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
@@ -111,7 +111,7 @@ class BudgetBuilderStepConsumablesTest {
         assertEquals(
             BudgetBuilderStepConsumables(
                 navEvent = BudgetBuilderStepNavEvent.AddBudgetCategory(
-                    name = item.leading,
+                    name = item.headline,
                     linkedSuggestion = item.suggestion.id,
                 ),
             ),
@@ -183,32 +183,17 @@ class BudgetBuilderStepConsumablesTest {
     }
 
     @Test
-    fun `GIVEN a next step WHEN navigate THEN navigate to the next step`() {
+    fun `GIVEN a next action WHEN navigate THEN navigate to the next action`() {
         // Given
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val step = moduleFixture<BuilderNextAction.Step>()
+        val step = moduleFixture<BuilderNextAction>()
         val result = budgetBuilderStepConsumables.navigateToNext(step)
 
         // Then
         assertEquals(
-            BudgetBuilderStepConsumables(navEvent = BudgetBuilderStepNavEvent.NextStep(step)),
-            result,
-        )
-    }
-
-    @Test
-    fun `GIVEN a complete action WHEN navigate THEN navigate to the next screen`() {
-        // Given
-        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
-
-        // When
-        val result = budgetBuilderStepConsumables.navigateToNext(BuilderNextAction.Complete)
-
-        // Then
-        assertEquals(
-            BudgetBuilderStepConsumables(navEvent = BudgetBuilderStepNavEvent.BuilderCompletionStep),
+            BudgetBuilderStepConsumables(navEvent = BudgetBuilderStepNavEvent.NextAction(step)),
             result,
         )
     }

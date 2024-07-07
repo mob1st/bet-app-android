@@ -7,12 +7,15 @@ import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 
 data class Category(
-    override val id: RowId = RowId(),
+    override val id: Id = Id(),
     val name: String,
     val amount: Money,
     val isExpense: Boolean,
     val recurrences: Recurrences,
-) : Identifiable<RowId>
+) : Identifiable<Category.Id> {
+    @JvmInline
+    value class Id(override val value: Long = 0) : RowId
+}
 
 sealed interface Recurrences {
     data class Fixed(

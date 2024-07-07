@@ -28,8 +28,12 @@ value class Uuid(private val value: String = generateStringId()) : Comparable<Uu
  * A unique identifier in long format.
  * It can be an auto-incremented number or a random number.
  */
-@JvmInline
-value class RowId(val value: Long = 0) : Comparable<RowId>, Serializable by value {
+interface RowId : Comparable<RowId>, Serializable {
+    /**
+     * The unique identifier.
+     */
+    val value: Long
+
     override fun compareTo(other: RowId): Int {
         return value.compareTo(other.value)
     }
