@@ -4,7 +4,15 @@ import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
+import br.com.mob1st.features.finances.impl.ui.builder.steps.AddCategoryListItem
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepConsumables
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepDialog
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepNavEvent
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepSnackbar
+import br.com.mob1st.features.finances.impl.ui.builder.steps.ManualCategoryListItem
+import br.com.mob1st.features.finances.impl.ui.builder.steps.SuggestionListItem
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
+import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.features.utils.errors.toCommonError
 import com.appmattus.kotlinfixture.decorator.nullability.NeverNullStrategy
 import com.appmattus.kotlinfixture.decorator.nullability.nullabilityStrategy
@@ -12,19 +20,19 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class CategoryBuilderConsumablesTest {
+class BudgetBuilderStepConsumablesTest {
     @Test
     fun `GIVEN a throwable WHEN handle a error THEN set snackbar to show the error message`() {
         // Given
         val throwable = Throwable()
-        val categoryBuilderConsumables = CategoryBuilderConsumables()
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val result = categoryBuilderConsumables.handleError(throwable)
+        val result = budgetBuilderStepConsumables.handleError(throwable)
 
         // Then
         assertEquals(
-            CategoryBuilderConsumables(snackbar = CategoryBuilderSnackbar.Failure(throwable.toCommonError())),
+            BudgetBuilderStepConsumables(snackbar = CommonErrorSnackbarState(throwable.toCommonError())),
             result,
         )
     }
@@ -33,14 +41,14 @@ class CategoryBuilderConsumablesTest {
     fun `GIVEN a NotEnoughInputsException WHEN handle a error THEN set snackbar to show the remaining inputs`() {
         // Given
         val throwable = NotEnoughInputsException(1)
-        val categoryBuilderConsumables = CategoryBuilderConsumables()
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val result = categoryBuilderConsumables.handleError(throwable)
+        val result = budgetBuilderStepConsumables.handleError(throwable)
 
         // Then
         assertEquals(
-            CategoryBuilderConsumables(snackbar = CategoryBuilderSnackbar.NotAllowedToProceed(1)),
+            BudgetBuilderStepConsumables(snackbar = BudgetBuilderStepSnackbar.NotAllowedToProceed(1)),
             result,
         )
     }
@@ -49,14 +57,14 @@ class CategoryBuilderConsumablesTest {
     fun `GIVEN an list item to add category WHEN select a manual item THEN open the dialog to enter the category name`() {
         // Given
         val item = AddCategoryListItem
-        val categoryBuilderConsumables = CategoryBuilderConsumables()
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val result = categoryBuilderConsumables.selectManualItem(item)
+        val result = budgetBuilderStepConsumables.selectManualItem(item)
 
         // Then
         assertEquals(
-            CategoryBuilderConsumables(dialog = CategoryBuilderDialog.EnterName()),
+            BudgetBuilderStepConsumables(dialog = BudgetBuilderStepDialog.EnterName()),
             result,
         )
     }
@@ -65,14 +73,14 @@ class CategoryBuilderConsumablesTest {
     fun `GIVEN an list item to edit category WHEN select a manual item THEN navigate to the category edition screen`() {
         // Given
         val item = ManualCategoryListItem(moduleFixture())
-        val categoryBuilderConsumables = CategoryBuilderConsumables()
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val result = categoryBuilderConsumables.selectManualItem(item)
+        val result = budgetBuilderStepConsumables.selectManualItem(item)
 
         // Then
         assertEquals(
-            CategoryBuilderConsumables(navTarget = CategoryBuilderNavTarget.EditCategory(item.category.id)),
+            BudgetBuilderStepConsumables(navEvent = BudgetBuilderStepNavEvent.EditBudgetCategory(item.category.id)),
             result,
         )
     }
@@ -81,12 +89,12 @@ class CategoryBuilderConsumablesTest {
     fun `GIVEN an list item suggestion WHEN select a manual item THEN throw an error`() {
         // Given
         val item = SuggestionListItem(moduleFixture())
-        val categoryBuilderConsumables = CategoryBuilderConsumables()
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // Then
         assertFailsWith<IllegalArgumentException> {
             // When
-            categoryBuilderConsumables.selectManualItem(item)
+            budgetBuilderStepConsumables.selectManualItem(item)
         }
     }
 
@@ -94,15 +102,15 @@ class CategoryBuilderConsumablesTest {
     fun `GIVEN a suggestion list item WHEN select a user suggestion THEN navigate to add category`() {
         // Given
         val item = SuggestionListItem(moduleFixture())
-        val categoryBuilderConsumables = CategoryBuilderConsumables()
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val result = categoryBuilderConsumables.selectUserSuggestion(item)
+        val result = budgetBuilderStepConsumables.selectUserSuggestion(item)
 
         // Then
         assertEquals(
-            CategoryBuilderConsumables(
-                navTarget = CategoryBuilderNavTarget.AddCategory(
+            BudgetBuilderStepConsumables(
+                navEvent = BudgetBuilderStepNavEvent.AddBudgetCategory(
                     name = item.leading,
                     linkedSuggestion = item.suggestion.id,
                 ),
@@ -120,15 +128,15 @@ class CategoryBuilderConsumablesTest {
             },
         )
         val item = SuggestionListItem(categorySuggestion)
-        val categoryBuilderConsumables = CategoryBuilderConsumables()
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val result = categoryBuilderConsumables.selectUserSuggestion(item)
+        val result = budgetBuilderStepConsumables.selectUserSuggestion(item)
 
         // Then
         assertEquals(
-            CategoryBuilderConsumables(
-                navTarget = CategoryBuilderNavTarget.EditCategory(
+            BudgetBuilderStepConsumables(
+                navEvent = BudgetBuilderStepNavEvent.EditBudgetCategory(
                     category = item.suggestion.linkedCategory!!.id,
                 ),
             ),
@@ -140,14 +148,14 @@ class CategoryBuilderConsumablesTest {
     fun `GIVEN a category name WHEN type a category name THEN update category name state`() {
         // Given
         val name = "Category Name"
-        val categoryBuilderConsumables = CategoryBuilderConsumables()
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val result = categoryBuilderConsumables.typeCategoryName(name)
+        val result = budgetBuilderStepConsumables.typeCategoryName(name)
 
         // Then
         assertEquals(
-            CategoryBuilderConsumables(dialog = CategoryBuilderDialog.EnterName(name)),
+            BudgetBuilderStepConsumables(dialog = BudgetBuilderStepDialog.EnterName(name)),
             result,
         )
     }
@@ -155,17 +163,17 @@ class CategoryBuilderConsumablesTest {
     @Test
     fun `GIVEN a category name WHEN submit a category name THEN open the dialog to enter the category name`() {
         // Given
-        val categoryBuilderConsumables = CategoryBuilderConsumables(
-            dialog = CategoryBuilderDialog.EnterName("Category Name"),
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables(
+            dialog = BudgetBuilderStepDialog.EnterName("Category Name"),
         )
 
         // When
-        val result = categoryBuilderConsumables.submitCategoryName()
+        val result = budgetBuilderStepConsumables.submitCategoryName()
 
         // Then
         assertEquals(
-            CategoryBuilderConsumables(
-                navTarget = CategoryBuilderNavTarget.AddCategory(
+            BudgetBuilderStepConsumables(
+                navEvent = BudgetBuilderStepNavEvent.AddBudgetCategory(
                     name = TextState("Category Name"),
                     linkedSuggestion = null,
                 ),
@@ -177,15 +185,15 @@ class CategoryBuilderConsumablesTest {
     @Test
     fun `GIVEN a next step WHEN navigate THEN navigate to the next step`() {
         // Given
-        val categoryBuilderConsumables = CategoryBuilderConsumables()
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
         val step = moduleFixture<BuilderNextAction.Step>()
-        val result = categoryBuilderConsumables.navigateToNext(step)
+        val result = budgetBuilderStepConsumables.navigateToNext(step)
 
         // Then
         assertEquals(
-            CategoryBuilderConsumables(navTarget = CategoryBuilderNavTarget.NextStep(step)),
+            BudgetBuilderStepConsumables(navEvent = BudgetBuilderStepNavEvent.NextStep(step)),
             result,
         )
     }
@@ -193,14 +201,14 @@ class CategoryBuilderConsumablesTest {
     @Test
     fun `GIVEN a complete action WHEN navigate THEN navigate to the next screen`() {
         // Given
-        val categoryBuilderConsumables = CategoryBuilderConsumables()
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val result = categoryBuilderConsumables.navigateToNext(BuilderNextAction.Complete)
+        val result = budgetBuilderStepConsumables.navigateToNext(BuilderNextAction.Complete)
 
         // Then
         assertEquals(
-            CategoryBuilderConsumables(navTarget = CategoryBuilderNavTarget.BuilderCompletion),
+            BudgetBuilderStepConsumables(navEvent = BudgetBuilderStepNavEvent.BuilderCompletionStep),
             result,
         )
     }

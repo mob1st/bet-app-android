@@ -46,19 +46,36 @@
     <string name="finances_builder_suggestions_item_salary">Salary</string>
     <string name="finances_builder_suggestions_item_pension">Pension</string>
     <string name="finances_builder_suggestions_item_rental_income">Rental Income</string>
+    <!-- Builder intro screen -->
+    <string name="finances_builder_intro_header">Let\'s Start</string>
+    <string name="finances_builder_intro_subheader">First,we need to understand your recurrent expenses and incomes to start the financial tracking.</string>
+    <string name="finances_builder_intro_button">Setup Budget</string>
+    <string name="finances_builder_intro_item1_headline">Fixed Expenses</string>
+    <string name="finances_builder_intro_item1_description">The bills and expenses that is guarantee to have once a month</string>
+    <string name="finances_builder_intro_item2_headline">Variable Expenses</string>
+    <string name="finances_builder_intro_item2_description">The sporadic costs that often appears in your routine</string>
+    <string name="finances_builder_intro_item3_headline">Income</string>
+    <string name="finances_builder_intro_item3_description">The amount of incomes per month (this information is not shared with anyone else).</string>
 
+    <!-- Builder steps screens -->
+    <string name="finances_builder_fixed_expenses_header">Monthly Fixed Expenses</string>
+    <string name="finances_builder_fixed_expenses_subheader">Planned expenses that have a small variation in amount and are usually paid monthly.</string>
+    <string name="finances_builder_variable_expenses_header">Monthly Variable Expenses</string>
+    <string name="finances_builder_variable_expenses_subheader">Expenses that vary according to your consumption or activity. Recalling your routine now can be a valuable exercise to increase the accuracy of your records.</string>
+    <string name="finances_builder_fixed_incomes_header">Monthly Fixed Incomes</string>
+    <string name="finances_builder_fixed_incomes_subheader">Sources of income that are consistent and generally do not change much in value from month to month.</string>
     <string name="finances_builder_variable_suggestions_header">Variable Expanses</string>
     <string name="finances_builder_variable_suggestions_subheader">Enter the approximate amounts of expenses that you know you will have to pay every month.</string>
     <string name="finances_builder_variable_suggestions_list_header">Suggestions</string>
-
     <string name="finances_operations_empty_helper_title">Let\'s start</string>
     <string name="finances_operations_empty_helper_description">Define your recurrent expenses and incomes to start the financial tracking</string>
     <string name="finances_operations_empty_helper_button">Setup Budget</string>
 
     <string name="finances_category_fixed_recurrence_item_supporting">Every %1$s day</string>
 
-    <plurals name="finances_category_seasonal_recurrence_item_supporting">
-        <item quantity="one">%1$s</item>
-        <item quantity="other">%1$s and %2$s</item>
+    <plurals name="finances_builder_not_enough_items_error">
+        <item quantity="one">You need to add more %1$d category to proceed</item>
+        <item quantity="other">You need to add more %1$d categories to proceed</item>
     </plurals>
+
 </resources>

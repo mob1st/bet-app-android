@@ -10,7 +10,7 @@ import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
  * @property manuallyAdded The categories that were manually added by the user.
  * @property suggestions The suggestions available for the user to add.
  */
-data class CategoryBuilder(
+data class BudgetBuilder(
     override val id: BuilderNextAction.Step,
     val manuallyAdded: List<Category>,
     val suggestions: List<CategorySuggestion>,
@@ -35,7 +35,7 @@ data class CategoryBuilder(
 
     private fun countAddedItems(): Int {
         return manuallyAdded.count { it.amount.cents > 0 } +
-            suggestions.count { (it.linkedCategory?.amount?.cents ?: 0) > 0 }
+                suggestions.count { (it.linkedCategory?.amount?.cents ?: 0) > 0 }
     }
 
     companion object {

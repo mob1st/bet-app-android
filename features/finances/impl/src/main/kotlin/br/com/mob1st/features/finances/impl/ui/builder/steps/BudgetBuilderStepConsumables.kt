@@ -1,28 +1,34 @@
-package br.com.mob1st.features.finances.impl.ui.builder
+package br.com.mob1st.features.finances.impl.ui.builder.steps
 
+import androidx.compose.material3.SnackbarVisuals
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.res.pluralStringResource
 import arrow.optics.copy
 import arrow.optics.optics
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.core.design.organisms.snack.SnackbarState
+import br.com.mob1st.core.design.organisms.snack.snackbar
 import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.core.kotlinx.structures.RowId
+import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
-import br.com.mob1st.features.utils.errors.CommonError
-import br.com.mob1st.features.utils.errors.toCommonError
+import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 
 /**
  * Consumable state for the category builder screen.
  * All the properties should be consumed by the UI layer to trigger the corresponding actions, setting them to null.
  * @property dialog The dialog that can be shown.
- * @property navTarget The navigation target that can be triggered.
+ * @property navEvent The navigation target that can be triggered.
  * @property snackbar The snackbar that can be shown.
  */
 @optics
-data class CategoryBuilderConsumables(
-    val dialog: CategoryBuilderDialog? = null,
-    val navTarget: CategoryBuilderNavTarget? = null,
-    val snackbar: CategoryBuilderSnackbar? = null,
+data class BudgetBuilderStepConsumables(
+    val dialog: BudgetBuilderStepDialog? = null,
+    val navEvent: BudgetBuilderStepNavEvent? = null,
+    val snackbar: SnackbarState? = null,
 ) {
     /**
      * Handles the given [throwable] error.
@@ -33,10 +39,10 @@ data class CategoryBuilderConsumables(
      * @return The next consumable state.
      */
     fun handleError(throwable: Throwable) = copy {
-        CategoryBuilderConsumables.snackbar set if (throwable is NotEnoughInputsException) {
-            CategoryBuilderSnackbar.NotAllowedToProceed(throwable.remainingInputs)
+        BudgetBuilderStepConsumables.snackbar set if (throwable is NotEnoughInputsException) {
+            BudgetBuilderStepSnackbar.NotAllowedToProceed(throwable.remainingInputs)
         } else {
-            CategoryBuilderSnackbar.Failure(throwable.toCommonError())
+            CommonErrorSnackbarState(throwable)
         }
     }
 
@@ -52,9 +58,9 @@ data class CategoryBuilderConsumables(
      */
     fun selectManualItem(item: CategoryListItem) = copy {
         when (item) {
-            AddCategoryListItem -> CategoryBuilderConsumables.dialog set CategoryBuilderDialog.EnterName()
+            AddCategoryListItem -> BudgetBuilderStepConsumables.dialog set BudgetBuilderStepDialog.EnterName()
             is ManualCategoryListItem -> {
-                CategoryBuilderConsumables.navTarget set CategoryBuilderNavTarget.EditCategory(
+                BudgetBuilderStepConsumables.navEvent set BudgetBuilderStepNavEvent.EditBudgetCategory(
                     item.category.id,
                 )
             }
@@ -71,13 +77,13 @@ data class CategoryBuilderConsumables(
      * @return The next consumable state.
      */
     fun selectUserSuggestion(item: SuggestionListItem) = copy {
-        CategoryBuilderConsumables.navTarget set if (item.suggestion.linkedCategory == null) {
-            CategoryBuilderNavTarget.AddCategory(
+        BudgetBuilderStepConsumables.navEvent set if (item.suggestion.linkedCategory == null) {
+            BudgetBuilderStepNavEvent.AddBudgetCategory(
                 name = item.leading,
                 linkedSuggestion = item.suggestion.id,
             )
         } else {
-            CategoryBuilderNavTarget.EditCategory(category = item.suggestion.linkedCategory.id)
+            BudgetBuilderStepNavEvent.EditBudgetCategory(category = item.suggestion.linkedCategory.id)
         }
     }
 
@@ -88,7 +94,7 @@ data class CategoryBuilderConsumables(
      * @return The next consumable state.
      */
     fun typeCategoryName(name: String) = copy {
-        CategoryBuilderConsumables.dialog set CategoryBuilderDialog.EnterName(name)
+        BudgetBuilderStepConsumables.dialog set BudgetBuilderStepDialog.EnterName(name)
     }
 
     /**
@@ -96,15 +102,15 @@ data class CategoryBuilderConsumables(
      * It navigates to the "Add category" screen with the given name and a null linked suggestion since it should only
      * be called for manually added categories.
      * @return The next consumable state.
-     * @throws IllegalArgumentException If the dialog is not an [CategoryBuilderDialog.EnterName].
+     * @throws IllegalArgumentException If the dialog is not an [BudgetBuilderStepDialog.EnterName].
      */
     fun submitCategoryName() = copy {
-        val dialog = checkIs<CategoryBuilderDialog.EnterName>(dialog)
-        CategoryBuilderConsumables.navTarget set CategoryBuilderNavTarget.AddCategory(
+        val dialog = checkIs<BudgetBuilderStepDialog.EnterName>(dialog)
+        BudgetBuilderStepConsumables.navEvent set BudgetBuilderStepNavEvent.AddBudgetCategory(
             name = TextState(dialog.name),
             linkedSuggestion = null,
         )
-        CategoryBuilderConsumables.nullableDialog set null
+        BudgetBuilderStepConsumables.nullableDialog set null
     }
 
     /**
@@ -116,10 +122,10 @@ data class CategoryBuilderConsumables(
      */
     fun navigateToNext(builderNextAction: BuilderNextAction) = copy {
         val target = when (builderNextAction) {
-            is BuilderNextAction.Complete -> CategoryBuilderNavTarget.BuilderCompletion
-            is BuilderNextAction.Step -> CategoryBuilderNavTarget.NextStep(builderNextAction)
+            is BuilderNextAction.Complete -> BudgetBuilderStepNavEvent.BuilderCompletionStep
+            is BuilderNextAction.Step -> BudgetBuilderStepNavEvent.NextStep(builderNextAction)
         }
-        CategoryBuilderConsumables.navTarget set target
+        BudgetBuilderStepConsumables.navEvent set target
     }
 
     /**
@@ -132,7 +138,7 @@ data class CategoryBuilderConsumables(
  * UI state for the category builder screen.
  */
 @Immutable
-sealed interface CategoryBuilderDialog {
+sealed interface BudgetBuilderStepDialog {
     /**
      * Dialog to enter the category name.
      * @property name The entered name.
@@ -140,7 +146,7 @@ sealed interface CategoryBuilderDialog {
     @Immutable
     data class EnterName(
         val name: String = "",
-    ) : CategoryBuilderDialog {
+    ) : BudgetBuilderStepDialog {
         /**
          * Indicates if the submit button should be enabled.
          * Very short names are or very long names are not allowed.
@@ -159,7 +165,7 @@ sealed interface CategoryBuilderDialog {
  * Navigation target for the category builder screen.
  */
 @Immutable
-sealed interface CategoryBuilderNavTarget {
+sealed interface BudgetBuilderStepNavEvent {
     /**
      * If the builder is not completed and the user wants to go to the next step, this target should be triggered.
      * @property step The next step to go to.
@@ -167,7 +173,7 @@ sealed interface CategoryBuilderNavTarget {
     @Immutable
     data class NextStep(
         val step: BuilderNextAction.Step,
-    ) : CategoryBuilderNavTarget
+    ) : BudgetBuilderStepNavEvent
 
     /**
      * Allows the user to navigate to the bottom sheet to edit an existing category.
@@ -175,9 +181,9 @@ sealed interface CategoryBuilderNavTarget {
      * @property category The category to edit.
      */
     @Immutable
-    data class EditCategory(
+    data class EditBudgetCategory(
         val category: RowId,
-    ) : CategoryBuilderNavTarget
+    ) : BudgetBuilderStepNavEvent
 
     /**
      * Allows the user to navigate to the bottom sheet to add a new category.
@@ -186,35 +192,42 @@ sealed interface CategoryBuilderNavTarget {
      * @property linkedSuggestion The suggestion linked to the new category, if any.
      */
     @Immutable
-    data class AddCategory(
+    data class AddBudgetCategory(
         val name: TextState,
         val linkedSuggestion: RowId?,
-    ) : CategoryBuilderNavTarget
+    ) : BudgetBuilderStepNavEvent
 
     /**
      * Indicates that the builder is completed and the user should be navigated to the next screen.
      * This target should be triggered when there is no more input to be given and the user wants to finish the builder.
      */
     @Immutable
-    data object BuilderCompletion : CategoryBuilderNavTarget
+    data object BuilderCompletionStep : BudgetBuilderStepNavEvent
 }
 
 /**
  * Snackbar state for the category builder screen.
  */
 @Immutable
-sealed interface CategoryBuilderSnackbar {
+sealed interface BudgetBuilderStepSnackbar : SnackbarState {
+
     /**
      * Snackbar to show when there are not enough suggestions to proceed to the next builder step.
      * @property remaining The remaining number of suggestions to be added before allowing the user to proceed.
      */
     @Immutable
-    data class NotAllowedToProceed(val remaining: Int) : CategoryBuilderSnackbar
+    data class NotAllowedToProceed(val remaining: Int) : BudgetBuilderStepSnackbar {
 
-    /**
-     * Snackbar to show when an error occurs.
-     * @property commonError The error that occurred.
-     */
-    @Immutable
-    data class Failure(val commonError: CommonError) : CategoryBuilderSnackbar
+        @Composable
+        override fun resolve(): SnackbarVisuals {
+            val text = pluralStringResource(
+                id = R.plurals.finances_builder_not_enough_items_error,
+                count = remaining,
+                remaining,
+            )
+            return remember(text) {
+                snackbar(message = text)
+            }
+        }
+    }
 }

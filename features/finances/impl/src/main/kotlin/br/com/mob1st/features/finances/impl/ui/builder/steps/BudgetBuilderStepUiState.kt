@@ -1,45 +1,79 @@
-package br.com.mob1st.features.finances.impl.ui.builder
+package br.com.mob1st.features.finances.impl.ui.builder.steps
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.entities.CategoryBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
+import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
+import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
+import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.ui.utils.texts.MoneyTextState
 import br.com.mob1st.features.finances.impl.ui.utils.texts.RecurrencesTextStateFactory
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.plus
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
+
+/**
+ * The UI state for the category builder screen.
+ */
+@Immutable
+internal sealed interface BudgetBuilderStepUiState
+
+/**
+ * The initial UI state for the category builder screen.
+ */
+@Immutable
+internal data object EmptyBudgetBuilderStepUiState : BudgetBuilderStepUiState
 
 /**
  * The root UI state for the category builder screen.
  * @property builder The category builder. It's loaded from the domain layer and the initial value is null.
  */
 @Immutable
-internal data class CategoryBuilderUiState(
-    val builder: CategoryBuilder? = null,
-) {
+internal data class FilledBudgetBuilderStepUiState(
+    val builder: BudgetBuilder,
+) : BudgetBuilderStepUiState {
+
+    val header: Header = when (builder.id) {
+        FixedExpensesStep -> Header(
+            title = 0,
+            description = 0
+        )
+
+        FixedIncomesStep -> Header(
+            title = 0,
+            description = 0
+        )
+
+        VariableExpensesStep -> Header(
+            title = 0,
+            description = 0
+        )
+    }
+
     /**
      * The manually added categories.
      * The list is composed of the manually added categories and the "Add category" item.
      */
-    val manuallyAdded: ImmutableList<CategoryListItem> = if (builder != null) {
-        val categories = builder.manuallyAdded.map {
-            ManualCategoryListItem(it)
-        }.toPersistentList()
-        categories + AddCategoryListItem
-    } else {
-        persistentListOf()
-    }
+    val manuallyAdded: ImmutableList<CategoryListItem> = builder.manuallyAdded.map {
+        ManualCategoryListItem(it)
+    }.toPersistentList() + AddCategoryListItem
 
     /**
      * The suggestions presented to the user.
      */
-    val suggestions: ImmutableList<SuggestionListItem> = builder?.suggestions.orEmpty().map {
+    val suggestions: ImmutableList<SuggestionListItem> = builder.suggestions.map {
         SuggestionListItem(it)
     }.toImmutableList()
+
+    @Immutable
+    internal data class Header(
+        @StringRes val title: Int,
+        @StringRes val description: Int,
+    )
 }
 
 /**
@@ -65,7 +99,7 @@ sealed interface CategoryListItem {
 }
 
 /**
- * Used by the [CategoryBuilderUiState.suggestions] to show the automatic suggestions provided by the app.
+ * Used by the [BudgetBuilderStepUiState.suggestions] to show the automatic suggestions provided by the app.
  * It's a handy way to facilitate the user's choice.
  * @property suggestion The suggestion.
  */
@@ -88,7 +122,7 @@ data class SuggestionListItem(
 }
 
 /**
- * Used by the [CategoryBuilderUiState.manuallyAdded] to show the manually added categories.
+ * Used by the [BudgetBuilderStepUiState.manuallyAdded] to show the manually added categories.
  * @property category The manually added category.
  */
 @Immutable
@@ -99,7 +133,7 @@ data class ManualCategoryListItem(val category: Category) : CategoryListItem {
 }
 
 /**
- * Used by the [CategoryBuilderUiState.manuallyAdded] to show the "Add category" item.
+ * Used by the [BudgetBuilderStepUiState.manuallyAdded] to show the "Add category" item.
  */
 @Immutable
 internal data object AddCategoryListItem : CategoryListItem {

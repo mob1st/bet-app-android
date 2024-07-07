@@ -1,9 +1,10 @@
-package br.com.mob1st.features.finances.impl.ui.builder
+package br.com.mob1st.features.finances.impl.ui.builder.steps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mob1st.core.androidx.flows.stateInRetained
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
+import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.core.state.contracts.UiStateOutputManager
 import br.com.mob1st.core.state.managers.ConsumableDelegate
@@ -21,35 +22,36 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-internal class CategoryBuilderViewModel(
+internal class BudgetBuilderStepViewModel(
     step: BuilderNextAction.Step,
     getCategoryBuilder: GetCategoryBuilderUseCase,
     private val analyticsReporter: AnalyticsReporter,
     default: DefaultCoroutineDispatcher,
-    private val consumableDelegate: ConsumableDelegate<CategoryBuilderConsumables> = ConsumableDelegate(
-        CategoryBuilderConsumables(),
+    private val consumableDelegate: ConsumableDelegate<BudgetBuilderStepConsumables> = ConsumableDelegate(
+        BudgetBuilderStepConsumables(),
     ),
 ) : ViewModel(),
-    UiStateOutputManager<CategoryBuilderUiState>,
-    ConsumableManager<CategoryBuilderConsumables> by consumableDelegate {
+    UiStateOutputManager<BudgetBuilderStepUiState>,
+    ConsumableManager<BudgetBuilderStepConsumables> by consumableDelegate {
     private val errorHandler = consumableDelegate.errorHandler {
         handleError(it)
     }
 
-    override val consumableUiState: StateFlow<CategoryBuilderConsumables> = consumableDelegate.asStateFlow()
-    override val uiStateOutput: StateFlow<CategoryBuilderUiState> = getCategoryBuilder[step]
-        .map(::CategoryBuilderUiState)
+    override val consumableUiState: StateFlow<BudgetBuilderStepConsumables> = consumableDelegate.asStateFlow()
+    override val uiStateOutput: StateFlow<BudgetBuilderStepUiState> = getCategoryBuilder[step]
+        .map(::FilledBudgetBuilderStepUiState)
         .catchIn(errorHandler)
         .flowOn(default)
-        .stateInRetained(viewModelScope, CategoryBuilderUiState())
+        .stateInRetained(viewModelScope, EmptyBudgetBuilderStepUiState)
 
     /**
      * Selects the manually added item at the given [position].
      * @param position The position of the selected item.
      */
     fun selectManuallyAddedItem(position: Int) = errorHandler.catching {
+        val uiState = checkIs<FilledBudgetBuilderStepUiState>(uiStateOutput.value)
         consumableDelegate.update {
-            it.selectManualItem(uiStateOutput.value.manuallyAdded[position])
+            it.selectManualItem(uiState.manuallyAdded[position])
         }
     }
 
@@ -58,8 +60,9 @@ internal class CategoryBuilderViewModel(
      * @param position The position of the selected item.
      */
     fun selectSuggestedItem(position: Int) = errorHandler.catching {
+        val uiState = checkIs<FilledBudgetBuilderStepUiState>(uiStateOutput.value)
         consumableDelegate.update {
-            it.selectUserSuggestion(uiStateOutput.value.suggestions[position])
+            it.selectUserSuggestion(uiState.suggestions[position])
         }
     }
 
@@ -86,15 +89,15 @@ internal class CategoryBuilderViewModel(
      * Proceeds to the next step of the builder.
      */
     fun next() = errorHandler.catching {
-        val builder = checkNotNull(uiStateOutput.value.builder)
+        val uiState = checkIs<FilledBudgetBuilderStepUiState>(uiStateOutput.value)
         try {
-            val result = builder.next()
+            val result = uiState.builder.next()
             consumableDelegate.update {
                 it.navigateToNext(result)
             }
         } catch (e: NotEnoughInputsException) {
             // avoid logging the exception as an error
-            analyticsReporter.log(NotEnoughItemsToCompleteEvent(builder.id, e.remainingInputs))
+            analyticsReporter.log(NotEnoughItemsToCompleteEvent(uiState.builder.id, e.remainingInputs))
             consumableDelegate.update {
                 it.handleError(e)
             }

@@ -3,9 +3,12 @@ package br.com.mob1st.features.finances.impl.dependencies
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCashFlowUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCategoryBuilderUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.GetFixedExpensesUseCaseImpl
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepViewModel
+import br.com.mob1st.features.finances.impl.ui.navgraph.CategoryBuilderNavGraphImpl
 import br.com.mob1st.features.finances.impl.ui.navgraph.FinancesNavGraphImpl
 import br.com.mob1st.features.finances.impl.ui.tabs.CashFlowUiStateHolder
 import br.com.mob1st.features.finances.impl.ui.tabs.CashFlowViewModel
+import br.com.mob1st.features.finances.publicapi.domain.ui.CategoryBuilderNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.usecases.GetFixedExpensesUseCase
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -30,6 +33,8 @@ private val domainModule = module {
 
 private val uiModule = module {
     single { FinancesNavGraphImpl } bind FinancesNavGraph::class
+    single { CategoryBuilderNavGraphImpl } bind CategoryBuilderNavGraph::class
     factoryOf(::CashFlowUiStateHolder)
+    viewModelOf(::BudgetBuilderStepViewModel)
     viewModelOf(::CashFlowViewModel)
 }

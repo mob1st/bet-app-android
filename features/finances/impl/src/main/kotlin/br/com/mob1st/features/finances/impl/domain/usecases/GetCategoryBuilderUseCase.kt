@@ -1,8 +1,8 @@
 package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.core.observability.events.AnalyticsReporter
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.entities.CategoryBuilder
 import br.com.mob1st.features.finances.impl.domain.events.BuilderStepScreenViewFactory
 import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
 import br.com.mob1st.features.finances.impl.domain.repositories.SuggestionsRepository
@@ -18,12 +18,12 @@ internal class GetCategoryBuilderUseCase(
 ) {
     operator fun get(
         step: BuilderNextAction.Step,
-    ): Flow<CategoryBuilder> {
+    ): Flow<BudgetBuilder> {
         return combine(
             categoryRepository.getManuallyCreatedBy(step),
             suggestionsRepository.getByStep(step),
         ) { manuallyAdded, suggestions ->
-            CategoryBuilder(
+            BudgetBuilder(
                 id = step,
                 manuallyAdded = manuallyAdded,
                 suggestions = suggestions,

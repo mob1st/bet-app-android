@@ -15,6 +15,8 @@ class TestTimberTree : Timber.Tree() {
         val isWarning get() = priority == WARNING_PRIORITY
     }
 
+    inline fun <reified T> hasError() = logs.any { it.t is T }
+
     companion object {
         private const val WARNING_PRIORITY = 5
     }

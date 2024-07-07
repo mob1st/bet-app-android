@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
-class CategoryBuilderTest {
+class BudgetBuilderTest {
     @Test
     fun `GIVEN a step And enough manually added categories WHEN get next action THEN assert next action`() {
         val step = steps.random()
-        val builder = CategoryBuilder(
+        val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(positiveCount = step.minimumRequiredToProceed),
             suggestions = suggestions(withoutCategoryCount = 0),
@@ -26,7 +26,7 @@ class CategoryBuilderTest {
     @Test
     fun `GIVEN a step And enough suggested categories WHEN get next action THEN assert next action`() {
         val step = steps.random()
-        val builder = CategoryBuilder(
+        val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(),
             suggestions = suggestions(
@@ -41,7 +41,7 @@ class CategoryBuilderTest {
     @Test
     fun `GIVEN a step And enough manually added and suggested categories WHEN get next action THEN assert next action`() {
         val step = steps.random()
-        val builder = CategoryBuilder(
+        val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(
                 positiveCount = step.minimumRequiredToProceed,
@@ -58,7 +58,7 @@ class CategoryBuilderTest {
     @Test
     fun `GIVEN a step And more than enough inputs WHEN get next action THEN assert next action`() {
         val step = steps.random()
-        val builder = CategoryBuilder(
+        val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(
                 positiveCount = step.minimumRequiredToProceed + 1,
@@ -75,7 +75,7 @@ class CategoryBuilderTest {
     @Test
     fun `GIVEN a step And not enough manual inputs WHEN get next action THEN assert exception`() {
         val step = steps.random()
-        val builder = CategoryBuilder(
+        val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(
                 positiveCount = step.minimumRequiredToProceed - 1,
@@ -93,7 +93,7 @@ class CategoryBuilderTest {
     @Test
     fun `GIVEN a step And not enough suggested inputs WHEN get next action THEN assert exception`() {
         val step = steps.random()
-        val builder = CategoryBuilder(
+        val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(),
             suggestions = suggestions(
@@ -110,7 +110,7 @@ class CategoryBuilderTest {
     @Test
     fun `GIVEN a step And zeroed categories WHEN get next action THEN assert exception`() {
         val step = steps.random()
-        val builder = CategoryBuilder(
+        val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(
                 positiveCount = step.minimumRequiredToProceed - 1,
@@ -128,7 +128,7 @@ class CategoryBuilderTest {
 
     @Test
     fun `WHEN get the first step THEN assert it is fixed expense`() {
-        val actual = CategoryBuilder.firstStep()
+        val actual = BudgetBuilder.firstStep()
         assertEquals(FixedExpensesStep, actual)
     }
 

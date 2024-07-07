@@ -19,7 +19,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class GetCategoryBuilderUseCaseTest {
+class GetBudgetBuilderUseCaseTest {
     private lateinit var useCase: GetCategoryBuilderUseCase
 
     private lateinit var analyticsReporter: AnalyticsReporter

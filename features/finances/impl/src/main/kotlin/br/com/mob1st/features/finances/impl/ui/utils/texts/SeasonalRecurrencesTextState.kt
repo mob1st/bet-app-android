@@ -48,7 +48,7 @@ private fun List<DayAndMonth>.resolve(locale: Locale): TextState {
         )
     }
     return TextState(
-        R.plurals.finances_category_seasonal_recurrence_item_supporting,
+        R.plurals.finances_builder_not_enough_items_error,
         arguments.size,
         arguments,
     )
