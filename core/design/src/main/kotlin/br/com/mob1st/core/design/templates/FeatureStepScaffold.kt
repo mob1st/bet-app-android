@@ -1,13 +1,16 @@
 package br.com.mob1st.core.design.templates
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -20,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import br.com.mob1st.core.design.R
 import br.com.mob1st.core.design.atoms.icons.CheckIcon
 import br.com.mob1st.core.design.atoms.spacing.Spacings
-import br.com.mob1st.core.design.atoms.theme.BetTheme
+import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.organisms.header.SecondaryTitle
 import br.com.mob1st.core.design.organisms.header.TitleDefaults
 import br.com.mob1st.core.design.utils.ThemedPreview
@@ -68,13 +71,16 @@ fun FeatureStepScaffold(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(),
-                verticalArrangement = Arrangement.spacedBy(space = Spacings.x8),
+                    .padding(paddingValues),
             ) {
-                Box(modifier = Modifier.padding(horizontal = Spacings.x4)) {
-                    subtitleContent()
+                Box(
+                    modifier = Modifier.padding(horizontal = Spacings.x4),
+                ) {
+                    ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
+                        subtitleContent()
+                    }
                 }
+                Spacer(modifier = Modifier.height(Spacings.x4))
                 content()
             }
         },
@@ -84,7 +90,7 @@ fun FeatureStepScaffold(
 @Composable
 @ThemedPreview
 private fun FeatureStepScaffoldPreview() {
-    BetTheme {
+    TwoCentsTheme {
         FeatureStepScaffold(
             onClickBack = {},
             onClickNext = {},

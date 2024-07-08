@@ -13,8 +13,8 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.mob1st.core.design.atoms.theme.BetTheme
 import br.com.mob1st.core.design.atoms.theme.LocalPane
+import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 
 @Composable
@@ -124,7 +124,7 @@ enum class ButtonStyle {
 @Composable
 @ThemedPreview
 private fun ButtonsPreview() {
-    BetTheme {
+    TwoCentsTheme {
         Column(
             modifier = Modifier
                 .fillMaxSize()

@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import br.com.mob1st.core.design.atoms.spacing.Spacings
-import br.com.mob1st.core.design.atoms.theme.BetTheme
+import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.molecules.buttons.Button
 import br.com.mob1st.core.design.organisms.header.PrimaryTitle
 import br.com.mob1st.core.design.organisms.header.TitleDefaults
@@ -61,7 +61,7 @@ fun FeatureSummaryScaffold(
 @Composable
 @ThemedPreview
 private fun FeatureSummaryScaffoldPreview() {
-    BetTheme {
+    TwoCentsTheme {
         FeatureSummaryScaffold(
             titleContent = {
                 Text(text = "Some screen title")

@@ -13,7 +13,7 @@ fun PreviewSetup(
     CompositionLocalProvider(
         LocalLayoutSpec provides layoutSpec,
     ) {
-        BetTheme {
+        TwoCentsTheme {
             Box {
                 content()
             }

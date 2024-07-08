@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.mob1st.core.design.atoms.spacing.Spacings
-import br.com.mob1st.core.design.atoms.theme.BetTheme
+import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.molecules.buttons.ButtonStyle
 import br.com.mob1st.core.design.molecules.buttons.LocalButtonStyle
 import br.com.mob1st.core.design.molecules.buttons.PrimaryButton
@@ -67,7 +67,7 @@ fun Helper(
 @Composable
 @ThemedPreview
 private fun HelperPreview() {
-    BetTheme {
+    TwoCentsTheme {
         Column(
             modifier = Modifier
                 .fillMaxSize()

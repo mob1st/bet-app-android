@@ -6,9 +6,9 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
-import br.com.mob1st.core.design.atoms.theme.BetTheme
 import br.com.mob1st.core.design.atoms.theme.LocalDisplayFeatures
 import br.com.mob1st.core.design.atoms.theme.LocalLayoutSpec
+import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.templates.LayoutSpec
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 
@@ -27,6 +27,6 @@ fun DesignSystem(
         LocalDisplayFeatures provides displayFeatures,
         LocalLayoutSpec provides layoutSpec,
     ) {
-        BetTheme(content)
+        TwoCentsTheme(content)
     }
 }

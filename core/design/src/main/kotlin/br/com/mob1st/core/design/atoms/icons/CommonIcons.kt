@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import br.com.mob1st.core.design.R
-import br.com.mob1st.core.design.atoms.theme.BetTheme
+import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 
 @Composable
@@ -55,7 +55,7 @@ fun CheckIcon(
 @Composable
 @ThemedPreview
 private fun IconsPreview() {
-    BetTheme {
+    TwoCentsTheme {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(40.dp),
         ) {

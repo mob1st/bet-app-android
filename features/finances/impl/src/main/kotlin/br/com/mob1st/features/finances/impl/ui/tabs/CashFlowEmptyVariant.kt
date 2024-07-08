@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import br.com.mob1st.core.design.atoms.theme.BetTheme
+import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.organisms.helper.Helper
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.features.finances.impl.R
@@ -46,7 +46,7 @@ internal fun CashFlowEmptyVariant(onClickSetupBudget: () -> Unit) {
 @Composable
 @ThemedPreview
 private fun TransactionListTabEmptyVariantPreview() {
-    BetTheme {
+    TwoCentsTheme {
         CashFlowEmptyVariant(onClickSetupBudget = {})
     }
 }

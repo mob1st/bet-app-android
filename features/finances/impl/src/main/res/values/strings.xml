@@ -77,7 +77,7 @@
     <string name="finances_builder_commons_dialog_title">Add a name</string>
     <string name="finances_builder_commons_dialog_submit_button">Add</string>
     <string name="finances_builder_commons_suggestions_dialog_input_hint">Name</string>
-
+    <string name="finances_builder_commons_list_trailing_support">Per month</string>
     <string name="finances_category_fixed_recurrence_item_supporting">Every %1$s day</string>
 
     <plurals name="finances_builder_not_enough_items_error">

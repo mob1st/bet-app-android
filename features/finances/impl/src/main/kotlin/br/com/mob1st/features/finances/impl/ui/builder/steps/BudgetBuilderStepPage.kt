@@ -1,10 +1,7 @@
 package br.com.mob1st.features.finances.impl.ui.builder.steps
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -14,9 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.mob1st.core.design.atoms.theme.BetTheme
+import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.organisms.lists.selectableItem
 import br.com.mob1st.core.design.organisms.section.section
 import br.com.mob1st.core.design.organisms.snack.Snackbar
@@ -31,6 +27,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItem
 import br.com.mob1st.features.utils.navigation.SideEffectNavigation
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -145,9 +142,7 @@ private fun BudgetBuilderScreenContent(
                 )
             },
         )
-        item {
-            Spacer(modifier = Modifier.height(32.dp))
-        }
+
         section(
             items = uiState.suggestions,
             key = { it.key },
@@ -183,7 +178,7 @@ private fun CategoryListItemContent(
                 Text(text = it.resolve())
             }
         }
-    ListItem(
+    CategorySectionItem(
         modifier = Modifier.selectableItem { onSelectItem(index) },
         headlineContent = {
             Text(text = categoryListItem.headline.resolve())
@@ -255,7 +250,7 @@ private fun CategoryBuilderPagePreview() {
         ),
     )
     val consumables = BudgetBuilderStepConsumables()
-    BetTheme {
+    TwoCentsTheme {
         CategoryBuilderStepScreen(
             uiState = uiState,
             consumables = consumables,

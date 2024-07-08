@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.mob1st.core.design.atoms.theme.BetTheme
+import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.organisms.snack.Snackbar
 import br.com.mob1st.core.design.organisms.snack.snackbar
 import br.com.mob1st.features.dev.impl.R
@@ -113,7 +113,6 @@ private fun DevMenuPageView(
     SideEffectNavigation(
         target = navTarget,
         onNavigate = onNavigate,
-        onConsumeNavigation = onConsumeNavigation,
     )
 }
 
@@ -179,7 +178,7 @@ private fun DevMenuPagePreview() {
             ),
         ).toImmutableList(),
     )
-    BetTheme {
+    TwoCentsTheme {
         DevMenuPageView(
             pageState = uiState,
             snackbarState = null,

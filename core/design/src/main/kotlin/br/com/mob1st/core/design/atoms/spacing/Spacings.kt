@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
  * This is a list of multiples by 4dp, starting from x1 (4dp) until x16(64dp).
  * If more than x16 is needed, use dynamic values such as screen % or available space for a component.
  */
-internal object Spacings {
+object Spacings {
     val x1: Dp = 4.dp
     val x2: Dp = 8.dp
     val x3: Dp = 12.dp
