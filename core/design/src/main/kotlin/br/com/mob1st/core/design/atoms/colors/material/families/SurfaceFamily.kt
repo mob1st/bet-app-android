@@ -1,6 +1,9 @@
 package br.com.mob1st.core.design.atoms.colors.material.families
 
 import androidx.compose.ui.graphics.Color
+import br.com.mob1st.core.design.atoms.colors.tonals.BlackTonal
+import br.com.mob1st.core.design.atoms.colors.tonals.GreyTonal
+import br.com.mob1st.core.design.atoms.colors.tonals.WhiteTonal
 
 internal data class SurfaceFamily(
     val surface: Color,
@@ -19,32 +22,32 @@ internal data class SurfaceFamily(
     companion object : FamilyThemeVariator<SurfaceFamily> {
         override fun light() = SurfaceFamily(
             surface = Color.White,
-            dim = Color(0xFFF5F5F5),
-            bright = Color(0xFFE0E0E0),
-            containerLowest = Color(0xFFFAFAFA),
-            containerLow = Color(0xFFF5F5F5),
-            container = Color(0xFFEEEEEE),
-            containerHigh = Color(0xFFE0E0E0),
-            containerHighest = Color(0xFFD6D6D6),
-            onSurface = Color.Black,
-            onSurfaceVariant = Color(0xFF757575),
-            outline = Color(0xFFBDBDBD),
-            outlineVariant = Color(0xFF9E9E9E),
+            dim = WhiteTonal.x6,
+            bright = WhiteTonal.x1,
+            containerLowest = WhiteTonal.x1,
+            containerLow = WhiteTonal.x3,
+            container = WhiteTonal.x4,
+            containerHigh = WhiteTonal.x5,
+            containerHighest = WhiteTonal.x6,
+            onSurface = BlackTonal.x2,
+            onSurfaceVariant = GreyTonal.x1,
+            outline = GreyTonal.x4,
+            outlineVariant = GreyTonal.x5,
         )
 
         override fun dark() = SurfaceFamily(
-            surface = Color(0xFF121212),
-            dim = Color(0xFF1E1E1E),
-            bright = Color(0xFF333333),
-            containerLowest = Color(0xFF1C1C1C),
-            containerLow = Color(0xFF212121),
-            container = Color(0xFF242424),
-            containerHigh = Color(0xFF2C2C2C),
-            containerHighest = Color(0xFF333333),
-            onSurface = Color.White,
-            onSurfaceVariant = Color(0xFFBDBDBD),
-            outline = Color(0xFF9E9E9E),
-            outlineVariant = Color(0xFF757575),
+            surface = BlackTonal.x2,
+            dim = BlackTonal.x2,
+            bright = BlackTonal.x6,
+            containerLowest = BlackTonal.x1,
+            containerLow = BlackTonal.x3,
+            container = BlackTonal.x4,
+            containerHigh = BlackTonal.x5,
+            containerHighest = BlackTonal.x6,
+            onSurface = WhiteTonal.x1,
+            onSurfaceVariant = GreyTonal.x6,
+            outline = GreyTonal.x4,
+            outlineVariant = GreyTonal.x1,
         )
     }
 }

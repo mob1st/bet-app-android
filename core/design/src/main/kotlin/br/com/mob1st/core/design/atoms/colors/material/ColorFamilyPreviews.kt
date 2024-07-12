@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -31,11 +30,31 @@ import br.com.mob1st.core.design.atoms.spacing.Spacings
     showBackground = true,
     widthDp = 1000,
 )
-fun LightStandardContrastPreview(
-    @PreviewParameter(ContrastedColorFamilyProvider::class) families: ContrastedColorFamilies,
+private fun LightStandardContrastPreview(
+    @PreviewParameter(LightContrastedColorFamilyProvider::class) families: ContrastedColorFamilies,
+) {
+    StandardContrastPreview(families = families)
+}
+
+@Composable
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    widthDp = 1000,
+    backgroundColor = 0xFF101010,
+)
+private fun NightStandardContrastPreview(
+    @PreviewParameter(NightContrastedColorFamilyProvider::class) families: ContrastedColorFamilies,
+) {
+    StandardContrastPreview(families = families)
+}
+
+@Composable
+private fun StandardContrastPreview(
+    families: ContrastedColorFamilies,
 ) {
     Row(
-        modifier = Modifier.background(Color(0xFFF1F1F1)),
+        modifier = Modifier.padding(Spacings.x4),
         horizontalArrangement = Arrangement.spacedBy(Spacings.x8),
     ) {
         Column(
@@ -123,10 +142,18 @@ private fun Modifier.bottomColorSize() = height(48.dp)
     .fillMaxWidth()
     .padding(Spacings.x4)
 
-internal class ContrastedColorFamilyProvider : PreviewParameterProvider<ContrastedColorFamilies> {
+internal class LightContrastedColorFamilyProvider : PreviewParameterProvider<ContrastedColorFamilies> {
     override val values: Sequence<ContrastedColorFamilies> = sequenceOf(
         LightContrastVariation.standard(),
         LightContrastVariation.medium(),
         LightContrastVariation.high(),
+    )
+}
+
+internal class NightContrastedColorFamilyProvider : PreviewParameterProvider<ContrastedColorFamilies> {
+    override val values: Sequence<ContrastedColorFamilies> = sequenceOf(
+        NightContrastVariation.standard(),
+        NightContrastVariation.medium(),
+        NightContrastVariation.high(),
     )
 }

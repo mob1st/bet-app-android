@@ -1,6 +1,8 @@
 package br.com.mob1st.core.design.atoms.colors.material.families
 
 import androidx.compose.ui.graphics.Color
+import br.com.mob1st.core.design.atoms.colors.tonals.BlackTonal
+import br.com.mob1st.core.design.atoms.colors.tonals.WhiteTonal
 
 internal data class InverseFamily(
     val inverseSurface: Color,
@@ -8,12 +10,16 @@ internal data class InverseFamily(
     val inversePrimary: Color,
 ) {
     companion object : FamilyThemeVariator<InverseFamily> {
-        override fun light(): InverseFamily {
-            TODO("Not yet implemented")
-        }
+        override fun light(): InverseFamily = InverseFamily(
+            inverseSurface = BlackTonal.x6,
+            inverseOnSurface = WhiteTonal.x3,
+            inversePrimary = WhiteTonal.x1,
+        )
 
-        override fun dark(): InverseFamily {
-            TODO("Not yet implemented")
-        }
+        override fun dark(): InverseFamily = InverseFamily(
+            inverseSurface = WhiteTonal.x1,
+            inverseOnSurface = BlackTonal.x6,
+            inversePrimary = BlackTonal.x6,
+        )
     }
 }
