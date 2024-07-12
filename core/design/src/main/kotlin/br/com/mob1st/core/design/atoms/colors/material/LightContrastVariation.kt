@@ -12,6 +12,9 @@ import br.com.mob1st.core.design.atoms.colors.tonals.UranianBlueTonal
 import br.com.mob1st.core.design.atoms.colors.tonals.VanillaTonal
 import br.com.mob1st.core.design.atoms.colors.tonals.WhiteTonal
 
+/**
+ * Light contrast variation for the color scheme.
+ */
 internal data object LightContrastVariation : ContrastedThemeVariator.ContrastVariation {
     override fun standard(): ContrastedColorFamilies = ContrastedColorFamilies(
         primary = ColorFamily(

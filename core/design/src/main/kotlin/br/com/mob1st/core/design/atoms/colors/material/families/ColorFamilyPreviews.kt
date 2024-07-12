@@ -1,4 +1,4 @@
-package br.com.mob1st.core.design.atoms.colors.material
+package br.com.mob1st.core.design.atoms.colors.material.families
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -20,8 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import br.com.mob1st.core.design.atoms.colors.material.families.ColorFamily
-import br.com.mob1st.core.design.atoms.colors.material.families.ContrastedColorFamilies
+import br.com.mob1st.core.design.atoms.colors.material.LightContrastVariation
+import br.com.mob1st.core.design.atoms.colors.material.NightContrastVariation
 import br.com.mob1st.core.design.atoms.spacing.Spacings
 
 @Composable

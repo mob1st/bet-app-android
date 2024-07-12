@@ -21,14 +21,22 @@ internal data class SurfaceFamily(
 ) {
     companion object : FamilyThemeVariator<SurfaceFamily> {
         override fun light() = SurfaceFamily(
-            surface = Color.White,
-            dim = WhiteTonal.x6,
-            bright = WhiteTonal.x1,
-            containerLowest = WhiteTonal.x1,
-            containerLow = WhiteTonal.x3,
+            dim = WhiteTonal.x1,
+            surface = WhiteTonal.x5,
+            bright = WhiteTonal.x5,
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+            containerLowest = WhiteTonal.x6,
+            containerLow = WhiteTonal.x5,
             container = WhiteTonal.x4,
-            containerHigh = WhiteTonal.x5,
-            containerHighest = WhiteTonal.x6,
+            containerHigh = WhiteTonal.x3,
+            containerHighest = WhiteTonal.x1,
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
             onSurface = BlackTonal.x2,
             onSurfaceVariant = GreyTonal.x1,
             outline = GreyTonal.x4,

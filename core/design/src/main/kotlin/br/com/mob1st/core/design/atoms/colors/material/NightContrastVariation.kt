@@ -12,6 +12,9 @@ import br.com.mob1st.core.design.atoms.colors.tonals.UranianBlueTonal
 import br.com.mob1st.core.design.atoms.colors.tonals.VanillaTonal
 import br.com.mob1st.core.design.atoms.colors.tonals.WhiteTonal
 
+/**
+ * Night contrast variation for the color scheme.
+ */
 data object NightContrastVariation : ContrastedThemeVariator.ContrastVariation {
     override fun standard(): ContrastedColorFamilies {
         return ContrastedColorFamilies(
