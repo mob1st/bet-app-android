@@ -24,19 +24,11 @@ internal data class SurfaceFamily(
             dim = WhiteTonal.x1,
             surface = WhiteTonal.x5,
             bright = WhiteTonal.x5,
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
             containerLowest = WhiteTonal.x6,
             containerLow = WhiteTonal.x5,
             container = WhiteTonal.x4,
             containerHigh = WhiteTonal.x3,
             containerHighest = WhiteTonal.x1,
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
             onSurface = BlackTonal.x2,
             onSurfaceVariant = GreyTonal.x1,
             outline = GreyTonal.x4,

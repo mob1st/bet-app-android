@@ -12,14 +12,14 @@ internal data class InverseFamily(
     companion object : FamilyThemeVariator<InverseFamily> {
         override fun light(): InverseFamily = InverseFamily(
             inverseSurface = BlackTonal.x6,
-            inverseOnSurface = WhiteTonal.x3,
-            inversePrimary = WhiteTonal.x1,
+            inverseOnSurface = WhiteTonal.x2,
+            inversePrimary = WhiteTonal.x6,
         )
 
         override fun dark(): InverseFamily = InverseFamily(
             inverseSurface = WhiteTonal.x1,
             inverseOnSurface = BlackTonal.x6,
-            inversePrimary = BlackTonal.x6,
+            inversePrimary = BlackTonal.x1,
         )
     }
 }

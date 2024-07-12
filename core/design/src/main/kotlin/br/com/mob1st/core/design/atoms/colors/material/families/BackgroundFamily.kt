@@ -11,7 +11,7 @@ data class BackgroundFamily(
     companion object : FamilyThemeVariator<BackgroundFamily> {
         override fun light(): BackgroundFamily = BackgroundFamily(
             background = WhiteTonal.x5,
-            onBackground = BlackTonal.x3,
+            onBackground = BlackTonal.x2,
         )
 
         override fun dark(): BackgroundFamily = BackgroundFamily(
