@@ -43,7 +43,7 @@ fun NextIcon(
 @Composable
 fun CheckIcon(
     modifier: Modifier = Modifier,
-    contentDescription: String,
+    contentDescription: String?,
 ) {
     Icon(
         Icons.Default.Check,

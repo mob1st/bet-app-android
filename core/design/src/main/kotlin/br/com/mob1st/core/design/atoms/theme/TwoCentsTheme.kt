@@ -19,6 +19,7 @@ import br.com.mob1st.core.design.atoms.colors.material.LocalIncomesFamily
 import br.com.mob1st.core.design.atoms.colors.material.LocalSeasonalExpensesFamily
 import br.com.mob1st.core.design.atoms.colors.material.LocalVariableExpensesFamily
 import br.com.mob1st.core.design.atoms.colors.material.TwoCentsColorScheme
+import br.com.mob1st.core.design.atoms.shapes.ShapesFactory
 import br.com.mob1st.core.design.atoms.typography.TypographyFactory
 
 /**
@@ -57,6 +58,9 @@ private fun MaterialThemeWrapper(content: @Composable () -> Unit) {
     val typography = remember {
         TypographyFactory.create()
     }
+    val shapes = remember {
+        ShapesFactory.create()
+    }
 
     CompositionLocalProvider(
         LocalIncomesFamily provides twoCentsExtensions.incomes,
@@ -67,6 +71,7 @@ private fun MaterialThemeWrapper(content: @Composable () -> Unit) {
         MaterialTheme(
             colorScheme = materialScheme,
             typography = typography,
+            shapes = shapes,
         ) {
             content()
         }

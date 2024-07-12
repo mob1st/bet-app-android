@@ -51,17 +51,17 @@ data object DefaultFontRoles : Material3Roles {
     )
     override val title = FontRole(
         small = scale.style(
-            fontFamily = notoSansFlex,
+            fontFamily = montserrat,
             fontWeight = FontWeight.Bold,
             sizePower = -1,
         ),
         medium = scale.style(
-            fontFamily = notoSansFlex,
+            fontFamily = montserrat,
             fontWeight = FontWeight.SemiBold,
             sizePower = 1,
         ),
         large = scale.style(
-            fontFamily = notoSansFlex,
+            fontFamily = montserrat,
             fontWeight = FontWeight.Bold,
             sizePower = 4,
         ),
