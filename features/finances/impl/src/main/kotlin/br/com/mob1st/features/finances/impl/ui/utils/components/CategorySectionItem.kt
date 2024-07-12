@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import br.com.mob1st.core.androidx.compose.ComposableFunction
 import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
-import br.com.mob1st.core.design.atoms.typography.NumericFontRoles
 import br.com.mob1st.core.design.utils.ThemedPreview
+import br.com.mob1st.features.finances.impl.R
 
 /**
  * Setup the list item for the category section.
@@ -30,10 +32,15 @@ fun CategorySectionItem(
     supportingContent: (@Composable () -> Unit)?,
     trailingContent: (@Composable () -> Unit)?,
 ) {
+    val decoratedHeadlineContent: ComposableFunction = {
+        ProvideTextStyle(value = CategoryListItemDefaults.topTextStyle) {
+            headlineContent()
+        }
+    }
     val decoratedSupportingContent: ComposableFunction? =
         supportingContent?.let {
             {
-                ProvideTextStyle(value = MaterialTheme.typography.labelSmall) {
+                ProvideTextStyle(value = CategoryListItemDefaults.bottomTextStyle) {
                     supportingContent()
                 }
             }
@@ -46,7 +53,7 @@ fun CategorySectionItem(
         }
     ListItem(
         modifier = modifier,
-        headlineContent = headlineContent,
+        headlineContent = decoratedHeadlineContent,
         supportingContent = decoratedSupportingContent,
         trailingContent = decoratedTrailingContent,
     )
@@ -63,10 +70,14 @@ private fun Trailing(
         CompositionLocalProvider(
             LocalContentColor provides MaterialTheme.colorScheme.onSurface,
         ) {
-            ProvideTextStyle(value = NumericFontRoles.body.large) {
+            ProvideTextStyle(value = CategoryListItemDefaults.topTextStyle) {
                 trailingContent()
             }
         }
+        Text(
+            text = stringResource(id = R.string.finances_builder_commons_list_trailing_support),
+            style = CategoryListItemDefaults.bottomTextStyle,
+        )
     }
 }
 
@@ -86,4 +97,15 @@ private fun CategorySectionItemPreview() {
             },
         )
     }
+}
+
+internal object CategoryListItemDefaults {
+    val topTextStyle
+        @Composable get() = MaterialTheme.typography.bodyLarge.copy(
+            fontWeight = FontWeight.Bold,
+        )
+    val bottomTextStyle
+        @Composable get() = MaterialTheme.typography.labelSmall.copy(
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
 }

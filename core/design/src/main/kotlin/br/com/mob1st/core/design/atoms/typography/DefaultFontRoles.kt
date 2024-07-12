@@ -34,7 +34,7 @@ data object DefaultFontRoles : Material3Roles {
     )
     override val headline = FontRole(
         small = scale.style(
-            fontFamily = openSans,
+            fontFamily = montserrat,
             fontWeight = FontWeight.SemiBold,
             sizePower = 5,
         ),
@@ -51,53 +51,53 @@ data object DefaultFontRoles : Material3Roles {
     )
     override val title = FontRole(
         small = scale.style(
-            fontFamily = openSans,
+            fontFamily = notoSansFlex,
             fontWeight = FontWeight.Bold,
             sizePower = -1,
         ),
         medium = scale.style(
-            fontFamily = openSans,
+            fontFamily = notoSansFlex,
             fontWeight = FontWeight.SemiBold,
             sizePower = 1,
         ),
         large = scale.style(
-            fontFamily = openSans,
-            fontWeight = FontWeight.SemiBold,
+            fontFamily = notoSansFlex,
+            fontWeight = FontWeight.Bold,
             sizePower = 4,
         ),
     )
     override val body = FontRole(
         small = scale.style(
-            fontFamily = openSans,
+            fontFamily = notoSansFlex,
             fontWeight = FontWeight.Normal,
             sizePower = -1,
         ),
         medium = scale.style(
-            fontFamily = openSans,
-            fontWeight = FontWeight.Normal,
+            fontFamily = notoSansFlex,
+            fontWeight = FontWeight.Medium,
             sizePower = 0,
         ),
         large = scale.style(
-            fontFamily = openSans,
-            fontWeight = FontWeight.Normal,
+            fontFamily = notoSansFlex,
+            fontWeight = FontWeight.Bold,
             sizePower = 1,
         ),
     )
 
     override val label = FontRole(
         small = scale.style(
-            fontFamily = openSans,
-            fontWeight = FontWeight.SemiBold,
+            fontFamily = notoSansFlex,
+            fontWeight = FontWeight.Light,
             sizePower = -2,
         ),
         medium = scale.style(
-            fontFamily = openSans,
-            fontWeight = FontWeight.Normal,
+            fontFamily = notoSansFlex,
+            fontWeight = FontWeight.Bold,
             sizePower = -1,
         ),
         large = scale.style(
-            fontFamily = openSans,
-            fontWeight = FontWeight.Normal,
+            fontFamily = notoSansFlex,
+            fontWeight = FontWeight.Bold,
             sizePower = 0,
         ),
     )

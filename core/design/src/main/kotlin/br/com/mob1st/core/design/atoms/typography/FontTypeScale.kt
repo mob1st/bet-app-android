@@ -51,6 +51,6 @@ class FontTypeScale(
         private val baseTextUnit = 14.sp
         private const val MAJOR_SECOND_FONT_SCALE = 1.125f
         private const val LINE_HEIGHT_RATIO = 1.2f
-        private const val LETTER_SPACING_RATIO = 0.314 // (PI / 10.0)
+        private const val LETTER_SPACING_RATIO = 0.2
     }
 }

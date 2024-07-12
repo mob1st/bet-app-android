@@ -3,6 +3,7 @@ package br.com.mob1st.core.design.atoms.typography
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import br.com.mob1st.core.design.R
@@ -31,44 +32,33 @@ internal val montserrat = FontFamily(
 )
 
 @OptIn(ExperimentalTextApi::class)
-internal val openSans = FontFamily(
+internal val notoSansFlex = FontFamily(
     Font(
-        R.font.open_sans_flex,
-        variationSettings = FontVariation.Settings(
-            FontVariation.weight(FontWeight.Normal.weight),
-        ),
+        R.font.noto_sans_flex,
+        variationSettings = FontVariation.Settings(FontWeight.Light, FontStyle.Normal),
     ),
     Font(
-        R.font.open_sans_flex,
-        variationSettings = FontVariation.Settings(
-            FontVariation.weight(FontWeight.SemiBold.weight),
-        ),
+        R.font.noto_sans_flex,
+        variationSettings = FontVariation.Settings(FontWeight.Normal, FontStyle.Normal),
     ),
     Font(
-        R.font.open_sans_flex,
-        variationSettings = FontVariation.Settings(
-            FontVariation.weight(FontWeight.Medium.weight),
-        ),
+        R.font.noto_sans_flex,
+        variationSettings = FontVariation.Settings(FontWeight.Medium, FontStyle.Normal),
     ),
     Font(
-        R.font.montserrat_flex,
-        variationSettings = FontVariation.Settings(
-            FontVariation.weight(FontWeight.Bold.weight),
-        ),
-    ),
-)
-
-internal val titilliumWeb = FontFamily(
-    Font(
-        R.font.titillium_web_regular,
-        weight = FontWeight.Normal,
+        R.font.noto_sans_flex,
+        variationSettings = FontVariation.Settings(FontWeight.SemiBold, FontStyle.Normal),
     ),
     Font(
-        R.font.titillium_web_semibold,
-        weight = FontWeight.SemiBold,
+        R.font.noto_sans_flex,
+        variationSettings = FontVariation.Settings(FontWeight.Bold, FontStyle.Normal),
     ),
     Font(
-        R.font.titillium_web_semibold,
-        weight = FontWeight.Bold,
+        R.font.noto_sans_flex,
+        variationSettings = FontVariation.Settings(FontWeight.ExtraBold, FontStyle.Normal),
+    ),
+    Font(
+        R.font.noto_sans_flex,
+        variationSettings = FontVariation.Settings(FontWeight.Black, FontStyle.Normal),
     ),
 )

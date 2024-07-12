@@ -51,7 +51,25 @@ INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_property_taxes', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'finances_builder_suggestions_item_property_remedy', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'finances_builder_suggestions_item_electricity', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'finances_builder_suggestions_item_water', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'finances_builder_suggestions_item_cleaning', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_health_insurance', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'finances_builder_suggestions_item_pet_insurance', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'finances_builder_suggestions_item_pet_costs', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_car_insurance', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
@@ -103,7 +121,10 @@ INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_groceries', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_dining_out', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
+SELECT 'finances_builder_suggestions_item_cigarettes', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'finances_builder_suggestions_item_d ining_out', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_food_delivery', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
@@ -159,6 +180,9 @@ INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_holiday_gifts', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'finances_builder_suggestions_item_dentist', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_vacation_travel', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
@@ -168,6 +192,9 @@ INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_winter_clothing', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
+SELECT 'finances_builder_suggestions_item_travel', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
+
+INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_summer_activities', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
@@ -175,9 +202,6 @@ SELECT 'finances_builder_suggestions_item_garden_supplies', types.id, 1 FROM Cat
 
 INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_home_heating', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_holiday_decorations', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
 
 INSERT INTO Suggestions(name, type_id, is_expense)
 SELECT 'finances_builder_suggestions_item_tax_preparation_fees', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
