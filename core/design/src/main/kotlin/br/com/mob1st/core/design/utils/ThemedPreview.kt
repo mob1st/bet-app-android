@@ -15,6 +15,3 @@ import androidx.compose.ui.tooling.preview.Preview
     showBackground = true,
 )
 annotation class ThemedPreview
-
-@Preview
-annotation class WindowLayoutPreview

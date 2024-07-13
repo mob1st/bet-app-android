@@ -35,7 +35,7 @@ internal data class SurfaceFamily(
             outlineVariant = GreyTonal.x5,
         )
 
-        override fun dark() = SurfaceFamily(
+        override fun night() = SurfaceFamily(
             surface = BlackTonal.x2,
             dim = BlackTonal.x2,
             bright = BlackTonal.x6,
@@ -44,7 +44,7 @@ internal data class SurfaceFamily(
             container = BlackTonal.x4,
             containerHigh = BlackTonal.x5,
             containerHighest = BlackTonal.x6,
-            onSurface = WhiteTonal.x1,
+            onSurface = WhiteTonal.x2,
             onSurfaceVariant = GreyTonal.x6,
             outline = GreyTonal.x4,
             outlineVariant = GreyTonal.x1,

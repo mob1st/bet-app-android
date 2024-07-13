@@ -13,5 +13,5 @@ interface FamilyThemeVariator<T> {
     /**
      * Creates a dark instance of the family.
      */
-    fun dark(): T
+    fun night(): T
 }

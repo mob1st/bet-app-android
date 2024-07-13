@@ -16,7 +16,7 @@ internal data class InverseFamily(
             inversePrimary = WhiteTonal.x6,
         )
 
-        override fun dark(): InverseFamily = InverseFamily(
+        override fun night(): InverseFamily = InverseFamily(
             inverseSurface = WhiteTonal.x1,
             inverseOnSurface = BlackTonal.x6,
             inversePrimary = BlackTonal.x1,

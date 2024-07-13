@@ -14,7 +14,7 @@ data class BackgroundFamily(
             onBackground = BlackTonal.x2,
         )
 
-        override fun dark(): BackgroundFamily = BackgroundFamily(
+        override fun night(): BackgroundFamily = BackgroundFamily(
             background = BlackTonal.x2,
             onBackground = WhiteTonal.x6,
         )

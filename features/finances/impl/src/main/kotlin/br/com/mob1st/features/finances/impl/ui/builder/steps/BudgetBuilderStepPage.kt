@@ -1,5 +1,6 @@
 package br.com.mob1st.features.finances.impl.ui.builder.steps
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.OutlinedTextField
@@ -12,21 +13,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
+import br.com.mob1st.core.design.atoms.spacing.Spacings
 import br.com.mob1st.core.design.organisms.lists.selectableItem
 import br.com.mob1st.core.design.organisms.section.section
 import br.com.mob1st.core.design.organisms.snack.Snackbar
 import br.com.mob1st.core.design.templates.FeatureStepScaffold
+import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
-import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.impl.R
-import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
-import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
-import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItem
 import br.com.mob1st.features.utils.navigation.SideEffectNavigation
 import org.koin.androidx.compose.koinViewModel
@@ -127,7 +122,9 @@ private fun BudgetBuilderScreenContent(
     onSelectManualCategory: (position: Int) -> Unit,
     onSelectSuggestion: (position: Int) -> Unit,
 ) {
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(bottom = Spacings.x16 * 2),
+    ) {
         section(
             items = uiState.manuallyAdded,
             key = { it.key },
@@ -228,59 +225,10 @@ private fun BudgetBuilderDialog(
 @Composable
 @ThemedPreview
 private fun CategoryBuilderPagePreview() {
-    val uiState = BudgetBuilderStepUiState.Packed(
-        builder = BudgetBuilder(
-            id = FixedIncomesStep,
-            manuallyAdded = listOf(
-                Category(
-                    id = Category.Id(43),
-                    name = "Category 1",
-                    amount = Money(48558),
-                    isExpense = true,
-                    recurrences = Recurrences.Fixed(DayOfMonth(1)),
-                ),
-            ),
-            suggestions = listOf(
-                CategorySuggestion(
-                    id = CategorySuggestion.Id(9),
-                    nameResId = R.string.finances_builder_suggestions_item_gym,
-                    linkedCategory = null,
-                ),
-                CategorySuggestion(
-                    id = CategorySuggestion.Id(6),
-                    nameResId = R.string.finances_builder_suggestions_item_night_clubs,
-                    linkedCategory = Category(
-                        id = Category.Id(1),
-                        name = "Night Clubs",
-                        amount = Money(50000),
-                        isExpense = true,
-                        recurrences = Recurrences.Fixed(DayOfMonth(1)),
-                    ),
-                ),
-                CategorySuggestion(
-                    id = CategorySuggestion.Id(2),
-                    nameResId = R.string.finances_builder_suggestions_item_rent_or_mortgage,
-                    linkedCategory = null,
-                ),
-                CategorySuggestion(
-                    id = CategorySuggestion.Id(),
-                    nameResId = R.string.finances_builder_suggestions_item_health_insurance,
-                    linkedCategory = Category(
-                        id = Category.Id(3),
-                        name = "Health Insurance",
-                        amount = Money(124056),
-                        isExpense = true,
-                        recurrences = Recurrences.Fixed(DayOfMonth(1)),
-                    ),
-                ),
-            ),
-        ),
-    )
-    val consumables = BudgetBuilderStepConsumables()
-    TwoCentsTheme {
+    PreviewTheme {
         CategoryBuilderStepScreen(
-            uiState = uiState,
-            consumables = consumables,
+            uiState = BudgetBuilderStepPreviewFixture.uiState,
+            consumables = BudgetBuilderStepPreviewFixture.consumables,
             onSelectManualCategory = {},
             onSelectSuggestion = {},
             onClickNext = {},

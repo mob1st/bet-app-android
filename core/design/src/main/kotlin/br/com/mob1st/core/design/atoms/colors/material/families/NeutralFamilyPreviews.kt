@@ -44,7 +44,7 @@ private fun LightSurfaceFamilyPreviews() {
 )
 private fun NightSurfaceFamilyPreviews() {
     SurfaceFamilyView(
-        surfaceFamily = SurfaceFamily.dark(),
+        surfaceFamily = SurfaceFamily.night(),
         mode = Color.Black,
         inverted = Color.White,
     )
@@ -168,9 +168,9 @@ private fun LightInverseBgAndElevationFamilyView() {
 )
 private fun NightInverseBgAndElevationFamilyView() {
     InverseBgAndElevationFamilyView(
-        inverseFamily = InverseFamily.dark(),
-        backgroundFamily = BackgroundFamily.dark(),
-        elevationFamily = ElevationFamily.dark(),
+        inverseFamily = InverseFamily.night(),
+        backgroundFamily = BackgroundFamily.night(),
+        elevationFamily = ElevationFamily.night(),
         mode = Color.Black,
         inverse = Color.White,
     )

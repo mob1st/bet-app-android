@@ -19,11 +19,11 @@ internal class ContrastedThemeVariator(
         }
     }
 
-    override fun dark(): ContrastedColorFamilies {
+    override fun night(): ContrastedColorFamilies {
         return when (uiContrast) {
-            UiContrast.STANDARD -> LightContrastVariation.standard()
-            UiContrast.MEDIUM -> LightContrastVariation.medium()
-            UiContrast.HIGH -> LightContrastVariation.high()
+            UiContrast.STANDARD -> NightContrastVariation.standard()
+            UiContrast.MEDIUM -> NightContrastVariation.medium()
+            UiContrast.HIGH -> NightContrastVariation.high()
         }
     }
 

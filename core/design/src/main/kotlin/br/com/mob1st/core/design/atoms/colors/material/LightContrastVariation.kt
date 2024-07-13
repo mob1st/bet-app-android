@@ -20,8 +20,8 @@ internal data object LightContrastVariation : ContrastedThemeVariator.ContrastVa
         primary = ColorFamily(
             color = BlackTonal.x1,
             onColor = WhiteTonal.x6,
-            container = BlackTonal.x1,
-            onContainer = WhiteTonal.x6,
+            container = WhiteTonal.x6,
+            onContainer = BlackTonal.x1,
         ),
         secondary = ColorFamily(
             color = UranianBlueTonal.x50,
@@ -74,8 +74,8 @@ internal data object LightContrastVariation : ContrastedThemeVariator.ContrastVa
             primary = ColorFamily(
                 color = BlackTonal.x1,
                 onColor = WhiteTonal.x6,
-                container = BlackTonal.x1,
-                onContainer = WhiteTonal.x6,
+                container = WhiteTonal.x6,
+                onContainer = BlackTonal.x1,
             ),
             secondary = ColorFamily(
                 color = UranianBlueTonal.x40,
@@ -129,8 +129,8 @@ internal data object LightContrastVariation : ContrastedThemeVariator.ContrastVa
             primary = ColorFamily(
                 color = BlackTonal.x1,
                 onColor = WhiteTonal.x6,
-                container = BlackTonal.x1,
-                onContainer = WhiteTonal.x6,
+                container = WhiteTonal.x6,
+                onContainer = BlackTonal.x1,
             ),
             secondary = ColorFamily(
                 color = UranianBlueTonal.x30,

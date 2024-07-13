@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import br.com.mob1st.core.androidx.compose.ComposableFunction
-import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
+import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.features.finances.impl.R
 
@@ -83,7 +83,7 @@ private fun Trailing(
 @Composable
 @ThemedPreview
 private fun CategorySectionItemPreview() {
-    TwoCentsTheme {
+    PreviewTheme {
         CategorySectionItem(
             headlineContent = {
                 Text(text = "Headline")

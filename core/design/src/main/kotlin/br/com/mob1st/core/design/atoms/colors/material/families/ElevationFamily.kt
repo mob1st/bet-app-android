@@ -11,7 +11,7 @@ internal data class ElevationFamily(
             scrim = BlackTonal.x1,
         )
 
-        override fun dark() = ElevationFamily(
+        override fun night() = ElevationFamily(
             scrim = BlackTonal.x1,
         )
     }

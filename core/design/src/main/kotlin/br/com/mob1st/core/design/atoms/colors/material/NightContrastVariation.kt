@@ -21,8 +21,8 @@ data object NightContrastVariation : ContrastedThemeVariator.ContrastVariation {
             primary = ColorFamily(
                 color = WhiteTonal.x6,
                 onColor = BlackTonal.x1,
-                container = WhiteTonal.x6,
-                onContainer = BlackTonal.x1,
+                container = BlackTonal.x1,
+                onContainer = WhiteTonal.x6,
             ),
             secondary = ColorFamily(
                 color = UranianBlueTonal.x80,
@@ -76,8 +76,8 @@ data object NightContrastVariation : ContrastedThemeVariator.ContrastVariation {
             primary = ColorFamily(
                 color = WhiteTonal.x6,
                 onColor = BlackTonal.x1,
-                container = WhiteTonal.x6,
-                onContainer = BlackTonal.x1,
+                container = BlackTonal.x1,
+                onContainer = WhiteTonal.x6,
             ),
             secondary = ColorFamily(
                 color = UranianBlueTonal.x90,
@@ -131,8 +131,8 @@ data object NightContrastVariation : ContrastedThemeVariator.ContrastVariation {
             primary = ColorFamily(
                 color = WhiteTonal.x6,
                 onColor = BlackTonal.x1,
-                container = WhiteTonal.x6,
-                onContainer = BlackTonal.x1,
+                container = BlackTonal.x1,
+                onContainer = WhiteTonal.x6,
             ),
             secondary = ColorFamily(
                 color = UranianBlueTonal.x95,

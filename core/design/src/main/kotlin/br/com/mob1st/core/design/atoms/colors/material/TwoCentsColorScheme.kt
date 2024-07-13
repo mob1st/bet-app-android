@@ -37,16 +37,16 @@ internal data class TwoCentsColorScheme(
 
         private fun darkColorScheme(uiContrast: UiContrast): TwoCentsColorScheme {
             val themeVariator = ContrastedThemeVariator(uiContrast)
-            val contrastedColorFamilies = themeVariator.dark()
+            val contrastedColorFamilies = themeVariator.night()
             val materialColorFamilies = MaterialColorFamilies(
                 primary = contrastedColorFamilies.primary,
                 secondary = contrastedColorFamilies.secondary,
                 tertiary = contrastedColorFamilies.tertiary,
                 error = contrastedColorFamilies.error,
-                surface = SurfaceFamily.dark(),
-                backgroundFamily = BackgroundFamily.dark(),
-                elevationFamily = ElevationFamily.dark(),
-                inverseFamily = InverseFamily.dark(),
+                surface = SurfaceFamily.night(),
+                backgroundFamily = BackgroundFamily.night(),
+                elevationFamily = ElevationFamily.night(),
+                inverseFamily = InverseFamily.night(),
             )
             return TwoCentsColorScheme(
                 materialScheme = materialColorFamilies.toDarkColorScheme(),
