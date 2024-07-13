@@ -21,7 +21,7 @@ junit5-plugin = "1.10.0.0"
 junit5 = "5.10.2"
 coroutines = "1.8.1"
 turbine = "1.1.0"
-navigation = "2.8.0-beta04"
+navigation = "2.8.0-beta05"
 # Do not update this version unless the minimum version of the Android SDK.
 # This is the SQLite JDBC driver used by the Android SDK 26.
 # Check https://developer.android.com/reference/android/database/sqlite/package-summary
@@ -62,7 +62,6 @@ compose-windowclass = "androidx.compose.material3:material3-window-size-class:1.
 compose-activity = "androidx.activity:activity-compose:1.9.0"
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 compose-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
-material = "com.google.android.material:material:1.12.0"
 
 # accompanist
 accompanist-systemcontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompaninst" }

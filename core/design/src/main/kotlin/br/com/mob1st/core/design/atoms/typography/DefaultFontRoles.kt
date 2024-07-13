@@ -23,12 +23,12 @@ data object DefaultFontRoles : Material3Roles {
         ),
         medium = scale.style(
             fontFamily = montserrat,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.ExtraBold,
             sizePower = 10,
         ),
         large = scale.style(
             fontFamily = montserrat,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Black,
             sizePower = 12,
         ),
     )
@@ -40,19 +40,19 @@ data object DefaultFontRoles : Material3Roles {
         ),
         medium = scale.style(
             fontFamily = montserrat,
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = FontWeight.Bold,
             sizePower = 6,
         ),
         large = scale.style(
             fontFamily = montserrat,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.ExtraBold,
             sizePower = 7,
         ),
     )
     override val title = FontRole(
         small = scale.style(
             fontFamily = montserrat,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Black,
             sizePower = -1,
         ),
         medium = scale.style(
@@ -68,17 +68,17 @@ data object DefaultFontRoles : Material3Roles {
     )
     override val body = FontRole(
         small = scale.style(
-            fontFamily = notoSansFlex,
+            fontFamily = notoSans,
             fontWeight = FontWeight.Normal,
             sizePower = -1,
         ),
         medium = scale.style(
-            fontFamily = notoSansFlex,
+            fontFamily = notoSans,
             fontWeight = FontWeight.Medium,
             sizePower = 0,
         ),
         large = scale.style(
-            fontFamily = notoSansFlex,
+            fontFamily = notoSans,
             fontWeight = FontWeight.Bold,
             sizePower = 1,
         ),
@@ -86,17 +86,17 @@ data object DefaultFontRoles : Material3Roles {
 
     override val label = FontRole(
         small = scale.style(
-            fontFamily = notoSansFlex,
+            fontFamily = notoSans,
             fontWeight = FontWeight.Light,
             sizePower = -2,
         ),
         medium = scale.style(
-            fontFamily = notoSansFlex,
+            fontFamily = notoSans,
             fontWeight = FontWeight.Bold,
             sizePower = -1,
         ),
         large = scale.style(
-            fontFamily = notoSansFlex,
+            fontFamily = notoSans,
             fontWeight = FontWeight.Bold,
             sizePower = 0,
         ),

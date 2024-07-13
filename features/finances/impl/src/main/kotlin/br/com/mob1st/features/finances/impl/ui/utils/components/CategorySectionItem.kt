@@ -12,7 +12,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import br.com.mob1st.core.androidx.compose.ComposableFunction
 import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
@@ -101,9 +100,7 @@ private fun CategorySectionItemPreview() {
 
 internal object CategoryListItemDefaults {
     val topTextStyle
-        @Composable get() = MaterialTheme.typography.bodyLarge.copy(
-            fontWeight = FontWeight.Bold,
-        )
+        @Composable get() = MaterialTheme.typography.bodyLarge
     val bottomTextStyle
         @Composable get() = MaterialTheme.typography.labelSmall.copy(
             color = MaterialTheme.colorScheme.onSurfaceVariant,

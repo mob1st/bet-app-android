@@ -25,8 +25,8 @@ import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepVi
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
+import br.com.mob1st.tests.featuresutils.MainDispatcherTestExtension
 import br.com.mob1st.tests.featuresutils.TestTimberTree
-import br.com.mob1st.tests.featuresutils.ViewModelTestExtension
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
@@ -48,7 +48,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@ExtendWith(ViewModelTestExtension::class)
+@ExtendWith(MainDispatcherTestExtension::class)
 class BudgetBuilderStepViewModelTest {
     private lateinit var getCategoryBuilder: GetCategoryBuilderUseCase
     private lateinit var analyticsReporter: AnalyticsReporter

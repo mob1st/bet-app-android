@@ -1,5 +1,6 @@
 package br.com.mob1st.features.finances.impl.dependencies
 
+import br.com.mob1st.features.finances.impl.domain.events.BuilderStepScreenViewFactory
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCashFlowUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCategoryBuilderUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.GetFixedExpensesUseCaseImpl
@@ -26,6 +27,9 @@ val financesModule
     }
 
 private val domainModule = module {
+    factory {
+        BuilderStepScreenViewFactory
+    }
     factoryOf(::GetFixedExpensesUseCaseImpl) bind GetFixedExpensesUseCase::class
     factoryOf(::GetCategoryBuilderUseCase)
     factoryOf(::GetCashFlowUseCase)

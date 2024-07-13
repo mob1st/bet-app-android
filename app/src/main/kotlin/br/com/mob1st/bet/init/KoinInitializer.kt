@@ -33,7 +33,7 @@ class KoinInitializer : Initializer<KoinApplication> {
 private fun Context.createDependencyGraph() =
     startKoin {
         androidLogger()
-        androidContext(this@createDependencyGraph)
+        androidContext(this@createDependencyGraph.applicationContext)
         modules(
             FirebaseComponent().module,
             firebaseModule,

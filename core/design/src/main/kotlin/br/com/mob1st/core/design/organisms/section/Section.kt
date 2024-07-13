@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -62,7 +63,7 @@ fun SectionTitle(
             .padding(top = Spacings.x6, bottom = Spacings.x2),
         contentAlignment = Alignment.CenterStart,
     ) {
-        ProvideTextStyle(MaterialTheme.typography.labelLarge) {
+        ProvideTextStyle(SectionDefaults.titleTextStyle) {
             titleContent()
         }
     }
@@ -70,24 +71,33 @@ fun SectionTitle(
 
 object SectionTitleContentType
 
+internal object SectionDefaults {
+    val titleTextStyle
+        @Composable get() = MaterialTheme.typography.labelLarge.copy(
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+}
+
 @Composable
 @ThemedPreview
 private fun SectionPreview() {
     TwoCentsTheme {
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            section(
-                titleContent = {
-                    Text("Title")
-                },
-                items = persistentListOf("Item 1", "Item 2", "Item 3"),
-                itemContent = { _, item ->
-                    ListItem(
-                        headlineContent = { Text(item) },
-                    )
-                },
-            )
+        Surface {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                section(
+                    titleContent = {
+                        Text("Title")
+                    },
+                    items = persistentListOf("Item 1", "Item 2", "Item 3"),
+                    itemContent = { _, item ->
+                        ListItem(
+                            headlineContent = { Text(item) },
+                        )
+                    },
+                )
+            }
         }
     }
 }

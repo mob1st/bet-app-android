@@ -1,15 +1,3 @@
-CREATE VIEW category_view AS
-SELECT
-    cat.id AS cat_id, cat.name AS cat_name,
-    cat.amount AS cat_amount, cat.is_expense AS cat_is_expense,
-    cat.linked_suggestion_id AS cat_linked_suggestion_id,
-    cat.created_at AS cat_created_at,
-    frc.day_of_month AS frc_day_of_month,
-    src.month AS src_month, src.day AS src_day
-FROM Categories AS cat
-LEFT JOIN FixedRecurrences AS frc ON cat.id = frc.category_id
-LEFT JOIN SeasonalRecurrences AS src ON cat.id = src.category_id;
-
 selectManuallyCreatedCategories:
 SELECT *
 FROM category_view AS cat_view

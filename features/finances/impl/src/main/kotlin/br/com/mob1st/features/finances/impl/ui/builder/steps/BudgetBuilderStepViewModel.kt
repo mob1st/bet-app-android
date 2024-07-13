@@ -2,7 +2,7 @@ package br.com.mob1st.features.finances.impl.ui.builder.steps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.mob1st.core.androidx.flows.stateInRetained
+import br.com.mob1st.core.androidx.flows.stateInWhileSubscribed
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.core.observability.events.AnalyticsReporter
@@ -24,17 +24,30 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-internal class BudgetBuilderStepViewModel(
+internal class BudgetBuilderStepViewModel private constructor(
     step: BuilderNextAction.Step,
     getCategoryBuilder: GetCategoryBuilderUseCase,
     private val analyticsReporter: AnalyticsReporter,
     default: DefaultCoroutineDispatcher,
-    private val consumableDelegate: ConsumableDelegate<BudgetBuilderStepConsumables> = ConsumableDelegate(
-        BudgetBuilderStepConsumables(),
-    ),
+    private val consumableDelegate: ConsumableDelegate<BudgetBuilderStepConsumables>,
 ) : ViewModel(),
     UiStateOutputManager<BudgetBuilderStepUiState>,
     ConsumableManager<BudgetBuilderStepConsumables> by consumableDelegate {
+    constructor(
+        step: BuilderNextAction.Step,
+        getCategoryBuilder: GetCategoryBuilderUseCase,
+        analyticsReporter: AnalyticsReporter,
+        default: DefaultCoroutineDispatcher,
+    ) : this(
+        step,
+        getCategoryBuilder,
+        analyticsReporter,
+        default,
+        ConsumableDelegate(
+            BudgetBuilderStepConsumables(),
+        ),
+    )
+
     private val errorHandler = consumableDelegate.errorHandler {
         handleError(it)
     }
@@ -44,7 +57,7 @@ internal class BudgetBuilderStepViewModel(
         .map(::Packed)
         .catchIn(errorHandler)
         .flowOn(default)
-        .stateInRetained(viewModelScope, Empty)
+        .stateInWhileSubscribed(viewModelScope, Empty)
 
     /**
      * Selects the manually added item at the given [position].

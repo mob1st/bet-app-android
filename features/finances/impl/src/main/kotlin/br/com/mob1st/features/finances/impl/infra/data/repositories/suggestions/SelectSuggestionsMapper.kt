@@ -1,6 +1,6 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
-import br.com.mob1st.features.finances.impl.Category_view
+import br.com.mob1st.core.database.Category_view
 import br.com.mob1st.features.finances.impl.SelectSuggestions
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion

@@ -2,7 +2,7 @@ package br.com.mob1st.features.finances.impl.ui.tabs
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.mob1st.core.androidx.flows.stateInRetained
+import br.com.mob1st.core.androidx.flows.stateInWhileSubscribed
 import br.com.mob1st.core.state.contracts.UiStateOutputManager
 import br.com.mob1st.core.state.managers.DialogDelegate
 import br.com.mob1st.core.state.managers.DialogManager
@@ -18,7 +18,7 @@ class CashFlowViewModel(
     UiStateOutputManager<CashFlowUiState>,
     DialogManager<CommonError> by DialogDelegate() {
     override val uiStateOutput: StateFlow<CashFlowUiState> = getTransactions()
-        .stateInRetained(
+        .stateInWhileSubscribed(
             scope = viewModelScope,
             initialValue = CashFlowUiState.Empty,
         )

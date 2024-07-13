@@ -7,7 +7,7 @@ import br.com.mob1st.features.dev.impl.domain.GetDevMenuUseCase
 import br.com.mob1st.features.dev.publicapi.domain.BackendEnvironment
 import br.com.mob1st.features.dev.publicapi.presentation.DevSettingsNavTarget
 import br.com.mob1st.features.utils.errors.CommonError
-import br.com.mob1st.tests.featuresutils.ViewModelTestExtension
+import br.com.mob1st.tests.featuresutils.MainDispatcherTestExtension
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import kotlin.test.assertEquals
 
-@ExtendWith(ViewModelTestExtension::class)
+@ExtendWith(MainDispatcherTestExtension::class)
 internal class DevMenuViewModelTest {
     private lateinit var getDevMenuUseCase: GetDevMenuUseCase
     private lateinit var stateHolder: DevMenuUiStateHolder

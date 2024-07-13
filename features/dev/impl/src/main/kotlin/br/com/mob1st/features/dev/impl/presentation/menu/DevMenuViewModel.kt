@@ -2,7 +2,7 @@ package br.com.mob1st.features.dev.impl.presentation.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.mob1st.core.androidx.flows.stateInRetained
+import br.com.mob1st.core.androidx.flows.stateInWhileSubscribed
 import br.com.mob1st.core.state.contracts.NavigationDelegate
 import br.com.mob1st.core.state.contracts.NavigationManager
 import br.com.mob1st.core.state.contracts.UiStateOutputManager
@@ -26,7 +26,7 @@ internal class DevMenuViewModel(
     SnackbarManager<DevMenuSnackbar> by SnackbarDelegate(),
     DialogManager<CommonError> by DialogDelegate() {
     override val uiStateOutput: StateFlow<DevMenuUiState> = getDevMenu()
-        .stateInRetained(
+        .stateInWhileSubscribed(
             scope = viewModelScope,
             initialValue = DevMenuUiState.Empty,
         )
