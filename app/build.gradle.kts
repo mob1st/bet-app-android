@@ -110,10 +110,11 @@ dependencies {
 
     // projects
     implementation(projects.morpheus.annotation)
-    implementation(projects.core.androidx)
     implementation(projects.libs.firebase)
-    implementation(projects.core.kotlinx)
+    implementation(projects.core.androidx)
+    implementation(projects.core.design)
     implementation(projects.core.database)
+    implementation(projects.core.kotlinx)
     implementation(projects.features.dev.impl)
     implementation(projects.features.home.impl)
     implementation(projects.features.onboarding.impl)

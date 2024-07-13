@@ -33,7 +33,6 @@ internal class ContrastedThemeVariator(
      * dark theme.
      */
     sealed interface ContrastVariation {
-
         /**
          * Provides the colors when the devices has the standard contrast setting.
          * @return the contrasted color families.

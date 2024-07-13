@@ -25,7 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.mob1st.core.design.atoms.spacing.Spacings
 
+/**
+ * Creates the default shape structure for the application.
+ */
 internal object ShapesFactory {
+    /**
+     * Creates the shape families
+     * @return the shape families
+     */
     fun create(): Shapes {
         return Shapes(
             extraSmall = RoundedCornerShape(size = 16.dp),
@@ -103,71 +110,58 @@ fun ShapeIsolatedPreview() {
             verticalArrangement = Arrangement.spacedBy(Spacings.x8),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Surface(
+            ShapeView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(shapes.extraSmall),
-                color = MaterialTheme.colorScheme.primaryContainer,
-            ) {
-                Box(
-                    modifier = Modifier.padding(Spacings.x4),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(text = "Extra Small")
-                }
-            }
-            Surface(
+                name = "Extra Small",
+            )
+            ShapeView(
                 modifier = Modifier
                     .width(128.dp)
                     .height(56.dp)
                     .clip(shapes.small),
-                color = MaterialTheme.colorScheme.primaryContainer,
-            ) {
-                Box(
-                    modifier = Modifier.padding(Spacings.x4),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(text = "Small")
-                }
-            }
-            Surface(
+                name = "Small",
+            )
+            ShapeView(
                 modifier = Modifier
                     .width(164.dp)
                     .height(96.dp)
                     .clip(shapes.medium),
-                color = MaterialTheme.colorScheme.primaryContainer,
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Text(text = "Medium")
-                }
-            }
+                name = "Medium",
+            )
 
-            Surface(
+            ShapeView(
                 modifier = Modifier
                     .size(96.dp)
                     .clip(shapes.large),
-                color = MaterialTheme.colorScheme.primaryContainer,
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(text = "Large")
-                }
-            }
-
-            Surface(
+                name = "Large",
+            )
+            ShapeView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(256.dp)
                     .clip(shapes.extraLarge),
-                color = MaterialTheme.colorScheme.primaryContainer,
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(text = "Extra Large")
-                }
-            }
+                name = "Extra Large",
+            )
+        }
+    }
+}
+
+@Composable
+private fun ShapeView(
+    modifier: Modifier,
+    name: String,
+) {
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.primaryContainer,
+    ) {
+        Box(
+            modifier = Modifier.padding(Spacings.x4),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(text = name)
         }
     }
 }

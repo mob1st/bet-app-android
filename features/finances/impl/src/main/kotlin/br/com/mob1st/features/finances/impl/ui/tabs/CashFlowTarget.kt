@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 sealed interface CashFlowTarget : NavTarget {
     @Serializable
     data object MainTab : CashFlowTarget {
-        override val pattern: TransitionPattern = TransitionPattern.Slide
+        override fun pattern(): TransitionPattern = TransitionPattern.Slide
     }
 }

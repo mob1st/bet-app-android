@@ -27,6 +27,6 @@ internal fun Context.getCurrentUiContrast(): Float {
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 internal fun isContrastSettingsSupported() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
-internal val LocalUiContrast = compositionLocalOf<UiContrast> {
-    error("No local composition for LocalUiContrast")
+internal val LocalUiContrast = compositionLocalOf {
+    UiContrast.STANDARD
 }

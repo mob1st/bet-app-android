@@ -6,7 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import br.com.mob1st.bet.core.ui.ds.atoms.BetTheme
+import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
+import br.com.mob1st.core.design.atoms.theme.UiContrast
 import br.com.mob1st.features.dev.impl.DevSettingsNavRoot
 import br.com.mob1st.features.finances.publicapi.domain.ui.CategoryBuilderNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
@@ -16,8 +17,10 @@ class LauncherActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BetTheme {
-                NavigationGraph(this)
+            UiContrast {
+                TwoCentsTheme {
+                    NavigationGraph(this)
+                }
             }
         }
     }

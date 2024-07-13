@@ -30,7 +30,7 @@ import br.com.mob1st.core.design.atoms.typography.TypographyFactory
  * @param content The content to be displayed inside the theme.
  */
 @Composable
-fun TwoCentsTheme(content: @Composable () -> Unit) {
+fun UiContrast(content: @Composable () -> Unit) {
     val context = LocalContext.current
     var uiContrastLevel by remember {
         mutableFloatStateOf(value = context.getCurrentUiContrast())
@@ -40,7 +40,7 @@ fun TwoCentsTheme(content: @Composable () -> Unit) {
     }
 
     CompositionLocalProvider(LocalUiContrast provides uiContrast) {
-        MaterialThemeWrapper(content)
+        TwoCentsTheme(content)
     }
 
     UiContrastEffect {
@@ -49,7 +49,9 @@ fun TwoCentsTheme(content: @Composable () -> Unit) {
 }
 
 @Composable
-private fun MaterialThemeWrapper(content: @Composable () -> Unit) {
+fun TwoCentsTheme(
+    content: @Composable () -> Unit,
+) {
     val isDark = isSystemInDarkTheme()
     val uiContrast = LocalUiContrast.current
     val (materialScheme, twoCentsExtensions) = remember(isDark, uiContrast) {

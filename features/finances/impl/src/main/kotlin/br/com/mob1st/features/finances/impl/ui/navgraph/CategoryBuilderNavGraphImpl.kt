@@ -6,11 +6,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
-import br.com.mob1st.features.finances.impl.ui.builder.CategoryBuilderRoute
 import br.com.mob1st.features.finances.impl.ui.builder.completion.BuilderCompletionPage
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroPage
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavType
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.builderNextActionIso
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.builderStepIso
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepPage
 import br.com.mob1st.features.finances.publicapi.domain.ui.CategoryBuilderNavGraph
+import kotlinx.serialization.Serializable
+import kotlin.reflect.typeOf
 
 object CategoryBuilderNavGraphImpl : CategoryBuilderNavGraph {
     override val root: CategoryBuilderNavGraph.Root = Root
@@ -21,28 +26,31 @@ object CategoryBuilderNavGraphImpl : CategoryBuilderNavGraph {
         onComplete: () -> Unit,
     ) {
         navigation<Root>(
-            startDestination = CategoryBuilderRoute.Intro,
+            startDestination = BuilderRoute.Intro,
         ) {
-            composable<CategoryBuilderRoute.Intro> {
+            composable<BuilderRoute.Intro> {
                 BuilderIntroPage(
                     onNext = {
-                        val route = CategoryBuilderRoute.Step(BudgetBuilder.firstStep())
+                        val route = builderStepIso.get(BudgetBuilder.firstStep())
                         navController.navigate(route)
                     },
                 )
             }
-            composable<CategoryBuilderRoute.Step> {
-                val step = it.toRoute<CategoryBuilderRoute.Step>()
+            composable<BuilderRoute.Step>(
+                typeMap = mapOf(typeOf<BuilderRoute.Step.Type>() to BuilderStepNavType),
+            ) {
+                val route = it.toRoute<BuilderRoute.Step>()
+                val step = builderStepIso.reverseGet(route)
                 BudgetBuilderStepPage(
-                    step = step.args,
+                    step = step,
                     onNext = { next ->
-                        val route = CategoryBuilderRoute.from(next)
-                        navController.navigate(route)
+                        val nextRoute = builderNextActionIso.get(next)
+                        navController.navigate(nextRoute)
                     },
                     onBack = navController::navigateUp,
                 )
             }
-            composable<CategoryBuilderRoute.BuilderCompletion> {
+            composable<BuilderRoute.Completion> {
                 BuilderCompletionPage(
                     onComplete = onComplete,
                 )
@@ -50,5 +58,6 @@ object CategoryBuilderNavGraphImpl : CategoryBuilderNavGraph {
         }
     }
 
+    @Serializable
     object Root : CategoryBuilderNavGraph.Root
 }
