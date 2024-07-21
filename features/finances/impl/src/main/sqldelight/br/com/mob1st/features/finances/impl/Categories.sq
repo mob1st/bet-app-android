@@ -1,42 +1,27 @@
-selectManuallyCreatedCategories:
+selectCategoriesByRecurrenceType:
 SELECT *
-FROM category_view AS cat_view
-WHERE cat_view.cat_linked_suggestion_id IS NULL
-AND cat_view.cat_is_expense = :is_expense
-ORDER BY cat_view.cat_created_at ASC,
-cat_view.frc_day_of_month ASC,
-cat_view.src_month ASC,
-cat_view.src_day ASC;
+FROM Categories AS cat
+WHERE cat.is_expense = :is_expense
+AND cat.recurrence_type = :recurrence_type
+ORDER BY cat.created_at ASC;
 
 selectCategoryById:
 SELECT *
-FROM category_view
-WHERE cat_id = :id;
+FROM Categories
+WHERE id = :id;
 
 insertCategory:
-INSERT INTO Categories(name, amount, is_expense, linked_suggestion_id, image)
-VALUES (:name, :amount, :is_expense, :linked_suggestion_id, :image);
+INSERT INTO Categories(name, amount, is_expense, image, recurrences, recurrence_type, suggested)
+VALUES (:name, :amount, :is_expense, :image, :recurrences, :recurrence_type, :suggested);
 
 updateCategory:
 UPDATE Categories
 SET amount = :amount,
     name = :name,
     image = :image,
+    recurrences = :recurrences,
     updated_at = CURRENT_TIMESTAMP
 WHERE id = :id;
 
 deleteCategory:
 DELETE FROM Categories WHERE id = :id;
-
-insertFixedRecurrence:
-INSERT INTO FixedRecurrences(category_id, day_of_month)
-VALUES (:id, :day_of_month);
-
-insertSeasonalRecurrence:
-INSERT INTO SeasonalRecurrences(category_id, day, month)
-VALUES (:id, :day, :month);
-
-deleteRecurrences {
-    DELETE FROM FixedRecurrences WHERE category_id = :id;
-    DELETE FROM SeasonalRecurrences WHERE category_id = :id;
-}

@@ -3,8 +3,8 @@ package br.com.mob1st.features.finances.impl.ui.utils.texts
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import br.com.mob1st.features.finances.impl.domain.values.Month
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +20,7 @@ class SeasonalRecurrencesTextStateTest {
     fun `GIVEN a recurrence with one date WHEN resolve THEN assert date is displayed`() {
         val recurrence = Recurrences.Seasonal(
             listOf(
-                DayAndMonth(DayOfMonth(1), Month.June),
+                DayOfYear(DayOfMonth(1), Month.June),
             ),
         )
         val textState = SeasonalRecurrencesTextState(recurrence)
@@ -37,8 +37,8 @@ class SeasonalRecurrencesTextStateTest {
     fun `GIVEN a recurrence with two dates WHEN resolve THEN assert date is displayed`() {
         val recurrence = Recurrences.Seasonal(
             listOf(
-                DayAndMonth(DayOfMonth(1), Month.April),
-                DayAndMonth(DayOfMonth(20), Month.September),
+                DayOfYear(DayOfMonth(1), Month.April),
+                DayOfYear(DayOfMonth(20), Month.September),
             ),
         )
         val textState = SeasonalRecurrencesTextState(recurrence)
@@ -55,9 +55,9 @@ class SeasonalRecurrencesTextStateTest {
     fun `GIVEN a recurrence with three dates WHEN resolve THEN assert date is displayed`() {
         val recurrence = Recurrences.Seasonal(
             listOf(
-                DayAndMonth(DayOfMonth(1), Month.January),
-                DayAndMonth(DayOfMonth(20), Month.May),
-                DayAndMonth(DayOfMonth(31), Month.August),
+                DayOfYear(DayOfMonth(1), Month.January),
+                DayOfYear(DayOfMonth(20), Month.May),
+                DayOfYear(DayOfMonth(31), Month.August),
             ),
         )
         val textState = SeasonalRecurrencesTextState(recurrence)

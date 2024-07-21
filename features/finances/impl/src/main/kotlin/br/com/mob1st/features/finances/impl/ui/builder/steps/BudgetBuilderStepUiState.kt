@@ -2,19 +2,13 @@ package br.com.mob1st.features.finances.impl.ui.builder.steps
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
-import br.com.mob1st.core.design.atoms.properties.texts.TextState
-import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
-import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
+import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
-import br.com.mob1st.features.finances.impl.ui.utils.texts.MoneyTextState
-import br.com.mob1st.features.finances.impl.ui.utils.texts.RecurrencesTextStateFactory
-import br.com.mob1st.features.finances.impl.ui.utils.texts.toIconBackground
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
@@ -53,21 +47,23 @@ internal sealed interface BudgetBuilderStepUiState {
                 title = R.string.finances_builder_variable_expenses_header,
                 description = R.string.finances_builder_variable_expenses_subheader,
             )
+
+            SeasonalExpensesStep -> TODO()
         }
 
         /**
          * The manually added categories.
          * The list is composed of the manually added categories and the "Add category" item.
          */
-        val manuallyAdded: ImmutableList<ManualCategorySectionItemState> = builder.manuallyAdded.map {
-            ManualCategorySectionItemState(it)
+        val manuallyAdded: ImmutableList<CategorySectionItemState> = builder.manuallyAdded.map {
+            CategorySectionItemState(it)
         }.toPersistentList()
 
         /**
          * The suggestions presented to the user.
          */
-        val suggestions: ImmutableList<SuggestionSectionItemState> = builder.suggestions.map {
-            SuggestionSectionItemState(it)
+        val suggestions: ImmutableList<CategorySectionItemState> = builder.suggestions.map {
+            CategorySectionItemState(it)
         }.toImmutableList()
 
         @Immutable
@@ -76,52 +72,4 @@ internal sealed interface BudgetBuilderStepUiState {
             @StringRes val description: Int,
         )
     }
-}
-
-/**
- * Used by the [BudgetBuilderStepUiState.Loaded.suggestions] to show the automatic suggestions provided by the app.
- * It's a handy way to facilitate the user's choice.
- * @property suggestion The suggestion.
- */
-@Immutable
-data class SuggestionSectionItemState(
-    val suggestion: CategorySuggestion,
-) : CategorySectionItemState {
-    override val key: Any = suggestion.id
-    override val icon: CategorySectionItemState.Icon = CategorySectionItemState.Icon(
-        background = suggestion.linkedCategory?.recurrences?.toIconBackground(),
-        image = suggestion.linkedCategory?.image ?: suggestion.image,
-    )
-    override val headline: TextState = if (suggestion.linkedCategory != null) {
-        TextState(suggestion.linkedCategory.name)
-    } else {
-        TextState(suggestion.nameResId)
-    }
-    override val supporting: TextState? = suggestion.linkedCategory?.recurrences?.let {
-        RecurrencesTextStateFactory.create(it)
-    }
-
-    override val trailing: CategorySectionItemState.Trailing = CategorySectionItemState.Trailing(
-        amount = MoneyTextState(suggestion.linkedCategory?.amount ?: Money.Zero),
-        supporting = null,
-    )
-}
-
-/**
- * Used by the [BudgetBuilderStepUiState.Loaded.manuallyAdded] to show the manually added categories.
- * @property category The manually added category.
- */
-@Immutable
-data class ManualCategorySectionItemState(val category: Category) : CategorySectionItemState {
-    override val key: Any = category.id
-    override val icon: CategorySectionItemState.Icon = CategorySectionItemState.Icon(
-        background = category.recurrences.toIconBackground(),
-        image = category.image,
-    )
-    override val headline: TextState = TextState(category.name)
-    override val supporting: TextState? = RecurrencesTextStateFactory.create(category.recurrences)
-    override val trailing: CategorySectionItemState.Trailing = CategorySectionItemState.Trailing(
-        amount = MoneyTextState(category.amount),
-        supporting = null,
-    )
 }

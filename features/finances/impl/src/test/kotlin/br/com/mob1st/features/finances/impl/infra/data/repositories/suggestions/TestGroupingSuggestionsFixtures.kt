@@ -5,8 +5,8 @@ import br.com.mob1st.features.finances.impl.SelectSuggestions
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import br.com.mob1st.features.finances.impl.domain.values.Month
 import com.appmattus.kotlinfixture.Fixture
 
@@ -80,11 +80,11 @@ class TestGroupingSuggestionsFixtures(
                 amount = Money(3000_00),
                 recurrences = Recurrences.Seasonal(
                     listOf(
-                        DayAndMonth(
+                        DayOfYear(
                             DayOfMonth(1),
                             Month(1),
                         ),
-                        DayAndMonth(
+                        DayOfYear(
                             DayOfMonth(2),
                             Month(1),
                         ),
@@ -102,7 +102,7 @@ class TestGroupingSuggestionsFixtures(
                 amount = Money(25_00),
                 recurrences = Recurrences.Seasonal(
                     listOf(
-                        DayAndMonth(
+                        DayOfYear(
                             DayOfMonth(2),
                             Month(1),
                         ),

@@ -9,7 +9,7 @@ import androidx.compose.ui.util.fastMap
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import br.com.mob1st.features.finances.impl.ui.utils.parcelers.RecurrencesParceler
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.parcelize.IgnoredOnParcel
@@ -23,7 +23,7 @@ data class SeasonalRecurrencesTextState(
     val recurrences: @WriteWith<RecurrencesParceler> Recurrences.Seasonal,
 ) : TextState {
     @IgnoredOnParcel
-    private val immutableDaysAndMonths = recurrences.daysAndMonths.toImmutableList()
+    private val immutableDaysAndMonths = recurrences.daysOfYear.toImmutableList()
 
     @Composable
     override fun resolve(): String {
@@ -35,7 +35,7 @@ data class SeasonalRecurrencesTextState(
     }
 }
 
-private fun List<DayAndMonth>.resolve(locale: Locale): TextState {
+private fun List<DayOfYear>.resolve(locale: Locale): TextState {
     val symbols = DateFormatSymbols.getInstance(locale)
     val arguments = when (size) {
         1, 2 -> fastMap {
@@ -54,7 +54,7 @@ private fun List<DayAndMonth>.resolve(locale: Locale): TextState {
     )
 }
 
-private fun List<DayAndMonth>.toTextStateFirstItems(
+private fun List<DayOfYear>.toTextStateFirstItems(
     locale: Locale,
     symbols: DateFormatSymbols,
 ): String {
@@ -63,7 +63,7 @@ private fun List<DayAndMonth>.toTextStateFirstItems(
     }
 }
 
-private fun DayAndMonth.toShortMonth(
+private fun DayOfYear.toShortMonth(
     locale: Locale,
     symbols: DateFormatSymbols,
-): String = symbols.shortMonths[month.value - 1].uppercase(locale)
+): String = symbols.shortMonths[0].uppercase(locale)

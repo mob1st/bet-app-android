@@ -7,15 +7,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.res.pluralStringResource
 import arrow.optics.copy
 import arrow.optics.optics
-import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.design.organisms.snack.SnackbarState
 import br.com.mob1st.core.design.organisms.snack.snackbar
 import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
+import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 
 /**
@@ -48,34 +47,14 @@ data class BudgetBuilderStepConsumables(
     }
 
     /**
-     * Indicates the next consumable state when an item is selected in the manual category section.
-     * If the given [item] is a [ManualCategorySectionItemState], it will navigate to the category edition screen.
-     * If the given [item] us a [SuggestionSectionItemState], it will throw an error because a suggestion should never
-     * be selected in this section.
+     * Indicates the next consumable state when an item is selected.
      * @param item The selected item.
      * @return The next consumable state.
-     * @throws IllegalArgumentException If the given [item] is a [SuggestionSectionItemState].
      */
-    fun selectManualItem(item: ManualCategorySectionItemState) = copy {
+    fun selectItem(item: CategorySectionItemState) = copy {
         BudgetBuilderStepConsumables.navEvent set BudgetBuilderStepNavEvent.EditBudgetCategory(
             item.category.id,
         )
-    }
-
-    /**
-     * Indicates the next consumable state when an item is selected in the user suggestions section.
-     * @param item The selected item.
-     * @return The next consumable state.
-     */
-    fun selectUserSuggestion(item: SuggestionSectionItemState) = copy {
-        BudgetBuilderStepConsumables.navEvent set if (item.suggestion.linkedCategory == null) {
-            BudgetBuilderStepNavEvent.AddBudgetCategory(
-                name = item.headline,
-                linkedSuggestion = item.suggestion.id,
-            )
-        } else {
-            BudgetBuilderStepNavEvent.EditBudgetCategory(category = item.suggestion.linkedCategory.id)
-        }
     }
 
     /**
@@ -98,8 +77,7 @@ data class BudgetBuilderStepConsumables(
     fun submitCategoryName() = copy {
         val dialog = checkIs<BudgetBuilderStepDialog.EnterName>(dialog)
         BudgetBuilderStepConsumables.navEvent set BudgetBuilderStepNavEvent.AddBudgetCategory(
-            name = TextState(dialog.name),
-            linkedSuggestion = null,
+            name = dialog.name,
         )
         BudgetBuilderStepConsumables.nullableDialog set null
     }
@@ -174,12 +152,10 @@ sealed interface BudgetBuilderStepNavEvent {
      * Allows the user to navigate to the bottom sheet to add a new category.
      * It should be called only for categories that do not exist yet.
      * @property name The name of the new category.
-     * @property linkedSuggestion The suggestion linked to the new category, if any.
      */
     @Immutable
     data class AddBudgetCategory(
-        val name: TextState,
-        val linkedSuggestion: CategorySuggestion.Id?,
+        val name: String,
     ) : BudgetBuilderStepNavEvent
 }
 

@@ -1,9 +1,6 @@
 package br.com.mob1st.features.finances.impl.infra.data.sqldelight
 
-import app.cash.sqldelight.adapter.primitive.IntColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
-import br.com.mob1st.core.database.FixedRecurrences
-import br.com.mob1st.core.database.SeasonalRecurrences
 import br.com.mob1st.features.finances.impl.TwoCentsDb
 
 /**
@@ -16,15 +13,6 @@ object DatabaseFactory {
      * @return the database instance
      */
     fun create(driver: SqlDriver): TwoCentsDb {
-        return TwoCentsDb(
-            driver = driver,
-            FixedRecurrencesAdapter = FixedRecurrences.Adapter(
-                day_of_monthAdapter = IntColumnAdapter,
-            ),
-            SeasonalRecurrencesAdapter = SeasonalRecurrences.Adapter(
-                dayAdapter = IntColumnAdapter,
-                monthAdapter = IntColumnAdapter,
-            ),
-        )
+        return TwoCentsDb(driver = driver)
     }
 }

@@ -60,7 +60,7 @@ class BudgetBuilderStepConsumablesTest {
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val result = budgetBuilderStepConsumables.selectManualItem(item)
+        val result = budgetBuilderStepConsumables.selectItem(item)
 
         // Then
         assertEquals(
@@ -76,7 +76,7 @@ class BudgetBuilderStepConsumablesTest {
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val result = budgetBuilderStepConsumables.selectManualItem(item)
+        val result = budgetBuilderStepConsumables.selectItem(item)
 
         // Then
         assertEquals(
@@ -94,7 +94,7 @@ class BudgetBuilderStepConsumablesTest {
         // Then
         assertFailsWith<IllegalArgumentException> {
             // When
-            budgetBuilderStepConsumables.selectManualItem(item)
+            budgetBuilderStepConsumables.selectItem(item)
         }
     }
 

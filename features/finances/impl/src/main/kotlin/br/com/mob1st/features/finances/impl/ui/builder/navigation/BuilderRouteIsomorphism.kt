@@ -4,6 +4,7 @@ import arrow.optics.PIso
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
+import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 
 /**
@@ -36,6 +37,7 @@ internal val builderStepIso = PIso(
             FixedExpensesStep -> BuilderRoute.Step(BuilderRoute.Step.Type.FixedExpenses)
             FixedIncomesStep -> BuilderRoute.Step(BuilderRoute.Step.Type.FixedIncomes)
             VariableExpensesStep -> BuilderRoute.Step(BuilderRoute.Step.Type.VariableExpenses)
+            SeasonalExpensesStep -> BuilderRoute.Step(BuilderRoute.Step.Type.SeasonalExpenses)
         }
     },
     reverseGet = { route: BuilderRoute.Step ->
@@ -43,6 +45,7 @@ internal val builderStepIso = PIso(
             BuilderRoute.Step.Type.FixedExpenses -> FixedExpensesStep
             BuilderRoute.Step.Type.FixedIncomes -> FixedIncomesStep
             BuilderRoute.Step.Type.VariableExpenses -> VariableExpensesStep
+            BuilderRoute.Step.Type.SeasonalExpenses -> SeasonalExpensesStep
         }
     },
 )

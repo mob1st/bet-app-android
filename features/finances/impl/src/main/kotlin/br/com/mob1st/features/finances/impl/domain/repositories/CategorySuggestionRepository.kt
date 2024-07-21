@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * Repository for the Suggestion aggregate.
  */
-internal interface SuggestionsRepository {
+internal interface CategorySuggestionRepository {
     /**
      * Returns the suggestions available for the given [step].
      * If a writes happens in a category that is linked to a suggestion returned by this method, then a new emission

@@ -1,16 +1,13 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
-import androidx.annotation.StringRes
-import br.com.mob1st.core.kotlinx.structures.Identifiable
-import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.core.kotlinx.structures.Uri
 
+/**
+ * Holds the static data of a category suggestion, used to provide pre-defined categories to the user.
+ * @property name The localized name of the category.
+ * @property image The image address of the category.
+ */
 data class CategorySuggestion(
-    override val id: Id = Id(),
+    val name: String,
     val image: Uri,
-    @StringRes val nameResId: Int,
-    val linkedCategory: Category? = null,
-) : Identifiable<CategorySuggestion.Id> {
-    @JvmInline
-    value class Id(override val value: Long = 0) : RowId
-}
+)

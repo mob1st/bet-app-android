@@ -66,7 +66,7 @@ internal class BudgetBuilderStepViewModel private constructor(
     fun selectManuallyAddedItem(position: Int) = errorHandler.catching {
         val uiState = checkIs<Loaded>(uiStateOutput.value)
         consumableDelegate.update {
-            it.selectManualItem(uiState.manuallyAdded[position])
+            it.selectItem(uiState.manuallyAdded[position])
         }
     }
 
@@ -77,7 +77,7 @@ internal class BudgetBuilderStepViewModel private constructor(
     fun selectSuggestedItem(position: Int) = errorHandler.catching {
         val uiState = checkIs<Loaded>(uiStateOutput.value)
         consumableDelegate.update {
-            it.selectUserSuggestion(uiState.suggestions[position])
+            it.selectItem(uiState.suggestions[position])
         }
     }
 

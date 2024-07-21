@@ -1,6 +1,6 @@
-package br.com.mob1st.features.finances.impl.infra.data.system
+package br.com.mob1st.core.androidx.assets
 
-import br.com.mob1st.core.kotlinx.structures.Uri
+import java.io.File
 
 /**
  * Provides the absolute path of a file in the app's private assets folder.
@@ -9,15 +9,15 @@ interface AssetsGetter {
     /**
      * Given a [fileName], returns the absolute path of the file in the app's private assets folder.
      */
-    operator fun get(fileName: String): Uri
+    operator fun get(fileName: String): File
 }
 
 /**
  * Implementation of [AssetsGetter] for Android.
  * It returns a hardcoded URI with the file path in the assets folder.
  */
-internal object AndroidAssetsGetter : AssetsGetter {
-    override operator fun get(fileName: String): Uri {
-        return Uri("file:///android_asset/$fileName")
+object AndroidAssetsGetter : AssetsGetter {
+    override operator fun get(fileName: String): File {
+        return File("file:///android_asset/$fileName")
     }
 }

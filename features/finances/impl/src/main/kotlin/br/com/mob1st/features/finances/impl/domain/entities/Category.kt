@@ -4,8 +4,8 @@ import br.com.mob1st.core.kotlinx.structures.Identifiable
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.core.kotlinx.structures.Uri
-import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 
 data class Category(
     override val id: Id = Id(),
@@ -14,6 +14,7 @@ data class Category(
     val amount: Money,
     val isExpense: Boolean,
     val recurrences: Recurrences,
+    val suggested: Boolean,
 ) : Identifiable<Category.Id> {
     @JvmInline
     value class Id(override val value: Long = 0) : RowId
@@ -27,6 +28,6 @@ sealed interface Recurrences {
     data object Variable : Recurrences
 
     data class Seasonal(
-        val daysAndMonths: List<DayAndMonth>,
+        val daysOfYear: List<DayOfYear>,
     ) : Recurrences
 }

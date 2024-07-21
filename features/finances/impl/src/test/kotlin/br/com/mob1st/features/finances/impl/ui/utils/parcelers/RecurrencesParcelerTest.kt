@@ -3,8 +3,8 @@ package br.com.mob1st.features.finances.impl.ui.utils.parcelers
 import android.os.Parcel
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import br.com.mob1st.features.finances.impl.domain.values.Month
 import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
 import org.junit.Assert.assertEquals
@@ -40,8 +40,8 @@ class RecurrencesParcelerTest {
         val parcel = Parcel.obtain()
         val recurrences = Recurrences.Seasonal(
             listOf(
-                DayAndMonth(DayOfMonth(1), Month.February),
-                DayAndMonth(DayOfMonth(31), Month.December),
+                DayOfYear(DayOfMonth(1), Month.February),
+                DayOfYear(DayOfMonth(31), Month.December),
             ),
         )
         RecurrencesParceler.run {
@@ -70,8 +70,8 @@ class RecurrencesParcelerTest {
         assertEquals(
             Recurrences.Seasonal(
                 listOf(
-                    DayAndMonth(DayOfMonth(10), Month.March),
-                    DayAndMonth(DayOfMonth(20), Month.November),
+                    DayOfYear(DayOfMonth(10), Month.March),
+                    DayOfYear(DayOfMonth(20), Month.November),
                 ),
             ),
             recurrences,

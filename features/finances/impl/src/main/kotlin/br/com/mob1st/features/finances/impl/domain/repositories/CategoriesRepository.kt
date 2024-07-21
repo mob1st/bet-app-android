@@ -2,7 +2,6 @@ package br.com.mob1st.features.finances.impl.domain.repositories
 
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -10,24 +9,34 @@ import kotlinx.coroutines.flow.Flow
  */
 internal interface CategoriesRepository {
     /**
-     * Returns the categories that were manually created by the user in the given [step].
+     * Return a single category by its [id].
+     * @param id The id of the category.
+     * @return A flow of the category.
+     */
+    fun getById(
+        id: Category.Id,
+    ): Flow<Category>
+
+    /**
+     * Return all categories related to the given [step].
      * @param step The step of the category builder.
      * @return A flow of the categories.
      */
-    fun getManuallyCreatedBy(
+    fun getByStep(
         step: BuilderNextAction.Step,
     ): Flow<List<Category>>
 
     /**
-     * Adds a new category into the user's list of categories.
-     * It can be either a category added manually by the user or a category that was suggested by the system.
-     * @param category The category to be added.
-     * @param linkedSuggestion The suggestion that was linked to the category, if any.
+     * Bulk inserts the given [categories].
+     * @param categories The categories to be inserted.
      */
-    suspend fun add(
-        category: Category,
-        linkedSuggestion: CategorySuggestion?,
-    )
+    suspend fun addAll(categories: List<Category>)
+
+    /**
+     * Adds a new category into the user's list of categories.
+     * @param category The category to be added.
+     */
+    suspend fun add(category: Category)
 
     /**
      * Updates the given category.
@@ -35,8 +44,8 @@ internal interface CategoriesRepository {
     suspend fun set(category: Category)
 
     /**
-     * Deletes the given category.
+     * Removes the given category from the user's list of categories.
      * @param category The category to be deleted.
      */
-    suspend fun delete(category: Category)
+    suspend fun remove(category: Category)
 }

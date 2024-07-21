@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.infra.data.system
+package br.com.mob1st.core.androidx.resources
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -21,7 +21,7 @@ interface StringIdGetter {
  * A wrapper for the Android system API to get the integer identifier for a given string.
  * @property context The Android context that will be used to get the string identifier.
  */
-internal class AndroidStringIdGetter(
+class AndroidStringIdGetter(
     private val context: Context,
 ) : StringIdGetter {
     private val cache = mutableMapOf<String, Int>()

@@ -2,7 +2,6 @@ package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
 import br.com.mob1st.features.finances.impl.SelectSuggestions
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.SelectCategoryViewsMapper
 import br.com.mob1st.features.finances.impl.infra.data.system.AssetsGetter
 import br.com.mob1st.features.finances.impl.infra.data.system.StringIdGetter
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
@@ -18,12 +17,12 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
-class SelectSuggestionsMapperTest {
-    private lateinit var mapper: SelectSuggestionsMapper
+class CategorySuggestionMapperTest {
+    private lateinit var mapper: CategorySuggestionMapper
 
     private lateinit var fixture: Fixture
     private lateinit var timberTree: TestTimberTree
-    private lateinit var selectCategoryViewsMapper: SelectCategoryViewsMapper
+    private lateinit var selectCategoryViewsMapper: CategoryDomainDataMapper
     private lateinit var assetsGetter: AssetsGetter
     private lateinit var stringIdGetter: StringIdGetter
 
@@ -50,9 +49,9 @@ class SelectSuggestionsMapperTest {
                 )
             }
         }
-        selectCategoryViewsMapper = SelectCategoryViewsMapper
-        mapper = SelectSuggestionsMapper(
-            selectCategoryViewMapper = SelectCategoryViewsMapper,
+        selectCategoryViewsMapper = CategoryDomainDataMapper
+        mapper = CategorySuggestionMapper(
+            selectCategoryViewMapper = CategoryDomainDataMapper,
             stringIdGetter = stringIdGetter,
             assetsGetter = assetsGetter,
         )

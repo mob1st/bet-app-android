@@ -24,10 +24,10 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SuggestionsRepositoryImplTest {
+class CategorySuggestionRepositoryImplTest {
     private lateinit var repository: SuggestionsRepositoryImpl
     private lateinit var db: TwoCentsDb
-    private lateinit var mapper: SelectSuggestionsMapper
+    private lateinit var mapper: CategorySuggestionMapper
     private val io = IoCoroutineDispatcher(
         UnconfinedTestDispatcher(),
     )

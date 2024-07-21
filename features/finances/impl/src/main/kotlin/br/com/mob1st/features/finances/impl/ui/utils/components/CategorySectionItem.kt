@@ -31,7 +31,11 @@ import br.com.mob1st.core.design.organisms.lists.selectableItem
 import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.core.kotlinx.structures.Uri
+import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepPreviewFixture
+import br.com.mob1st.features.finances.impl.ui.utils.texts.MoneyTextState
+import br.com.mob1st.features.finances.impl.ui.utils.texts.RecurrencesTextStateFactory
+import br.com.mob1st.features.finances.impl.ui.utils.texts.toIconBackground
 import coil.compose.AsyncImage
 
 /**
@@ -39,31 +43,39 @@ import coil.compose.AsyncImage
  * It can be a suggestion, a manually added category, or the "Add category" item.
  */
 @Immutable
-interface CategorySectionItemState {
+data class CategorySectionItemState(
+    val category: Category,
+) {
     /**
      * The key of the item. It's used to identify the item in the list and optimize the rendering.
      */
-    val key: Any
+    val key: Any = category.id
 
     /**
      * The icon of the item.
      */
-    val icon: Icon
+    val icon: Icon = Icon(
+        background = category.recurrences.toIconBackground(),
+        image = category.image,
+    )
 
     /**
      * The leading text of the item. Usually it's the category name or the main instruction
      */
-    val headline: TextState
+    val headline: String = category.name
 
     /**
      * The supporting text of the item. It's usually the category description, if any.
      */
-    val supporting: TextState?
+    val supporting: TextState? = RecurrencesTextStateFactory.create(category.recurrences)
 
     /**
      * The value text of the item. It's usually the category amount, if any.
      */
-    val trailing: Trailing
+    val trailing: Trailing = Trailing(
+        amount = MoneyTextState(category.amount),
+        supporting = null,
+    )
 
     /**
      * The icon of for the category.
@@ -119,7 +131,7 @@ fun CategorySectionItem(
             Icon(icon = state.icon)
         },
         headlineContent = {
-            Text(text = state.headline.resolve())
+            Text(text = state.headline)
         },
         supportingContent = decoratedSupportingContent,
         trailingContent = {

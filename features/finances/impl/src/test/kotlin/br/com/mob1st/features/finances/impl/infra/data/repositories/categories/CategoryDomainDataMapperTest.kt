@@ -4,8 +4,8 @@ import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.impl.Category_view
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import br.com.mob1st.features.finances.impl.domain.values.Month
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import com.appmattus.kotlinfixture.Fixture
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
-class SelectCategoryViewsMapperTest {
+class CategoryDomainDataMapperTest {
     private lateinit var fixture: Fixture
 
     @BeforeEach
@@ -45,7 +45,7 @@ class SelectCategoryViewsMapperTest {
             fixture<Category_view>().copy(cat_id = 2),
             fixture<Category_view>().copy(cat_id = 2),
         )
-        val actual = SelectCategoryViewsMapper.map(data)
+        val actual = CategoryDomainDataMapper.map(data)
         assertEquals(
             1L,
             actual.first().id.value,
@@ -63,7 +63,7 @@ class SelectCategoryViewsMapperTest {
         val categoryView = fixture<Category_view>().copy(
             frc_day_of_month = dayOfMonth.value,
         )
-        val actual = SelectCategoryViewsMapper.map(listOf(categoryView))
+        val actual = CategoryDomainDataMapper.map(listOf(categoryView))
         assertEquals(
             Recurrences.Fixed(dayOfMonth),
             actual[0].recurrences,
@@ -77,7 +77,7 @@ class SelectCategoryViewsMapperTest {
             src_day = null,
             src_month = null,
         )
-        val actual = SelectCategoryViewsMapper.map(listOf(categoryView))
+        val actual = CategoryDomainDataMapper.map(listOf(categoryView))
         assertEquals(
             Recurrences.Variable,
             actual[0].recurrences,
@@ -86,15 +86,15 @@ class SelectCategoryViewsMapperTest {
 
     @Test
     fun `GIVEN a list of categories views And day and month are filled WHEN map THEN assert it's mapped as seasonal recurrence`() {
-        val (day, month) = fixture<DayAndMonth>()
+        val (day, month) = fixture<DayOfYear>()
         val categoryView = fixture<Category_view>().copy(
             frc_day_of_month = null,
             src_day = day.value,
             src_month = month.value,
         )
-        val actual = SelectCategoryViewsMapper.map(listOf(categoryView))
+        val actual = CategoryDomainDataMapper.map(listOf(categoryView))
         assertEquals(
-            Recurrences.Seasonal(listOf(DayAndMonth(day, month))),
+            Recurrences.Seasonal(listOf(DayOfYear(day, month))),
             actual[0].recurrences,
         )
     }
@@ -114,7 +114,7 @@ class SelectCategoryViewsMapperTest {
             src_month = null,
         )
         assertThrows<NullPointerException> {
-            SelectCategoryViewsMapper.map(listOf(firstCategoryView, secondCategoryView))
+            CategoryDomainDataMapper.map(listOf(firstCategoryView, secondCategoryView))
         }
     }
 
@@ -131,7 +131,7 @@ class SelectCategoryViewsMapperTest {
             cat_amount = amount.cents,
         )
         val anyRecurrences = fixture<Recurrences>()
-        val actual = SelectCategoryViewsMapper.map(
+        val actual = CategoryDomainDataMapper.map(
             listOf(categoryView),
         ).first().copy(
             // exclude the recurrence from comparison because it's not relevant for this test

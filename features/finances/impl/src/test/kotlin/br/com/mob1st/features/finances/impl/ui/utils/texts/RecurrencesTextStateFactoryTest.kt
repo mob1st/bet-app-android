@@ -2,8 +2,8 @@ package br.com.mob1st.features.finances.impl.ui.utils.texts
 
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import br.com.mob1st.features.finances.impl.domain.values.Month
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -29,8 +29,8 @@ class RecurrencesTextStateFactoryTest {
             val fixedRecurrences = Recurrences.Fixed(DayOfMonth(1))
             val seasonalRecurrences = Recurrences.Seasonal(
                 listOf(
-                    DayAndMonth(DayOfMonth(1), Month.February),
-                    DayAndMonth(DayOfMonth(31), Month.October),
+                    DayOfYear(DayOfMonth(1), Month.February),
+                    DayOfYear(DayOfMonth(31), Month.October),
                 ),
             )
             return Stream.of(

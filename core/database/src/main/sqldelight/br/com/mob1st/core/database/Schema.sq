@@ -1,222 +1,30 @@
 import kotlin.Boolean;
-import kotlin.Int;
-
-/**
-* A recurrence type is a type of recurrence of a balance movement.
-*/
-CREATE TABLE IF NOT EXISTS CategoryTypes(
-    id INTEGER PRIMARY KEY,
-    description TEXT NOT NULL UNIQUE CHECK(
-        description IN ('fixed', 'variable', 'seasonal')
-    )
-);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_category_types__description ON CategoryTypes(description);
-CREATE TRIGGER IF NOT EXISTS prevent_update_CategoryTypes
-BEFORE UPDATE OF description ON CategoryTypes
-BEGIN
-    SELECT RAISE(
-        ABORT,
-        'Update of description is not allowed in CategoryTypes'
-    );
-END;
-
-CREATE UNIQUE INDEX IF NOT EXISTS idx_category_types_description ON CategoryTypes(description);
-INSERT INTO CategoryTypes(description)
-VALUES ('fixed'), ('variable'), ('seasonal');
-
-CREATE TABLE IF NOT EXISTS Suggestions(
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    type_id INTEGER NOT NULL,
-    is_expense INTEGER AS Boolean NOT NULL CHECK (is_expense IN (0, 1)),
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(type_id) REFERENCES CategoryTypes(id)
-);
-CREATE INDEX IF NOT EXISTS idx_suggestions__is_expense ON Suggestions(is_expense);
-CREATE INDEX IF NOT EXISTS idx_suggestions__type_id ON Suggestions(type_id);
-
-CREATE TRIGGER IF NOT EXISTS prevent_update_Suggestions
-BEFORE UPDATE OF created_at ON Suggestions
-BEGIN
-    SELECT RAISE(
-        ABORT,
-        'Update of created_at is not allowed in Suggestions'
-    );
-END;
--- Insert fixed expense suggestions
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_rent', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_mortgage', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_property_taxes', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_electricity', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_water', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_cleaning', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_health_insurance', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_health_care', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_pet_insurance', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_car_insurance', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_public_transport', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_home_insurance', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_bank_loan', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_internet_subscription', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_cell_phone_plan', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_cable_or_streaming_services', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_music_streaming_services', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_magazine_or_newspaper_subscriptions', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_gym', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_personal_education', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_children_school', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_childcare', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
--- Insert variable suggestions
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_groceries', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_household_supplies', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_transportation_fuel', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_dining_out', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_food_delivery', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_coffee_snacks', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_weekday_lunch', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_public_transport_tickets', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_cinema', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_concerts', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_electronic_games', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_sports_tickets', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_bars', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_night_clubs', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_cigarettes', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_fitness_recreation', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'variable';
-
--- Insert fixed incomes
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_salary', types.id, 0 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_rental_income', types.id, 0 FROM CategoryTypes AS types WHERE types.description = 'fixed';
-
--- Insert seasonal suggestions
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_holiday_gifts', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_dentist', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_vacation_travel', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_back_to_school_supplies', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_winter_clothing', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_garden_supplies', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
-
-INSERT INTO Suggestions(name, type_id, is_expense)
-SELECT 'finances_builder_suggestions_item_home_heating', types.id, 1 FROM CategoryTypes AS types WHERE types.description = 'seasonal';
-
-CREATE TRIGGER IF NOT EXISTS block_Suggestions_update
-BEFORE UPDATE ON Suggestions
-BEGIN
-    SELECT RAISE(ABORT, "updates not allowed on suggestions");
-END;
 
 /**
 * A category is a group of balance movements.
 * This is the main table of the database, storing the categories of the user and helping to organize
 * the balance movements.
 */
-CREATE TABLE IF NOT EXISTS Categories(
+CREATE TABLE Categories(
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    linked_suggestion_id INTEGER UNIQUE,
+    suggested INTEGER AS Boolean NOT NULL DEFAULT 0,
     amount INTEGER NOT NULL CHECK (amount >= 0),
     image TEXT NOT NULL,
+    recurrence_type TEXT NOT NULL UNIQUE CHECK(
+        recurrence_type IN ('fixed', 'variable', 'seasonal')
+    ),
+    recurrences TEXT,
     is_expense INTEGER AS Boolean NOT NULL CHECK (is_expense IN (0, 1)),
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT,
-    FOREIGN KEY(linked_suggestion_id) REFERENCES Suggestions(id)
+    updated_at TEXT
 );
-CREATE INDEX IF NOT EXISTS idx_categories__description ON Categories(name);
-CREATE INDEX IF NOT EXISTS idx_categories__is_expense ON Categories(is_expense);
-CREATE INDEX IF NOT EXISTS idx_categories__linked_suggestion_id ON Categories(
-    linked_suggestion_id
-);
+CREATE INDEX idx_categories__description ON Categories(name);
+CREATE INDEX idx_categories__recurrences ON Categories(recurrences);
+CREATE INDEX idx_categories__is_expense_X_suggested_X_recurrence_type
+ON Categories(is_expense, suggested, recurrence_type);
 
-CREATE TRIGGER IF NOT EXISTS prevent_update_Categories
+CREATE TRIGGER prevent_update_Categories
 BEFORE UPDATE OF created_at ON Categories
 BEGIN
     SELECT RAISE(
@@ -224,79 +32,3 @@ BEGIN
         'Update of created_at is not allowed in Categories'
     );
 END;
-
-/**
-* A fixed balance movement is a balance movement that happens every month.
-* eg: salary, rent, etc.
-*/
-CREATE TABLE IF NOT EXISTS FixedRecurrences(
-    category_id INTEGER NOT NULL UNIQUE,
-    day_of_month INTEGER AS Int NOT NULL CHECK (day_of_month BETWEEN 1 AND 31),
-    FOREIGN KEY(category_id) REFERENCES Categories(id) ON DELETE CASCADE,
-    UNIQUE(category_id, day_of_month)
-);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_fixed_recurrece__category_id_X_day_of_month
-ON FixedRecurrences(category_id, day_of_month);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_fixed_recurrece__category_id ON FixedRecurrences(category_id);
-
-/**
-* A seasonal balance movement is a balance movement that happens every year.
-* eg: christmas, holidays, etc.
-*/
-CREATE TABLE IF NOT EXISTS SeasonalRecurrences(
-    category_id INTEGER NOT NULL,
-    month INTEGER AS Int NOT NULL CHECK (month BETWEEN 1 AND 12),
-    day INTEGER AS Int NOT NULL CHECK (day BETWEEN 1 AND 31),
-    FOREIGN KEY(category_id) REFERENCES Categories(id) ON DELETE CASCADE,
-    UNIQUE(category_id, month, day)
-);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_seasonal_recurrences__category_id_X_month_X_day
-ON SeasonalRecurrences(category_id, month, day);
-
-CREATE TRIGGER IF NOT EXISTS ensure_reference_id_in_one_table_FixedRecurrences
-BEFORE INSERT ON FixedRecurrences
-BEGIN
-    SELECT CASE
-        WHEN EXISTS (SELECT 1 FROM SeasonalRecurrences WHERE category_id = new.category_id)
-        THEN RAISE(ABORT, 'category_id already exists in VariableRecurrences or SeasonalRecurrences')
-    END;
-END;
-
-CREATE TRIGGER IF NOT EXISTS ensure_reference_id_in_one_table_SeasonalRecurrences
-BEFORE INSERT ON SeasonalRecurrences
-BEGIN
-    SELECT CASE
-        WHEN EXISTS (SELECT 1 FROM FixedRecurrences WHERE category_id = new.category_id)
-        THEN RAISE(ABORT, 'category_id already exists in FixedRecurrences or VariableRecurrences')
-    END;
-END;
-
-CREATE TRIGGER IF NOT EXISTS prevent_foreign_key_update_FixedRecurrences
-BEFORE UPDATE OF category_id ON FixedRecurrences
-BEGIN
-    SELECT RAISE(
-        ABORT,
-        'Update of category_id is not allowed in VariableRecurrences'
-    );
-END;
-
-CREATE TRIGGER IF NOT EXISTS prevent_foreign_key_update_SeasonalRecurrences
-BEFORE UPDATE OF category_id ON SeasonalRecurrences
-BEGIN
-    SELECT RAISE(
-        ABORT,
-        'Update of category_id is not allowed in SeasonalRecurrences'
-    );
-END;
-
-CREATE VIEW category_view AS
-SELECT
-    cat.id AS cat_id, cat.name AS cat_name, cat.image AS cat_image,
-    cat.amount AS cat_amount, cat.is_expense AS cat_is_expense,
-    cat.linked_suggestion_id AS cat_linked_suggestion_id,
-    cat.created_at AS cat_created_at,
-    frc.day_of_month AS frc_day_of_month,
-    src.month AS src_month, src.day AS src_day
-FROM Categories AS cat
-LEFT JOIN FixedRecurrences AS frc ON cat.id = frc.category_id
-LEFT JOIN SeasonalRecurrences AS src ON cat.id = src.category_id;

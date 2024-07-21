@@ -4,6 +4,7 @@ import br.com.mob1st.core.observability.events.ScreenViewEvent
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
+import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 
 /**
@@ -22,6 +23,7 @@ internal object BuilderStepScreenViewFactory {
             FixedExpensesStep -> ScreenViewEvent("builder_fixed_expenses")
             VariableExpensesStep -> ScreenViewEvent("builder_variable_expenses")
             FixedIncomesStep -> ScreenViewEvent("builder_fixed_incomes")
+            SeasonalExpensesStep -> ScreenViewEvent("builder_seasonal_expenses")
         }
     }
 }

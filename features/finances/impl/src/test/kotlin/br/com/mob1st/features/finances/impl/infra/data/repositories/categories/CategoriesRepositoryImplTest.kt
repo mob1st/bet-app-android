@@ -8,8 +8,8 @@ import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import br.com.mob1st.features.finances.impl.domain.values.Month
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import br.com.mob1st.features.finances.impl.utils.testTwoCentsDb
@@ -34,7 +34,7 @@ class CategoriesRepositoryImplTest {
     private lateinit var repository: CategoriesRepositoryImpl
 
     private lateinit var db: TwoCentsDb
-    private lateinit var selectCategoryViewMapper: SelectCategoryViewsMapper
+    private lateinit var selectCategoryViewMapper: CategoryDomainDataMapper
 
     private lateinit var fixture: Fixture
 
@@ -46,7 +46,7 @@ class CategoriesRepositoryImplTest {
     fun setUp() {
         fixture = moduleFixture
         db = testTwoCentsDb()
-        selectCategoryViewMapper = SelectCategoryViewsMapper
+        selectCategoryViewMapper = CategoryDomainDataMapper
         repository = CategoriesRepositoryImpl(
             io = io,
             db = db,
@@ -88,7 +88,7 @@ class CategoriesRepositoryImplTest {
         val categoryView = db.categoriesQueries.selectCategoryById(id).executeAsOne()
         val category = fixture<Category>().copy(id = Category.Id(categoryView.cat_id))
 
-        repository.delete(category)
+        repository.remove(category)
 
         val actual = db.categoriesQueries.selectCategoryById(id).executeAsOneOrNull()
         assertNull(actual)
@@ -144,8 +144,8 @@ class CategoriesRepositoryImplTest {
     fun `GIVEN a category with seasonal recurrence WHEN add THEN assert category is inserted`() = runTest(io) {
         val recurrences = Recurrences.Seasonal(
             listOf(
-                DayAndMonth(DayOfMonth(1), Month(1)),
-                DayAndMonth(DayOfMonth(1), Month(2)),
+                DayOfYear(DayOfMonth(1), Month(1)),
+                DayOfYear(DayOfMonth(1), Month(2)),
             ),
         )
         val category = fixture<Category>().copy(recurrences = recurrences)

@@ -31,6 +31,7 @@ internal sealed interface BuilderRoute : NavTarget {
         enum class Type {
             FixedExpenses,
             VariableExpenses,
+            SeasonalExpenses,
             FixedIncomes,
         }
 

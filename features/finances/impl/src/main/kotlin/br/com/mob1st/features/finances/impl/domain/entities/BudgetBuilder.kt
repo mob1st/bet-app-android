@@ -1,7 +1,6 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
 import br.com.mob1st.core.kotlinx.structures.Identifiable
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
 
 /**
  * Represents the state of the category builder in a specific [id].
@@ -13,7 +12,7 @@ import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
 data class BudgetBuilder(
     override val id: BuilderNextAction.Step,
     val manuallyAdded: List<Category>,
-    val suggestions: List<CategorySuggestion>,
+    val suggestions: List<Category>,
 ) : Identifiable<BuilderNextAction.Step> {
     /**
      * Moves the user to the next step in the category builder.
@@ -34,8 +33,7 @@ data class BudgetBuilder(
     }
 
     private fun countAddedItems(): Int {
-        return manuallyAdded.count { it.amount.cents > 0 } +
-            suggestions.count { (it.linkedCategory?.amount?.cents ?: 0) > 0 }
+        return manuallyAdded.count { it.amount.cents > 0 }
     }
 
     companion object {
@@ -60,19 +58,9 @@ sealed interface BuilderNextAction {
      */
     sealed interface Step : BuilderNextAction {
         /**
-         * Whether the step is related to expenses or incomes.
-         */
-        val isExpense: Boolean
-
-        /**
          * The minimum number of inputs required to proceed to the next step.
          */
         val minimumRequiredToProceed: Int
-
-        /**
-         * The type of the category that will be added in this step.
-         */
-        val type: RecurrenceType
 
         /**
          * The next action in the category builder.
@@ -87,9 +75,7 @@ sealed interface BuilderNextAction {
  */
 data object FixedExpensesStep : BuilderNextAction.Step {
     private const val REQUIRED_INPUTS = 3
-    override val isExpense: Boolean = true
     override val minimumRequiredToProceed: Int = REQUIRED_INPUTS
-    override val type: RecurrenceType = RecurrenceType.Fixed
     override val next: BuilderNextAction = VariableExpensesStep
 }
 
@@ -99,20 +85,25 @@ data object FixedExpensesStep : BuilderNextAction.Step {
  */
 data object VariableExpensesStep : BuilderNextAction.Step {
     private const val REQUIRED_INPUTS = 3
-    override val isExpense: Boolean = true
     override val minimumRequiredToProceed: Int = REQUIRED_INPUTS
-    override val type: RecurrenceType = RecurrenceType.Variable
     override val next: BuilderNextAction = FixedIncomesStep
 }
 
 /**
- * The third and last step in the category builder.
+ * The third step in the category builder.
+ * It is used to add seasonal expenses.
+ */
+data object SeasonalExpensesStep : BuilderNextAction.Step {
+    override val minimumRequiredToProceed: Int = 0
+    override val next: BuilderNextAction = FixedIncomesStep
+}
+
+/**
+ * The fourth step in the category builder.
  * It is used to add fixed incomes.
  */
 data object FixedIncomesStep : BuilderNextAction.Step {
-    override val isExpense: Boolean = false
     override val minimumRequiredToProceed: Int = 1
-    override val type: RecurrenceType = RecurrenceType.Fixed
     override val next: BuilderNextAction = BuilderNextAction.Complete
 }
 
