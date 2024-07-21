@@ -17,7 +17,7 @@ import timber.log.Timber
  * Concrete implementation of the [CategorySuggestionRepository] interface.
  * @property io The IO dispatcher.
  */
-internal class SuggestionsRepositoryImpl(
+internal class CategorySuggestionsRepositoryImpl(
     private val io: IoCoroutineDispatcher,
     private val stringGetter: StringGetter,
     private val stringIdGetter: StringIdGetter,

@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
  * @property io The IO dispatcher.
  * @property db The SqlDelight database instance.
  */
-internal class CategoriesRepositoryImpl(
+internal class CategoryRepositoryImpl(
     private val io: IoCoroutineDispatcher,
     private val db: TwoCentsDb,
 ) : CategoriesRepository {

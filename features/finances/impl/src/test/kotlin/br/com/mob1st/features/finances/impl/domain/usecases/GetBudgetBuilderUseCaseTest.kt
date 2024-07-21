@@ -8,7 +8,6 @@ import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.events.BuilderStepScreenViewFactory
 import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
-import br.com.mob1st.features.finances.impl.domain.repositories.CategorySuggestionRepository
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import com.appmattus.kotlinfixture.Fixture
 import io.mockk.every
@@ -24,7 +23,6 @@ class GetBudgetBuilderUseCaseTest {
 
     private lateinit var analyticsReporter: AnalyticsReporter
     private lateinit var categoryRepository: CategoriesRepository
-    private lateinit var categorySuggestionRepository: CategorySuggestionRepository
     private lateinit var builderStepScreenViewFactory: BuilderStepScreenViewFactory
     private lateinit var fixture: Fixture
 
@@ -32,14 +30,12 @@ class GetBudgetBuilderUseCaseTest {
     fun setUp() {
         analyticsReporter = mockk(relaxed = true)
         categoryRepository = mockk()
-        categorySuggestionRepository = mockk()
         builderStepScreenViewFactory = mockk()
         fixture = moduleFixture
 
         useCase = GetCategoryBuilderUseCase(
             analyticsReporter = analyticsReporter,
             categoryRepository = categoryRepository,
-            categorySuggestionRepository = categorySuggestionRepository,
             builderStepScreenViewFactory = builderStepScreenViewFactory,
         )
     }
@@ -52,8 +48,7 @@ class GetBudgetBuilderUseCaseTest {
         val step = fixture<BuilderNextAction.Step>()
         val screenViewEvent = fixture<ScreenViewEvent>()
 
-        every { categoryRepository.getManuallyCreatedBy(step) } returns categoriesFlow
-        every { categorySuggestionRepository.getByStep(step) } returns suggestionsFlow
+        every { categoryRepository.getByStep(step) } returns categoriesFlow
         every { builderStepScreenViewFactory.create(step) } returns screenViewEvent
 
         // When

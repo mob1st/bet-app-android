@@ -6,9 +6,9 @@ import br.com.mob1st.features.finances.impl.domain.repositories.RecurrenceBuilde
 import br.com.mob1st.features.finances.impl.infra.data.preferences.RecurrenceBuilderCompletionsDataSource
 import br.com.mob1st.features.finances.impl.infra.data.ram.RecurrenceBuilderListsDataSource
 import br.com.mob1st.features.finances.impl.infra.data.repositories.RecurrenceBuilderRepositoryImpl
-import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.CategoriesRepositoryImpl
+import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.CategoryRepositoryImpl
+import br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions.CategorySuggestionsRepositoryImpl
 import br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions.SuggestionListPerStep
-import br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions.SuggestionsRepositoryImpl
 import br.com.mob1st.features.finances.impl.infra.data.sqldelight.DatabaseFactory
 import br.com.mob1st.features.finances.impl.infra.data.system.AndroidRecurrenceLocalizationProvider
 import br.com.mob1st.features.finances.impl.infra.data.system.RecurrenceLocalizationProvider
@@ -36,8 +36,8 @@ private val repositoriesModule = module {
             io = get(),
         )
     }
-    factoryOf(::CategoriesRepositoryImpl) bind CategoriesRepository::class
-    factoryOf(::SuggestionsRepositoryImpl) bind CategorySuggestionRepository::class
+    factoryOf(::CategoryRepositoryImpl) bind CategoriesRepository::class
+    factoryOf(::CategorySuggestionsRepositoryImpl) bind CategorySuggestionRepository::class
 }
 
 private val systemModule = module {
