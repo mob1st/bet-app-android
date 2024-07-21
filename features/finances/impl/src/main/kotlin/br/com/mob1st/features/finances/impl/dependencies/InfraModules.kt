@@ -11,10 +11,12 @@ import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.S
 import br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions.SelectSuggestionsMapper
 import br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions.SuggestionsRepositoryImpl
 import br.com.mob1st.features.finances.impl.infra.data.sqldelight.DatabaseFactory
+import br.com.mob1st.features.finances.impl.infra.data.system.AndroidAssetsGetter
 import br.com.mob1st.features.finances.impl.infra.data.system.AndroidRecurrenceLocalizationProvider
-import br.com.mob1st.features.finances.impl.infra.data.system.AndroidStringIdProvider
+import br.com.mob1st.features.finances.impl.infra.data.system.AndroidStringIdGetter
+import br.com.mob1st.features.finances.impl.infra.data.system.AssetsGetter
 import br.com.mob1st.features.finances.impl.infra.data.system.RecurrenceLocalizationProvider
-import br.com.mob1st.features.finances.impl.infra.data.system.StringIdProvider
+import br.com.mob1st.features.finances.impl.infra.data.system.StringIdGetter
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -22,14 +24,10 @@ import org.koin.dsl.module
 val infraModule
     get() = module {
         includes(
-            databaseModule,
             repositoriesModule,
             systemModule,
         )
     }
-
-private val databaseModule = module {
-}
 
 private val repositoriesModule = module {
     single {
@@ -51,5 +49,8 @@ private val repositoriesModule = module {
 private val systemModule = module {
     factoryOf(::AndroidRecurrenceLocalizationProvider) bind RecurrenceLocalizationProvider::class
     factoryOf(::RecurrenceBuilderCompletionsDataSource)
-    factoryOf(::AndroidStringIdProvider) bind StringIdProvider::class
+    factoryOf(::AndroidStringIdGetter) bind StringIdGetter::class
+    factory {
+        AndroidAssetsGetter
+    } bind AssetsGetter::class
 }

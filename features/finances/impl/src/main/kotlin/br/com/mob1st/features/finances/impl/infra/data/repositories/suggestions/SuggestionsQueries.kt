@@ -6,7 +6,7 @@ import br.com.mob1st.features.finances.impl.SelectSuggestions
 import br.com.mob1st.features.finances.impl.SuggestionsQueries
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
-import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
+import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.coroutines.CoroutineContext
@@ -31,8 +31,8 @@ internal fun SuggestionsQueries.selectSuggestions(
         .map(mapper)
 }
 
-private fun CategoryType.asRow(): String = when (this) {
-    CategoryType.Fixed -> "fixed"
-    CategoryType.Seasonal -> "seasonal"
-    CategoryType.Variable -> "variable"
+private fun RecurrenceType.asRow(): String = when (this) {
+    RecurrenceType.Fixed -> "fixed"
+    RecurrenceType.Seasonal -> "seasonal"
+    RecurrenceType.Variable -> "variable"
 }

@@ -14,13 +14,14 @@ FROM category_view
 WHERE cat_id = :id;
 
 insertCategory:
-INSERT INTO Categories(name, amount, is_expense, linked_suggestion_id)
-VALUES (:name, :amount, :is_expense, :linked_suggestion_id);
+INSERT INTO Categories(name, amount, is_expense, linked_suggestion_id, image)
+VALUES (:name, :amount, :is_expense, :linked_suggestion_id, :image);
 
 updateCategory:
 UPDATE Categories
 SET amount = :amount,
     name = :name,
+    image = :image,
     updated_at = CURRENT_TIMESTAMP
 WHERE id = :id;
 

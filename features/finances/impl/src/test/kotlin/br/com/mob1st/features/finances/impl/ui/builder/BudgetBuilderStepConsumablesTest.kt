@@ -4,13 +4,13 @@ import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
-import br.com.mob1st.features.finances.impl.ui.builder.steps.AddCategoryListItem
+import br.com.mob1st.features.finances.impl.ui.builder.steps.AddCategoryListItemState
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepDialog
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepSnackbar
-import br.com.mob1st.features.finances.impl.ui.builder.steps.ManualCategoryListItem
-import br.com.mob1st.features.finances.impl.ui.builder.steps.SuggestionListItem
+import br.com.mob1st.features.finances.impl.ui.builder.steps.ManualCategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.builder.steps.SuggestionSectionItemState
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.features.utils.errors.toCommonError
@@ -56,7 +56,7 @@ class BudgetBuilderStepConsumablesTest {
     @Test
     fun `GIVEN an list item to add category WHEN select a manual item THEN open the dialog to enter the category name`() {
         // Given
-        val item = AddCategoryListItem
+        val item = AddCategoryListItemState
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
@@ -72,7 +72,7 @@ class BudgetBuilderStepConsumablesTest {
     @Test
     fun `GIVEN an list item to edit category WHEN select a manual item THEN navigate to the category edition screen`() {
         // Given
-        val item = ManualCategoryListItem(moduleFixture())
+        val item = ManualCategorySectionItemState(moduleFixture())
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
@@ -88,7 +88,7 @@ class BudgetBuilderStepConsumablesTest {
     @Test
     fun `GIVEN an list item suggestion WHEN select a manual item THEN throw an error`() {
         // Given
-        val item = SuggestionListItem(moduleFixture())
+        val item = SuggestionSectionItemState(moduleFixture())
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // Then
@@ -101,7 +101,7 @@ class BudgetBuilderStepConsumablesTest {
     @Test
     fun `GIVEN a suggestion list item WHEN select a user suggestion THEN navigate to add category`() {
         // Given
-        val item = SuggestionListItem(moduleFixture<CategorySuggestion>().copy(linkedCategory = null))
+        val item = SuggestionSectionItemState(moduleFixture<CategorySuggestion>().copy(linkedCategory = null))
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
@@ -127,7 +127,7 @@ class BudgetBuilderStepConsumablesTest {
                 nullabilityStrategy(NeverNullStrategy)
             },
         )
-        val item = SuggestionListItem(categorySuggestion)
+        val item = SuggestionSectionItemState(categorySuggestion)
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When

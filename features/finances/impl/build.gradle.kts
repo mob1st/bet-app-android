@@ -35,6 +35,7 @@ dependencies {
     implementation(libs.bundles.android)
     implementation(libs.bundles.arrow)
     ksp(libs.arrow.optics.compiler)
+    implementation(libs.bundles.coil)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.koin)

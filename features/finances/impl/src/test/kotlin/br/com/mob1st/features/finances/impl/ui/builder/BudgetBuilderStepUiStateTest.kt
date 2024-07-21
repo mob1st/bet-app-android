@@ -6,10 +6,10 @@ import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
-import br.com.mob1st.features.finances.impl.ui.builder.steps.AddCategoryListItem
-import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Packed
-import br.com.mob1st.features.finances.impl.ui.builder.steps.ManualCategoryListItem
-import br.com.mob1st.features.finances.impl.ui.builder.steps.SuggestionListItem
+import br.com.mob1st.features.finances.impl.ui.builder.steps.AddCategoryListItemState
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
+import br.com.mob1st.features.finances.impl.ui.builder.steps.ManualCategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.builder.steps.SuggestionSectionItemState
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import com.appmattus.kotlinfixture.Fixture
 import kotlinx.collections.immutable.persistentListOf
@@ -48,24 +48,24 @@ internal class BudgetBuilderStepUiStateTest {
         // Given
         val budgetBuilder = fixture<BudgetBuilder>()
         val expectedManuallyAdded = persistentListOf(
-            ManualCategoryListItem(
+            ManualCategorySectionItemState(
                 category = budgetBuilder.manuallyAdded[0],
             ),
-            ManualCategoryListItem(
+            ManualCategorySectionItemState(
                 category = budgetBuilder.manuallyAdded[1],
             ),
-            AddCategoryListItem,
+            AddCategoryListItemState,
         )
         val expectedSuggestions = persistentListOf(
-            SuggestionListItem(
+            SuggestionSectionItemState(
                 suggestion = budgetBuilder.suggestions[0],
             ),
-            SuggestionListItem(
+            SuggestionSectionItemState(
                 suggestion = budgetBuilder.suggestions[1],
             ),
         )
         // When
-        val budgetBuilderStepUiState = Packed(budgetBuilder)
+        val budgetBuilderStepUiState = Loaded(budgetBuilder)
 
         // Then
         assertEquals(
@@ -85,10 +85,10 @@ internal class BudgetBuilderStepUiStateTest {
             manuallyAdded = emptyList(),
             suggestions = emptyList(),
         )
-        val expectedManuallyAdded = persistentListOf(AddCategoryListItem)
-        val expectedSuggestions = persistentListOf<SuggestionListItem>()
+        val expectedManuallyAdded = persistentListOf(AddCategoryListItemState)
+        val expectedSuggestions = persistentListOf<SuggestionSectionItemState>()
         // When
-        val budgetBuilderStepUiState = Packed(budgetBuilder)
+        val budgetBuilderStepUiState = Loaded(budgetBuilder)
 
         // Then
         assertEquals(
@@ -105,10 +105,10 @@ internal class BudgetBuilderStepUiStateTest {
     @ArgumentsSource(StepToHeaderProvider::class)
     fun `GIVEN a builder WHEN get header THEN assert header is correct`(
         step: BuilderNextAction.Step,
-        expectedHeader: Packed.Header,
+        expectedHeader: Loaded.Header,
     ) {
         // When
-        val header = Packed(
+        val header = Loaded(
             BudgetBuilder(step, emptyList(), emptyList()),
         ).header
 
@@ -121,21 +121,21 @@ internal class BudgetBuilderStepUiStateTest {
             return Stream.of(
                 Arguments.of(
                     FixedExpensesStep,
-                    Packed.Header(
+                    Loaded.Header(
                         title = R.string.finances_builder_fixed_expenses_header,
                         description = R.string.finances_builder_fixed_expenses_subheader,
                     ),
                 ),
                 Arguments.of(
                     FixedIncomesStep,
-                    Packed.Header(
+                    Loaded.Header(
                         title = R.string.finances_builder_fixed_incomes_header,
                         description = R.string.finances_builder_fixed_incomes_subheader,
                     ),
                 ),
                 Arguments.of(
                     VariableExpensesStep,
-                    Packed.Header(
+                    Loaded.Header(
                         title = R.string.finances_builder_variable_expenses_header,
                         description = R.string.finances_builder_variable_expenses_subheader,
                     ),

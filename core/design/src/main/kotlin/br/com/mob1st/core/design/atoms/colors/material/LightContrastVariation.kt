@@ -51,7 +51,7 @@ internal data object LightContrastVariation : ContrastedThemeVariator.ContrastVa
             fixedExpenses = ColorFamily(
                 color = AmaranthPinkTonal.x50,
                 onColor = AmaranthPinkTonal.x99,
-                container = AmaranthPinkTonal.x90,
+                container = AmaranthPinkTonal.x95,
                 onContainer = AmaranthPinkTonal.x10,
             ),
             variableExpenses = ColorFamily(

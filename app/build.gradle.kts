@@ -92,6 +92,7 @@ dependencies {
     // bundles
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
+    implementation(libs.bundles.coil)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.lifecycle)
@@ -100,7 +101,6 @@ dependencies {
     implementation(libs.bundles.firebase)
 
     // standalone
-    implementation(libs.coil)
     implementation(libs.kotlin.collections)
     implementation(libs.timber)
     implementation(libs.android.startup)

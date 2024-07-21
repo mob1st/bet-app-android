@@ -10,11 +10,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.design.atoms.spacing.Spacings
-import br.com.mob1st.core.design.organisms.lists.selectableItem
 import br.com.mob1st.core.design.organisms.section.section
 import br.com.mob1st.core.design.organisms.snack.Snackbar
 import br.com.mob1st.core.design.templates.FeatureStepScaffold
@@ -87,7 +85,7 @@ private fun CategoryBuilderStepScreen(
         target = consumables.navEvent,
         onNavigate = onNavigate,
     )
-    if (uiState !is BudgetBuilderStepUiState.Packed) {
+    if (uiState !is BudgetBuilderStepUiState.Loaded) {
         return
     }
     FeatureStepScaffold(
@@ -118,7 +116,7 @@ private fun CategoryBuilderStepScreen(
 
 @Composable
 private fun BudgetBuilderScreenContent(
-    uiState: BudgetBuilderStepUiState.Packed,
+    uiState: BudgetBuilderStepUiState.Loaded,
     onSelectManualCategory: (position: Int) -> Unit,
     onSelectSuggestion: (position: Int) -> Unit,
 ) {
@@ -131,11 +129,10 @@ private fun BudgetBuilderScreenContent(
             titleContent = {
                 Text(text = stringResource(id = R.string.finances_builder_commons_custom_section_headline))
             },
-            itemContent = { index, item ->
-                CategoryListItemContent(
-                    index = index,
-                    categoryListItem = item,
-                    onSelectItem = onSelectManualCategory,
+            itemContent = { index, itemState ->
+                CategorySectionItem(
+                    state = itemState,
+                    onSelect = { onSelectManualCategory(index) },
                 )
             },
         )
@@ -146,43 +143,14 @@ private fun BudgetBuilderScreenContent(
             titleContent = {
                 Text(text = stringResource(id = R.string.finances_builder_commons_suggestions_section_headline))
             },
-            itemContent = { index, item ->
-                CategoryListItemContent(
-                    index = index,
-                    categoryListItem = item,
-                    onSelectItem = onSelectSuggestion,
+            itemContent = { index, itemState ->
+                CategorySectionItem(
+                    state = itemState,
+                    onSelect = { onSelectSuggestion(index) },
                 )
             },
         )
     }
-}
-
-@Composable
-private fun CategoryListItemContent(
-    index: Int,
-    categoryListItem: CategoryListItem,
-    onSelectItem: (Int) -> Unit,
-) {
-    val trailingContent: (@Composable () -> Unit)? =
-        categoryListItem.value?.let {
-            {
-                Text(text = it.resolve())
-            }
-        }
-    val supportingContent: (@Composable () -> Unit)? =
-        categoryListItem.supporting?.let {
-            {
-                Text(text = it.resolve())
-            }
-        }
-    CategorySectionItem(
-        modifier = Modifier.selectableItem { onSelectItem(index) },
-        headlineContent = {
-            Text(text = categoryListItem.headline.resolve())
-        },
-        supportingContent = supportingContent,
-        trailingContent = trailingContent,
-    )
 }
 
 @Composable

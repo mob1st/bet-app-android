@@ -23,9 +23,9 @@ android {
 dependencies {
     implementation(libs.android.core)
     implementation(libs.android.window)
-    implementation(libs.bundles.compose)
     implementation(libs.bundles.accompanist)
-    implementation(libs.coil)
+    implementation(libs.bundles.coil)
+    implementation(libs.bundles.compose)
     implementation(libs.kotlin.collections)
     implementation(libs.timber)
 

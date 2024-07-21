@@ -7,9 +7,9 @@ import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
-import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.SelectCategoryViewsMapper
-import br.com.mob1st.features.finances.impl.infra.data.system.StringIdProvider
+import br.com.mob1st.features.finances.impl.infra.data.system.StringIdGetter
 import br.com.mob1st.features.finances.impl.utils.testTwoCentsDb
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -35,7 +35,7 @@ class SuggestionsRepositoryImplTest {
     @BeforeEach
     fun setUp() {
         db = testTwoCentsDb()
-        mapper = SelectSuggestionsMapper(SelectCategoryViewsMapper, FakeStringIdProvider)
+        mapper = mockk()
         repository = SuggestionsRepositoryImpl(
             io = io,
             db = db,
@@ -59,14 +59,14 @@ class SuggestionsRepositoryImplTest {
     object StepProvider : ArgumentsProvider {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments>? {
             return Stream.of(
-                Arguments.of(FixedExpensesStep, FakeStringIdProvider.fixedExpensesSuggestions.values),
-                Arguments.of(VariableExpensesStep, FakeStringIdProvider.variableExpensesSuggestions.values),
-                Arguments.of(FixedIncomesStep, FakeStringIdProvider.fixedIncomeSuggestions.values),
+                Arguments.of(FixedExpensesStep, FakeStringIdGetter.fixedExpensesSuggestions.values),
+                Arguments.of(VariableExpensesStep, FakeStringIdGetter.variableExpensesSuggestions.values),
+                Arguments.of(FixedIncomesStep, FakeStringIdGetter.fixedIncomeSuggestions.values),
             )
         }
     }
 
-    object FakeStringIdProvider : StringIdProvider {
+    object FakeStringIdGetter : StringIdGetter {
         val fixedExpensesSuggestions = mapOf(
             "finances_builder_suggestions_item_rent_or_mortgage" to R.string.finances_builder_suggestions_item_rent_or_mortgage,
             "finances_builder_suggestions_item_property_taxes" to R.string.finances_builder_suggestions_item_property_taxes,

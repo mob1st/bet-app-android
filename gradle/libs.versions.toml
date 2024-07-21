@@ -22,6 +22,7 @@ junit5 = "5.10.2"
 coroutines = "1.8.1"
 turbine = "1.1.0"
 navigation = "2.8.0-beta05"
+coil = "2.6.0"
 # Do not update this version unless the minimum version of the Android SDK.
 # This is the SQLite JDBC driver used by the Android SDK 26.
 # Check https://developer.android.com/reference/android/database/sqlite/package-summary
@@ -70,7 +71,8 @@ leakcanary-debug = { module = "com.squareup.leakcanary:leakcanary-android", vers
 leakcanary-test = { module = "com.squareup.leakcanary:leakcanary-android-instrumentation", version.ref = "leakcanary" }
 
 # utils
-coil = "io.coil-kt:coil-compose:2.6.0"
+coil-core = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 lottie = "com.airbnb.android:lottie-compose:6.4.1"
 
 # sqldelight
@@ -199,8 +201,9 @@ compose = [
     "compose-material3",
     "compose-windowclass",
     "compose-activity",
-    "compose-navigation"
+    "compose-navigation",
 ]
+coil = ["coil-core", "coil-svg"]
 
 accompanist = ["accompanist-systemcontroller", "accompanist-adaptative"]
 

@@ -1,6 +1,7 @@
 package br.com.mob1st.tests.featuresutils
 
 import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.core.kotlinx.structures.Uuid
 import com.appmattus.kotlinfixture.config.ConfigurationBuilder
 import com.appmattus.kotlinfixture.kotlinFixture
@@ -24,6 +25,10 @@ val defaultFixtures = kotlinFixture {
     }
     factory<Money> {
         Money((0..Long.MAX_VALUE).random())
+    }
+    factory<Uri> {
+        val random = fixture<String>()
+        Uri("test://$random")
     }
 }
 

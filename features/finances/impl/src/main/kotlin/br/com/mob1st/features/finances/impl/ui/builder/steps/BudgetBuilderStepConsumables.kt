@@ -49,27 +49,17 @@ data class BudgetBuilderStepConsumables(
 
     /**
      * Indicates the next consumable state when an item is selected in the manual category section.
-     * If the given [item] is a [AddCategoryListItem], it will open the dialog to enter the category name.
-     * If the given [item] is a [ManualCategoryListItem], it will navigate to the category edition screen.
-     * If the given [item] us a [SuggestionListItem], it will throw an error because a suggestion should never
+     * If the given [item] is a [ManualCategorySectionItemState], it will navigate to the category edition screen.
+     * If the given [item] us a [SuggestionSectionItemState], it will throw an error because a suggestion should never
      * be selected in this section.
      * @param item The selected item.
      * @return The next consumable state.
-     * @throws IllegalArgumentException If the given [item] is a [SuggestionListItem].
+     * @throws IllegalArgumentException If the given [item] is a [SuggestionSectionItemState].
      */
-    fun selectManualItem(item: CategoryListItem) = copy {
-        when (item) {
-            AddCategoryListItem -> BudgetBuilderStepConsumables.dialog set BudgetBuilderStepDialog.EnterName()
-            is ManualCategoryListItem -> {
-                BudgetBuilderStepConsumables.navEvent set BudgetBuilderStepNavEvent.EditBudgetCategory(
-                    item.category.id,
-                )
-            }
-
-            is SuggestionListItem -> require(false) {
-                "A suggestion should never be selected in the manual category section."
-            }
-        }
+    fun selectManualItem(item: ManualCategorySectionItemState) = copy {
+        BudgetBuilderStepConsumables.navEvent set BudgetBuilderStepNavEvent.EditBudgetCategory(
+            item.category.id,
+        )
     }
 
     /**
@@ -77,7 +67,7 @@ data class BudgetBuilderStepConsumables(
      * @param item The selected item.
      * @return The next consumable state.
      */
-    fun selectUserSuggestion(item: SuggestionListItem) = copy {
+    fun selectUserSuggestion(item: SuggestionSectionItemState) = copy {
         BudgetBuilderStepConsumables.navEvent set if (item.suggestion.linkedCategory == null) {
             BudgetBuilderStepNavEvent.AddBudgetCategory(
                 name = item.headline,

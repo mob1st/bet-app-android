@@ -7,7 +7,7 @@ import androidx.annotation.StringRes
 /**
  * Provides an integer identifier for a given string.
  */
-interface StringIdProvider {
+interface StringIdGetter {
     /**
      * Returns the integer identifier for the given string.
      * @param identifier The string identifier.
@@ -17,9 +17,13 @@ interface StringIdProvider {
     operator fun get(identifier: String): Int?
 }
 
-class AndroidStringIdProvider(
+/**
+ * A wrapper for the Android system API to get the integer identifier for a given string.
+ * @property context The Android context that will be used to get the string identifier.
+ */
+internal class AndroidStringIdGetter(
     private val context: Context,
-) : StringIdProvider {
+) : StringIdGetter {
     private val cache = mutableMapOf<String, Int>()
 
     @SuppressLint("DiscouragedApi")

@@ -3,6 +3,7 @@ package br.com.mob1st.features.finances.impl.ui.builder.steps
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.Category
@@ -10,13 +11,13 @@ import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
+import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
 import br.com.mob1st.features.finances.impl.ui.utils.texts.MoneyTextState
 import br.com.mob1st.features.finances.impl.ui.utils.texts.RecurrencesTextStateFactory
+import br.com.mob1st.features.finances.impl.ui.utils.texts.toIconBackground
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.plus
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import org.koin.ext.getFullName
 
 /**
  * The UI state for the category builder screen.
@@ -34,7 +35,7 @@ internal sealed interface BudgetBuilderStepUiState {
      * @property builder The category builder. It's loaded from the domain layer and the initial value is null.
      */
     @Immutable
-    data class Packed(
+    data class Loaded(
         val builder: BudgetBuilder,
     ) : BudgetBuilderStepUiState {
         val header: Header = when (builder.id) {
@@ -58,15 +59,15 @@ internal sealed interface BudgetBuilderStepUiState {
          * The manually added categories.
          * The list is composed of the manually added categories and the "Add category" item.
          */
-        val manuallyAdded: ImmutableList<CategoryListItem> = builder.manuallyAdded.map {
-            ManualCategoryListItem(it)
-        }.toPersistentList() + AddCategoryListItem
+        val manuallyAdded: ImmutableList<ManualCategorySectionItemState> = builder.manuallyAdded.map {
+            ManualCategorySectionItemState(it)
+        }.toPersistentList()
 
         /**
          * The suggestions presented to the user.
          */
-        val suggestions: ImmutableList<SuggestionListItem> = builder.suggestions.map {
-            SuggestionListItem(it)
+        val suggestions: ImmutableList<SuggestionSectionItemState> = builder.suggestions.map {
+            SuggestionSectionItemState(it)
         }.toImmutableList()
 
         @Immutable
@@ -78,75 +79,49 @@ internal sealed interface BudgetBuilderStepUiState {
 }
 
 /**
- * Abstraction of a list item to present in the category builder screen.
- * It can be a suggestion, a manually added category, or the "Add category" item.
- */
-@Immutable
-sealed interface CategoryListItem {
-    /**
-     * The key of the item. It's used to identify the item in the list and optimize the rendering.
-     */
-    val key: Any
-
-    /**
-     * The leading text of the item. Usually it's the category name or the main instruction
-     */
-    val headline: TextState
-
-    /**
-     * The value text of the item. It's usually the category amount, if any.
-     */
-    val value: TextState?
-
-    /**
-     * The supporting text of the item. Some category types can use it to describe the total amount per month.
-     */
-    val supporting: TextState?
-}
-
-/**
- * Used by the [BudgetBuilderStepUiState.Packed.suggestions] to show the automatic suggestions provided by the app.
+ * Used by the [BudgetBuilderStepUiState.Loaded.suggestions] to show the automatic suggestions provided by the app.
  * It's a handy way to facilitate the user's choice.
  * @property suggestion The suggestion.
  */
 @Immutable
-data class SuggestionListItem(
+data class SuggestionSectionItemState(
     val suggestion: CategorySuggestion,
-) : CategoryListItem {
+) : CategorySectionItemState {
     override val key: Any = suggestion.id
+    override val icon: CategorySectionItemState.Icon = CategorySectionItemState.Icon(
+        background = suggestion.linkedCategory?.recurrences?.toIconBackground(),
+        image = suggestion.linkedCategory?.image ?: suggestion.image,
+    )
     override val headline: TextState = if (suggestion.linkedCategory != null) {
         TextState(suggestion.linkedCategory.name)
     } else {
         TextState(suggestion.nameResId)
     }
-    override val value: TextState? = suggestion.linkedCategory?.amount?.let {
-        MoneyTextState(it)
-    }
-
     override val supporting: TextState? = suggestion.linkedCategory?.recurrences?.let {
         RecurrencesTextStateFactory.create(it)
     }
+
+    override val trailing: CategorySectionItemState.Trailing = CategorySectionItemState.Trailing(
+        amount = MoneyTextState(suggestion.linkedCategory?.amount ?: Money.Zero),
+        supporting = null,
+    )
 }
 
 /**
- * Used by the [BudgetBuilderStepUiState.Packed.manuallyAdded] to show the manually added categories.
+ * Used by the [BudgetBuilderStepUiState.Loaded.manuallyAdded] to show the manually added categories.
  * @property category The manually added category.
  */
 @Immutable
-data class ManualCategoryListItem(val category: Category) : CategoryListItem {
+data class ManualCategorySectionItemState(val category: Category) : CategorySectionItemState {
     override val key: Any = category.id
+    override val icon: CategorySectionItemState.Icon = CategorySectionItemState.Icon(
+        background = category.recurrences.toIconBackground(),
+        image = category.image,
+    )
     override val headline: TextState = TextState(category.name)
-    override val value: TextState = MoneyTextState(category.amount)
     override val supporting: TextState? = RecurrencesTextStateFactory.create(category.recurrences)
-}
-
-/**
- * Used by the [BudgetBuilderStepUiState.Packed.manuallyAdded] to show the "Add category" item.
- */
-@Immutable
-internal data object AddCategoryListItem : CategoryListItem {
-    override val key: Any = AddCategoryListItem::class.getFullName()
-    override val headline: TextState = TextState(R.string.finances_builder_commons_custom_section_add_item)
-    override val value: TextState? = null
-    override val supporting: TextState? = null
+    override val trailing: CategorySectionItemState.Trailing = CategorySectionItemState.Trailing(
+        amount = MoneyTextState(category.amount),
+        supporting = null,
+    )
 }

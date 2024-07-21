@@ -2,6 +2,7 @@ package br.com.mob1st.features.finances.impl.infra.data.repositories.categories
 
 import br.com.mob1st.core.database.Category_view
 import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
@@ -40,6 +41,7 @@ private fun Map.Entry<Long, List<Category_view>>.toDomain(): Category {
         name = categoryProjection.cat_name,
         amount = Money(categoryProjection.cat_amount),
         isExpense = categoryProjection.cat_is_expense,
+        image = Uri(categoryProjection.cat_image),
         recurrences = value.toRecurrences(),
     )
 }

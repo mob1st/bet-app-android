@@ -16,7 +16,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsExcep
 import br.com.mob1st.features.finances.impl.domain.events.NotEnoughItemsToCompleteEvent
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCategoryBuilderUseCase
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Empty
-import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Packed
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
 import br.com.mob1st.features.utils.states.errorHandler
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,7 +54,7 @@ internal class BudgetBuilderStepViewModel private constructor(
 
     override val consumableUiState: StateFlow<BudgetBuilderStepConsumables> = consumableDelegate.asStateFlow()
     override val uiStateOutput: StateFlow<BudgetBuilderStepUiState> = getCategoryBuilder[step]
-        .map(::Packed)
+        .map(::Loaded)
         .catchIn(errorHandler)
         .flowOn(default)
         .stateInWhileSubscribed(viewModelScope, Empty)
@@ -64,7 +64,7 @@ internal class BudgetBuilderStepViewModel private constructor(
      * @param position The position of the selected item.
      */
     fun selectManuallyAddedItem(position: Int) = errorHandler.catching {
-        val uiState = checkIs<Packed>(uiStateOutput.value)
+        val uiState = checkIs<Loaded>(uiStateOutput.value)
         consumableDelegate.update {
             it.selectManualItem(uiState.manuallyAdded[position])
         }
@@ -75,7 +75,7 @@ internal class BudgetBuilderStepViewModel private constructor(
      * @param position The position of the selected item.
      */
     fun selectSuggestedItem(position: Int) = errorHandler.catching {
-        val uiState = checkIs<Packed>(uiStateOutput.value)
+        val uiState = checkIs<Loaded>(uiStateOutput.value)
         consumableDelegate.update {
             it.selectUserSuggestion(uiState.suggestions[position])
         }
@@ -104,7 +104,7 @@ internal class BudgetBuilderStepViewModel private constructor(
      * Proceeds to the next step of the builder.
      */
     fun next() = errorHandler.catching {
-        val uiState = checkIs<Packed>(uiStateOutput.value)
+        val uiState = checkIs<Loaded>(uiStateOutput.value)
         try {
             val result = uiState.builder.next()
             consumableDelegate.update {

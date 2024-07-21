@@ -5,7 +5,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.values.DayAndMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.values.Month
-import br.com.mob1st.features.finances.publicapi.domain.entities.CategoryType
+import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
 import kotlinx.parcelize.Parceler
 
 /**
@@ -16,32 +16,32 @@ import kotlinx.parcelize.Parceler
  */
 internal object RecurrencesParceler : Parceler<Recurrences> {
     override fun create(parcel: Parcel): Recurrences {
-        val type = CategoryType.entries[parcel.readInt()]
+        val type = RecurrenceType.entries[parcel.readInt()]
         return when (type) {
-            CategoryType.Fixed -> FixedRecurrencesParceler.create(parcel)
-            CategoryType.Seasonal -> SeasonalRecurrencesParceler.create(parcel)
-            CategoryType.Variable -> Recurrences.Variable
+            RecurrenceType.Fixed -> FixedRecurrencesParceler.create(parcel)
+            RecurrenceType.Seasonal -> SeasonalRecurrencesParceler.create(parcel)
+            RecurrenceType.Variable -> Recurrences.Variable
         }
     }
 
     override fun Recurrences.write(parcel: Parcel, flags: Int) {
         when (this) {
             is Recurrences.Fixed -> {
-                parcel.writeInt(CategoryType.Fixed.ordinal)
+                parcel.writeInt(RecurrenceType.Fixed.ordinal)
                 FixedRecurrencesParceler.run {
                     write(parcel, flags)
                 }
             }
 
             is Recurrences.Seasonal -> {
-                parcel.writeInt(CategoryType.Seasonal.ordinal)
+                parcel.writeInt(RecurrenceType.Seasonal.ordinal)
                 SeasonalRecurrencesParceler.run {
                     write(parcel, flags)
                 }
             }
 
             is Recurrences.Variable -> {
-                parcel.writeInt(CategoryType.Variable.ordinal)
+                parcel.writeInt(RecurrenceType.Variable.ordinal)
             }
         }
     }

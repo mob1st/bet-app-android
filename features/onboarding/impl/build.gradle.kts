@@ -28,6 +28,7 @@ dependencies {
     // bundles
     implementation(libs.bundles.accompanist)
     implementation(libs.bundles.android)
+    implementation(libs.bundles.coil)
     implementation(libs.bundles.compose)
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
@@ -35,7 +36,6 @@ dependencies {
     implementation(libs.bundles.lifecycle)
 
     // standalone
-    implementation(libs.coil)
     implementation(libs.kotlin.collections)
     implementation(libs.timber)
 

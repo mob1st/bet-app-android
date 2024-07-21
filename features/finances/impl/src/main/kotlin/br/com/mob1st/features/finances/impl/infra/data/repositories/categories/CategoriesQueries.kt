@@ -22,6 +22,7 @@ internal fun CategoriesQueries.insertCategories(
         name = category.name,
         amount = category.amount.cents,
         linked_suggestion_id = linkedSuggestion?.id?.value,
+        image = category.image.value,
         is_expense = category.isExpense,
     )
 }

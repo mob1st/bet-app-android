@@ -53,6 +53,7 @@ internal class CategoriesRepositoryImpl(
             id = category.id.value,
             name = category.name,
             amount = category.amount.cents,
+            image = category.image.value,
         )
         db.categoriesQueries.deleteRecurrences(category.id.value)
         db.categoriesQueries.insertRecurrences(

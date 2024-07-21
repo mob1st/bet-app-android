@@ -20,7 +20,7 @@ import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepDi
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepSnackbar
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Empty
-import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Packed
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepViewModel
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import br.com.mob1st.features.utils.errors.CommonError
@@ -116,7 +116,7 @@ class BudgetBuilderStepViewModelTest {
         turbineScope {
             val receiveUiState = viewModel.uiStateOutput.testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
-            val uiState = receiveUiState.awaitItem() as Packed
+            val uiState = receiveUiState.awaitItem() as Loaded
             viewModel.selectManuallyAddedItem(uiState.manuallyAdded.lastIndex)
             assertEquals(expected, receiveConsumable.awaitItem())
         }
@@ -214,7 +214,7 @@ class BudgetBuilderStepViewModelTest {
         turbineScope {
             val receiveUiState = viewModel.uiStateOutput.testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
-            val uiState = receiveUiState.awaitItem() as Packed
+            val uiState = receiveUiState.awaitItem() as Loaded
             viewModel.selectManuallyAddedItem(uiState.manuallyAdded.lastIndex)
             assertEquals(expectedWhenSelectCategory, receiveConsumable.awaitItem())
             viewModel.typeCategoryName("a")
