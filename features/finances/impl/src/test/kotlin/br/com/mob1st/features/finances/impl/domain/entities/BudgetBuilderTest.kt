@@ -3,7 +3,6 @@ package br.com.mob1st.features.finances.impl.domain.entities
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import com.appmattus.kotlinfixture.Fixture
-import com.appmattus.kotlinfixture.decorator.nullability.AlwaysNullStrategy
 import com.appmattus.kotlinfixture.decorator.nullability.NeverNullStrategy
 import com.appmattus.kotlinfixture.decorator.nullability.nullabilityStrategy
 import org.junit.jupiter.api.Test
@@ -16,8 +15,13 @@ class BudgetBuilderTest {
         val step = steps.random()
         val builder = BudgetBuilder(
             id = step,
-            manuallyAdded = categories(positiveCount = step.minimumRequiredToProceed),
-            suggestions = suggestions(withoutCategoryCount = 0),
+            manuallyAdded = categories(
+                positiveCount = step.minimumRequiredToProceed,
+                zeroedCount = 0,
+            ),
+            suggestions = categories(
+                zeroedCount = 0,
+            ),
         )
         val actual = builder.next()
         assertEquals(step.next, actual)
@@ -29,9 +33,8 @@ class BudgetBuilderTest {
         val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(),
-            suggestions = suggestions(
+            suggestions = categories(
                 positiveCount = step.minimumRequiredToProceed,
-                withoutCategoryCount = 3,
             ),
         )
         val actual = builder.next()
@@ -46,9 +49,9 @@ class BudgetBuilderTest {
             manuallyAdded = categories(
                 positiveCount = step.minimumRequiredToProceed,
             ),
-            suggestions = suggestions(
+            suggestions = categories(
                 positiveCount = step.minimumRequiredToProceed,
-                withoutCategoryCount = 2,
+                zeroedCount = 2,
             ),
         )
         val actual = builder.next()
@@ -63,9 +66,9 @@ class BudgetBuilderTest {
             manuallyAdded = categories(
                 positiveCount = step.minimumRequiredToProceed + 1,
             ),
-            suggestions = suggestions(
+            suggestions = categories(
                 positiveCount = step.minimumRequiredToProceed + 1,
-                withoutCategoryCount = 9,
+                zeroedCount = 9,
             ),
         )
         val actual = builder.next()
@@ -80,8 +83,8 @@ class BudgetBuilderTest {
             manuallyAdded = categories(
                 positiveCount = step.minimumRequiredToProceed - 1,
             ),
-            suggestions = suggestions(
-                withoutCategoryCount = 10,
+            suggestions = categories(
+                zeroedCount = 10,
             ),
         )
         val exception = assertThrows<NotEnoughInputsException> {
@@ -96,9 +99,9 @@ class BudgetBuilderTest {
         val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(),
-            suggestions = suggestions(
+            suggestions = categories(
                 positiveCount = step.minimumRequiredToProceed - 1,
-                withoutCategoryCount = 3,
+                zeroedCount = 3,
             ),
         )
         val exception = assertThrows<NotEnoughInputsException> {
@@ -115,9 +118,8 @@ class BudgetBuilderTest {
             manuallyAdded = categories(
                 positiveCount = step.minimumRequiredToProceed - 1,
             ),
-            suggestions = suggestions(
+            suggestions = categories(
                 zeroedCount = step.minimumRequiredToProceed,
-                withoutCategoryCount = 5,
             ),
         )
         val exception = assertThrows<NotEnoughInputsException> {
@@ -155,33 +157,10 @@ class BudgetBuilderTest {
             return (positiveCountList + zeroedCountList).shuffled()
         }
 
-        private fun suggestions(
-            positiveCount: Int = 0,
-            zeroedCount: Int = 0,
-            withoutCategoryCount: Int = 0,
-        ): List<CategorySuggestion> {
-            val withoutCategoryList = moduleFixture<List<CategorySuggestion>> {
-                nullabilityStrategy(AlwaysNullStrategy)
-                repeatCount { withoutCategoryCount }
-            }
-            val positiveCountList = positiveInputsFixture(positiveCount).invoke<List<CategorySuggestion>>()
-            val zeroedCountList = zeroedInputsFixture(zeroedCount).invoke<List<CategorySuggestion>>()
-            return (withoutCategoryList + positiveCountList + zeroedCountList).shuffled()
-        }
-
         private fun positiveInputsFixture(count: Int): Fixture = moduleFixture.new {
             repeatCount { count }
             nullabilityStrategy(NeverNullStrategy)
             factory<Money> { Money((1L..500000L).random()) }
-            factory<CategorySuggestion> {
-                CategorySuggestion(
-                    id = fixture(),
-                    nameResId = fixture(),
-                    linkedCategory = fixture<Category>().copy(
-                        amount = fixture(),
-                    ),
-                )
-            }
         }
 
         private fun zeroedInputsFixture(
@@ -190,15 +169,6 @@ class BudgetBuilderTest {
             repeatCount { count }
             nullabilityStrategy(NeverNullStrategy)
             factory<Money> { Money.Zero }
-            factory<CategorySuggestion> {
-                CategorySuggestion(
-                    id = fixture(),
-                    nameResId = fixture(),
-                    linkedCategory = fixture<Category>().copy(
-                        amount = fixture(),
-                    ),
-                )
-            }
         }
     }
 }

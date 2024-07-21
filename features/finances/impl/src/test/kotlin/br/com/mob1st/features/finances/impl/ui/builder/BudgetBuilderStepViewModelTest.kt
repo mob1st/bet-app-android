@@ -2,14 +2,12 @@ package br.com.mob1st.features.finances.impl.ui.builder
 
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
-import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
@@ -143,41 +141,10 @@ class BudgetBuilderStepViewModelTest {
     }
 
     @Test
-    fun `GIVEN a state with suggested items And no linked category WHEN select suggested item THEN assert navigation to add category`() = runTest {
+    fun `GIVEN a state with suggested item WHEN select suggested item THEN assert navigation to edit category`() = runTest {
         val budgetBuilder = moduleFixture<BudgetBuilder>().copy(
             suggestions = listOf(
-                CategorySuggestion(
-                    id = CategorySuggestion.Id(1),
-                    nameResId = 1,
-                    linkedCategory = null,
-                ),
-            ),
-        )
-        every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
-        val viewModel = viewModel(testScheduler)
-        val expected = BudgetBuilderStepConsumables(
-            navEvent = BudgetBuilderStepNavEvent.AddBudgetCategory(
-                name = TextState(1),
-                linkedSuggestion = CategorySuggestion.Id(1),
-            ),
-        )
-        turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
-            val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
-            viewModel.selectSuggestedItem(0)
-            assertEquals(expected, receiveConsumable.awaitItem())
-        }
-    }
-
-    @Test
-    fun `GIVEN a state with suggested item And linked category WHEN select suggested item THEN assert navigation to edit category`() = runTest {
-        val budgetBuilder = moduleFixture<BudgetBuilder>().copy(
-            suggestions = listOf(
-                moduleFixture<CategorySuggestion>().copy(
-                    linkedCategory = moduleFixture<Category>().copy(
-                        id = Category.Id(1),
-                    ),
-                ),
+                moduleFixture<Category>(),
             ),
         )
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
@@ -207,8 +174,7 @@ class BudgetBuilderStepViewModelTest {
         )
         val expectedWhenSubmit = BudgetBuilderStepConsumables(
             navEvent = BudgetBuilderStepNavEvent.AddBudgetCategory(
-                name = TextState("a"),
-                linkedSuggestion = null,
+                name = "a",
             ),
         )
         turbineScope {
@@ -244,11 +210,7 @@ class BudgetBuilderStepViewModelTest {
     fun `GIVEN a state with 1 suggestion WHEN select wrong suggestion index THEN assert error is shown`() = runTest {
         val budgetBuilder = moduleFixture<BudgetBuilder>().copy(
             suggestions = listOf(
-                moduleFixture<CategorySuggestion>().copy(
-                    linkedCategory = moduleFixture<Category>().copy(
-                        id = Category.Id(1),
-                    ),
-                ),
+                moduleFixture<Category>(),
             ),
         )
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
@@ -292,9 +254,7 @@ class BudgetBuilderStepViewModelTest {
                 repeatCount { 3 }
             },
             suggestions = listOf(
-                moduleFixture<CategorySuggestion>().copy(
-                    linkedCategory = moduleFixture<Category>().copy(),
-                ),
+                moduleFixture<Category>(),
             ),
         )
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
@@ -318,9 +278,7 @@ class BudgetBuilderStepViewModelTest {
                 repeatCount { 1 }
             },
             suggestions = listOf(
-                moduleFixture<CategorySuggestion>().copy(
-                    linkedCategory = moduleFixture<Category>().copy(),
-                ),
+                moduleFixture<Category>(),
             ),
         )
         val slot = slot<AnalyticsEvent>()
@@ -351,9 +309,7 @@ class BudgetBuilderStepViewModelTest {
                 repeatCount { 2 }
             },
             suggestions = listOf(
-                moduleFixture<CategorySuggestion>().copy(
-                    linkedCategory = moduleFixture<Category>().copy(),
-                ),
+                moduleFixture<Category>(),
             ),
         )
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)

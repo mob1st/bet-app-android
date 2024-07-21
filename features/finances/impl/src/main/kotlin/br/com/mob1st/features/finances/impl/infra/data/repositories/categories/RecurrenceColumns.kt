@@ -78,7 +78,10 @@ private fun Recurrences.toRecurrenceColumns(): RecurrenceColumns {
     }
 }
 
-private fun Recurrences.Seasonal.toRawRecurrences(): String {
+private fun Recurrences.Seasonal.toRawRecurrences(): String? {
+    if (daysOfYear.isEmpty()) {
+        return null
+    }
     return daysOfYear.joinToString(COLUMN_SEPARATOR) {
         String.format(defaultLocale, "%03d", it.value)
     }

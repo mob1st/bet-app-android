@@ -1,24 +1,17 @@
 package br.com.mob1st.features.finances.impl.ui.builder
 
-import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
-import br.com.mob1st.features.finances.impl.ui.builder.steps.AddCategoryListItemState
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepDialog
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepSnackbar
-import br.com.mob1st.features.finances.impl.ui.builder.steps.ManualCategorySectionItemState
-import br.com.mob1st.features.finances.impl.ui.builder.steps.SuggestionSectionItemState
+import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.features.utils.errors.toCommonError
-import com.appmattus.kotlinfixture.decorator.nullability.NeverNullStrategy
-import com.appmattus.kotlinfixture.decorator.nullability.nullabilityStrategy
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class BudgetBuilderStepConsumablesTest {
     @Test
@@ -54,25 +47,9 @@ class BudgetBuilderStepConsumablesTest {
     }
 
     @Test
-    fun `GIVEN an list item to add category WHEN select a manual item THEN open the dialog to enter the category name`() {
-        // Given
-        val item = AddCategoryListItemState
-        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
-
-        // When
-        val result = budgetBuilderStepConsumables.selectItem(item)
-
-        // Then
-        assertEquals(
-            BudgetBuilderStepConsumables(dialog = BudgetBuilderStepDialog.EnterName()),
-            result,
-        )
-    }
-
-    @Test
     fun `GIVEN an list item to edit category WHEN select a manual item THEN navigate to the category edition screen`() {
         // Given
-        val item = ManualCategorySectionItemState(moduleFixture())
+        val item = CategorySectionItemState(moduleFixture())
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
@@ -81,65 +58,6 @@ class BudgetBuilderStepConsumablesTest {
         // Then
         assertEquals(
             BudgetBuilderStepConsumables(navEvent = BudgetBuilderStepNavEvent.EditBudgetCategory(item.category.id)),
-            result,
-        )
-    }
-
-    @Test
-    fun `GIVEN an list item suggestion WHEN select a manual item THEN throw an error`() {
-        // Given
-        val item = SuggestionSectionItemState(moduleFixture())
-        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
-
-        // Then
-        assertFailsWith<IllegalArgumentException> {
-            // When
-            budgetBuilderStepConsumables.selectItem(item)
-        }
-    }
-
-    @Test
-    fun `GIVEN a suggestion list item WHEN select a user suggestion THEN navigate to add category`() {
-        // Given
-        val item = SuggestionSectionItemState(moduleFixture<CategorySuggestion>().copy(linkedCategory = null))
-        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
-
-        // When
-        val result = budgetBuilderStepConsumables.selectUserSuggestion(item)
-
-        // Then
-        assertEquals(
-            BudgetBuilderStepConsumables(
-                navEvent = BudgetBuilderStepNavEvent.AddBudgetCategory(
-                    name = item.headline,
-                    linkedSuggestion = item.suggestion.id,
-                ),
-            ),
-            result,
-        )
-    }
-
-    @Test
-    fun `GIVEN a suggestion list item with linked category WHEN select a user suggestion THEN navigate to edit category`() {
-        // Given
-        val categorySuggestion = moduleFixture<CategorySuggestion>().copy(
-            linkedCategory = moduleFixture {
-                nullabilityStrategy(NeverNullStrategy)
-            },
-        )
-        val item = SuggestionSectionItemState(categorySuggestion)
-        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
-
-        // When
-        val result = budgetBuilderStepConsumables.selectUserSuggestion(item)
-
-        // Then
-        assertEquals(
-            BudgetBuilderStepConsumables(
-                navEvent = BudgetBuilderStepNavEvent.EditBudgetCategory(
-                    category = item.suggestion.linkedCategory!!.id,
-                ),
-            ),
             result,
         )
     }
@@ -174,8 +92,7 @@ class BudgetBuilderStepConsumablesTest {
         assertEquals(
             BudgetBuilderStepConsumables(
                 navEvent = BudgetBuilderStepNavEvent.AddBudgetCategory(
-                    name = TextState("Category Name"),
-                    linkedSuggestion = null,
+                    name = "Category Name",
                 ),
             ),
             result,

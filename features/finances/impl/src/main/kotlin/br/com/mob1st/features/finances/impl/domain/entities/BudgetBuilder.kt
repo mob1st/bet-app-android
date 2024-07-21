@@ -33,7 +33,7 @@ data class BudgetBuilder(
     }
 
     private fun countAddedItems(): Int {
-        return manuallyAdded.count { it.amount.cents > 0 }
+        return manuallyAdded.count { it.amount.cents > 0 } + suggestions.count { it.amount.cents > 0 }
     }
 
     companion object {

@@ -6,10 +6,8 @@ import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
-import br.com.mob1st.features.finances.impl.ui.builder.steps.AddCategoryListItemState
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
-import br.com.mob1st.features.finances.impl.ui.builder.steps.ManualCategorySectionItemState
-import br.com.mob1st.features.finances.impl.ui.builder.steps.SuggestionSectionItemState
+import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
 import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import com.appmattus.kotlinfixture.Fixture
 import kotlinx.collections.immutable.persistentListOf
@@ -48,45 +46,21 @@ internal class BudgetBuilderStepUiStateTest {
         // Given
         val budgetBuilder = fixture<BudgetBuilder>()
         val expectedManuallyAdded = persistentListOf(
-            ManualCategorySectionItemState(
+            CategorySectionItemState(
                 category = budgetBuilder.manuallyAdded[0],
             ),
-            ManualCategorySectionItemState(
+            CategorySectionItemState(
                 category = budgetBuilder.manuallyAdded[1],
             ),
-            AddCategoryListItemState,
         )
         val expectedSuggestions = persistentListOf(
-            SuggestionSectionItemState(
-                suggestion = budgetBuilder.suggestions[0],
+            CategorySectionItemState(
+                category = budgetBuilder.suggestions[0],
             ),
-            SuggestionSectionItemState(
-                suggestion = budgetBuilder.suggestions[1],
+            CategorySectionItemState(
+                category = budgetBuilder.suggestions[1],
             ),
         )
-        // When
-        val budgetBuilderStepUiState = Loaded(budgetBuilder)
-
-        // Then
-        assertEquals(
-            expectedManuallyAdded,
-            budgetBuilderStepUiState.manuallyAdded,
-        )
-        assertEquals(
-            expectedSuggestions,
-            budgetBuilderStepUiState.suggestions,
-        )
-    }
-
-    @Test
-    fun `GIVEN a category builder without categories WHEN get lists THEN assert lists is empty`() {
-        // Given
-        val budgetBuilder = fixture<BudgetBuilder>().copy(
-            manuallyAdded = emptyList(),
-            suggestions = emptyList(),
-        )
-        val expectedManuallyAdded = persistentListOf(AddCategoryListItemState)
-        val expectedSuggestions = persistentListOf<SuggestionSectionItemState>()
         // When
         val budgetBuilderStepUiState = Loaded(budgetBuilder)
 
