@@ -33,8 +33,7 @@ subprojects {
     apply(plugin = rootProject.libs.plugins.detekt.get().pluginId)
 
     dependencies {
-        detektPlugins(rootProject.libs.plugin.detekt.libraries)
-        detektPlugins(rootProject.libs.plugin.detekt.twitter.compose)
+        detektPlugins(rootProject.libs.bundles.detekt.plugins)
     }
 
     ktlint {

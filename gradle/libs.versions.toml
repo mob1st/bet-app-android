@@ -151,7 +151,8 @@ plugin-gradle = { module = "com.android.tools.build:gradle", version.ref = "grad
 plugin-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.2" }
 plugin-google = { module = "com.google.gms:google-services", version = "4.4.2" }
 plugin-detekt-libraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
-plugin-detekt-twitter-compose = { module = "com.twitter.compose.rules:detekt", version = "0.0.22" }
+plugin-detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+plugin-detekt-twitter-compose = { module = "com.twitter.compose.rules:detekt", version = "0.0.26" }
 plugin-dokka-android = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokka" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-junit5 = { module = "de.mannodermaus.gradle.plugins:android-junit5", version.ref = "junit5-plugin" }
@@ -221,6 +222,7 @@ firebase = [
 arrow = ["arrow-core", "arrow-optics"]
 
 kotlin-poet = ["kotlin-poet", "kotlin-poet-ksp"]
+detekt-plugins = ["plugin-detekt-formatting", "plugin-detekt-libraries", "plugin-detekt-twitter-compose"]
 
 [plugins]
 # defaults
