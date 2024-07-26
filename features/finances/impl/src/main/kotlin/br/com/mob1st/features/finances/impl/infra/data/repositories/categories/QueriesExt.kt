@@ -1,30 +1,7 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.categories
 
-import br.com.mob1st.core.database.Categories
-import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.features.finances.impl.CategoriesQueries
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-
-/**
- * Maps the receiver [Categories] to a [Category] domain entity.
- * @return the [Category] domain entity.
- */
-internal fun Categories.toDomain(): Category {
-    val columns = RecurrenceColumns(
-        rawType = recurrence_type,
-        rawRecurrences = recurrences,
-    )
-    return Category(
-        id = Category.Id(id),
-        name = name,
-        image = Uri(image),
-        amount = Money(amount),
-        isExpense = is_expense,
-        suggested = suggested,
-        recurrences = columns.toRecurrences(),
-    )
-}
 
 /**
  * Inserts the given [category] into the database.
@@ -38,7 +15,7 @@ internal fun CategoriesQueries.insert(category: Category) {
         amount = category.amount.cents,
         image = category.image.value,
         is_expense = category.isExpense,
-        suggested = category.suggested,
+        is_suggested = category.isSuggested,
         recurrences = columns.rawRecurrences,
         recurrence_type = columns.rawType,
     )

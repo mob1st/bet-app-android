@@ -4,8 +4,8 @@ compose = '1.6.8'
 kotlin = "1.9.23"
 koin = "3.5.0"
 koin-ksp = "1.1.1"
-kotest = "5.6.2"
-lifecycle = "2.8.3"
+kotest = "5.9.1"
+lifecycle = "2.8.4"
 arrow = "1.2.0"
 accompaninst = "0.34.0"
 gradle-plugin = "8.2.2"
@@ -14,14 +14,14 @@ detekt = "1.23.6"
 kotlin-poet = "1.16.0"
 work-manager = "2.9.0"
 leakcanary = "2.14"
-mockk = "1.13.7"
+mockk = "1.13.10"
 dokka = "1.8.20"
 datastore = "1.1.1"
 junit5-plugin = "1.10.0.0"
 junit5 = "5.10.2"
 coroutines = "1.8.1"
 turbine = "1.1.0"
-navigation = "2.8.0-beta05"
+navigation = "2.8.0-beta06"
 coil = "2.6.0"
 # Do not update this version unless the minimum version of the Android SDK.
 # This is the SQLite JDBC driver used by the Android SDK 26.
@@ -58,9 +58,9 @@ compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.r
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 compose-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
-compose-material3 = "androidx.compose.material3:material3:1.3.0-beta04"
+compose-material3 = "androidx.compose.material3:material3:1.3.0-beta05"
 compose-windowclass = "androidx.compose.material3:material3-window-size-class:1.2.1"
-compose-activity = "androidx.activity:activity-compose:1.9.0"
+compose-activity = "androidx.activity:activity-compose:1.9.1"
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 compose-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 
@@ -95,13 +95,13 @@ koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "
 koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-ksp" }
 
 # code generation tools
-ksp-symbol-processing = "com.google.devtools.ksp:symbol-processing-api:1.9.23-1.0.20"
+ksp-symbol-processing = "com.google.devtools.ksp:symbol-processing-api:2.0.0-1.0.22"
 kotlin-reflection = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" }
 kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }
 
 # firebase & play services
-firebase-bom = "com.google.firebase:firebase-bom:33.1.1"
+firebase-bom = "com.google.firebase:firebase-bom:33.1.2"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
@@ -133,6 +133,7 @@ kotlin-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.5.0"
 kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-arbs = { module = "io.kotest.extensions:kotest-property-arbs", version = "2.1.2" }
 kotlin-compiling-test = "com.github.tschuchortdev:kotlin-compile-testing-ksp:1.5.0"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 mockk-kotlin = { module = "io.mockk:mockk", version.ref = "mockk" }
@@ -174,6 +175,7 @@ unittest-android = [
     "kotest-runner",
     "kotest-property",
     "kotest-assertions",
+    "kotest-arbs",
     "mockk-android",
     "mockk-agent",
     "kotlin-reflection",

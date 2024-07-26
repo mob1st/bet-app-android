@@ -11,8 +11,8 @@ FROM Categories
 WHERE id = :id;
 
 insertCategory:
-INSERT INTO Categories(name, amount, is_expense, image, recurrences, recurrence_type, suggested)
-VALUES (:name, :amount, :is_expense, :image, :recurrences, :recurrence_type, :suggested);
+INSERT INTO Categories(name, amount, is_expense, image, recurrences, recurrence_type, is_suggested)
+VALUES (:name, :amount, :is_expense, :image, :recurrences, :recurrence_type, :is_suggested);
 
 updateCategory:
 UPDATE Categories
@@ -25,3 +25,9 @@ WHERE id = :id;
 
 deleteCategory:
 DELETE FROM Categories WHERE id = :id;
+
+countCategories:
+SELECT COUNT(*) FROM Categories;
+
+selectAllCategories:
+SELECT * FROM Categories ORDER BY created_at ASC;

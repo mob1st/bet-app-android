@@ -9,7 +9,7 @@ import androidx.compose.ui.util.fastMap
 import br.com.mob1st.core.design.atoms.properties.texts.TextState
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
 import br.com.mob1st.features.finances.impl.ui.utils.parcelers.RecurrencesParceler
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.parcelize.IgnoredOnParcel

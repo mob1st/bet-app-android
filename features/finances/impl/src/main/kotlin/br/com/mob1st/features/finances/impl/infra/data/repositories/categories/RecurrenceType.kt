@@ -25,7 +25,7 @@ internal enum class RecurrenceType(val value: String) {
          * @throws IllegalArgumentException if the given [value] is unknown.
          */
         fun fromValue(value: String): RecurrenceType {
-            return checkNotNull(valueToEnum[value]) {
+            return requireNotNull(valueToEnum[value]) {
                 "Unknown recurrence type: $value"
             }
         }

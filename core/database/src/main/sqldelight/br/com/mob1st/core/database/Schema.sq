@@ -8,10 +8,10 @@ import kotlin.Boolean;
 CREATE TABLE Categories(
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    suggested INTEGER AS Boolean NOT NULL DEFAULT 0,
+    is_suggested INTEGER AS Boolean NOT NULL DEFAULT 0,
     amount INTEGER NOT NULL CHECK (amount >= 0),
     image TEXT NOT NULL,
-    recurrence_type TEXT NOT NULL UNIQUE CHECK(
+    recurrence_type TEXT NOT NULL CHECK(
         recurrence_type IN ('fixed', 'variable', 'seasonal')
     ),
     recurrences TEXT,
@@ -22,7 +22,7 @@ CREATE TABLE Categories(
 CREATE INDEX idx_categories__description ON Categories(name);
 CREATE INDEX idx_categories__recurrences ON Categories(recurrences);
 CREATE INDEX idx_categories__is_expense_X_suggested_X_recurrence_type
-ON Categories(is_expense, suggested, recurrence_type);
+ON Categories(is_expense, is_suggested, recurrence_type);
 
 CREATE TRIGGER prevent_update_Categories
 BEFORE UPDATE OF created_at ON Categories

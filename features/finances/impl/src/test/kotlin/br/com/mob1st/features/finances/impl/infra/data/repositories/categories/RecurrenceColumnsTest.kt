@@ -1,8 +1,8 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.categories
 
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtensionContext

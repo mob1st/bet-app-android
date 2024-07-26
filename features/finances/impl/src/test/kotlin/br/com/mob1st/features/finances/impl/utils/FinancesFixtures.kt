@@ -1,9 +1,9 @@
 package br.com.mob1st.features.finances.impl.utils
 
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.values.DayOfWeek
-import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfWeek
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
 import br.com.mob1st.tests.featuresutils.defaultFixtures
 import java.util.UUID
 

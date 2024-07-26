@@ -4,8 +4,8 @@ import br.com.mob1st.core.kotlinx.structures.Identifiable
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.core.kotlinx.structures.Uri
-import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
 
 data class Category(
     override val id: Id = Id(),
@@ -14,7 +14,7 @@ data class Category(
     val amount: Money,
     val isExpense: Boolean,
     val recurrences: Recurrences,
-    val suggested: Boolean,
+    val isSuggested: Boolean,
 ) : Identifiable<Category.Id> {
     @JvmInline
     value class Id(override val value: Long = 0) : RowId

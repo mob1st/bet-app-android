@@ -3,7 +3,7 @@ package br.com.mob1st.features.finances.impl.ui.utils.texts
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

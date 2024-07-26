@@ -20,7 +20,7 @@ internal class GetCategoryBuilderUseCase(
         return categoryRepository.getByStep(step)
             .map { categories ->
                 val (manuallyAdded, suggestions) = categories.partition {
-                    it.suggested
+                    it.isSuggested
                 }
                 BudgetBuilder(
                     id = step,

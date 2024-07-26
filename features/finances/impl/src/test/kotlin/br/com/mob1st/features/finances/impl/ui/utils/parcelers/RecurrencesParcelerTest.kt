@@ -3,8 +3,8 @@ package br.com.mob1st.features.finances.impl.ui.utils.parcelers
 import android.os.Parcel
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
 import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
 import org.junit.Assert.assertEquals
 import org.junit.Test

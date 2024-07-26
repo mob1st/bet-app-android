@@ -501,13 +501,6 @@ potential-bugs:
   WrongEqualsTypeParameter:
     active: true
 
-formatting:
-  MaximumLineLength:
-    excludes: [ '**/test/**', '**/androidTest/**', ]
-    active: true
-    maxLineLength: 120
-    ignoreBackTickedIdentifier: true
-
 style:
   active: true
   CanBeNonNullable:

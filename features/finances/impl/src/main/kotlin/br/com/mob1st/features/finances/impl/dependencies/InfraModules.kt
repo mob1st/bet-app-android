@@ -6,6 +6,7 @@ import br.com.mob1st.features.finances.impl.domain.repositories.RecurrenceBuilde
 import br.com.mob1st.features.finances.impl.infra.data.preferences.RecurrenceBuilderCompletionsDataSource
 import br.com.mob1st.features.finances.impl.infra.data.ram.RecurrenceBuilderListsDataSource
 import br.com.mob1st.features.finances.impl.infra.data.repositories.RecurrenceBuilderRepositoryImpl
+import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.CategoriesDataMap
 import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.CategoryRepositoryImpl
 import br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions.CategorySuggestionsRepositoryImpl
 import br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions.SuggestionListPerStep
@@ -36,6 +37,7 @@ private val repositoriesModule = module {
             io = get(),
         )
     }
+    single { CategoriesDataMap }
     factoryOf(::CategoryRepositoryImpl) bind CategoriesRepository::class
     factoryOf(::CategorySuggestionsRepositoryImpl) bind CategorySuggestionRepository::class
 }

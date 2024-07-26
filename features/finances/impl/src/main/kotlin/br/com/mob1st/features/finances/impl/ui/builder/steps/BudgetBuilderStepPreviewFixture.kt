@@ -6,7 +6,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
 
 @Suppress("MagicNumber")
 internal object BudgetBuilderStepPreviewFixture {
@@ -16,7 +16,7 @@ internal object BudgetBuilderStepPreviewFixture {
         amount = Money(48558),
         isExpense = true,
         recurrences = Recurrences.Fixed(DayOfMonth(1)),
-        suggested = false,
+        isSuggested = false,
         image = Uri("file:///android_asset/icons/finances_builder_suggestions_item_back_to_school_supplies.svg"),
     )
 
@@ -26,7 +26,7 @@ internal object BudgetBuilderStepPreviewFixture {
         amount = Money(50000),
         isExpense = true,
         recurrences = Recurrences.Fixed(DayOfMonth(1)),
-        suggested = false,
+        isSuggested = false,
         image = Uri("file:///android_asset/icons/finances_builder_suggestions_item_back_to_school_supplies.svg"),
     )
 
@@ -36,7 +36,7 @@ internal object BudgetBuilderStepPreviewFixture {
         amount = Money(124056),
         isExpense = true,
         recurrences = Recurrences.Fixed(DayOfMonth(1)),
-        suggested = true,
+        isSuggested = true,
         image = Uri("file:///android_asset/icons/finances_builder_suggestions_item_back_to_school_supplies.svg"),
     )
 

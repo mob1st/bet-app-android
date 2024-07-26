@@ -1,8 +1,7 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.categories
 
-import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToList
-import app.cash.sqldelight.coroutines.mapToOne
+import br.com.mob1st.core.data.asFlowListEach
+import br.com.mob1st.core.data.asFlowSingle
 import br.com.mob1st.core.data.suspendTransaction
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.finances.impl.TwoCentsDb
@@ -10,7 +9,6 @@ import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 /**
@@ -21,6 +19,7 @@ import kotlinx.coroutines.withContext
 internal class CategoryRepositoryImpl(
     private val io: IoCoroutineDispatcher,
     private val db: TwoCentsDb,
+    private val categoriesDataMap: CategoriesDataMap,
 ) : CategoriesRepository {
     override fun getByStep(step: BuilderNextAction.Step): Flow<List<Category>> {
         val args = SelectCategoriesByStepArgs.from(step)
@@ -29,22 +28,16 @@ internal class CategoryRepositoryImpl(
                 is_expense = args.isExpense,
                 recurrence_type = args.recurrenceTypeDescription,
             )
-            .asFlow()
-            .mapToList(io)
-            .map { categoriesList ->
-                categoriesList.map { categories ->
-                    categories.toDomain()
-                }
+            .asFlowListEach(io) { categories ->
+                categoriesDataMap(categories)
             }
     }
 
     override fun getById(id: Category.Id): Flow<Category> {
         return db.categoriesQueries
             .selectCategoryById(id.value)
-            .asFlow()
-            .mapToOne(io)
-            .map { categories ->
-                categories.toDomain()
+            .asFlowSingle(io) { categories ->
+                categoriesDataMap(categories)
             }
     }
 
@@ -56,11 +49,11 @@ internal class CategoryRepositoryImpl(
 
     override suspend fun add(
         category: Category,
-    ) = db.suspendTransaction(io) {
+    ) = withContext(io) {
         db.categoriesQueries.insert(category)
     }
 
-    override suspend fun set(category: Category) = db.suspendTransaction(io) {
+    override suspend fun set(category: Category) = withContext(io) {
         db.categoriesQueries.update(category)
     }
 

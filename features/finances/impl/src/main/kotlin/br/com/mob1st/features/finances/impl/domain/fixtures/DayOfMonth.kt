@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.domain.values
+package br.com.mob1st.features.finances.impl.domain.fixtures
 
 @JvmInline
 value class DayOfMonth(val value: Int) {
