@@ -22,7 +22,6 @@ class RecurrencesLocalizedTextFactoryTest {
     }
 
     companion object {
-
         @JvmStatic
         fun recurrencesSource(): List<Arguments> {
             val fixedRecurrences = Recurrences.Fixed(DayOfMonth(1))
