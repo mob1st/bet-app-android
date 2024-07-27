@@ -3,13 +3,16 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 import app.cash.turbine.test
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.core.observability.events.ScreenViewEvent
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.events.BuilderStepScreenViewFactory
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
-import br.com.mob1st.features.finances.impl.utils.moduleFixture
-import com.appmattus.kotlinfixture.Fixture
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.bind
+import io.kotest.property.arbitrary.chunked
+import io.kotest.property.arbitrary.next
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -24,19 +27,20 @@ class GetBudgetBuilderUseCaseTest {
     private lateinit var analyticsReporter: AnalyticsReporter
     private lateinit var categoryRepository: CategoriesRepository
     private lateinit var builderStepScreenViewFactory: BuilderStepScreenViewFactory
-    private lateinit var fixture: Fixture
+    private lateinit var builderFactory: BudgetBuilder.Factory
 
     @BeforeEach
     fun setUp() {
         analyticsReporter = mockk(relaxed = true)
         categoryRepository = mockk()
         builderStepScreenViewFactory = mockk()
-        fixture = moduleFixture
+        builderFactory = mockk()
 
         useCase = GetCategoryBuilderUseCase(
             analyticsReporter = analyticsReporter,
             categoryRepository = categoryRepository,
-            builderStepScreenViewFactory = builderStepScreenViewFactory,
+            screenViewFactory = builderStepScreenViewFactory,
+            builderFactory = builderFactory,
         )
     }
 
@@ -44,24 +48,28 @@ class GetBudgetBuilderUseCaseTest {
     fun `GIVEN multiple list of suggestions And categories WHEN get category builder THEN verify screen view event is logged only once`() = runTest {
         // Given
         val categoriesFlow = MutableSharedFlow<List<Category>>()
-        val suggestionsFlow = MutableSharedFlow<List<CategorySuggestion>>()
-        val step = fixture<BuilderNextAction.Step>()
-        val screenViewEvent = fixture<ScreenViewEvent>()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val screenViewEvent = Arb.bind<ScreenViewEvent>().next()
 
         every { categoryRepository.getByStep(step) } returns categoriesFlow
+        every { builderFactory.create(eq(step), any()) } answers {
+            Arb.bind<BudgetBuilder> {
+                bind(Category::class to Arb.category())
+            }.next()
+        }
         every { builderStepScreenViewFactory.create(step) } returns screenViewEvent
 
         // When
         useCase[step].test {
             categoriesFlow.emit(emptyList())
-            suggestionsFlow.emit(listOf(fixture()))
             awaitItem()
-            categoriesFlow.emit(listOf(fixture()))
+            categoriesFlow.emit(Arb.category().chunked(3..5).next())
             awaitItem()
-            suggestionsFlow.emit(listOf(fixture()))
+            categoriesFlow.emit(Arb.category().chunked(3..5).next())
             awaitItem()
             // Then
             verify(exactly = 1) { analyticsReporter.log(screenViewEvent) }
+            verify(exactly = 3) { builderFactory.create(eq(step), any()) }
         }
     }
 }

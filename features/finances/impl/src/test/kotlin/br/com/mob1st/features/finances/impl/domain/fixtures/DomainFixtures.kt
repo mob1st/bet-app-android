@@ -33,10 +33,16 @@ fun Arb.Companion.category(): Arb<Category> {
     }
 }
 
+/**
+ * Generates a valid [Money] instance
+ */
 fun Arb.Companion.money(): Arb<Money> {
     return Arb.products().map { Money(it.price.toLong()) }
 }
 
+/**
+ * Generates a valid [Uri] instance
+ */
 fun Arb.Companion.uri(): Arb<Uri> {
     return Arb.domain().map { Uri(it.value) }
 }
@@ -51,22 +57,37 @@ fun Arb.Companion.recurrences(): Arb<Recurrences> {
         .merge(variableRecurrences())
 }
 
+/**
+ * Generates a valid [Recurrences] instance
+ */
 fun Arb.Companion.fixedRecurrences(): Arb<Recurrences.Fixed> {
     return Arb.dayOfMonth().map { Recurrences.Fixed(it) }
 }
 
+/**
+ * Generates a valid [Recurrences] instance
+ */
 fun Arb.Companion.variableRecurrences(): Arb<Recurrences.Variable> {
     return arbitrary { Recurrences.Variable }
 }
 
+/**
+ * Generates a valid [Recurrences] instance
+ */
 fun Arb.Companion.seasonalRecurrences(): Arb<Recurrences.Seasonal> {
     return Arb.dayOfYear().chunked(0..4).map { Recurrences.Seasonal(it) }
 }
 
+/**
+ * Generates a valid [DayOfMonth] instance
+ */
 fun Arb.Companion.dayOfMonth(): Arb<DayOfMonth> {
     return Arb.int(1..31).map { DayOfMonth(it) }
 }
 
+/**
+ * Generates a valid [DayOfYear] instance
+ */
 fun Arb.Companion.dayOfYear(): Arb<DayOfYear> {
     return Arb.int(1..365).map { DayOfYear(it) }
 }
