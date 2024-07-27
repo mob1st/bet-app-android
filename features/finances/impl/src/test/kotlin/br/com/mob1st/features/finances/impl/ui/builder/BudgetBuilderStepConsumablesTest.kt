@@ -1,15 +1,17 @@
 package br.com.mob1st.features.finances.impl.ui.builder
 
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
+import br.com.mob1st.features.finances.impl.domain.fixtures.builderNextAction
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepDialog
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepSnackbar
 import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
-import br.com.mob1st.features.finances.impl.utils.moduleFixture
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.features.utils.errors.toCommonError
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.next
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -49,7 +51,7 @@ class BudgetBuilderStepConsumablesTest {
     @Test
     fun `GIVEN an list item to edit category WHEN select a manual item THEN navigate to the category edition screen`() {
         // Given
-        val item = CategorySectionItemState(moduleFixture())
+        val item = CategorySectionItemState(Arb.category().next())
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
@@ -105,12 +107,27 @@ class BudgetBuilderStepConsumablesTest {
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
-        val step = moduleFixture<BuilderNextAction>()
+        val step = Arb.builderNextAction().next()
         val result = budgetBuilderStepConsumables.navigateToNext(step)
 
         // Then
         assertEquals(
             BudgetBuilderStepConsumables(navEvent = BudgetBuilderStepNavEvent.NextAction(step)),
+            result,
+        )
+    }
+
+    @Test
+    fun `WHEN show name dialog THEN ensure it happen`() {
+        // Given
+        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
+
+        // When
+        val result = budgetBuilderStepConsumables.showCategoryNameDialog()
+
+        // Then
+        assertEquals(
+            BudgetBuilderStepConsumables(dialog = BudgetBuilderStepDialog.EnterName()),
             result,
         )
     }

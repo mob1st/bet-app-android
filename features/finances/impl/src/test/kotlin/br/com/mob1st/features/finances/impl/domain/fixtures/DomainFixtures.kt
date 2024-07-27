@@ -3,6 +3,7 @@ package br.com.mob1st.features.finances.impl.domain.fixtures
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
+import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.infra.data.fixtures.rowId
@@ -93,9 +94,21 @@ fun Arb.Companion.dayOfYear(): Arb<DayOfYear> {
     return Arb.int(1..365).map { DayOfYear(it) }
 }
 
+/**
+ * Generates a valid [BudgetBuilder] instance
+ */
 fun Arb.Companion.budgetBuilder(): Arb<BudgetBuilder> {
     return Arb.bind {
         bind(BudgetBuilder::manuallyAdded to category().map { it.copy(isSuggested = false) }.chunked(0..5))
         bind(BudgetBuilder::suggestions to category().map { it.copy(isSuggested = true) }.chunked(0..5))
     }
+}
+
+/**
+ * Generates a valid [BuilderNextAction] instance
+ */
+fun Arb.Companion.builderNextAction(): Arb<BuilderNextAction> {
+    return arbitrary { BuilderNextAction.Complete }.merge(
+        Arb.bind<BuilderNextAction.Step>(),
+    )
 }
