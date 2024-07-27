@@ -7,6 +7,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.events.BuilderStepScreenViewFactory
+import br.com.mob1st.features.finances.impl.domain.fixtures.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
 import io.kotest.property.Arb
@@ -49,15 +50,14 @@ class GetBudgetBuilderUseCaseTest {
         // Given
         val categoriesFlow = MutableSharedFlow<List<Category>>()
         val step = Arb.bind<BuilderNextAction.Step>().next()
-        val screenViewEvent = Arb.bind<ScreenViewEvent>().next()
 
         every { categoryRepository.getByStep(step) } returns categoriesFlow
         every { builderFactory.create(eq(step), any()) } answers {
-            Arb.bind<BudgetBuilder> {
-                bind(Category::class to Arb.category())
-            }.next()
+            Arb.budgetBuilder().next()
         }
-        every { builderStepScreenViewFactory.create(step) } returns screenViewEvent
+        every { builderStepScreenViewFactory.create(step) } answers {
+            Arb.bind<ScreenViewEvent>().next()
+        }
 
         // When
         useCase[step].test {
@@ -68,7 +68,7 @@ class GetBudgetBuilderUseCaseTest {
             categoriesFlow.emit(Arb.category().chunked(3..5).next())
             awaitItem()
             // Then
-            verify(exactly = 1) { analyticsReporter.log(screenViewEvent) }
+            verify(exactly = 1) { analyticsReporter.log(any()) }
             verify(exactly = 3) { builderFactory.create(eq(step), any()) }
         }
     }

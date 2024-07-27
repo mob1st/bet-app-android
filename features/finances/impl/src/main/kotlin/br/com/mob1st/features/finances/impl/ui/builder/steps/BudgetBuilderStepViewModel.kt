@@ -82,6 +82,15 @@ internal class BudgetBuilderStepViewModel private constructor(
     }
 
     /**
+     * Starts the steps to create a new manually added category.
+     */
+    fun addNewCategory() = errorHandler.catching {
+        consumableDelegate.update {
+            it.showCategoryNameDialog()
+        }
+    }
+
+    /**
      * Adds the given [name] to the manually added categories.
      * @param name The name of the category.
      */
@@ -111,7 +120,7 @@ internal class BudgetBuilderStepViewModel private constructor(
                 it.navigateToNext(result)
             }
         } catch (e: NotEnoughInputsException) {
-            // avoid logging the exception as an error
+            // avoid logging this specific exception as an error
             analyticsReporter.log(NotEnoughItemsToCompleteEvent(uiState.builder.id, e.remainingInputs))
             consumableDelegate.update {
                 it.handleError(e)

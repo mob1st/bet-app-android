@@ -7,7 +7,6 @@ import br.com.mob1st.features.finances.impl.domain.events.BuilderStepScreenViewF
 import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 
 internal class GetCategoryBuilderUseCase(
@@ -22,9 +21,6 @@ internal class GetCategoryBuilderUseCase(
         return categoryRepository.getByStep(step)
             .map { categories ->
                 builderFactory.create(step, categories)
-            }
-            .onEach {
-                println("onEach $it")
             }
             .onStart {
                 analyticsReporter.log(screenViewFactory.create(step))

@@ -2,6 +2,7 @@ package br.com.mob1st.features.finances.impl.domain.fixtures
 
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.Uri
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.infra.data.fixtures.rowId
@@ -90,4 +91,11 @@ fun Arb.Companion.dayOfMonth(): Arb<DayOfMonth> {
  */
 fun Arb.Companion.dayOfYear(): Arb<DayOfYear> {
     return Arb.int(1..365).map { DayOfYear(it) }
+}
+
+fun Arb.Companion.budgetBuilder(): Arb<BudgetBuilder> {
+    return Arb.bind {
+        bind(BudgetBuilder::manuallyAdded to category().map { it.copy(isSuggested = false) }.chunked(0..5))
+        bind(BudgetBuilder::suggestions to category().map { it.copy(isSuggested = true) }.chunked(0..5))
+    }
 }

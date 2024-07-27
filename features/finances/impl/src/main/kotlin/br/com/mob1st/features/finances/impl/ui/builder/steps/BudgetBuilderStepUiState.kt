@@ -48,7 +48,10 @@ internal sealed interface BudgetBuilderStepUiState {
                 description = R.string.finances_builder_variable_expenses_subheader,
             )
 
-            SeasonalExpensesStep -> TODO()
+            SeasonalExpensesStep -> Header(
+                title = R.string.finances_builder_variable_expenses_header,
+                description = R.string.finances_builder_variable_expenses_subheader,
+            )
         }
 
         /**

@@ -4,6 +4,7 @@ import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.fixtures.money
 import io.kotest.property.Arb
+import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.chunked
 import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.next
@@ -16,7 +17,7 @@ class BudgetBuilderTest {
     @Test
     fun `GIVEN a step And enough manually added categories WHEN get next action THEN assert next action`() {
         // here
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(
@@ -30,7 +31,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step And enough suggested categories WHEN get next action THEN assert next action`() {
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(),
@@ -44,7 +45,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step And enough manually added and suggested categories WHEN get next action THEN assert next action`() {
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(
@@ -60,7 +61,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step And more than enough inputs WHEN get next action THEN assert next action`() {
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(
@@ -76,7 +77,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step And not enough manual inputs WHEN get next action THEN assert exception`() {
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(
@@ -92,7 +93,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step And not enough suggested inputs WHEN get next action THEN assert exception`() {
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(),
@@ -108,7 +109,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step And only zeroed categories WHEN get next action THEN assert exception`() {
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(),
@@ -135,7 +136,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step and only suggestions WHEN create budget builder THEN assert partition is done`() {
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val suggestions = Arb.category().map {
             it.copy(isSuggested = true)
         }.chunked(5..10).next()
@@ -147,7 +148,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step and only manually added categories WHEN create budget builder THEN assert partition is done`() {
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val manuallyAdded = Arb.category().map {
             it.copy(isSuggested = false)
         }.chunked(5..10).next()
@@ -159,7 +160,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step and both manually added and suggested categories WHEN create budget builder THEN assert partition is done`() {
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val categories = Arb.category().chunked(5..10).next()
         val expectedManuallyAdded = categories.filter { !it.isSuggested }
         val expectedSuggestions = categories.filter { it.isSuggested }
@@ -171,7 +172,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step and no categories WHEN create budget builder THEN assert partition is done`() {
-        val step = steps.random()
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         val actual = BudgetBuilder.create(step, emptyList())
         assertEquals(step, actual.id)
         assertTrue(actual.manuallyAdded.isEmpty())
@@ -179,12 +180,6 @@ class BudgetBuilderTest {
     }
 
     companion object {
-        private val steps = listOf(
-            FixedExpensesStep,
-            VariableExpensesStep,
-            FixedIncomesStep,
-        )
-
         private fun categories(
             positiveCount: Int = 0,
         ): List<Category> {

@@ -58,8 +58,17 @@ data class BudgetBuilderStepConsumables(
     }
 
     /**
-     * Indicates the next consumable state when the user types the category name.
-     * It opens the dialog to enter the category name.
+     * Shows the dialog to enter the category name.
+     * It's the first of 4 steps to add a new category.
+     * @return The next consumable state.
+     */
+    fun showCategoryNameDialog() = copy {
+        BudgetBuilderStepConsumables.dialog set BudgetBuilderStepDialog.EnterName()
+    }
+
+    /**
+     * It updates the dialog to show the given category name.
+     * It's the second of 4 steps to add a new category.
      * @param name The category name.
      * @return The next consumable state.
      */
