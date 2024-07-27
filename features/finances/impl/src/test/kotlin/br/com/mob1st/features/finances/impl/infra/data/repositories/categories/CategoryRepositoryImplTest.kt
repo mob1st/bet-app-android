@@ -4,22 +4,21 @@ import br.com.mob1st.core.data.suspendTransaction
 import br.com.mob1st.core.database.Categories
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.finances.impl.TwoCentsDb
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
-import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
-import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.infra.data.fixtures.categories
+import br.com.mob1st.features.finances.impl.infra.data.fixtures.recurrenceColumns
 import br.com.mob1st.features.finances.impl.utils.testTwoCentsDb
+import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
 import br.com.mob1st.tests.featuresutils.failOnIndex
 import io.kotest.property.Arb
+import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.chunked
 import io.kotest.property.arbitrary.filter
+import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.next
 import io.mockk.every
 import io.mockk.mockk
@@ -61,25 +60,70 @@ internal class CategoryRepositoryImplTest {
     }
 
     @ParameterizedTest
-    @MethodSource("getByStepSource")
-    fun `GIVEN a list of categories WHEN get by step THEN assert filter is done`(
-        step: BuilderNextAction.Step,
-        expectedRecurrenceType: String,
-        expectedIsExpense: Boolean,
+    @MethodSource("getByTypeSource")
+    fun `GIVEN a list of categories WHEN get by type And is expense THEN assert filter is done`(
+        type: RecurrenceType,
+        expectedRawRecurrenceType: String,
     ) = runTest {
         // Given
         val sample = Arb.categories().chunked(10..20).filter { list ->
-            list.hasGoodData(expectedRecurrenceType)
+            list.hasGoodData(expectedRawRecurrenceType)
         }
+        val isExpense = Arb.boolean().next()
+
         insertCategories(sample.next())
         val actual = mutableListOf<Categories>()
         captureQueryResults(actual)
         // When
-        repository.getByStep(step).take(1).collect()
+        repository.getByIsExpenseAndRecurrencesType(
+            isExpense = isExpense,
+            recurrenceType = type,
+        ).take(1).collect()
 
         // Then
-        assertTrue(actual.all { it.is_expense == expectedIsExpense })
-        assertTrue(actual.all { it.recurrence_type == expectedRecurrenceType })
+        assertTrue(actual.all { it.is_expense == isExpense })
+        assertTrue(actual.all { it.recurrence_type == expectedRawRecurrenceType })
+    }
+
+    @ParameterizedTest
+    @MethodSource("getByTypeSource")
+    fun `GIVEN a list of categories WHEN count by type And is expense THEN assert filter is done`(
+        type: RecurrenceType,
+        rawRecurrenceType: String,
+    ) = runTest {
+        // Given
+        val isExpense = Arb.boolean().next()
+        val otherRecurrenceType = Arb
+            .recurrenceColumns()
+            .map { it.rawType }
+            .filter { it != rawRecurrenceType }
+            .next()
+        val sample = listOf(
+            Arb.categories().map {
+                it.copy(
+                    is_expense = isExpense,
+                    recurrence_type = rawRecurrenceType,
+                )
+            }.next(),
+            Arb.categories().map {
+                it.copy(
+                    is_expense = !isExpense,
+                    recurrence_type = rawRecurrenceType,
+                )
+            }.next(),
+            Arb.categories().map {
+                it.copy(
+                    is_expense = Arb.boolean().next(),
+                    recurrence_type = otherRecurrenceType,
+                )
+            }.next(),
+        )
+        insertCategories(sample)
+        val actual = repository.countByIsExpenseAndRecurrencesType(
+            isExpense = isExpense,
+            recurrenceType = type,
+        )
+        assertEquals(1, actual)
     }
 
     @Test
@@ -292,26 +336,18 @@ internal class CategoryRepositoryImplTest {
 
     companion object {
         @JvmStatic
-        fun getByStepSource() = listOf(
+        fun getByTypeSource() = listOf(
             arguments(
-                FixedExpensesStep,
+                RecurrenceType.Fixed,
                 "fixed",
-                true,
             ),
             arguments(
-                VariableExpensesStep,
+                RecurrenceType.Variable,
                 "variable",
-                true,
             ),
             arguments(
-                SeasonalExpensesStep,
+                RecurrenceType.Seasonal,
                 "seasonal",
-                true,
-            ),
-            arguments(
-                FixedIncomesStep,
-                "fixed",
-                false,
             ),
         )
 

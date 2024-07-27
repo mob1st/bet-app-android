@@ -51,7 +51,12 @@ class GetBudgetBuilderUseCaseTest {
         val categoriesFlow = MutableSharedFlow<List<Category>>()
         val step = Arb.bind<BuilderNextAction.Step>().next()
 
-        every { categoryRepository.getByStep(step) } returns categoriesFlow
+        every {
+            categoryRepository.getByIsExpenseAndRecurrencesType(
+                isExpense = step.isExpense,
+                recurrenceType = step.type,
+            )
+        } returns categoriesFlow
         every { builderFactory.create(eq(step), any()) } answers {
             Arb.budgetBuilder().next()
         }

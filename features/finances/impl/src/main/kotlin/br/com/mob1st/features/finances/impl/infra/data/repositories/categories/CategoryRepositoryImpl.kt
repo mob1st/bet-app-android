@@ -5,9 +5,9 @@ import br.com.mob1st.core.data.asFlowSingle
 import br.com.mob1st.core.data.suspendTransaction
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.finances.impl.TwoCentsDb
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
+import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
@@ -15,22 +15,34 @@ import kotlinx.coroutines.withContext
  * Concrete implementation of the [CategoriesRepository] interface.
  * @property io The IO dispatcher.
  * @property db The SqlDelight database instance.
+ * @property categoriesDataMap Maps the queries that return categories to the domain entities.
  */
 internal class CategoryRepositoryImpl(
     private val io: IoCoroutineDispatcher,
     private val db: TwoCentsDb,
     private val categoriesDataMap: CategoriesDataMap,
 ) : CategoriesRepository {
-    override fun getByStep(step: BuilderNextAction.Step): Flow<List<Category>> {
-        val args = SelectCategoriesByStepArgs.from(step)
+    override fun getByIsExpenseAndRecurrencesType(
+        isExpense: Boolean,
+        recurrenceType: RecurrenceType,
+    ): Flow<List<Category>> {
         return db.categoriesQueries
             .selectCategoriesByRecurrenceType(
-                is_expense = args.isExpense,
-                recurrence_type = args.recurrenceTypeDescription,
+                is_expense = isExpense,
+                recurrence_type = RecurrenceColumns.rawTypeFrom(recurrenceType),
             )
             .asFlowListEach(io) { categories ->
                 categoriesDataMap(categories)
             }
+    }
+
+    override fun countByIsExpenseAndRecurrencesType(isExpense: Boolean, recurrenceType: RecurrenceType): Long {
+        return db.categoriesQueries
+            .countCategoriesByRecurrenceType(
+                is_expense = isExpense,
+                recurrence_type = RecurrenceColumns.rawTypeFrom(recurrenceType),
+            )
+            .executeAsOne()
     }
 
     override fun getById(id: Category.Id): Flow<Category> {

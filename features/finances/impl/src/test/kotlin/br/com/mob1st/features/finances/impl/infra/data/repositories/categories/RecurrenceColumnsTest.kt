@@ -3,19 +3,17 @@ package br.com.mob1st.features.finances.impl.infra.data.repositories.categories
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
+import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.ArgumentsProvider
-import org.junit.jupiter.params.provider.ArgumentsSource
-import java.util.stream.Stream
+import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertFailsWith
 
 internal class RecurrenceColumnsTest {
     @ParameterizedTest
-    @ArgumentsSource(RecurrenceProvider::class)
+    @MethodSource("recurrencesSource")
     fun `WHEN create from recurrence THEN assert return is expected`(
         recurrence: Recurrences,
         expected: RecurrenceColumns,
@@ -49,7 +47,7 @@ internal class RecurrenceColumnsTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(RawRecurrenceProvider::class)
+    @MethodSource("rawTypeToRecurrencesSource")
     fun `GIVEN a raw recurrence type AND a raw recurrence WHEN get domain recurrence THEN assert result`(
         rawType: String,
         rawRecurrences: String?,
@@ -93,56 +91,104 @@ internal class RecurrenceColumnsTest {
         }
     }
 
-    object RecurrenceProvider : ArgumentsProvider {
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
-            return Stream.of(
-                Arguments.of(
-                    Recurrences.Variable,
-                    RecurrenceColumns("variable", null),
-                ),
-                Arguments.of(
-                    Recurrences.Fixed(DayOfMonth(1)),
-                    RecurrenceColumns("fixed", "01"),
-                ),
-                Arguments.of(
-                    Recurrences.Seasonal(
-                        listOf(
-                            DayOfYear(1),
-                            DayOfYear(30),
-                            DayOfYear(200),
-                        ),
-                    ),
-                    RecurrenceColumns("seasonal", "001,030,200"),
-                ),
-            )
-        }
+    @ParameterizedTest
+    @MethodSource("enumToRawType")
+    fun `GIVEN a recurrence type WHEN map to raw type THEN assert result`(
+        recurrenceType: RecurrenceType,
+        expected: String,
+    ) {
+        val actual = RecurrenceColumns.rawTypeFrom(recurrenceType)
+        assertEquals(expected, actual)
     }
 
-    object RawRecurrenceProvider : ArgumentsProvider {
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
-            return Stream.of(
-                Arguments.of(
-                    "variable",
-                    null,
-                    Recurrences.Variable,
-                ),
-                Arguments.of(
-                    "fixed",
-                    "01",
-                    Recurrences.Fixed(DayOfMonth(1)),
-                ),
-                Arguments.of(
-                    "seasonal",
-                    "001,030,200",
-                    Recurrences.Seasonal(
-                        listOf(
-                            DayOfYear(1),
-                            DayOfYear(30),
-                            DayOfYear(200),
-                        ),
+    @ParameterizedTest
+    @MethodSource("rawTypeToEnum")
+    fun `GIVEN a raw type WHEN map to recurrence type THEN assert result`(
+        rawType: String,
+        expected: RecurrenceType,
+    ) {
+        val actual = RecurrenceColumns(rawType, "").rawTypeTo()
+        assertEquals(expected, actual)
+    }
+
+    companion object {
+        @JvmStatic
+        fun recurrencesSource() = listOf(
+            arguments(
+                Recurrences.Variable,
+                RecurrenceColumns("variable", null),
+            ),
+            arguments(
+                Recurrences.Fixed(DayOfMonth(1)),
+                RecurrenceColumns("fixed", "01"),
+            ),
+            arguments(
+                Recurrences.Seasonal(
+                    listOf(
+                        DayOfYear(1),
+                        DayOfYear(30),
+                        DayOfYear(200),
                     ),
                 ),
-            )
-        }
+                RecurrenceColumns("seasonal", "001,030,200"),
+            ),
+        )
+
+        @JvmStatic
+        fun rawTypeToRecurrencesSource() = listOf(
+            arguments(
+                "variable",
+                null,
+                Recurrences.Variable,
+            ),
+            arguments(
+                "fixed",
+                "01",
+                Recurrences.Fixed(DayOfMonth(1)),
+            ),
+            arguments(
+                "seasonal",
+                "001,030,200",
+                Recurrences.Seasonal(
+                    listOf(
+                        DayOfYear(1),
+                        DayOfYear(30),
+                        DayOfYear(200),
+                    ),
+                ),
+            ),
+        )
+
+        @JvmStatic
+        fun enumToRawType() = listOf(
+            arguments(
+                RecurrenceType.Fixed,
+                "fixed",
+            ),
+            arguments(
+                RecurrenceType.Variable,
+                "variable",
+            ),
+            arguments(
+                RecurrenceType.Seasonal,
+                "seasonal",
+            ),
+        )
+
+        @JvmStatic
+        fun rawTypeToEnum() = listOf(
+            arguments(
+                "fixed",
+                RecurrenceType.Fixed,
+            ),
+            arguments(
+                "variable",
+                RecurrenceType.Variable,
+            ),
+            arguments(
+                "seasonal",
+                RecurrenceType.Seasonal,
+            ),
+        )
     }
 }

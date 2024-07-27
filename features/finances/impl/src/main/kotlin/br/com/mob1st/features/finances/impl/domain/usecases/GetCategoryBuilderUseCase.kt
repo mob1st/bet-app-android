@@ -18,12 +18,13 @@ internal class GetCategoryBuilderUseCase(
     operator fun get(
         step: BuilderNextAction.Step,
     ): Flow<BudgetBuilder> {
-        return categoryRepository.getByStep(step)
-            .map { categories ->
-                builderFactory.create(step, categories)
-            }
-            .onStart {
-                analyticsReporter.log(screenViewFactory.create(step))
-            }
+        return categoryRepository.getByIsExpenseAndRecurrencesType(
+            isExpense = step.isExpense,
+            recurrenceType = step.type,
+        ).map { categories ->
+            builderFactory.create(step, categories)
+        }.onStart {
+            analyticsReporter.log(screenViewFactory.create(step))
+        }
     }
 }

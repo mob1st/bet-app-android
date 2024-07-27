@@ -3,6 +3,7 @@ package br.com.mob1st.features.finances.impl.infra.data.repositories.categories
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
+import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
 import java.util.Locale
 
 private const val COLUMN_SEPARATOR = ","
@@ -18,7 +19,23 @@ internal data class RecurrenceColumns(
     val rawType: String,
     val rawRecurrences: String?,
 ) {
+    fun rawTypeTo(): RecurrenceType {
+        return valueToEnum.getValue(rawType)
+    }
+
     companion object {
+        private val valueToEnum = mapOf(
+            "fixed" to RecurrenceType.Fixed,
+            "variable" to RecurrenceType.Variable,
+            "seasonal" to RecurrenceType.Seasonal,
+        )
+
+        private val enumToValue = mapOf(
+            RecurrenceType.Fixed to "fixed",
+            RecurrenceType.Variable to "variable",
+            RecurrenceType.Seasonal to "seasonal",
+        )
+
         /**
          * Creates a [RecurrenceColumns] from the given [recurrences].
          * It's useful to write the [Recurrences] to the database.
@@ -27,6 +44,10 @@ internal data class RecurrenceColumns(
          */
         fun from(recurrences: Recurrences): RecurrenceColumns {
             return recurrences.toRecurrenceColumns()
+        }
+
+        fun rawTypeFrom(recurrenceType: RecurrenceType): String {
+            return enumToValue.getValue(recurrenceType)
         }
     }
 }
@@ -37,7 +58,7 @@ internal data class RecurrenceColumns(
  * @return the [Recurrences] domain entity.
  */
 internal fun RecurrenceColumns.toRecurrences(): Recurrences {
-    return when (RecurrenceType.fromValue(rawType)) {
+    return when (rawTypeTo()) {
         RecurrenceType.Fixed -> toFixedRecurrence()
         RecurrenceType.Seasonal -> toSeasonalRecurrence()
         RecurrenceType.Variable -> Recurrences.Variable
@@ -62,17 +83,17 @@ private fun RecurrenceColumns.toSeasonalRecurrence(): Recurrences.Seasonal {
 private fun Recurrences.toRecurrenceColumns(): RecurrenceColumns {
     return when (this) {
         is Recurrences.Fixed -> RecurrenceColumns(
-            RecurrenceType.Fixed.value,
+            RecurrenceColumns.rawTypeFrom(RecurrenceType.Fixed),
             toRawRecurrences(),
         )
 
         is Recurrences.Seasonal -> RecurrenceColumns(
-            RecurrenceType.Seasonal.value,
+            RecurrenceColumns.rawTypeFrom(RecurrenceType.Seasonal),
             toRawRecurrences(),
         )
 
         Recurrences.Variable -> RecurrenceColumns(
-            RecurrenceType.Variable.value,
+            RecurrenceColumns.rawTypeFrom(RecurrenceType.Variable),
             null,
         )
     }

@@ -5,6 +5,12 @@ WHERE cat.is_expense = :is_expense
 AND cat.recurrence_type = :recurrence_type
 ORDER BY cat.created_at ASC;
 
+countCategoriesByRecurrenceType:
+SELECT COUNT(*)
+FROM Categories AS cat
+WHERE cat.is_expense = :is_expense
+AND cat.recurrence_type = :recurrence_type;
+
 selectCategoryById:
 SELECT *
 FROM Categories
