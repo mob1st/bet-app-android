@@ -33,6 +33,10 @@ fun Arb.Companion.category(): Arb<Category> {
     }
 }
 
+fun Arb.Companion.money(): Arb<Money> {
+    return Arb.products().map { Money(it.price.toLong()) }
+}
+
 fun Arb.Companion.uri(): Arb<Uri> {
     return Arb.domain().map { Uri(it.value) }
 }

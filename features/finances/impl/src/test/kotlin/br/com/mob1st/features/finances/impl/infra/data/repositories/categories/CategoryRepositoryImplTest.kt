@@ -16,7 +16,7 @@ import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.infra.data.fixtures.categories
 import br.com.mob1st.features.finances.impl.utils.testTwoCentsDb
-import br.com.mob1st.tests.featuresutils.FailList
+import br.com.mob1st.tests.featuresutils.failOnIndex
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.chunked
 import io.kotest.property.arbitrary.filter
@@ -204,10 +204,13 @@ internal class CategoryRepositoryImplTest {
 
     @Test
     fun `GIVEN a list that fails in the last interaction WHEN add all THEN assert a single transaction is used`() = runTest {
-        val categories = Arb.category().chunked(6..10).next()
-        val failList = FailList(5, delegate = categories)
+        val categories = Arb
+            .category()
+            .chunked(6..10)
+            .next()
+            .failOnIndex(4)
         runCatching {
-            repository.addAll(failList)
+            repository.addAll(categories)
         }
         assertEquals(
             0,

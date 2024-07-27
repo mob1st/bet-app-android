@@ -36,11 +36,33 @@ data class BudgetBuilder(
         return manuallyAdded.count { it.amount.cents > 0 } + suggestions.count { it.amount.cents > 0 }
     }
 
-    companion object {
+    companion object : Factory {
         /**
          * Returns the first step of the category builder.
          */
         fun firstStep(): BuilderNextAction.Step = FixedExpensesStep
+
+        override fun create(id: BuilderNextAction.Step, categories: List<Category>): BudgetBuilder {
+            val (suggestions, manuallyAdded) = categories.partition { it.isSuggested }
+            return BudgetBuilder(
+                id = id,
+                manuallyAdded = manuallyAdded,
+                suggestions = suggestions,
+            )
+        }
+    }
+
+    /**
+     * Creates a [BudgetBuilder] instance.
+     */
+    interface Factory {
+        /**
+         * Creates a [BudgetBuilder] instance.
+         * @param id The current step of the category builder.
+         * @param categories The categories that were manually added by the user.
+         * @return The [BudgetBuilder] instance.
+         */
+        fun create(id: BuilderNextAction.Step, categories: List<Category>): BudgetBuilder
     }
 }
 
@@ -112,4 +134,6 @@ data object FixedIncomesStep : BuilderNextAction.Step {
  * not enough inputs yet.
  * @property remainingInputs The number of missing inputs to proceed to the next step.
  */
-class NotEnoughInputsException(val remainingInputs: Int) : Exception("Not enough inputs to proceed to the next step")
+class NotEnoughInputsException(
+    val remainingInputs: Int,
+) : Exception("Not enough inputs to proceed to the next step. remainingInputs=$remainingInputs")

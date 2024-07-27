@@ -1,27 +1,28 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.features.finances.impl.utils.moduleFixture
-import com.appmattus.kotlinfixture.Fixture
-import com.appmattus.kotlinfixture.decorator.nullability.NeverNullStrategy
-import com.appmattus.kotlinfixture.decorator.nullability.nullabilityStrategy
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
+import br.com.mob1st.features.finances.impl.domain.fixtures.money
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.chunked
+import io.kotest.property.arbitrary.map
+import io.kotest.property.arbitrary.next
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class BudgetBuilderTest {
     @Test
     fun `GIVEN a step And enough manually added categories WHEN get next action THEN assert next action`() {
+        // here
         val step = steps.random()
         val builder = BudgetBuilder(
             id = step,
             manuallyAdded = categories(
                 positiveCount = step.minimumRequiredToProceed,
-                zeroedCount = 0,
             ),
-            suggestions = categories(
-                zeroedCount = 0,
-            ),
+            suggestions = categories(),
         )
         val actual = builder.next()
         assertEquals(step.next, actual)
@@ -51,7 +52,6 @@ class BudgetBuilderTest {
             ),
             suggestions = categories(
                 positiveCount = step.minimumRequiredToProceed,
-                zeroedCount = 2,
             ),
         )
         val actual = builder.next()
@@ -68,7 +68,6 @@ class BudgetBuilderTest {
             ),
             suggestions = categories(
                 positiveCount = step.minimumRequiredToProceed + 1,
-                zeroedCount = 9,
             ),
         )
         val actual = builder.next()
@@ -83,9 +82,7 @@ class BudgetBuilderTest {
             manuallyAdded = categories(
                 positiveCount = step.minimumRequiredToProceed - 1,
             ),
-            suggestions = categories(
-                zeroedCount = 10,
-            ),
+            suggestions = categories(),
         )
         val exception = assertThrows<NotEnoughInputsException> {
             builder.next()
@@ -101,7 +98,6 @@ class BudgetBuilderTest {
             manuallyAdded = categories(),
             suggestions = categories(
                 positiveCount = step.minimumRequiredToProceed - 1,
-                zeroedCount = 3,
             ),
         )
         val exception = assertThrows<NotEnoughInputsException> {
@@ -111,21 +107,17 @@ class BudgetBuilderTest {
     }
 
     @Test
-    fun `GIVEN a step And zeroed categories WHEN get next action THEN assert exception`() {
+    fun `GIVEN a step And only zeroed categories WHEN get next action THEN assert exception`() {
         val step = steps.random()
         val builder = BudgetBuilder(
             id = step,
-            manuallyAdded = categories(
-                positiveCount = step.minimumRequiredToProceed - 1,
-            ),
-            suggestions = categories(
-                zeroedCount = step.minimumRequiredToProceed,
-            ),
+            manuallyAdded = categories(),
+            suggestions = categories(),
         )
         val exception = assertThrows<NotEnoughInputsException> {
             builder.next()
         }
-        assertEquals(1, exception.remainingInputs)
+        assertEquals(step.minimumRequiredToProceed, exception.remainingInputs)
     }
 
     @Test
@@ -135,10 +127,55 @@ class BudgetBuilderTest {
     }
 
     @Test
-    fun `GIVEN a step WHEN get next THEN assert is expected`() {
+    fun `GIVEN a step WHEN get next THEN assert it is expected`() {
         assertEquals(VariableExpensesStep, FixedExpensesStep.next)
         assertEquals(FixedIncomesStep, VariableExpensesStep.next)
         assertEquals(BuilderNextAction.Complete, FixedIncomesStep.next)
+    }
+
+    @Test
+    fun `GIVEN a step and only suggestions WHEN create budget builder THEN assert partition is done`() {
+        val step = steps.random()
+        val suggestions = Arb.category().map {
+            it.copy(isSuggested = true)
+        }.chunked(5..10).next()
+        val actual = BudgetBuilder.create(step, suggestions)
+        assertEquals(step, actual.id)
+        assertTrue(actual.manuallyAdded.isEmpty())
+        assertEquals(suggestions, actual.suggestions)
+    }
+
+    @Test
+    fun `GIVEN a step and only manually added categories WHEN create budget builder THEN assert partition is done`() {
+        val step = steps.random()
+        val manuallyAdded = Arb.category().map {
+            it.copy(isSuggested = false)
+        }.chunked(5..10).next()
+        val actual = BudgetBuilder.create(step, manuallyAdded)
+        assertEquals(step, actual.id)
+        assertEquals(manuallyAdded, actual.manuallyAdded)
+        assertTrue(actual.suggestions.isEmpty())
+    }
+
+    @Test
+    fun `GIVEN a step and both manually added and suggested categories WHEN create budget builder THEN assert partition is done`() {
+        val step = steps.random()
+        val categories = Arb.category().chunked(5..10).next()
+        val expectedManuallyAdded = categories.filter { !it.isSuggested }
+        val expectedSuggestions = categories.filter { it.isSuggested }
+        val actual = BudgetBuilder.create(step, categories)
+        assertEquals(step, actual.id)
+        assertEquals(expectedManuallyAdded, actual.manuallyAdded)
+        assertEquals(expectedSuggestions, actual.suggestions)
+    }
+
+    @Test
+    fun `GIVEN a step and no categories WHEN create budget builder THEN assert partition is done`() {
+        val step = steps.random()
+        val actual = BudgetBuilder.create(step, emptyList())
+        assertEquals(step, actual.id)
+        assertTrue(actual.manuallyAdded.isEmpty())
+        assertTrue(actual.suggestions.isEmpty())
     }
 
     companion object {
@@ -150,25 +187,20 @@ class BudgetBuilderTest {
 
         private fun categories(
             positiveCount: Int = 0,
-            zeroedCount: Int = 0,
         ): List<Category> {
-            val positiveCountList = positiveInputsFixture(positiveCount).invoke<List<Category>>()
-            val zeroedCountList = zeroedInputsFixture(zeroedCount).invoke<List<Category>>()
-            return (positiveCountList + zeroedCountList).shuffled()
-        }
-
-        private fun positiveInputsFixture(count: Int): Fixture = moduleFixture.new {
-            repeatCount { count }
-            nullabilityStrategy(NeverNullStrategy)
-            factory<Money> { Money((1L..500000L).random()) }
-        }
-
-        private fun zeroedInputsFixture(
-            count: Int,
-        ): Fixture = moduleFixture.new {
-            repeatCount { count }
-            nullabilityStrategy(NeverNullStrategy)
-            factory<Money> { Money.Zero }
+            val sample = Arb
+                .category()
+                .map { it.copy(amount = Money.Zero) }
+                .chunked(5..10)
+                .next()
+                .toMutableList()
+            while (sample.count { it.amount.cents > 0 } < positiveCount) {
+                val randomIndex = sample.indexOf(sample.random())
+                sample[randomIndex] = sample[randomIndex].copy(
+                    amount = Arb.money().next(),
+                )
+            }
+            return sample
         }
     }
 }
