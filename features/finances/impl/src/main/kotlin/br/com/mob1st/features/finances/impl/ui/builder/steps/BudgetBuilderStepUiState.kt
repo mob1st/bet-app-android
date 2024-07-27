@@ -49,8 +49,8 @@ internal sealed interface BudgetBuilderStepUiState {
             )
 
             SeasonalExpensesStep -> Header(
-                title = R.string.finances_builder_variable_expenses_header,
-                description = R.string.finances_builder_variable_expenses_subheader,
+                title = R.string.finances_builder_seasonal_expenses_title,
+                description = R.string.finances_builder_seasonal_expenses_subheader,
             )
         }
 

@@ -7,4 +7,9 @@ data class ColorFamily(
     val onColor: Color,
     val container: Color,
     val onContainer: Color,
-)
+) : ContainerCombiner {
+    override val containerCombination: ColorCombination = ColorCombination(
+        background = container,
+        content = onContainer,
+    )
+}

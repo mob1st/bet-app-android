@@ -14,10 +14,8 @@ import br.com.mob1st.core.design.atoms.colors.contrast.LocalUiContrast
 import br.com.mob1st.core.design.atoms.colors.contrast.UiContrast
 import br.com.mob1st.core.design.atoms.colors.contrast.UiContrastEffect
 import br.com.mob1st.core.design.atoms.colors.contrast.getCurrentUiContrast
-import br.com.mob1st.core.design.atoms.colors.material.LocalFixedExpensesFamily
-import br.com.mob1st.core.design.atoms.colors.material.LocalIncomesFamily
-import br.com.mob1st.core.design.atoms.colors.material.LocalSeasonalExpensesFamily
-import br.com.mob1st.core.design.atoms.colors.material.LocalVariableExpensesFamily
+import br.com.mob1st.core.design.atoms.colors.material.LocalExtensionsColorFamilies
+import br.com.mob1st.core.design.atoms.colors.material.LocalMaterialColorFamilies
 import br.com.mob1st.core.design.atoms.colors.material.TwoCentsColorScheme
 import br.com.mob1st.core.design.atoms.shapes.ShapesFactory
 import br.com.mob1st.core.design.atoms.typography.TypographyFactory
@@ -54,7 +52,7 @@ fun TwoCentsTheme(
 ) {
     val isDark = isSystemInDarkTheme()
     val uiContrast = LocalUiContrast.current
-    val (materialScheme, twoCentsExtensions) = remember(isDark, uiContrast) {
+    val twoCentsColorScheme = remember(isDark, uiContrast) {
         TwoCentsColorScheme.create(isDark, uiContrast)
     }
     val typography = remember {
@@ -65,13 +63,11 @@ fun TwoCentsTheme(
     }
 
     CompositionLocalProvider(
-        LocalIncomesFamily provides twoCentsExtensions.incomes,
-        LocalFixedExpensesFamily provides twoCentsExtensions.fixedExpenses,
-        LocalVariableExpensesFamily provides twoCentsExtensions.variableExpenses,
-        LocalSeasonalExpensesFamily provides twoCentsExtensions.seasonalExpenses,
+        LocalExtensionsColorFamilies provides twoCentsColorScheme.extensions,
+        LocalMaterialColorFamilies provides twoCentsColorScheme.materialColorFamilies,
     ) {
         MaterialTheme(
-            colorScheme = materialScheme,
+            colorScheme = twoCentsColorScheme.materialScheme,
             typography = typography,
             shapes = shapes,
         ) {

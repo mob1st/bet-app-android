@@ -5,12 +5,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.core.design.atoms.properties.texts.LocalizedText
 
 @Composable
 fun Display(
     modifier: Modifier = Modifier,
-    text: TextState,
+    text: LocalizedText,
     textSize: TextSize = TextSize.Medium,
 ) {
     BaseText(
@@ -24,7 +24,7 @@ fun Display(
 @Composable
 fun Headline(
     modifier: Modifier = Modifier,
-    text: TextState,
+    text: LocalizedText,
     textSize: TextSize = TextSize.Medium,
 ) {
     BaseText(
@@ -38,7 +38,7 @@ fun Headline(
 @Composable
 fun Title(
     modifier: Modifier = Modifier,
-    text: TextState,
+    text: LocalizedText,
     textSize: TextSize = TextSize.Medium,
 ) {
     BaseText(
@@ -52,7 +52,7 @@ fun Title(
 @Composable
 fun Body(
     modifier: Modifier = Modifier,
-    text: TextState,
+    text: LocalizedText,
     textSize: TextSize = TextSize.Medium,
 ) {
     BaseText(
@@ -66,7 +66,7 @@ fun Body(
 @Composable
 fun Label(
     modifier: Modifier = Modifier,
-    text: TextState,
+    text: LocalizedText,
     textSize: TextSize = TextSize.Medium,
 ) {
     BaseText(
@@ -79,7 +79,7 @@ fun Label(
 
 @Composable
 internal fun BaseText(
-    text: TextState,
+    text: LocalizedText,
     textSize: TextSize,
     textStyleProvider: TextStyleProvider,
     modifier: Modifier,

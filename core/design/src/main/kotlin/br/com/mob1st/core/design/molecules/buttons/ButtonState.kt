@@ -2,7 +2,7 @@ package br.com.mob1st.core.design.molecules.buttons
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.icons.IconState
-import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.core.design.atoms.properties.texts.LocalizedText
 
 @Immutable
 sealed interface ButtonState {
@@ -13,7 +13,7 @@ sealed interface ButtonState {
 
     @Immutable
     data class Default(
-        val text: TextState,
+        val text: LocalizedText,
         val icon: ButtonIcon? = null,
         override val isLoading: Boolean = false,
         override val isEnabled: Boolean = true,

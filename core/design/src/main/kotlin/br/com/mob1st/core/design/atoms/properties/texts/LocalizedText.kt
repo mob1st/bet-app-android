@@ -14,7 +14,7 @@ import kotlinx.parcelize.Parcelize
  * It can be a simple actual string or a localized string resource, for example.
  */
 @Immutable
-interface TextState : Parcelable {
+interface LocalizedText : Parcelable {
     /**
      * Resolves the text to a string.
      */
@@ -27,7 +27,7 @@ interface TextState : Parcelable {
  * @param string The string.
  * @return The text state.
  */
-fun TextState(string: String): TextState = ActualString(string)
+fun LocalizedText(string: String): LocalizedText = ActualString(string)
 
 /**
  * Creates a text state from the given string resource [id].
@@ -35,10 +35,10 @@ fun TextState(string: String): TextState = ActualString(string)
  * @param parameters The parameters to format the string.
  * @return The text state.
  */
-fun TextState(
+fun LocalizedText(
     @StringRes id: Int,
-    parameters: List<TextState> = emptyList(),
-): TextState {
+    parameters: List<LocalizedText> = emptyList(),
+): LocalizedText {
     return if (parameters.isEmpty()) {
         ResourceString(id)
     } else {
@@ -53,18 +53,18 @@ fun TextState(
  * @param parameters The parameters to format the string.
  * @return The text state.
  */
-fun TextState(
+fun LocalizedText(
     @PluralsRes id: Int,
     quantity: Int,
-    parameters: List<TextState> = emptyList(),
-): TextState {
+    parameters: List<LocalizedText> = emptyList(),
+): LocalizedText {
     return PluralString(id, quantity, parameters)
 }
 
 @JvmInline
 @Parcelize
 @Immutable
-private value class ActualString(private val value: String) : TextState {
+private value class ActualString(private val value: String) : LocalizedText {
     @Composable
     override fun resolve(): String = value
 
@@ -77,8 +77,8 @@ private value class ActualString(private val value: String) : TextState {
 @Immutable
 private data class ParameterizedResourceString(
     val value: Int,
-    val parameters: List<TextState>,
-) : TextState {
+    val parameters: List<LocalizedText>,
+) : LocalizedText {
     @Suppress("SpreadOperator")
     @Composable
     override fun resolve(): String {
@@ -91,7 +91,7 @@ private data class ParameterizedResourceString(
 @Parcelize
 private value class ResourceString(
     @StringRes val id: Int,
-) : TextState {
+) : LocalizedText {
     @Composable
     override fun resolve(): String {
         return stringResource(id = id)
@@ -102,8 +102,8 @@ private value class ResourceString(
 private data class PluralString(
     @PluralsRes val id: Int,
     val quantity: Int,
-    val parameters: List<TextState>,
-) : TextState {
+    val parameters: List<LocalizedText>,
+) : LocalizedText {
     @Composable
     override fun resolve(): String {
         val params = parameters.toStrings()
@@ -113,6 +113,6 @@ private data class PluralString(
 }
 
 @Composable
-private fun List<TextState>.toStrings(): Array<String> {
+private fun List<LocalizedText>.toStrings(): Array<String> {
     return map { it.resolve() }.toTypedArray()
 }

@@ -5,7 +5,7 @@ import br.com.mob1st.core.design.atoms.colors.tonals.BlackTonal
 import br.com.mob1st.core.design.atoms.colors.tonals.GreyTonal
 import br.com.mob1st.core.design.atoms.colors.tonals.WhiteTonal
 
-internal data class SurfaceFamily(
+data class SurfaceFamily(
     val surface: Color,
     val dim: Color,
     val bright: Color,
@@ -18,7 +18,12 @@ internal data class SurfaceFamily(
     val onSurfaceVariant: Color,
     val outline: Color,
     val outlineVariant: Color,
-) {
+) : ContainerCombiner {
+    override val containerCombination: ColorCombination = ColorCombination(
+        background = container,
+        content = onSurface,
+    )
+
     companion object : FamilyThemeVariator<SurfaceFamily> {
         override fun light() = SurfaceFamily(
             dim = WhiteTonal.x1,

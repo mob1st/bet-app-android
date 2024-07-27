@@ -15,10 +15,12 @@ import br.com.mob1st.core.design.atoms.colors.material.families.toLightColorSche
  * Holds the color scheme used in the app.
  * It's an aggregation of the Material's [ColorScheme] and the extension colors required by the brand.
  * @property materialScheme The Material's color scheme.
+ * @property materialColorFamilies The Material's color organized in families.
  * @property extensions The extension colors required by the brand.
  */
 internal data class TwoCentsColorScheme(
     val materialScheme: ColorScheme,
+    val materialColorFamilies: MaterialColorFamilies,
     val extensions: TwoCentsColorExtension,
 ) {
     companion object {
@@ -50,6 +52,7 @@ internal data class TwoCentsColorScheme(
             )
             return TwoCentsColorScheme(
                 materialScheme = materialColorFamilies.toDarkColorScheme(),
+                materialColorFamilies = materialColorFamilies,
                 extensions = contrastedColorFamilies.extensions,
             )
         }
@@ -69,6 +72,7 @@ internal data class TwoCentsColorScheme(
             )
             return TwoCentsColorScheme(
                 materialScheme = materialColorFamilies.toLightColorScheme(),
+                materialColorFamilies = materialColorFamilies,
                 extensions = contrastedColorFamilies.extensions,
             )
         }

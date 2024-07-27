@@ -6,7 +6,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.util.fastMap
-import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.core.design.atoms.properties.texts.LocalizedText
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
@@ -19,9 +19,9 @@ import java.util.Locale
 
 @Parcelize
 @Immutable
-data class SeasonalRecurrencesTextState(
+data class SeasonalRecurrencesLocalizedText(
     val recurrences: @WriteWith<RecurrencesParceler> Recurrences.Seasonal,
-) : TextState {
+) : LocalizedText {
     @IgnoredOnParcel
     private val immutableDaysAndMonths = recurrences.daysOfYear.toImmutableList()
 
@@ -35,19 +35,22 @@ data class SeasonalRecurrencesTextState(
     }
 }
 
-private fun List<DayOfYear>.resolve(locale: Locale): TextState {
+private fun List<DayOfYear>.resolve(locale: Locale): LocalizedText {
+    if (isEmpty()) {
+        return LocalizedText("")
+    }
     val symbols = DateFormatSymbols.getInstance(locale)
     val arguments = when (size) {
         1, 2 -> fastMap {
-            TextState(it.toShortMonth(locale, symbols))
+            LocalizedText(it.toShortMonth(locale, symbols))
         }
 
         else -> listOf(
-            TextState(toTextStateFirstItems(locale, symbols)),
-            TextState(last().toShortMonth(locale, symbols)),
+            LocalizedText(toTextStateFirstItems(locale, symbols)),
+            LocalizedText(last().toShortMonth(locale, symbols)),
         )
     }
-    return TextState(
+    return LocalizedText(
         R.plurals.finances_suggestion_seasonal_supporting,
         arguments.size,
         arguments,

@@ -1,30 +1,30 @@
 package br.com.mob1st.features.finances.impl.ui.utils.texts
 
-import br.com.mob1st.core.design.atoms.properties.texts.TextState
+import br.com.mob1st.core.design.atoms.properties.texts.LocalizedText
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
-import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.ArgumentsProvider
-import org.junit.jupiter.params.provider.ArgumentsSource
-import java.util.stream.Stream
+import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
 
-class RecurrencesTextStateFactoryTest {
+class RecurrencesLocalizedTextFactoryTest {
     @ParameterizedTest
-    @ArgumentsSource(RecurrencesProvider::class)
+    @MethodSource("recurrencesSource")
     fun `GIVEN recurrences WHEN create text state THEN assert text state is created`(
         recurrences: Recurrences,
-        expected: TextState?,
+        expected: LocalizedText?,
     ) {
         val textState = RecurrencesTextStateFactory.create(recurrences)
         assertEquals(expected, textState)
     }
 
-    object RecurrencesProvider : ArgumentsProvider {
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
+    companion object {
+
+        @JvmStatic
+        fun recurrencesSource(): List<Arguments> {
             val fixedRecurrences = Recurrences.Fixed(DayOfMonth(1))
             val seasonalRecurrences = Recurrences.Seasonal(
                 listOf(
@@ -32,16 +32,20 @@ class RecurrencesTextStateFactoryTest {
                     DayOfYear(31),
                 ),
             )
-            return Stream.of(
-                Arguments.of(
+            return listOf(
+                arguments(
                     fixedRecurrences,
-                    FixedRecurrencesTextState(fixedRecurrences),
+                    FixedRecurrencesLocalizedText(fixedRecurrences),
                 ),
-                Arguments.of(
+                arguments(
                     seasonalRecurrences,
-                    SeasonalRecurrencesTextState(seasonalRecurrences),
+                    SeasonalRecurrencesLocalizedText(seasonalRecurrences),
                 ),
-                Arguments.of(Recurrences.Variable, null),
+                arguments(
+                    Recurrences.Seasonal(emptyList()),
+                    null,
+                ),
+                arguments(Recurrences.Variable, null),
             )
         }
     }

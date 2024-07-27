@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import br.com.mob1st.core.design.atoms.colors.tonals.BlackTonal
 import br.com.mob1st.core.design.atoms.colors.tonals.WhiteTonal
 
-internal data class InverseFamily(
+data class InverseFamily(
     val inverseSurface: Color,
     val inverseOnSurface: Color,
     val inversePrimary: Color,

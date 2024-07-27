@@ -5,46 +5,35 @@ import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
+import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
+import br.com.mob1st.features.finances.impl.domain.fixtures.budgetBuilder
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
 import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
-import br.com.mob1st.features.finances.impl.utils.moduleFixture
-import com.appmattus.kotlinfixture.Fixture
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.chunked
+import io.kotest.property.arbitrary.map
+import io.kotest.property.arbitrary.next
 import kotlinx.collections.immutable.persistentListOf
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.ArgumentsProvider
-import org.junit.jupiter.params.provider.ArgumentsSource
-import java.util.stream.Stream
+import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
 
 internal class BudgetBuilderStepUiStateTest {
-    private lateinit var fixture: Fixture
-
-    @BeforeEach
-    fun setUp() {
-        fixture = moduleFixture.new {
-            factory<BudgetBuilder> {
-                BudgetBuilder(
-                    id = fixture(),
-                    manuallyAdded = fixture {
-                        repeatCount { 2 }
-                    },
-                    suggestions = fixture {
-                        repeatCount { 2 }
-                    },
-                )
-            }
-        }
-    }
-
     @Test
     fun `GIVEN a category builder with categories WHEN get lists THEN assert lists is correct`() {
         // Given
-        val budgetBuilder = fixture<BudgetBuilder>()
+        val budgetBuilder = Arb.budgetBuilder()
+            .map {
+                it.copy(
+                    manuallyAdded = Arb.category().chunked(2..2).next(),
+                    suggestions = Arb.category().chunked(2..2).next(),
+                )
+            }
+            .next()
         val expectedManuallyAdded = persistentListOf(
             CategorySectionItemState(
                 category = budgetBuilder.manuallyAdded[0],
@@ -76,7 +65,7 @@ internal class BudgetBuilderStepUiStateTest {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(StepToHeaderProvider::class)
+    @MethodSource("headerSource")
     fun `GIVEN a builder WHEN get header THEN assert header is correct`(
         step: BuilderNextAction.Step,
         expectedHeader: Loaded.Header,
@@ -90,31 +79,37 @@ internal class BudgetBuilderStepUiStateTest {
         assertEquals(expectedHeader, header)
     }
 
-    object StepToHeaderProvider : ArgumentsProvider {
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
-            return Stream.of(
-                Arguments.of(
-                    FixedExpensesStep,
-                    Loaded.Header(
-                        title = R.string.finances_builder_fixed_expenses_header,
-                        description = R.string.finances_builder_fixed_expenses_subheader,
-                    ),
+    companion object {
+        @JvmStatic
+        fun headerSource() = listOf(
+            arguments(
+                FixedExpensesStep,
+                Loaded.Header(
+                    title = R.string.finances_builder_fixed_expenses_header,
+                    description = R.string.finances_builder_fixed_expenses_subheader,
                 ),
-                Arguments.of(
-                    FixedIncomesStep,
-                    Loaded.Header(
-                        title = R.string.finances_builder_fixed_incomes_header,
-                        description = R.string.finances_builder_fixed_incomes_subheader,
-                    ),
+            ),
+            arguments(
+                FixedIncomesStep,
+                Loaded.Header(
+                    title = R.string.finances_builder_fixed_incomes_header,
+                    description = R.string.finances_builder_fixed_incomes_subheader,
                 ),
-                Arguments.of(
-                    VariableExpensesStep,
-                    Loaded.Header(
-                        title = R.string.finances_builder_variable_expenses_header,
-                        description = R.string.finances_builder_variable_expenses_subheader,
-                    ),
+            ),
+            arguments(
+                VariableExpensesStep,
+                Loaded.Header(
+                    title = R.string.finances_builder_variable_expenses_header,
+                    description = R.string.finances_builder_variable_expenses_subheader,
                 ),
-            )
-        }
+            ),
+            arguments(
+                SeasonalExpensesStep,
+                Loaded.Header(
+                    title = R.string.finances_builder_seasonal_expenses_title,
+                    description = R.string.finances_builder_seasonal_expenses_subheader,
+                ),
+            ),
+        )
     }
 }

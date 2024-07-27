@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 
 @RunWith(AndroidJUnit4::class)
-class SeasonalRecurrencesTextStateTest {
+class SeasonalRecurrencesLocalizedTextTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -19,7 +19,7 @@ class SeasonalRecurrencesTextStateTest {
         val recurrence = Recurrences.Seasonal(
             listOf(DayOfYear(1)),
         )
-        val textState = SeasonalRecurrencesTextState(recurrence)
+        val textState = SeasonalRecurrencesLocalizedText(recurrence)
         composeTestRule.setContent {
             val text = textState.resolve()
             assertEquals(
@@ -37,7 +37,7 @@ class SeasonalRecurrencesTextStateTest {
                 DayOfYear(20),
             ),
         )
-        val textState = SeasonalRecurrencesTextState(recurrence)
+        val textState = SeasonalRecurrencesLocalizedText(recurrence)
         composeTestRule.setContent {
             val text = textState.resolve()
             assertEquals(
@@ -58,11 +58,24 @@ class SeasonalRecurrencesTextStateTest {
                 DayOfYear(30),
             ),
         )
-        val textState = SeasonalRecurrencesTextState(recurrence)
+        val textState = SeasonalRecurrencesLocalizedText(recurrence)
         composeTestRule.setContent {
             val text = textState.resolve()
             assertEquals(
                 "JAN, MAY and AUG",
+                text,
+            )
+        }
+    }
+
+    @Test
+    fun `GIVEN no seasonal recurrences WHEN resolve THEN assert date is empty`() {
+        val recurrence = Recurrences.Seasonal(emptyList())
+        val textState = SeasonalRecurrencesLocalizedText(recurrence)
+        composeTestRule.setContent {
+            val text = textState.resolve()
+            assertEquals(
+                "",
                 text,
             )
         }

@@ -7,7 +7,7 @@ import androidx.compose.material3.lightColorScheme
 /**
  * Simplified material color scheme that groups the customizable colors of the material theme into their families
  */
-internal data class MaterialColorFamilies(
+data class MaterialColorFamilies(
     val primary: ColorFamily,
     val secondary: ColorFamily,
     val tertiary: ColorFamily,

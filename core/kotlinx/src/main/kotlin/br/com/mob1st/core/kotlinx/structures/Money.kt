@@ -21,7 +21,12 @@ value class Money(
     /**
      * Multiplies the [Money] value by a scalar.
      */
-    operator fun times(other: Float) = Money((cents * other).toLong())
+    operator fun times(other: Int) = Money((cents * other))
+
+    /**
+     * Divides the [Money] value by a scalar.
+     */
+    operator fun div(other: Int) = Money((cents / other))
 
     /**
      * Compares two [Money] values.

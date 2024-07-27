@@ -10,14 +10,14 @@ import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 
 @RunWith(AndroidJUnit4::class)
-class FixedRecurrencesTextStateTest {
+class FixedRecurrencesLocalizedTextTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
     fun `GIVEN a recurrence WHEN resolve THEN assert date is displayed`() {
         val recurrence = Recurrences.Fixed(DayOfMonth(1))
-        val textState = FixedRecurrencesTextState(recurrence)
+        val textState = FixedRecurrencesLocalizedText(recurrence)
         composeTestRule.setContent {
             val text = textState.resolve()
             assertEquals(
