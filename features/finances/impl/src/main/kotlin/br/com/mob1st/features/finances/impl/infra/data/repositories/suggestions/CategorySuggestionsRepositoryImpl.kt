@@ -1,7 +1,6 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
 import br.com.mob1st.core.androidx.assets.AssetsGetter
-import br.com.mob1st.core.androidx.resources.StringGetter
 import br.com.mob1st.core.androidx.resources.StringIdGetter
 import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.structures.Uri
@@ -12,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
+import java.nio.file.Files
 
 /**
  * Concrete implementation of the [CategorySuggestionRepository] interface.
@@ -19,24 +19,24 @@ import timber.log.Timber
  */
 internal class CategorySuggestionsRepositoryImpl(
     private val io: IoCoroutineDispatcher,
-    private val stringGetter: StringGetter,
     private val stringIdGetter: StringIdGetter,
     private val assetsGetter: AssetsGetter,
+    private val suggestionListPerStep: SuggestionListPerStep,
 ) : CategorySuggestionRepository {
     override fun getByStep(
         step: BuilderNextAction.Step,
     ): Flow<List<CategorySuggestion>> = flow {
-        val list = SuggestionListPerStep[step]
+        val list = suggestionListPerStep[step]
         val suggestions = list.mapNotNull(::map)
         emit(suggestions)
     }.flowOn(io)
 
     private fun map(suggestion: String): CategorySuggestion? {
-        val resId = stringIdGetter[suggestion]
+        val name = stringIdGetter.getString(suggestion)
         val imageFile = assetsGetter["icons/$suggestion.svg"]
-        return if (resId != null && imageFile.exists()) {
+        return if (name != null && Files.exists(imageFile.toPath())) {
             CategorySuggestion(
-                name = stringGetter[resId],
+                name = name,
                 image = Uri(imageFile.absolutePath),
             )
         } else {

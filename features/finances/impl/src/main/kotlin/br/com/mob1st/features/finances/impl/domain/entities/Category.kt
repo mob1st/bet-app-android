@@ -63,10 +63,18 @@ data class Category(
                 image = suggestion.image,
                 amount = Money.Zero,
                 isExpense = step.isExpense,
-                recurrences = Recurrences.defaultForType(step.type),
+                recurrences = step.type.toDefaultRecurrences(),
                 isSuggested = true,
             )
         }
+    }
+}
+
+private fun RecurrenceType.toDefaultRecurrences(): Recurrences {
+    return when (this) {
+        RecurrenceType.Fixed -> Recurrences.Fixed(DayOfMonth(1))
+        RecurrenceType.Variable -> Recurrences.Variable
+        RecurrenceType.Seasonal -> Recurrences.Seasonal(emptyList())
     }
 }
 
@@ -97,19 +105,4 @@ sealed interface Recurrences {
     data class Seasonal(
         val daysOfYear: List<DayOfYear>,
     ) : Recurrences
-
-    companion object {
-        /**
-         * Creates a default recurrences for the given [recurrenceType].
-         * @param recurrenceType The type of recurrences.
-         * @return The default recurrences for the given type.
-         */
-        fun defaultForType(recurrenceType: RecurrenceType): Recurrences {
-            return when (recurrenceType) {
-                RecurrenceType.Fixed -> Fixed(DayOfMonth(1))
-                RecurrenceType.Variable -> Variable
-                RecurrenceType.Seasonal -> Seasonal(emptyList())
-            }
-        }
-    }
 }

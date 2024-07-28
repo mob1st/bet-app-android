@@ -29,7 +29,7 @@ private val repositoriesModule = module {
     single {
         DatabaseFactory.create(get())
     }
-    factory { SuggestionListPerStep }
+    factory { SuggestionListPerStep() }
     factory<RecurrenceBuilderRepository> {
         RecurrenceBuilderRepositoryImpl(
             listsDataSource = get<RecurrenceBuilderListsDataSource>(),

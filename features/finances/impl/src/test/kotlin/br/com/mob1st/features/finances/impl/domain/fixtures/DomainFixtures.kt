@@ -5,6 +5,7 @@ import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
+import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.infra.data.fixtures.rowId
 import io.kotest.property.Arb
@@ -111,4 +112,13 @@ fun Arb.Companion.builderNextAction(): Arb<BuilderNextAction> {
     return arbitrary { BuilderNextAction.Complete }.merge(
         Arb.bind<BuilderNextAction.Step>(),
     )
+}
+
+/**
+ * Generates a valid [CategorySuggestion] instance
+ */
+fun Arb.Companion.categorySuggestion(): Arb<CategorySuggestion> {
+    return Arb.bind {
+        bind(CategorySuggestion::image to uri())
+    }
 }

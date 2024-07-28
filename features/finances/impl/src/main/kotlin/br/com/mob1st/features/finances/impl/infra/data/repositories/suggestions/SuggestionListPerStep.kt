@@ -9,17 +9,24 @@ import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 /**
  * Give access to a list of suggestions identifiers for a given step.
  */
-internal object SuggestionListPerStep {
+internal fun interface SuggestionListPerStep {
     /**
-     * Returns the list of suggestions for the given [step].
+     * Returns the list of suggestions identifiers for the given [step].
+     * @param step The step of the builder.
+     * @return The list of suggestions identifiers.
      */
-    operator fun get(step: BuilderNextAction.Step): List<String> {
-        return when (step) {
-            FixedExpensesStep -> fixedExpensesSuggestions
-            FixedIncomesStep -> fixedIncomesSuggestion
-            VariableExpensesStep -> variableExpensesSuggestions
-            SeasonalExpensesStep -> seasonalExpensesSuggestions
-        }
+    operator fun get(step: BuilderNextAction.Step): List<String>
+}
+
+/**
+ * Default implementation of the [SuggestionListPerStep] interface.
+ */
+internal fun SuggestionListPerStep() = SuggestionListPerStep { step ->
+    when (step) {
+        FixedExpensesStep -> fixedExpensesSuggestions
+        FixedIncomesStep -> fixedIncomesSuggestion
+        VariableExpensesStep -> variableExpensesSuggestions
+        SeasonalExpensesStep -> seasonalExpensesSuggestions
     }
 }
 
@@ -67,13 +74,13 @@ private val variableExpensesSuggestions = listOf(
     "finances_builder_suggestions_item_fitness_recreation",
 )
 
-val fixedIncomesSuggestion = listOf(
+private val fixedIncomesSuggestion = listOf(
     "finances_builder_suggestions_item_salary",
     "finances_builder_suggestions_item_pension",
     "finances_builder_suggestions_item_rental_income",
 )
 
-val seasonalExpensesSuggestions = listOf(
+private val seasonalExpensesSuggestions = listOf(
     "finances_builder_suggestions_item_holiday_gifts",
     "finances_builder_suggestions_item_dentist",
     "finances_builder_suggestions_item_vacation_travel",

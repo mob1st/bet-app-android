@@ -14,7 +14,16 @@ interface StringIdGetter {
      * @return The integer identifier or null if not found.
      */
     @StringRes
-    operator fun get(identifier: String): Int?
+    fun getId(identifier: String): Int?
+
+    /**
+     * Returns the actual localized string for the given identifier.
+     * It uses the return of [getId] to get the string.
+     * If getId returns null, this method will also return null.
+     * @param identifier The string identifier.
+     * @return The localized string or null if not found.
+     */
+    fun getString(identifier: String): String?
 }
 
 /**
@@ -27,7 +36,7 @@ class AndroidStringIdGetter(
     private val cache = mutableMapOf<String, Int>()
 
     @SuppressLint("DiscouragedApi")
-    override operator fun get(identifier: String): Int? {
+    override fun getId(identifier: String): Int? {
         val id = cache.getOrPut(identifier) {
             context
                 .resources
@@ -37,6 +46,12 @@ class AndroidStringIdGetter(
             id
         } else {
             null
+        }
+    }
+
+    override fun getString(identifier: String): String? {
+        return getId(identifier)?.let {
+            context.getString(it)
         }
     }
 }
