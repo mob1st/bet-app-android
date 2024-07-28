@@ -2,7 +2,7 @@ package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
 import br.com.mob1st.core.androidx.assets.AssetsGetter
 import br.com.mob1st.core.androidx.resources.StringIdGetter
-import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
+import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
@@ -15,10 +15,14 @@ import java.nio.file.Files
 
 /**
  * Concrete implementation of the [CategorySuggestionRepository] interface.
- * @property io The IO dispatcher.
+ * @param default The default coroutine dispatcher.
+ * @param stringIdGetter Provide the suggestions names based on its string identifier.
+ * @param assetsGetter Provide the file links for the suggestions images. It doesn't need to create/load the file on
+ * disk.
+ * @param suggestionListPerStep Does the map of step to suggestions identifiers list
  */
 internal class CategorySuggestionsRepositoryImpl(
-    private val io: IoCoroutineDispatcher,
+    private val default: DefaultCoroutineDispatcher,
     private val stringIdGetter: StringIdGetter,
     private val assetsGetter: AssetsGetter,
     private val suggestionListPerStep: SuggestionListPerStep,
@@ -29,7 +33,7 @@ internal class CategorySuggestionsRepositoryImpl(
         val list = suggestionListPerStep[step]
         val suggestions = list.mapNotNull(::map)
         emit(suggestions)
-    }.flowOn(io)
+    }.flowOn(default)
 
     private fun map(suggestion: String): CategorySuggestion? {
         val name = stringIdGetter.getString(suggestion)

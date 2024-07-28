@@ -2,7 +2,7 @@ package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
 import br.com.mob1st.core.androidx.assets.AssetsGetter
 import br.com.mob1st.core.androidx.resources.StringIdGetter
-import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
+import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
@@ -32,9 +32,6 @@ class CategorySuggestionRepositoryImplTest {
     private lateinit var assetsGetter: AssetsGetter
     private lateinit var suggestionListPerStep: SuggestionListPerStep
     private lateinit var timberTree: TestTimberTree
-    private val io = IoCoroutineDispatcher(
-        UnconfinedTestDispatcher(),
-    )
 
     @BeforeEach
     fun setUp() {
@@ -44,7 +41,7 @@ class CategorySuggestionRepositoryImplTest {
         stringIdGetter = mockk()
         assetsGetter = mockk()
         repository = CategorySuggestionsRepositoryImpl(
-            io = io,
+            default = DefaultCoroutineDispatcher(UnconfinedTestDispatcher()),
             stringIdGetter = stringIdGetter,
             assetsGetter = assetsGetter,
             suggestionListPerStep = suggestionListPerStep,
