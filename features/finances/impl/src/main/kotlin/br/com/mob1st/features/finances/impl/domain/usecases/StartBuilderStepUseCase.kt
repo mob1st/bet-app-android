@@ -17,7 +17,6 @@ internal class StartBuilderStepUseCase(
     private val categorySuggestionRepository: CategorySuggestionRepository,
     private val categoryFactory: Category.Factory,
 ) {
-
     /**
      * Prefills the categories for the given [step] if it didn't have any.
      * @param step The step to start the builder.

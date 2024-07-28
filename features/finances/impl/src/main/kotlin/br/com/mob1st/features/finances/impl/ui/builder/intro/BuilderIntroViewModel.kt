@@ -19,21 +19,21 @@ import kotlinx.coroutines.flow.update
 internal class BuilderIntroViewModel private constructor(
     private val startBuilderStep: StartBuilderStepUseCase,
     private val router: BuilderRouter,
-    private val delegate: ConsumableDelegate<BuilderIntroConsumables>,
+    private val consumableDelegate: ConsumableDelegate<BuilderIntroConsumables>,
 ) : ViewModel(),
     UiStateOutputManager<BuilderIntroUiState>,
-    ConsumableManager<BuilderIntroConsumables> by delegate {
+    ConsumableManager<BuilderIntroConsumables> by consumableDelegate {
     constructor(
         startBuilderStep: StartBuilderStepUseCase,
         router: BuilderRouter,
     ) : this(
         startBuilderStep = startBuilderStep,
         router = router,
-        delegate = ConsumableDelegate(BuilderIntroConsumables()),
+        consumableDelegate = ConsumableDelegate(BuilderIntroConsumables()),
     )
 
     private val isLoadingState = MutableStateFlow(false)
-    private val errorHandler = delegate.errorHandler {
+    private val errorHandler = consumableDelegate.errorHandler {
         handleError(it)
     }
 
@@ -44,9 +44,12 @@ internal class BuilderIntroViewModel private constructor(
     fun start() = launchIn(errorHandler) {
         isLoadingState.value = true
         val step = BudgetBuilder.firstStep()
-        startBuilderStep(step)
-        isLoadingState.value = false
-        delegate.update {
+        try {
+            startBuilderStep(step)
+        } finally {
+            isLoadingState.value = false
+        }
+        consumableDelegate.update {
             it.copy(route = router.send(step))
         }
     }
