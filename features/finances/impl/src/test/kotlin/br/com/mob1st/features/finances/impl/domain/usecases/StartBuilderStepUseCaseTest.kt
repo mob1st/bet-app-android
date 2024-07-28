@@ -20,8 +20,8 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class ProceedInBuilderUseCaseTest {
-    private lateinit var useCase: ProceedInBuilderUseCase
+class StartBuilderStepUseCaseTest {
+    private lateinit var useCase: StartBuilderStepUseCase
     private lateinit var categoriesRepository: CategoriesRepository
     private lateinit var categorySuggestionRepository: CategorySuggestionRepository
     private lateinit var categoryFactory: Category.Factory
@@ -31,7 +31,7 @@ class ProceedInBuilderUseCaseTest {
         categoriesRepository = mockk()
         categorySuggestionRepository = mockk()
         categoryFactory = mockk()
-        useCase = ProceedInBuilderUseCase(
+        useCase = StartBuilderStepUseCase(
             categoriesRepository = categoriesRepository,
             categorySuggestionRepository = categorySuggestionRepository,
             categoryFactory = categoryFactory,

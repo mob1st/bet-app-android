@@ -12,6 +12,7 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.chunked
+import io.kotest.property.arbitrary.filter
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.merge
@@ -47,7 +48,7 @@ fun Arb.Companion.money(): Arb<Money> {
  * Generates a valid [Uri] instance
  */
 fun Arb.Companion.uri(): Arb<Uri> {
-    return Arb.domain().map { Uri(it.value) }
+    return Arb.domain().filter { it.value.isNotBlank() }.map { Uri(it.value) }
 }
 
 /**
@@ -100,8 +101,7 @@ fun Arb.Companion.dayOfYear(): Arb<DayOfYear> {
  */
 fun Arb.Companion.budgetBuilder(): Arb<BudgetBuilder> {
     return Arb.bind {
-        bind(BudgetBuilder::manuallyAdded to category().map { it.copy(isSuggested = false) }.chunked(0..5))
-        bind(BudgetBuilder::suggestions to category().map { it.copy(isSuggested = true) }.chunked(0..5))
+        bind(Category::class to category())
     }
 }
 

@@ -5,16 +5,16 @@ import androidx.lifecycle.viewModelScope
 import br.com.mob1st.core.androidx.flows.stateInWhileSubscribed
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.errors.checkIs
-import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.core.state.contracts.UiStateOutputManager
 import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.core.state.managers.ConsumableManager
 import br.com.mob1st.core.state.managers.catchIn
 import br.com.mob1st.core.state.managers.catching
+import br.com.mob1st.core.state.managers.launchIn
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
-import br.com.mob1st.features.finances.impl.domain.events.NotEnoughItemsToCompleteEvent
 import br.com.mob1st.features.finances.impl.domain.usecases.GetCategoryBuilderUseCase
+import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Empty
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
 import br.com.mob1st.features.utils.states.errorHandler
@@ -27,8 +27,9 @@ import kotlinx.coroutines.flow.update
 internal class BudgetBuilderStepViewModel private constructor(
     step: BuilderNextAction.Step,
     getCategoryBuilder: GetCategoryBuilderUseCase,
-    private val analyticsReporter: AnalyticsReporter,
+    private val proceedBuilder: ProceedBuilderUseCase,
     default: DefaultCoroutineDispatcher,
+    private val router: BuilderRouter,
     private val consumableDelegate: ConsumableDelegate<BudgetBuilderStepConsumables>,
 ) : ViewModel(),
     UiStateOutputManager<BudgetBuilderStepUiState>,
@@ -36,14 +37,16 @@ internal class BudgetBuilderStepViewModel private constructor(
     constructor(
         step: BuilderNextAction.Step,
         getCategoryBuilder: GetCategoryBuilderUseCase,
-        analyticsReporter: AnalyticsReporter,
+        proceedBuilder: ProceedBuilderUseCase,
         default: DefaultCoroutineDispatcher,
+        router: BuilderRouter,
     ) : this(
-        step,
-        getCategoryBuilder,
-        analyticsReporter,
-        default,
-        ConsumableDelegate(
+        step = step,
+        getCategoryBuilder = getCategoryBuilder,
+        proceedBuilder = proceedBuilder,
+        default = default,
+        router = router,
+        consumableDelegate = ConsumableDelegate(
             BudgetBuilderStepConsumables(),
         ),
     )
@@ -112,19 +115,11 @@ internal class BudgetBuilderStepViewModel private constructor(
     /**
      * Proceeds to the next step of the builder.
      */
-    fun next() = errorHandler.catching {
+    fun next() = launchIn(errorHandler) {
         val uiState = checkIs<Loaded>(uiStateOutput.value)
-        try {
-            val result = uiState.builder.next()
-            consumableDelegate.update {
-                it.navigateToNext(result)
-            }
-        } catch (e: NotEnoughInputsException) {
-            // avoid logging this specific exception as an error
-            analyticsReporter.log(NotEnoughItemsToCompleteEvent(uiState.builder.id, e.remainingInputs))
-            consumableDelegate.update {
-                it.handleError(e)
-            }
+        proceedBuilder(uiState.builder)
+        consumableDelegate.update {
+            it.copy(route = router.send(uiState.builder.next))
         }
     }
 }

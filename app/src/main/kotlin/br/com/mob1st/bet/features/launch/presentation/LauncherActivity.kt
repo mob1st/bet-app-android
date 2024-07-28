@@ -9,7 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.atoms.theme.UiContrast
 import br.com.mob1st.features.dev.impl.DevSettingsNavRoot
-import br.com.mob1st.features.finances.publicapi.domain.ui.CategoryBuilderNavGraph
+import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
 import org.koin.compose.koinInject
 
@@ -30,10 +30,10 @@ class LauncherActivity : ComponentActivity() {
 internal fun NavigationGraph(activity: ComponentActivity) {
     val navController = rememberNavController()
     val financesNavGraph = koinInject<FinancesNavGraph>()
-    val categoryBuilderNavGraph = koinInject<CategoryBuilderNavGraph>()
+    val budgetBuilderNavGraph = koinInject<BudgetBuilderNavGraph>()
     NavHost(
         navController = navController,
-        startDestination = categoryBuilderNavGraph.root,
+        startDestination = budgetBuilderNavGraph.root,
     ) {
         DevSettingsNavRoot.graph(
             navController = navController,
@@ -43,7 +43,7 @@ internal fun NavigationGraph(activity: ComponentActivity) {
             navController = navController,
             onClickClose = { activity.finish() },
         )
-        categoryBuilderNavGraph.graph(
+        budgetBuilderNavGraph.graph(
             navController,
             onComplete = { /* go to home */ },
         )

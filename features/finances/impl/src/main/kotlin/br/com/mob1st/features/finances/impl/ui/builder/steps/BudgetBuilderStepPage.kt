@@ -20,6 +20,7 @@ import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItem
 import br.com.mob1st.features.utils.navigation.SideEffectNavigation
 import org.koin.androidx.compose.koinViewModel
@@ -28,7 +29,7 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun BudgetBuilderStepPage(
     step: BuilderNextAction.Step,
-    onNext: (BuilderNextAction) -> Unit,
+    onNext: (BuilderRoute) -> Unit,
     onBack: () -> Unit,
 ) {
     val viewModel = koinViewModel<BudgetBuilderStepViewModel> {
@@ -47,12 +48,8 @@ fun BudgetBuilderStepPage(
         onSubmitCategoryName = viewModel::submitCategoryName,
         onDismissCategoryName = { viewModel.consume(BudgetBuilderStepConsumables.nullableDialog) },
         onNavigate = {
-            when (it) {
-                is BudgetBuilderStepNavEvent.AddBudgetCategory -> {}
-                is BudgetBuilderStepNavEvent.EditBudgetCategory -> {}
-                is BudgetBuilderStepNavEvent.NextAction -> onNext(it.action)
-            }
-            viewModel.consume(BudgetBuilderStepConsumables.nullableNavEvent)
+            onNext(it)
+            viewModel.consume(BudgetBuilderStepConsumables.nullableRoute)
         },
         onBack = onBack,
     )
@@ -69,7 +66,7 @@ private fun CategoryBuilderStepScreen(
     onTypeCategoryName: (name: String) -> Unit,
     onSubmitCategoryName: () -> Unit,
     onDismissCategoryName: () -> Unit,
-    onNavigate: (BudgetBuilderStepNavEvent) -> Unit,
+    onNavigate: (BuilderRoute) -> Unit,
     onBack: () -> Unit,
 ) {
     val snackbarHostState = remember {
@@ -82,7 +79,7 @@ private fun CategoryBuilderStepScreen(
         onPerformAction = {},
     )
     SideEffectNavigation(
-        target = consumables.navEvent,
+        target = consumables.route,
         onNavigate = onNavigate,
     )
     if (uiState !is BudgetBuilderStepUiState.Loaded) {

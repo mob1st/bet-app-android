@@ -7,63 +7,52 @@ import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
  * Represents the state of the category builder in a specific [id].
  * It contains the [manuallyAdded] categories and the [suggestions] available for the user to add.
  * @property id The current step of the category builder.
- * @property manuallyAdded The categories that were manually added by the user.
- * @property suggestions The suggestions available for the user to add.
+ * @property categories The list of categories to be presented to the user.
  */
 data class BudgetBuilder(
     override val id: BuilderNextAction.Step,
-    val manuallyAdded: List<Category>,
-    val suggestions: List<Category>,
+    private val categories: List<Category>,
 ) : Identifiable<BuilderNextAction.Step> {
     /**
-     * Moves the user to the next step in the category builder.
-     * It can be the next step or a completion action, which indicates
-     * that the user can proceed to the main area of the app.
-     * @return The next action that the user can take.
-     * @throws NotEnoughInputsException If there are not enough inputs to proceed to the next step.
-     * @see BuilderNextAction.Step.minimumRequiredToProceed
-     * @see BuilderNextAction.Step.next
+     * Nests the [id] property to provide access to the next builder action.
      */
-    fun next(): BuilderNextAction {
-        val currentInputs = countAddedItems()
-        return if (currentInputs >= id.minimumRequiredToProceed) {
-            id.next
-        } else {
-            throw NotEnoughInputsException(id.minimumRequiredToProceed - currentInputs)
-        }
+    val next = id.next
+
+    /**
+     * The categories that were manually added by the user.
+     */
+    val manuallyAdded: List<Category>
+
+    /**
+     * The suggestions available for the user to add.
+     */
+    val suggestions: List<Category>
+
+    init {
+        val (suggestions, manuallyAdded) = categories.partition { it.isSuggested }
+        this.manuallyAdded = manuallyAdded
+        this.suggestions = suggestions
+    }
+
+    /**
+     * Calculates the number of remaining inputs that the user needs to add to proceed to the next step.
+     * A positive number indicates that the user needs to add more inputs before proceeding to the next action.
+     * @return The number of remaining inputs, or zero if more inputs were added than necessary.
+     */
+    fun calculateRemainingInputs(): Int {
+        val diff = id.minimumRequiredToProceed - countAddedItems()
+        return maxOf(diff, 0)
     }
 
     private fun countAddedItems(): Int {
-        return manuallyAdded.count { it.amount.cents > 0 } + suggestions.count { it.amount.cents > 0 }
+        return categories.count { it.amount.cents > 0 }
     }
 
-    companion object : Factory {
+    companion object {
         /**
          * Returns the first step of the category builder.
          */
         fun firstStep(): BuilderNextAction.Step = FixedExpensesStep
-
-        override fun create(id: BuilderNextAction.Step, categories: List<Category>): BudgetBuilder {
-            val (suggestions, manuallyAdded) = categories.partition { it.isSuggested }
-            return BudgetBuilder(
-                id = id,
-                manuallyAdded = manuallyAdded,
-                suggestions = suggestions,
-            )
-        }
-    }
-
-    /**
-     * Creates a [BudgetBuilder] instance.
-     */
-    interface Factory {
-        /**
-         * Creates a [BudgetBuilder] instance.
-         * @param id The current step of the category builder.
-         * @param categories The categories that were manually added by the user.
-         * @return The [BudgetBuilder] instance.
-         */
-        fun create(id: BuilderNextAction.Step, categories: List<Category>): BudgetBuilder
     }
 }
 
@@ -147,12 +136,3 @@ data object FixedIncomesStep : BuilderNextAction.Step {
     override val type: RecurrenceType = RecurrenceType.Fixed
     override val isExpense: Boolean = false
 }
-
-/**
- * Represents an error that occurs when the user tries to move to the next step in the category builder but there are
- * not enough inputs yet.
- * @property remainingInputs The number of missing inputs to proceed to the next step.
- */
-class NotEnoughInputsException(
-    val remainingInputs: Int,
-) : Exception("Not enough inputs to proceed to the next step. remainingInputs=$remainingInputs")

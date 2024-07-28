@@ -3,6 +3,9 @@ package br.com.mob1st.features.finances.impl.ui.builder.navigation
 import android.os.Bundle
 import androidx.navigation.NavType
 
+/**
+ * Navigation type for [BuilderRoute.Step.Type].
+ */
 internal object BuilderStepNavType : NavType<BuilderRoute.Step.Type>(false) {
     override fun get(bundle: Bundle, key: String): BuilderRoute.Step.Type? {
         val ordinal = bundle.getInt(key)

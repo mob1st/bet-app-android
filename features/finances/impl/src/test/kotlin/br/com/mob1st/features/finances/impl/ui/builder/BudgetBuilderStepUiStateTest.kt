@@ -26,13 +26,10 @@ internal class BudgetBuilderStepUiStateTest {
     @Test
     fun `GIVEN a category builder with categories WHEN get lists THEN assert lists is correct`() {
         // Given
+        val suggestions = fixtureCategory(true).chunked(2..2).next()
+        val manuallyAdded = fixtureCategory(false).chunked(2..2).next()
         val budgetBuilder = Arb.budgetBuilder()
-            .map {
-                it.copy(
-                    manuallyAdded = Arb.category().chunked(2..2).next(),
-                    suggestions = Arb.category().chunked(2..2).next(),
-                )
-            }
+            .map { it.copy(categories = suggestions + manuallyAdded) }
             .next()
         val expectedManuallyAdded = persistentListOf(
             CategorySectionItemState(
@@ -72,11 +69,15 @@ internal class BudgetBuilderStepUiStateTest {
     ) {
         // When
         val header = Loaded(
-            BudgetBuilder(step, emptyList(), emptyList()),
+            BudgetBuilder(step, emptyList()),
         ).header
 
         // Then
         assertEquals(expectedHeader, header)
+    }
+
+    private fun fixtureCategory(isSuggested: Boolean) = Arb.category().map {
+        it.copy(isSuggested = isSuggested)
     }
 
     companion object {

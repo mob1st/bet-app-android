@@ -3,11 +3,9 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 import app.cash.turbine.test
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.core.observability.events.ScreenViewEvent
-import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.events.BuilderStepScreenViewFactory
-import br.com.mob1st.features.finances.impl.domain.fixtures.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
 import io.kotest.property.Arb
@@ -28,20 +26,17 @@ class GetBudgetBuilderUseCaseTest {
     private lateinit var analyticsReporter: AnalyticsReporter
     private lateinit var categoryRepository: CategoriesRepository
     private lateinit var builderStepScreenViewFactory: BuilderStepScreenViewFactory
-    private lateinit var builderFactory: BudgetBuilder.Factory
 
     @BeforeEach
     fun setUp() {
         analyticsReporter = mockk(relaxed = true)
         categoryRepository = mockk()
         builderStepScreenViewFactory = mockk()
-        builderFactory = mockk()
 
         useCase = GetCategoryBuilderUseCase(
             analyticsReporter = analyticsReporter,
             categoryRepository = categoryRepository,
             screenViewFactory = builderStepScreenViewFactory,
-            builderFactory = builderFactory,
         )
     }
 
@@ -57,9 +52,6 @@ class GetBudgetBuilderUseCaseTest {
                 recurrenceType = step.type,
             )
         } returns categoriesFlow
-        every { builderFactory.create(eq(step), any()) } answers {
-            Arb.budgetBuilder().next()
-        }
         every { builderStepScreenViewFactory.create(step) } answers {
             Arb.bind<ScreenViewEvent>().next()
         }
@@ -74,7 +66,6 @@ class GetBudgetBuilderUseCaseTest {
             awaitItem()
             // Then
             verify(exactly = 1) { analyticsReporter.log(any()) }
-            verify(exactly = 3) { builderFactory.create(eq(step), any()) }
         }
     }
 }

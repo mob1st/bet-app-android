@@ -1,124 +1,57 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
 import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.features.finances.impl.domain.fixtures.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.fixtures.money
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.chunked
+import io.kotest.property.arbitrary.filter
 import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.next
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class BudgetBuilderTest {
     @Test
-    fun `GIVEN a step And enough manually added categories WHEN get next action THEN assert next action`() {
-        // here
+    fun `GIVEN a step And enough inputs WHEN calculate remaining items THEN assert difference`() {
         val step = Arb.bind<BuilderNextAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
-            manuallyAdded = categories(
-                positiveCount = step.minimumRequiredToProceed,
-            ),
-            suggestions = categories(),
-        )
-        val actual = builder.next()
-        assertEquals(step.next, actual)
-    }
-
-    @Test
-    fun `GIVEN a step And enough suggested categories WHEN get next action THEN assert next action`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
-        val builder = BudgetBuilder(
-            id = step,
-            manuallyAdded = categories(),
-            suggestions = categories(
+            categories = categories(
                 positiveCount = step.minimumRequiredToProceed,
             ),
         )
-        val actual = builder.next()
-        assertEquals(step.next, actual)
+        val actual = builder.calculateRemainingInputs()
+        assertEquals(0, actual)
     }
 
     @Test
-    fun `GIVEN a step And enough manually added and suggested categories WHEN get next action THEN assert next action`() {
+    fun `GIVEN a step And more than enough inputs WHEN calculate remaining items THEN assert difference`() {
         val step = Arb.bind<BuilderNextAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
-            manuallyAdded = categories(
-                positiveCount = step.minimumRequiredToProceed,
-            ),
-            suggestions = categories(
-                positiveCount = step.minimumRequiredToProceed,
-            ),
-        )
-        val actual = builder.next()
-        assertEquals(step.next, actual)
-    }
-
-    @Test
-    fun `GIVEN a step And more than enough inputs WHEN get next action THEN assert next action`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
-        val builder = BudgetBuilder(
-            id = step,
-            manuallyAdded = categories(
-                positiveCount = step.minimumRequiredToProceed + 1,
-            ),
-            suggestions = categories(
+            categories = categories(
                 positiveCount = step.minimumRequiredToProceed + 1,
             ),
         )
-        val actual = builder.next()
-        assertEquals(step.next, actual)
+        val actual = builder.calculateRemainingInputs()
+        assertEquals(-1, actual)
     }
 
     @Test
-    fun `GIVEN a step And not enough manual inputs WHEN get next action THEN assert exception`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+    fun `GIVEN a step And not enough categories WHEN get calculate remaining items THEN assert the difference`() {
+        val step = Arb.bind<BuilderNextAction.Step>().filter { it.minimumRequiredToProceed > 0 }.next()
         val builder = BudgetBuilder(
             id = step,
-            manuallyAdded = categories(
-                positiveCount = step.minimumRequiredToProceed - 1,
-            ),
-            suggestions = categories(),
-        )
-        val exception = assertThrows<NotEnoughInputsException> {
-            builder.next()
-        }
-        assertEquals(1, exception.remainingInputs)
-    }
-
-    @Test
-    fun `GIVEN a step And not enough suggested inputs WHEN get next action THEN assert exception`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
-        val builder = BudgetBuilder(
-            id = step,
-            manuallyAdded = categories(),
-            suggestions = categories(
+            categories = categories(
                 positiveCount = step.minimumRequiredToProceed - 1,
             ),
         )
-        val exception = assertThrows<NotEnoughInputsException> {
-            builder.next()
-        }
-        assertEquals(1, exception.remainingInputs)
-    }
-
-    @Test
-    fun `GIVEN a step And only zeroed categories WHEN get next action THEN assert exception`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
-        val builder = BudgetBuilder(
-            id = step,
-            manuallyAdded = categories(),
-            suggestions = categories(),
-        )
-        val exception = assertThrows<NotEnoughInputsException> {
-            builder.next()
-        }
-        assertEquals(step.minimumRequiredToProceed, exception.remainingInputs)
+        val actual = builder.calculateRemainingInputs()
+        assertEquals(1, actual)
     }
 
     @Test
@@ -129,9 +62,8 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step WHEN get next THEN assert it is expected`() {
-        assertEquals(VariableExpensesStep, FixedExpensesStep.next)
-        assertEquals(FixedIncomesStep, VariableExpensesStep.next)
-        assertEquals(BuilderNextAction.Complete, FixedIncomesStep.next)
+        val builder = Arb.budgetBuilder().next()
+        assertEquals(builder.id.next, builder.next)
     }
 
     @Test
@@ -140,7 +72,7 @@ class BudgetBuilderTest {
         val suggestions = Arb.category().map {
             it.copy(isSuggested = true)
         }.chunked(5..10).next()
-        val actual = BudgetBuilder.create(step, suggestions)
+        val actual = BudgetBuilder(step, suggestions)
         assertEquals(step, actual.id)
         assertTrue(actual.manuallyAdded.isEmpty())
         assertEquals(suggestions, actual.suggestions)
@@ -152,7 +84,7 @@ class BudgetBuilderTest {
         val manuallyAdded = Arb.category().map {
             it.copy(isSuggested = false)
         }.chunked(5..10).next()
-        val actual = BudgetBuilder.create(step, manuallyAdded)
+        val actual = BudgetBuilder(step, manuallyAdded)
         assertEquals(step, actual.id)
         assertEquals(manuallyAdded, actual.manuallyAdded)
         assertTrue(actual.suggestions.isEmpty())
@@ -164,7 +96,7 @@ class BudgetBuilderTest {
         val categories = Arb.category().chunked(5..10).next()
         val expectedManuallyAdded = categories.filter { !it.isSuggested }
         val expectedSuggestions = categories.filter { it.isSuggested }
-        val actual = BudgetBuilder.create(step, categories)
+        val actual = BudgetBuilder(step, categories)
         assertEquals(step, actual.id)
         assertEquals(expectedManuallyAdded, actual.manuallyAdded)
         assertEquals(expectedSuggestions, actual.suggestions)
@@ -173,7 +105,7 @@ class BudgetBuilderTest {
     @Test
     fun `GIVEN a step and no categories WHEN create budget builder THEN assert partition is done`() {
         val step = Arb.bind<BuilderNextAction.Step>().next()
-        val actual = BudgetBuilder.create(step, emptyList())
+        val actual = BudgetBuilder(step, emptyList())
         assertEquals(step, actual.id)
         assertTrue(actual.manuallyAdded.isEmpty())
         assertTrue(actual.suggestions.isEmpty())

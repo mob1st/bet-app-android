@@ -1,8 +1,7 @@
 package br.com.mob1st.features.finances.impl.ui.builder
 
-import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
-import br.com.mob1st.features.finances.impl.domain.fixtures.builderNextAction
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
+import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepDialog
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepNavEvent
@@ -35,7 +34,7 @@ class BudgetBuilderStepConsumablesTest {
     @Test
     fun `GIVEN a NotEnoughInputsException WHEN handle a error THEN set snackbar to show the remaining inputs`() {
         // Given
-        val throwable = NotEnoughInputsException(1)
+        val throwable = ProceedBuilderUseCase.NotEnoughInputsException(1)
         val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
 
         // When
@@ -97,22 +96,6 @@ class BudgetBuilderStepConsumablesTest {
                     name = "Category Name",
                 ),
             ),
-            result,
-        )
-    }
-
-    @Test
-    fun `GIVEN a next action WHEN navigate THEN navigate to the next action`() {
-        // Given
-        val budgetBuilderStepConsumables = BudgetBuilderStepConsumables()
-
-        // When
-        val step = Arb.builderNextAction().next()
-        val result = budgetBuilderStepConsumables.navigateToNext(step)
-
-        // Then
-        assertEquals(
-            BudgetBuilderStepConsumables(navEvent = BudgetBuilderStepNavEvent.NextAction(step)),
             result,
         )
     }

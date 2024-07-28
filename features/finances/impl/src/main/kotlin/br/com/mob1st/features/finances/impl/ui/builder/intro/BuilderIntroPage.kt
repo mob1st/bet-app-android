@@ -8,13 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import br.com.mob1st.core.design.utils.ThemedPreview
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 
 @Composable
 fun BuilderIntroPage(
-    onNext: () -> Unit,
+    onNext: (BuilderRoute) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Button(onClick = onNext) {
+        Button(onClick = {}) {
             Text(text = "Next")
         }
     }

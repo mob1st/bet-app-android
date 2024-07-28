@@ -6,11 +6,22 @@ import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesReposi
 import br.com.mob1st.features.finances.impl.domain.repositories.CategorySuggestionRepository
 import kotlinx.coroutines.flow.first
 
-internal class ProceedInBuilderUseCase(
+/**
+ * Starts the builder step by preloading the categories if suggestions if needed.
+ * @param categoriesRepository The repository to store the categories.
+ * @param categorySuggestionRepository The repository that provides the suggestions to be transformed into categories.
+ * @param categoryFactory The factory to create the categories from a suggestion for a given step.
+ */
+internal class StartBuilderStepUseCase(
     private val categoriesRepository: CategoriesRepository,
     private val categorySuggestionRepository: CategorySuggestionRepository,
     private val categoryFactory: Category.Factory,
 ) {
+
+    /**
+     * Prefills the categories for the given [step] if it didn't have any.
+     * @param step The step to start the builder.
+     */
     suspend operator fun invoke(
         step: BuilderNextAction.Step,
     ) {

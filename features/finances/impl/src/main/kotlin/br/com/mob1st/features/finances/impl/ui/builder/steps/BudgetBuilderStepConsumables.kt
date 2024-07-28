@@ -11,9 +11,9 @@ import br.com.mob1st.core.design.organisms.snack.SnackbarState
 import br.com.mob1st.core.design.organisms.snack.snackbar
 import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.features.finances.impl.R
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.entities.NotEnoughInputsException
+import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 
@@ -21,12 +21,14 @@ import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
  * Consumable state for the category builder screen.
  * All the properties should be consumed by the UI layer to trigger the corresponding actions, setting them to null.
  * @property dialog The dialog that can be shown.
+ * @property route The route that can be navigated.
  * @property navEvent The navigation target that can be triggered.
  * @property snackbar The snackbar that can be shown.
  */
 @optics
 data class BudgetBuilderStepConsumables(
     val dialog: BudgetBuilderStepDialog? = null,
+    val route: BuilderRoute? = null,
     val navEvent: BudgetBuilderStepNavEvent? = null,
     val snackbar: SnackbarState? = null,
 ) {
@@ -39,7 +41,7 @@ data class BudgetBuilderStepConsumables(
      * @return The next consumable state.
      */
     fun handleError(throwable: Throwable) = copy {
-        BudgetBuilderStepConsumables.snackbar set if (throwable is NotEnoughInputsException) {
+        BudgetBuilderStepConsumables.snackbar set if (throwable is ProceedBuilderUseCase.NotEnoughInputsException) {
             BudgetBuilderStepSnackbar.NotAllowedToProceed(throwable.remainingInputs)
         } else {
             CommonErrorSnackbarState(throwable)
@@ -92,17 +94,6 @@ data class BudgetBuilderStepConsumables(
     }
 
     /**
-     * Navigates to the next step of the category builder.
-     * If the given [builderNextAction] is a [BuilderNextAction.Complete], it will navigate to the next screen.
-     * If the given [builderNextAction] is a [BuilderNextAction.Step], it will navigate to the next step.
-     * @param builderNextAction The next action to go to.
-     * @return The next consumable state.
-     */
-    fun navigateToNext(builderNextAction: BuilderNextAction) = copy {
-        BudgetBuilderStepConsumables.navEvent set BudgetBuilderStepNavEvent.NextAction(builderNextAction)
-    }
-
-    /**
      * For [optics]
      */
     companion object
@@ -138,15 +129,6 @@ sealed interface BudgetBuilderStepDialog {
  */
 @Immutable
 sealed interface BudgetBuilderStepNavEvent {
-    /**
-     * If the builder is not completed and the user wants to go to the next step, this target should be triggered.
-     * @property action The next step to go to.
-     */
-    @Immutable
-    data class NextAction(
-        val action: BuilderNextAction,
-    ) : BudgetBuilderStepNavEvent
-
     /**
      * Allows the user to navigate to the bottom sheet to edit an existing category.
      * It should be called only for categories that already exist.

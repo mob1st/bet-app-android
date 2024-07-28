@@ -7,7 +7,7 @@ import br.com.mob1st.core.androidx.navigation.FeatureNavGraph
 /**
  * Builds the navigation graph for the category builder flow.
  */
-interface CategoryBuilderNavGraph : FeatureNavGraph<CategoryBuilderNavGraph.Root> {
+interface BudgetBuilderNavGraph : FeatureNavGraph<BudgetBuilderNavGraph.Root> {
     /**
      * Builds the navigation graph for the finances feature.
      * @param navController The navigation controller.

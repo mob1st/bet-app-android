@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.onStart
 internal class GetCategoryBuilderUseCase(
     private val analyticsReporter: AnalyticsReporter,
     private val categoryRepository: CategoriesRepository,
-    private val builderFactory: BudgetBuilder.Factory,
     private val screenViewFactory: BuilderStepScreenViewFactory,
 ) {
     operator fun get(
@@ -22,7 +21,7 @@ internal class GetCategoryBuilderUseCase(
             isExpense = step.isExpense,
             recurrenceType = step.type,
         ).map { categories ->
-            builderFactory.create(step, categories)
+            BudgetBuilder(step, categories)
         }.onStart {
             analyticsReporter.log(screenViewFactory.create(step))
         }

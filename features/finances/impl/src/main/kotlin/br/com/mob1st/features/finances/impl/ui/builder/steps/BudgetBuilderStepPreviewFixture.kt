@@ -43,8 +43,8 @@ internal object BudgetBuilderStepPreviewFixture {
     val uiState = BudgetBuilderStepUiState.Loaded(
         builder = BudgetBuilder(
             id = FixedIncomesStep,
-            manuallyAdded = listOf(category1),
-            suggestions = listOf(
+            categories = listOf(
+                category1,
                 category2,
                 category3,
             ),
