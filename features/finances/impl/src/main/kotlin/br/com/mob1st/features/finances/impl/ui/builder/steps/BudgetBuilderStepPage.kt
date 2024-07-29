@@ -12,17 +12,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.mob1st.core.androidx.compose.NavigationSideEffect
+import br.com.mob1st.core.androidx.compose.SnackbarSideEffect
 import br.com.mob1st.core.design.atoms.spacing.Spacings
+import br.com.mob1st.core.design.molecules.loading.Loading
 import br.com.mob1st.core.design.organisms.section.section
-import br.com.mob1st.core.design.organisms.snack.Snackbar
 import br.com.mob1st.core.design.templates.FeatureStepScaffold
 import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
+import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.events.builderStepScreenView
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItem
-import br.com.mob1st.features.utils.navigation.SideEffectNavigation
+import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -32,6 +36,9 @@ fun BudgetBuilderStepPage(
     onNext: (BuilderRoute) -> Unit,
     onBack: () -> Unit,
 ) {
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
     val viewModel = koinViewModel<BudgetBuilderStepViewModel> {
         parametersOf(step)
     }
@@ -40,48 +47,41 @@ fun BudgetBuilderStepPage(
     CategoryBuilderStepScreen(
         uiState = uiState,
         consumables = consumables,
+        snackbarHostState = snackbarHostState,
         onSelectManualCategory = viewModel::selectManuallyAddedItem,
         onSelectSuggestion = viewModel::selectSuggestedItem,
         onClickNext = viewModel::next,
-        onDismissSnackbar = { viewModel.consume(BudgetBuilderStepConsumables.nullableSnackbar) },
         onTypeCategoryName = viewModel::typeCategoryName,
         onSubmitCategoryName = viewModel::submitCategoryName,
         onDismissCategoryName = { viewModel.consume(BudgetBuilderStepConsumables.nullableDialog) },
+        onBack = onBack,
+    )
+
+    BuilderStepsSideEffects(
+        step = step,
+        consumables = consumables,
+        snackbarHostState = snackbarHostState,
+        onDismissSnackbar = { viewModel.consume(BudgetBuilderStepConsumables.nullableSnackbar) },
         onNavigate = {
             onNext(it)
             viewModel.consume(BudgetBuilderStepConsumables.nullableRoute)
         },
-        onBack = onBack,
     )
 }
 
 @Composable
 private fun CategoryBuilderStepScreen(
+    snackbarHostState: SnackbarHostState,
     uiState: BudgetBuilderStepUiState,
     consumables: BudgetBuilderStepConsumables,
     onSelectManualCategory: (position: Int) -> Unit,
     onSelectSuggestion: (position: Int) -> Unit,
     onClickNext: () -> Unit,
-    onDismissSnackbar: () -> Unit,
+    onDismissCategoryName: () -> Unit,
     onTypeCategoryName: (name: String) -> Unit,
     onSubmitCategoryName: () -> Unit,
-    onDismissCategoryName: () -> Unit,
-    onNavigate: (BuilderRoute) -> Unit,
     onBack: () -> Unit,
 ) {
-    val snackbarHostState = remember {
-        SnackbarHostState()
-    }
-    Snackbar(
-        snackbarHostState = snackbarHostState,
-        snackbarVisuals = consumables.snackbar?.resolve(),
-        onDismiss = onDismissSnackbar,
-        onPerformAction = {},
-    )
-    SideEffectNavigation(
-        target = consumables.route,
-        onNavigate = onNavigate,
-    )
     if (uiState !is BudgetBuilderStepUiState.Loaded) {
         return
     }
@@ -92,6 +92,9 @@ private fun CategoryBuilderStepScreen(
         onClickNext = onClickNext,
         titleContent = {
             Text(text = stringResource(id = uiState.header.title))
+        },
+        buttonContent = {
+            StepButton(isLoading = uiState.isLoadingNext, onClick = onClickNext)
         },
         subtitleContent = {
             Text(text = stringResource(id = uiState.header.description))
@@ -188,20 +191,47 @@ private fun BudgetBuilderDialog(
 }
 
 @Composable
+private fun BuilderStepsSideEffects(
+    step: BuilderNextAction.Step,
+    consumables: BudgetBuilderStepConsumables,
+    snackbarHostState: SnackbarHostState,
+    onDismissSnackbar: () -> Unit,
+    onNavigate: (BuilderRoute) -> Unit,
+) {
+    TrackEventSideEffect(event = AnalyticsEvent.builderStepScreenView(step))
+    SnackbarSideEffect(
+        snackbarHostState = snackbarHostState,
+        snackbarVisuals = consumables.snackbar?.resolve(),
+        onDismiss = onDismissSnackbar,
+        onPerformAction = {},
+    )
+    NavigationSideEffect(
+        target = consumables.route,
+        onNavigate = onNavigate,
+    )
+}
+
+@Composable
+private fun StepButton(isLoading: Boolean, onClick: () -> Unit) {
+    Loading(isLoading = isLoading, crossfadeLabel = "loadingButton") {
+        Text(stringResource(id = R.string.finances_commons_button_next))
+    }
+}
+
+@Composable
 @ThemedPreview
 private fun CategoryBuilderPagePreview() {
     PreviewTheme {
         CategoryBuilderStepScreen(
             uiState = BudgetBuilderStepPreviewFixture.uiState,
             consumables = BudgetBuilderStepPreviewFixture.consumables,
+            snackbarHostState = SnackbarHostState(),
             onSelectManualCategory = {},
             onSelectSuggestion = {},
             onClickNext = {},
-            onDismissSnackbar = {},
             onTypeCategoryName = {},
             onSubmitCategoryName = {},
             onDismissCategoryName = {},
-            onNavigate = {},
             onBack = {},
         )
     }

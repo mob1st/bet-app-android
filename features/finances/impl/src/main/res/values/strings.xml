@@ -75,6 +75,7 @@
     <string name="finances_commons__category_item__trailing_support_fixed">Per month</string>
     <string name="finances_commons__category_item__trailing_support_variable">Per week</string>
     <string name="finances_commons__category_item__trailing_support_seasonal">Per year</string>
+    <string name="finances_commons_button_next">Next</string>
 
     <string name="finances_builder_commons_custom_section_headline">Custom categories</string>
     <string name="finances_builder_commons_custom_section_add_item">Add category</string>

@@ -1,8 +1,8 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.fixtures.categorySuggestion
+import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.categorySuggestion
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.next
 import org.junit.jupiter.params.ParameterizedTest

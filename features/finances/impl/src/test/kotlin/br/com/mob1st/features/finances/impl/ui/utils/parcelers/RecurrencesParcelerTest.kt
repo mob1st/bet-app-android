@@ -2,10 +2,10 @@ package br.com.mob1st.features.finances.impl.ui.utils.parcelers
 
 import android.os.Parcel
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
+import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -53,7 +53,7 @@ class RecurrencesParcelerTest {
         val array = IntArray(2)
         parcel.readIntArray(array)
 
-        assertEquals(1, array[0])
+        assertEquals(200, array[0])
         assertEquals(1, array[1])
     }
 

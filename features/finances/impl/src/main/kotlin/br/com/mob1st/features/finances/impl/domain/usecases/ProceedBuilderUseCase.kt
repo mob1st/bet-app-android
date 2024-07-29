@@ -1,10 +1,10 @@
 package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.core.observability.debug.Debuggable
+import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.events.NotEnoughItemsToCompleteEvent
 
 /**
  * Enables the user to proceed in the budget builder until its completion.
@@ -28,8 +28,8 @@ internal class ProceedBuilderUseCase(
                 startBuilderStepUseCase(builder.next)
             }
         } else {
-            analyticsReporter.log(
-                NotEnoughItemsToCompleteEvent(
+            analyticsReporter.report(
+                AnalyticsEvent.notEnoughItemsToComplete(
                     step = builder.id,
                     remainingInputs = remainingInputs,
                 ),
@@ -37,6 +37,23 @@ internal class ProceedBuilderUseCase(
             throw NotEnoughInputsException(remainingInputs)
         }
     }
+
+    /**
+     * Track the event when the user tries to complete a step but there are not enough items to complete it.
+     * @param step The step that the user is trying to complete.
+     * @param remainingInputs The number of remaining items to complete the step.
+     * @return The event to be tracked.
+     */
+    private fun AnalyticsEvent.Companion.notEnoughItemsToComplete(
+        step: BuilderNextAction.Step,
+        remainingInputs: Int,
+    ) = AnalyticsEvent(
+        "not_enough_items_to_complete",
+        mapOf(
+            "step" to step,
+            "remainingItems" to remainingInputs,
+        ),
+    )
 
     /**
      * Represents an error that occurs when the user tries to move to the next step in the category builder but there

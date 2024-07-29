@@ -3,12 +3,13 @@ package br.com.mob1st.features.finances.impl.ui.builder
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
+import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.fixtures.budgetBuilder
-import br.com.mob1st.features.finances.impl.domain.fixtures.category
-import br.com.mob1st.features.finances.impl.domain.usecases.GetCategoryBuilderUseCase
+import br.com.mob1st.features.finances.impl.domain.usecases.GetBudgetBuilderForStepUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
+import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
+import br.com.mob1st.features.finances.impl.domain.values.category
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepConsumables
@@ -45,7 +46,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(MainDispatcherTestExtension::class)
 class BudgetBuilderStepViewModelTest {
-    private lateinit var getCategoryBuilder: GetCategoryBuilderUseCase
+    private lateinit var getCategoryBuilder: GetBudgetBuilderForStepUseCase
     private lateinit var proceedBuilder: ProceedBuilderUseCase
     private lateinit var router: BuilderRouter
 
@@ -254,7 +255,7 @@ class BudgetBuilderStepViewModelTest {
         }.next()
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
         coEvery { proceedBuilder(budgetBuilder) } returns Unit
-        every { router.send(currentStep.next) } returns nextRoute
+        every { router.to(currentStep.next) } returns nextRoute
         val viewModel = viewModel(testScheduler)
         val expected = BudgetBuilderStepConsumables(route = nextRoute)
         turbineScope {
@@ -338,6 +339,7 @@ class BudgetBuilderStepViewModelTest {
         scheduler: TestCoroutineScheduler,
     ) = BudgetBuilderStepViewModel(
         step = Arb.bind<BuilderNextAction.Step>().next(),
+        consumableDelegate = ConsumableDelegate(BudgetBuilderStepConsumables()),
         getCategoryBuilder = getCategoryBuilder,
         proceedBuilder = proceedBuilder,
         router = router,

@@ -2,10 +2,10 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.fixtures.category
-import br.com.mob1st.features.finances.impl.domain.fixtures.categorySuggestion
 import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
 import br.com.mob1st.features.finances.impl.domain.repositories.CategorySuggestionRepository
+import br.com.mob1st.features.finances.impl.domain.values.category
+import br.com.mob1st.features.finances.impl.domain.values.categorySuggestion
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.chunked

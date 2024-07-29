@@ -14,13 +14,9 @@ import br.com.mob1st.core.design.molecules.buttons.TopBackButton
 internal fun PrimaryTitle(
     scrollBehavior: TopAppBarScrollBehavior,
     titleContent: @Composable () -> Unit,
-    onBackClicked: (() -> Unit),
 ) {
     LargeTopAppBar(
         scrollBehavior = scrollBehavior,
-        navigationIcon = {
-            TopBackButton(onBackClicked = onBackClicked)
-        },
         title = {
             titleContent()
         },

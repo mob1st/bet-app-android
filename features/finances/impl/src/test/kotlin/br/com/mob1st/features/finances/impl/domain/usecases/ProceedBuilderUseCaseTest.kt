@@ -1,9 +1,9 @@
 package br.com.mob1st.features.finances.impl.domain.usecases
 
+import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.events.NotEnoughItemsToCompleteEvent
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.next
@@ -44,7 +44,7 @@ class ProceedBuilderUseCaseTest {
         }
         useCase(builder)
         coVerify { startBuilderStepUseCase(arbNext) }
-        verify(exactly = 0) { analyticsReporter.log(any()) }
+        verify(exactly = 0) { analyticsReporter.report(any()) }
     }
 
     @Test
@@ -57,7 +57,7 @@ class ProceedBuilderUseCaseTest {
         }
         useCase(builder)
         coVerify(exactly = 0) { startBuilderStepUseCase(any()) }
-        verify(exactly = 0) { analyticsReporter.log(any()) }
+        verify(exactly = 0) { analyticsReporter.report(any()) }
     }
 
     @Test
@@ -72,10 +72,13 @@ class ProceedBuilderUseCaseTest {
             useCase(builder)
         }
         verify {
-            analyticsReporter.log(
-                NotEnoughItemsToCompleteEvent(
-                    step = arbId,
-                    remainingInputs = remainingInputs,
+            analyticsReporter.report(
+                AnalyticsEvent(
+                    name = "not_enough_items_to_complete",
+                    params = mapOf(
+                        "step" to arbId,
+                        "remainingItems" to remainingInputs,
+                    ),
                 ),
             )
         }

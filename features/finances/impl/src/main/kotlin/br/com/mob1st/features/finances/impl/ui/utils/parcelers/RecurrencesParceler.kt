@@ -1,38 +1,32 @@
 package br.com.mob1st.features.finances.impl.ui.utils.parcelers
 
 import android.os.Parcel
+import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
+import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import kotlinx.parcelize.Parceler
 
 /**
  * Parcels a [Recurrences] object.
  */
 internal object RecurrencesParceler : Parceler<Recurrences> {
-    private enum class Type {
-        Fixed,
-        Seasonal,
-        Variable,
-    }
-
     override fun create(parcel: Parcel): Recurrences {
-        val type = Type.entries[parcel.readInt()]
+        val type = RecurrenceType.entries[parcel.readInt()]
         return when (type) {
-            Type.Fixed -> {
+            RecurrenceType.Fixed -> {
                 val dayOfMonth = DayOfMonth(parcel.readInt())
                 Recurrences.Fixed(dayOfMonth)
             }
 
-            Type.Seasonal -> {
+            RecurrenceType.Seasonal -> {
                 val daysOfYear = parcel.createIntArray()?.map {
                     DayOfYear(it)
                 }.orEmpty()
                 Recurrences.Seasonal(daysOfYear)
             }
 
-            Type.Variable -> Recurrences.Variable
+            RecurrenceType.Variable -> Recurrences.Variable
         }
     }
 

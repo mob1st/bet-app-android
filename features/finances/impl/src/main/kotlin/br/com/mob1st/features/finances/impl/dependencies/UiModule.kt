@@ -7,7 +7,7 @@ import br.com.mob1st.features.finances.impl.ui.navgraph.BudgetBuilderNavGraphImp
 import br.com.mob1st.features.finances.impl.ui.navgraph.FinancesNavGraphImpl
 import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
-import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -18,7 +18,22 @@ internal val uiModule = module {
 
 internal val builderModule = module {
     single { BudgetBuilderNavGraphImpl } bind BudgetBuilderNavGraph::class
-    single { BuilderRouter }
-    viewModelOf(::BuilderIntroViewModel)
-    viewModelOf(::BudgetBuilderStepViewModel)
+    single { BuilderRouter } bind BuilderRouter::class
+    viewModel {
+        BuilderIntroViewModel(
+            consumableDelegate = BuilderIntroViewModel.consumableDelegate(),
+            router = get(),
+            startBuilderStep = get(),
+        )
+    }
+    viewModel { params ->
+        BudgetBuilderStepViewModel(
+            default = get(),
+            consumableDelegate = BudgetBuilderStepViewModel.consumableDelegate(),
+            router = get(),
+            step = params.get(),
+            getCategoryBuilder = get(),
+            proceedBuilder = get(),
+        )
+    }
 }

@@ -1,7 +1,7 @@
 package br.com.mob1st.features.finances.impl.domain.repositories
 
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
+import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import kotlinx.coroutines.flow.Flow
 
 /**

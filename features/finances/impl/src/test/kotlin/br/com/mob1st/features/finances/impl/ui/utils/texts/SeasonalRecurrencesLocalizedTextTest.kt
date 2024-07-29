@@ -3,7 +3,7 @@ package br.com.mob1st.features.finances.impl.ui.utils.texts
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,7 +23,7 @@ class SeasonalRecurrencesLocalizedTextTest {
         composeTestRule.setContent {
             val text = textState.resolve()
             assertEquals(
-                "JUN",
+                "JAN",
                 text,
             )
         }
@@ -34,14 +34,14 @@ class SeasonalRecurrencesLocalizedTextTest {
         val recurrence = Recurrences.Seasonal(
             listOf(
                 DayOfYear(1),
-                DayOfYear(20),
+                DayOfYear(32),
             ),
         )
         val textState = SeasonalRecurrencesLocalizedText(recurrence)
         composeTestRule.setContent {
             val text = textState.resolve()
             assertEquals(
-                "APR and SEP",
+                "JAN and FEB",
                 text,
             )
         }
@@ -54,15 +54,15 @@ class SeasonalRecurrencesLocalizedTextTest {
                 DayOfYear(
                     1,
                 ),
-                DayOfYear(20),
-                DayOfYear(30),
+                DayOfYear(32),
+                DayOfYear(60),
             ),
         )
         val textState = SeasonalRecurrencesLocalizedText(recurrence)
         composeTestRule.setContent {
             val text = textState.resolve()
             assertEquals(
-                "JAN, MAY and AUG",
+                "JAN, FEB and MAR",
                 text,
             )
         }

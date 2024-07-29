@@ -11,5 +11,5 @@ interface AnalyticsReporter {
      *
      * @param event The event to be logged
      */
-    fun log(event: AnalyticsEvent)
+    fun report(event: AnalyticsEvent)
 }

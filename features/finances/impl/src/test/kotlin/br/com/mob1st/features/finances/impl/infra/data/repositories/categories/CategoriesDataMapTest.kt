@@ -6,14 +6,22 @@ import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.infra.data.fixtures.categories
 import io.kotest.property.Arb
+import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.next
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class CategoriesDataMapTest {
     @Test
-    fun `GIVEN a recurrence mapper WHEN map to domain THEN assert properties are mapped`() {
-        val categories = Arb.categories().next()
+    fun `GIVEN a recurrence WHEN map to domain THEN assert properties are mapped`() {
+        val categories = Arb.categories()
+            .map {
+                it.copy(
+                    recurrences = null,
+                    recurrence_type = "variable",
+                )
+            }
+            .next()
         val actual = CategoriesDataMap.invoke(categories)
         val expected = Category(
             id = Category.Id(categories.id),

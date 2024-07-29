@@ -6,7 +6,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 
 @Suppress("MagicNumber")
 internal object BudgetBuilderStepPreviewFixture {

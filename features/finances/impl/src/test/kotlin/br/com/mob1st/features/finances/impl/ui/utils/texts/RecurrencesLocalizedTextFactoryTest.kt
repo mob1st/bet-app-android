@@ -2,8 +2,8 @@ package br.com.mob1st.features.finances.impl.ui.utils.texts
 
 import br.com.mob1st.core.design.atoms.properties.texts.LocalizedText
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
+import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments

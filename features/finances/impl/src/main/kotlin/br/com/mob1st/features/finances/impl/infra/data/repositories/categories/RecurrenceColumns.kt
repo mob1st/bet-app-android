@@ -1,9 +1,9 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.categories
 
+import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
+import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import java.util.Locale
 
 private const val COLUMN_SEPARATOR = ","

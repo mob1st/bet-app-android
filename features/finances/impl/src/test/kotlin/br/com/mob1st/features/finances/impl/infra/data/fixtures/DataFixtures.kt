@@ -61,11 +61,11 @@ internal fun Arb.Companion.recurrenceColumns(): Arb<RecurrenceColumns> = arbitra
     }
 }
 
-private fun Arb.Companion.fixedRecurrences(): Arb<String> = Arb.int(1..31).map {
+fun Arb.Companion.fixedRecurrences(): Arb<String> = Arb.int(1..31).map {
     String.format(Locale.getDefault(), "%02d", it)
 }
 
-private fun Arb.Companion.seasonalRecurrences(): Arb<String?> = Arb
+fun Arb.Companion.seasonalRecurrences(): Arb<String?> = Arb
     .int(1..366)
     .chunked(1..4)
     .orNull()

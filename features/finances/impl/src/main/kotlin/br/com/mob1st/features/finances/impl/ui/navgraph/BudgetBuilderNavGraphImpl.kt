@@ -35,7 +35,7 @@ object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
             ) { navBackStackEntry ->
                 val router = koinInject<BuilderRouter>()
                 val route = navBackStackEntry.toRoute<BuilderRoute.Step>()
-                val step = router.receive(route)
+                val step = router.from(route)
                 BudgetBuilderStepPage(
                     step = step,
                     onNext = navController::navigate,

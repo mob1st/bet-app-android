@@ -2,65 +2,56 @@ package br.com.mob1st.features.finances.impl.ui.builder.steps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.mob1st.core.androidx.flows.stateInWhileSubscribed
+import br.com.mob1st.core.androidx.viewmodels.launchIn
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
+import br.com.mob1st.core.kotlinx.coroutines.stateInWhileSubscribed
 import br.com.mob1st.core.kotlinx.errors.checkIs
+import br.com.mob1st.core.state.extensions.errorHandler
+import br.com.mob1st.core.state.managers.AsyncLoadingState
 import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.core.state.managers.ConsumableManager
 import br.com.mob1st.core.state.managers.UiStateManager
 import br.com.mob1st.core.state.managers.catchIn
 import br.com.mob1st.core.state.managers.catching
-import br.com.mob1st.core.state.managers.launchIn
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.usecases.GetCategoryBuilderUseCase
+import br.com.mob1st.features.finances.impl.domain.usecases.GetBudgetBuilderForStepUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Empty
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
-import br.com.mob1st.features.utils.states.errorHandler
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-internal class BudgetBuilderStepViewModel private constructor(
-    step: BuilderNextAction.Step,
-    getCategoryBuilder: GetCategoryBuilderUseCase,
-    private val proceedBuilder: ProceedBuilderUseCase,
+internal class BudgetBuilderStepViewModel(
     default: DefaultCoroutineDispatcher,
-    private val router: BuilderRouter,
     private val consumableDelegate: ConsumableDelegate<BudgetBuilderStepConsumables>,
+    private val router: BuilderRouter,
+    private val step: BuilderNextAction.Step,
+    private val getCategoryBuilder: GetBudgetBuilderForStepUseCase,
+    private val proceedBuilder: ProceedBuilderUseCase,
 ) : ViewModel(),
     UiStateManager<BudgetBuilderStepUiState>,
     ConsumableManager<BudgetBuilderStepConsumables> by consumableDelegate {
-    constructor(
-        step: BuilderNextAction.Step,
-        getCategoryBuilder: GetCategoryBuilderUseCase,
-        proceedBuilder: ProceedBuilderUseCase,
-        default: DefaultCoroutineDispatcher,
-        router: BuilderRouter,
-    ) : this(
-        step = step,
-        getCategoryBuilder = getCategoryBuilder,
-        proceedBuilder = proceedBuilder,
-        default = default,
-        router = router,
-        consumableDelegate = ConsumableDelegate(
-            BudgetBuilderStepConsumables(),
-        ),
-    )
-
     private val errorHandler = consumableDelegate.errorHandler {
         handleError(it)
     }
+    private val isLoadingState = AsyncLoadingState()
 
     override val consumableUiState: StateFlow<BudgetBuilderStepConsumables> = consumableDelegate.asStateFlow()
-    override val uiState: StateFlow<BudgetBuilderStepUiState> = getCategoryBuilder[step]
-        .map(::Loaded)
-        .catchIn(errorHandler)
-        .flowOn(default)
-        .stateInWhileSubscribed(viewModelScope, Empty)
+    override val uiState: StateFlow<BudgetBuilderStepUiState> =
+        initState()
+            .catchIn(errorHandler)
+            .flowOn(default)
+            .stateInWhileSubscribed(viewModelScope, Empty)
+
+    private fun initState() = combine(
+        getCategoryBuilder[step],
+        isLoadingState,
+        transform = ::Loaded,
+    )
 
     /**
      * Selects the manually added item at the given [position].
@@ -117,9 +108,18 @@ internal class BudgetBuilderStepViewModel private constructor(
      */
     fun next() = launchIn(errorHandler) {
         val uiState = checkIs<Loaded>(uiState.value)
-        proceedBuilder(uiState.builder)
-        consumableDelegate.update {
-            it.copy(route = router.send(uiState.builder.next))
+        isLoadingState.trigger {
+            proceedBuilder(uiState.builder)
         }
+        consumableDelegate.update {
+            it.copy(route = router.to(uiState.builder.next))
+        }
+    }
+
+    companion object {
+        /**
+         * Creates a new [ConsumableDelegate] for the [BudgetBuilderStepViewModel].
+         */
+        fun consumableDelegate() = ConsumableDelegate(BudgetBuilderStepConsumables())
     }
 }

@@ -4,9 +4,7 @@ import br.com.mob1st.core.kotlinx.structures.Identifiable
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.core.kotlinx.structures.Uri
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.fixtures.DayOfYear
-import br.com.mob1st.features.finances.publicapi.domain.entities.RecurrenceType
+import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 
 /**
  * Represents a category of expenses or incomes.
@@ -76,33 +74,4 @@ private fun RecurrenceType.toDefaultRecurrences(): Recurrences {
         RecurrenceType.Variable -> Recurrences.Variable
         RecurrenceType.Seasonal -> Recurrences.Seasonal(emptyList())
     }
-}
-
-/**
- * The number of times an expense or income happens.
- */
-sealed interface Recurrences {
-    /**
-     * Fixed recurrences happen on a specific day of the month and usually doesn't change its amount based on how
-     * much consumed or used it was.
-     * @property day The day of the month when the expense or income happens.
-     */
-    data class Fixed(
-        val day: DayOfMonth,
-    ) : Recurrences
-
-    /**
-     * Variable recurrences doesn't have a fixed day of the month.
-     * They typically have their amount based on how much consumed or used it was.
-     */
-    data object Variable : Recurrences
-
-    /**
-     * Seasonal recurrences have a lower frequency in the year but it's still predictable (and good to plan for).
-     * @property daysOfYear The days of the year when the expense or income happens. It can be empty, which means that
-     * the expense or income doesn't happen in a specific moment in the year (but it still happens).
-     */
-    data class Seasonal(
-        val daysOfYear: List<DayOfYear>,
-    ) : Recurrences
 }

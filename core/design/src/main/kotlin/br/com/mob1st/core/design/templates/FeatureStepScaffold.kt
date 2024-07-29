@@ -37,6 +37,7 @@ fun FeatureStepScaffold(
     onClickNext: () -> Unit,
     titleContent: @Composable () -> Unit,
     subtitleContent: @Composable () -> Unit,
+    buttonContent: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
     val scrollBehavior = TitleDefaults.scrollBehavior
@@ -55,7 +56,7 @@ fun FeatureStepScaffold(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 expanded = isButtonExpanded,
-                text = { Text(stringResource(R.string.core_design_next_button_text)) },
+                text = { buttonContent() },
                 icon = {
                     CheckIcon(
                         contentDescription = stringResource(R.string.core_design_back_button_content_description),
@@ -101,6 +102,9 @@ private fun FeatureStepScaffoldPreview() {
             },
             subtitleContent = {
                 Text(text = "In this area a short description of the step can be placed.")
+            },
+            buttonContent = {
+                Text(text = "Next")
             },
             content = {
                 Text(text = "Content")

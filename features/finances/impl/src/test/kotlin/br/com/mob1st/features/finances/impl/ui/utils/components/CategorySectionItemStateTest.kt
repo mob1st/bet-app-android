@@ -10,9 +10,9 @@ import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.fixtures.category
-import br.com.mob1st.features.finances.impl.domain.fixtures.fixedRecurrences
-import br.com.mob1st.features.finances.impl.domain.fixtures.seasonalRecurrences
+import br.com.mob1st.features.finances.impl.domain.values.category
+import br.com.mob1st.features.finances.impl.domain.values.fixedRecurrences
+import br.com.mob1st.features.finances.impl.domain.values.seasonalRecurrences
 import br.com.mob1st.features.finances.impl.ui.utils.texts.FixedRecurrencesLocalizedText
 import br.com.mob1st.features.finances.impl.ui.utils.texts.MoneyLocalizedText
 import br.com.mob1st.features.finances.impl.ui.utils.texts.SeasonalRecurrencesLocalizedText

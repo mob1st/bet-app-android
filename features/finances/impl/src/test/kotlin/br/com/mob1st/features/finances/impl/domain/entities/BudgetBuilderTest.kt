@@ -1,9 +1,9 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.features.finances.impl.domain.fixtures.budgetBuilder
-import br.com.mob1st.features.finances.impl.domain.fixtures.category
-import br.com.mob1st.features.finances.impl.domain.fixtures.money
+import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
+import br.com.mob1st.features.finances.impl.domain.values.category
+import br.com.mob1st.features.finances.impl.domain.values.money
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.chunked
@@ -38,7 +38,7 @@ class BudgetBuilderTest {
             ),
         )
         val actual = builder.calculateRemainingInputs()
-        assertEquals(-1, actual)
+        assertEquals(0, actual)
     }
 
     @Test

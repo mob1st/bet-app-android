@@ -31,6 +31,7 @@ internal sealed interface BudgetBuilderStepUiState {
     @Immutable
     data class Loaded(
         val builder: BudgetBuilder,
+        val isLoadingNext: Boolean = false,
     ) : BudgetBuilderStepUiState {
         val header: Header = when (builder.id) {
             FixedExpensesStep -> Header(

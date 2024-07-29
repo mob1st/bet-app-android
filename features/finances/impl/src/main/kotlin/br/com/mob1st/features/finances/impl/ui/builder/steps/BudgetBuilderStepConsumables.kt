@@ -35,8 +35,8 @@ data class BudgetBuilderStepConsumables(
     /**
      * Handles the given [throwable] error.
      * It sets the snackbar to show the error message.
-     * If the error is a [NotEnoughInputsException], it will show a snackbar indicating the remaining inputs to be
-     * added. Otherwise, it will show a generic error message.
+     * If the error is a [ProceedBuilderUseCase.NotEnoughInputsException], it will show a snackbar indicating the
+     * remaining inputs to be added. Otherwise, it will show a generic error message.
      * @param throwable The error.
      * @return The next consumable state.
      */

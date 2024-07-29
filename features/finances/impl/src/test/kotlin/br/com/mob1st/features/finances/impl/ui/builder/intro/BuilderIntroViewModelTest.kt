@@ -2,11 +2,13 @@ package br.com.mob1st.features.finances.impl.ui.builder.intro
 
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
+import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.usecases.StartBuilderStepUseCase
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.utils.errors.CommonError
+import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.tests.featuresutils.MainDispatcherTestExtension
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
@@ -77,7 +79,7 @@ internal class BuilderIntroViewModelTest {
                 receiveUiState.awaitItem(),
             )
             assertEquals(
-                BuilderIntroConsumables(error = CommonError.Unknown),
+                BuilderIntroConsumables(snackbar = CommonErrorSnackbarState(CommonError.Unknown)),
                 receiveConsumables.awaitItem(),
             )
         }
@@ -87,7 +89,7 @@ internal class BuilderIntroViewModelTest {
     fun `GIVEN a initial action WHEN start THEN assert first step is used And router send it`() = runTest {
         val step = BudgetBuilder.firstStep()
         val route = Arb.bind<BuilderRoute>().next()
-        every { router.send(step) } returns route
+        every { router.to(step) } returns route
         val viewModel = initViewModel()
         viewModel.start()
         turbineScope {
@@ -107,5 +109,6 @@ internal class BuilderIntroViewModelTest {
     private fun initViewModel() = BuilderIntroViewModel(
         startBuilderStep = startBuilderStep,
         router = router,
+        consumableDelegate = ConsumableDelegate(BuilderIntroConsumables()),
     )
 }

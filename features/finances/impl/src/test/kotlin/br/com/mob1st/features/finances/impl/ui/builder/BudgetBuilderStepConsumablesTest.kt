@@ -1,7 +1,7 @@
 package br.com.mob1st.features.finances.impl.ui.builder
 
-import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
+import br.com.mob1st.features.finances.impl.domain.values.category
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepDialog
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepNavEvent

@@ -21,15 +21,15 @@ interface BuilderRouter {
      * @param action The next action to be performed.
      * @return The next route to navigate.
      */
-    fun send(action: BuilderNextAction): BuilderRoute
+    fun to(action: BuilderNextAction): BuilderRoute
 
     /**
      * Receives the given [route] from the router, returning the next action to be performed.
      */
-    fun receive(route: BuilderRoute.Step): BuilderNextAction.Step
+    fun from(route: BuilderRoute.Step): BuilderNextAction.Step
 
     companion object : BuilderRouter {
-        override fun send(action: BuilderNextAction): BuilderRoute {
+        override fun to(action: BuilderNextAction): BuilderRoute {
             return when (action) {
                 FixedExpensesStep -> BuilderRoute.Step(FixedExpenses)
                 FixedIncomesStep -> BuilderRoute.Step(FixedIncomes)
@@ -39,7 +39,7 @@ interface BuilderRouter {
             }
         }
 
-        override fun receive(route: BuilderRoute.Step): BuilderNextAction.Step {
+        override fun from(route: BuilderRoute.Step): BuilderNextAction.Step {
             return when (route.type) {
                 FixedExpenses -> FixedExpensesStep
                 FixedIncomes -> FixedIncomesStep

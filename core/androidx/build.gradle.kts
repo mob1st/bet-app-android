@@ -10,17 +10,21 @@ plugins {
 android {
     namespace = "br.com.mob1st.core.androidx"
 
+    buildFeatures {
+        compose = true
+    }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 }
 
 dependencies {
-    implementation(libs.android.core)
-    implementation(libs.bundles.lifecycle)
+    implementation(libs.kotlin.datetime)
     implementation(libs.timber)
     implementation(libs.datastore.preferences)
-    implementation(projects.core.database)
+    implementation(libs.bundles.android)
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.lifecycle)
 
     testImplementation(libs.bundles.unittest.android)
     testImplementation(libs.bundles.unittest.kotlin)

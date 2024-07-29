@@ -21,7 +21,7 @@ class BuilderRouterTest {
         action: BuilderNextAction,
         expected: BuilderRoute,
     ) {
-        val actual = BuilderRouter.send(action)
+        val actual = BuilderRouter.to(action)
         assertEquals(expected, actual)
     }
 
@@ -31,7 +31,7 @@ class BuilderRouterTest {
         route: BuilderRoute.Step,
         expected: BuilderNextAction.Step,
     ) {
-        val actual = BuilderRouter.receive(route)
+        val actual = BuilderRouter.from(route)
         assertEquals(expected, actual)
     }
 
