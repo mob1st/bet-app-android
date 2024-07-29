@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("commonSetup")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {

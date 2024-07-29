@@ -14,7 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-class BuilderRouterTest {
+class RootRouterTest {
     @ParameterizedTest
     @MethodSource("sendActionSource")
     fun `GIVEN a action WHEN send THEN return the next route`(

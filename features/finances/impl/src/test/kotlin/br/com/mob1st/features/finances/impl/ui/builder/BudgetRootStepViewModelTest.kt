@@ -45,7 +45,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(MainDispatcherTestExtension::class)
-class BudgetBuilderStepViewModelTest {
+class BudgetRootStepViewModelTest {
     private lateinit var getCategoryBuilder: GetBudgetBuilderForStepUseCase
     private lateinit var proceedBuilder: ProceedBuilderUseCase
     private lateinit var router: BuilderRouter

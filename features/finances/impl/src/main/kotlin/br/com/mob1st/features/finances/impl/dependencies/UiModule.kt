@@ -11,10 +11,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-internal val uiModule = module {
-    single { FinancesNavGraphImpl } bind FinancesNavGraph::class
-    includes(builderModule)
-}
+internal val uiModule
+    get() = module {
+        single { FinancesNavGraphImpl } bind FinancesNavGraph::class
+        includes(builderModule)
+    }
 
 internal val builderModule = module {
     single { BudgetBuilderNavGraphImpl } bind BudgetBuilderNavGraph::class

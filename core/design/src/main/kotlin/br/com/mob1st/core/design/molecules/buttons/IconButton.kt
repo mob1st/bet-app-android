@@ -1,7 +1,10 @@
 package br.com.mob1st.core.design.molecules.buttons
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import br.com.mob1st.core.design.atoms.icons.BackIcon
 import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
@@ -13,7 +16,7 @@ fun TopBackButton(
     IconButton(
         onClick = onBackClicked,
     ) {
-        BackIcon()
+        BackIcon(modifier = Modifier.size(24.dp))
     }
 }
 

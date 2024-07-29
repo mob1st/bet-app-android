@@ -57,7 +57,7 @@ class BudgetBuilderTest {
     @Test
     fun `WHEN get the first step THEN assert it is fixed expense`() {
         val actual = BudgetBuilder.firstStep()
-        assertEquals(FixedExpensesStep, actual)
+        assertEquals(VariableExpensesStep, actual)
     }
 
     @Test

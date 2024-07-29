@@ -23,7 +23,7 @@ private val repositoriesModule = module {
         DatabaseFactory.create(get())
     }
     factory { SuggestionListPerStep() }
-    single { CategoriesDataMap }
+    single { CategoriesDataMap } bind CategoriesDataMap::class
     factoryOf(::CategoryRepositoryImpl) bind CategoriesRepository::class
     factoryOf(::CategorySuggestionsRepositoryImpl) bind CategorySuggestionRepository::class
 }

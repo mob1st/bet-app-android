@@ -2,12 +2,12 @@ package br.com.mob1st.features.finances.publicapi.domain.ui
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import br.com.mob1st.core.androidx.navigation.FeatureNavGraph
+import kotlinx.serialization.Serializable
 
 /**
  * Builds the navigation graph for the category builder flow.
  */
-interface BudgetBuilderNavGraph : FeatureNavGraph<BudgetBuilderNavGraph.Root> {
+interface BudgetBuilderNavGraph {
     /**
      * Builds the navigation graph for the finances feature.
      * @param navController The navigation controller.
@@ -22,5 +22,6 @@ interface BudgetBuilderNavGraph : FeatureNavGraph<BudgetBuilderNavGraph.Root> {
     /**
      * The root of the navigation graph.
      */
-    interface Root
+    @Serializable
+    data object Root
 }

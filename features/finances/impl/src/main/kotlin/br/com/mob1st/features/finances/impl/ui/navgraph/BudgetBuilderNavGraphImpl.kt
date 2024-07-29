@@ -12,19 +12,16 @@ import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavType
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepPage
 import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
-import kotlinx.serialization.Serializable
 import org.koin.compose.koinInject
 import kotlin.reflect.typeOf
 
 object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
-    override val root: BudgetBuilderNavGraph.Root = Root
-
     context(NavGraphBuilder)
     override fun graph(
         navController: NavController,
         onComplete: () -> Unit,
     ) {
-        navigation<Root>(
+        navigation<BudgetBuilderNavGraph.Root>(
             startDestination = BuilderRoute.Intro,
         ) {
             composable<BuilderRoute.Intro> {
@@ -47,7 +44,4 @@ object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
             }
         }
     }
-
-    @Serializable
-    object Root : BudgetBuilderNavGraph.Root
 }

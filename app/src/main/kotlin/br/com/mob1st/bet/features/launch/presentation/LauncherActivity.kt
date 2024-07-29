@@ -14,6 +14,7 @@ import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
 import br.com.mob1st.features.utils.observability.LocalAnalyticsReporter
 import org.koin.android.ext.android.inject
+import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 
 class LauncherActivity : ComponentActivity() {
@@ -22,10 +23,12 @@ class LauncherActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CompositionLocalProvider(LocalAnalyticsReporter provides analyticsReporter) {
-                UiContrast {
-                    TwoCentsTheme {
-                        NavigationGraph(this)
+            KoinContext {
+                CompositionLocalProvider(LocalAnalyticsReporter provides analyticsReporter) {
+                    UiContrast {
+                        TwoCentsTheme {
+                            NavigationGraph(this)
+                        }
                     }
                 }
             }
@@ -36,14 +39,11 @@ class LauncherActivity : ComponentActivity() {
 @Composable
 internal fun NavigationGraph(activity: ComponentActivity) {
     val navController = rememberNavController()
-    navController.addOnDestinationChangedListener { _, destination, _ ->
-        activity.title = destination.label?.toString() ?: ""
-    }
     val financesNavGraph = koinInject<FinancesNavGraph>()
     val budgetBuilderNavGraph = koinInject<BudgetBuilderNavGraph>()
     NavHost(
         navController = navController,
-        startDestination = budgetBuilderNavGraph.root,
+        startDestination = BudgetBuilderNavGraph.Root,
     ) {
         financesNavGraph.graph(
             navController = navController,

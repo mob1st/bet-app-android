@@ -9,22 +9,20 @@ import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
 import kotlinx.serialization.Serializable
 
 internal object FinancesNavGraphImpl : FinancesNavGraph {
-    override val root: FinancesNavGraph.Root = Root
-
     context(NavGraphBuilder)
     override fun graph(
         navController: NavController,
         onClickClose: () -> Unit,
     ) {
-        navigation<Root>(
-            startDestination = "main",
+        navigation<FinancesNavGraph.Root>(
+            startDestination = Main,
         ) {
-            composable("main") {
+            composable<Main> {
                 Text(text = "Main")
             }
         }
     }
 
     @Serializable
-    data object Root : FinancesNavGraph.Root
+    data object Main
 }

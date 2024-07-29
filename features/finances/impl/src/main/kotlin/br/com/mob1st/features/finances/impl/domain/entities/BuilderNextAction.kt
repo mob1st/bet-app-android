@@ -42,7 +42,7 @@ sealed interface BuilderNextAction {
 data object FixedExpensesStep : BuilderNextAction.Step {
     private const val REQUIRED_INPUTS = 3
     override val minimumRequiredToProceed: Int = REQUIRED_INPUTS
-    override val next: BuilderNextAction = VariableExpensesStep
+    override val next: BuilderNextAction = SeasonalExpensesStep
     override val type: RecurrenceType = RecurrenceType.Fixed
     override val isExpense: Boolean = true
 }
@@ -52,9 +52,9 @@ data object FixedExpensesStep : BuilderNextAction.Step {
  * It is used to add variable expenses.
  */
 data object VariableExpensesStep : BuilderNextAction.Step {
-    private const val REQUIRED_INPUTS = 3
+    private const val REQUIRED_INPUTS = 2
     override val minimumRequiredToProceed: Int = REQUIRED_INPUTS
-    override val next: BuilderNextAction = FixedIncomesStep
+    override val next: BuilderNextAction = FixedExpensesStep
     override val type: RecurrenceType = RecurrenceType.Variable
     override val isExpense: Boolean = true
 }
@@ -75,7 +75,7 @@ data object SeasonalExpensesStep : BuilderNextAction.Step {
  * It is used to add fixed incomes.
  */
 data object FixedIncomesStep : BuilderNextAction.Step {
-    override val minimumRequiredToProceed: Int = 1
+    override val minimumRequiredToProceed: Int = 0
     override val next: BuilderNextAction = BuilderNextAction.Complete
     override val type: RecurrenceType = RecurrenceType.Fixed
     override val isExpense: Boolean = false

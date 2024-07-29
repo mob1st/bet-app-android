@@ -51,6 +51,6 @@ data class BudgetBuilder(
         /**
          * Returns the first step of the category builder.
          */
-        fun firstStep(): BuilderNextAction.Step = FixedExpensesStep
+        fun firstStep(): BuilderNextAction.Step = VariableExpensesStep
     }
 }
