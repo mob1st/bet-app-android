@@ -4,10 +4,8 @@ import android.content.Context
 import androidx.startup.Initializer
 import br.com.mob1st.bet.di.coroutinesModule
 import br.com.mob1st.bet.di.databaseModule
-import br.com.mob1st.bet.di.firebaseModule
 import br.com.mob1st.bet.di.serializationModule
 import br.com.mob1st.bet.di.systemModule
-import br.com.mob1st.bet.di.timberModule
 import br.com.mob1st.features.finances.impl.dependencies.financesModule
 import br.com.mob1st.libs.firebase.dependencies.FirebaseComponent
 import org.koin.android.ext.koin.androidContext
@@ -36,9 +34,7 @@ private fun Context.createDependencyGraph() =
         androidContext(this@createDependencyGraph.applicationContext)
         modules(
             FirebaseComponent().module,
-            firebaseModule,
             coroutinesModule,
-            timberModule,
             databaseModule,
             serializationModule,
             financesModule,
