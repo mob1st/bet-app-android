@@ -2,6 +2,8 @@ package br.com.mob1st.features.finances.impl.ui.builder.steps
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
@@ -36,6 +38,7 @@ fun BudgetBuilderStepPage(
     onNext: (BuilderRoute) -> Unit,
     onBack: () -> Unit,
 ) {
+    Icons.Filled.Check
     val snackbarHostState = remember {
         SnackbarHostState()
     }
@@ -94,7 +97,7 @@ private fun CategoryBuilderStepScreen(
             Text(text = stringResource(id = uiState.header.title))
         },
         buttonContent = {
-            StepButton(isLoading = uiState.isLoadingNext, onClick = onClickNext)
+            StepButton(isLoading = uiState.isLoadingNext)
         },
         subtitleContent = {
             Text(text = stringResource(id = uiState.header.description))
@@ -212,7 +215,7 @@ private fun BuilderStepsSideEffects(
 }
 
 @Composable
-private fun StepButton(isLoading: Boolean, onClick: () -> Unit) {
+private fun StepButton(isLoading: Boolean) {
     Loading(isLoading = isLoading, crossfadeLabel = "loadingButton") {
         Text(stringResource(id = R.string.finances_commons_button_next))
     }

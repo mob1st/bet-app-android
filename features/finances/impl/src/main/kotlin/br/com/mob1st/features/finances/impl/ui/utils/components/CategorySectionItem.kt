@@ -2,11 +2,7 @@ package br.com.mob1st.features.finances.impl.ui.utils.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -16,11 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.unit.dp
 import br.com.mob1st.core.androidx.compose.ComposableFunction
+import br.com.mob1st.core.design.molecules.icons.LeadingIcon
 import br.com.mob1st.core.design.organisms.lists.selectableItem
 import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
@@ -86,18 +81,14 @@ private fun Icon(
     icon: CategorySectionItemState.Icon,
 ) {
     val colorCombination = icon.combination.resolve()
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(percent = 100))
-            .background(color = colorCombination.background)
-            .size(48.dp)
-            .padding(16.dp),
+    LeadingIcon(
+        combination = colorCombination,
     ) {
         AsyncImage(
             modifier = Modifier.background(Color.Transparent),
             model = icon.image.value,
             contentDescription = null,
-            colorFilter = ColorFilter.tint(color = colorCombination.content),
+            colorFilter = ColorFilter.tint(color = LocalContentColor.current),
         )
     }
 }

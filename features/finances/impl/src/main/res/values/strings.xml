@@ -48,17 +48,19 @@
     <string name="finances_builder_suggestions_item_rental_income">Rental Income</string>
     <!-- Builder intro screen -->
     <string name="finances_builder_intro_header">Let\'s Start</string>
-    <string name="finances_builder_intro_subheader">First,we need to understand your recurrent expenses and incomes to start the financial tracking.</string>
+    <string name="finances_builder_intro_subheader">First, we need to complete some steps to build your budget and understand your financial situation.</string>
     <string name="finances_builder_intro_button">Setup Budget</string>
-    <string name="finances_builder_intro_item1_headline">Fixed Expenses</string>
-    <string name="finances_builder_intro_item1_description">The bills and expenses that is guarantee to have once a month</string>
-    <string name="finances_builder_intro_item2_headline">Variable Expenses</string>
-    <string name="finances_builder_intro_item2_description">The sporadic costs that often appears in your routine</string>
-    <string name="finances_builder_intro_item3_headline">Income</string>
-    <string name="finances_builder_intro_item3_description">The amount of incomes per month (this information is not shared with anyone else).</string>
+    <string name="finances_builder_intro_item1_headline">Variable expenses</string>
+    <string name="finances_builder_intro_item1_description">The sporadic costs that often appears in your routine</string>
+    <string name="finances_builder_intro_item2_headline">Fixed Expenses</string>
+    <string name="finances_builder_intro_item2_description">The bills and expenses that is guarantee to have once a month</string>
+    <string name="finances_builder_intro_item3_headline">Seasonal Expenses</string>
+    <string name="finances_builder_intro_item3_description">The expenses that eventually happens during the year and you need to be prepared</string>
+    <string name="finances_builder_intro_item4_headline">Sources of incomes</string>
+    <string name="finances_builder_intro_item4_description">The amount of incomes per month you have (this information is not shared with anyone else).</string>
 
     <!-- Builder steps screens -->
-    <string name="finances_builder_seasonal_expenses_title">Seasonal Expenses</string>
+    <string name="finances_builder_step_seasonal_expenses_title">Seasonal Expenses</string>
     <string name="finances_builder_seasonal_expenses_subheader">Expenses that are not monthly, but that you know will happen in the future.</string>
     <string name="finances_builder_fixed_expenses_header">Monthly Fixed Expenses</string>
     <string name="finances_builder_fixed_expenses_subheader">Planned expenses that have a small variation in amount and are usually paid monthly.</string>

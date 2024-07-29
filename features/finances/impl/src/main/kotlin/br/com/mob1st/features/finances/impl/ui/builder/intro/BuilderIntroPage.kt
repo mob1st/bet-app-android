@@ -1,20 +1,31 @@
 package br.com.mob1st.features.finances.impl.ui.builder.intro
 
-import androidx.compose.foundation.layout.BoxScope
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.androidx.compose.NavigationSideEffect
 import br.com.mob1st.core.androidx.compose.SnackbarSideEffect
+import br.com.mob1st.core.design.atoms.colors.material.LocalExtensionsColorFamilies
+import br.com.mob1st.core.design.atoms.colors.material.families.ColorCombination
+import br.com.mob1st.core.design.atoms.icons.FixedExpensesIcon
+import br.com.mob1st.core.design.atoms.icons.FixedIncomeIcon
+import br.com.mob1st.core.design.atoms.icons.SeasonalExpensesIcon
+import br.com.mob1st.core.design.atoms.icons.VariableExpensesIcon
+import br.com.mob1st.core.design.molecules.icons.IconScale
+import br.com.mob1st.core.design.molecules.icons.LeadingIcon
 import br.com.mob1st.core.design.molecules.loading.Loading
 import br.com.mob1st.core.design.templates.FeatureSummaryScaffold
+import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.core.observability.events.AnalyticsEvent
+import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.events.builderIntroScreenViewEvent
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
@@ -56,8 +67,9 @@ private fun BuilderIntroScreen(
 ) {
     FeatureSummaryScaffold(
         snackbarHostState = snackbarHostState,
-        titleContent = { Text(text = "Intro Title") },
         onClickButton = onClickNext,
+        titleContent = { Text(stringResource(id = R.string.finances_builder_intro_header)) },
+        subtitleContent = { Text(stringResource(id = R.string.finances_builder_intro_subheader)) },
         buttonContent = { IntroButtonContent(isLoading = uiState.isLoading) },
     ) {
         IntroScaffoldContent()
@@ -65,10 +77,63 @@ private fun BuilderIntroScreen(
 }
 
 @Composable
-private fun BoxScope.IntroScaffoldContent() {
-    Text(
-        modifier = Modifier.align(Alignment.Center),
-        text = "Intro",
+private fun IntroScaffoldContent() {
+    Column {
+        BuilderSummaryItem(
+            iconContent = {
+                VariableExpensesIcon(contentDescription = null)
+            },
+            combination = LocalExtensionsColorFamilies.current.variableExpenses.containerCombination,
+            title = R.string.finances_builder_intro_item1_headline,
+            description = R.string.finances_builder_intro_item1_description,
+        )
+        BuilderSummaryItem(
+            iconContent = {
+                FixedExpensesIcon(contentDescription = null)
+            },
+            combination = LocalExtensionsColorFamilies.current.fixedExpenses.containerCombination,
+            title = R.string.finances_builder_intro_item2_headline,
+            description = R.string.finances_builder_intro_item2_description,
+        )
+
+        BuilderSummaryItem(
+            iconContent = {
+                SeasonalExpensesIcon(contentDescription = null)
+            },
+            combination = LocalExtensionsColorFamilies.current.seasonalExpenses.containerCombination,
+            title = R.string.finances_builder_intro_item3_headline,
+            description = R.string.finances_builder_intro_item3_description,
+        )
+
+        BuilderSummaryItem(
+            iconContent = {
+                FixedIncomeIcon(contentDescription = null)
+            },
+            combination = LocalExtensionsColorFamilies.current.incomes.containerCombination,
+            title = R.string.finances_builder_intro_item4_headline,
+            description = R.string.finances_builder_intro_item4_description,
+        )
+    }
+}
+
+@Composable
+private fun BuilderSummaryItem(
+    iconContent: @Composable () -> Unit,
+    combination: ColorCombination,
+    @StringRes title: Int,
+    @StringRes description: Int,
+) {
+    ListItem(
+        leadingContent = {
+            LeadingIcon(
+                combination = combination,
+                scale = IconScale.Small,
+            ) {
+                iconContent()
+            }
+        },
+        headlineContent = { Text(text = stringResource(id = title)) },
+        supportingContent = { Text(text = stringResource(id = description)) },
     )
 }
 
@@ -78,7 +143,7 @@ private fun IntroButtonContent(isLoading: Boolean) {
         isLoading = isLoading,
         crossfadeLabel = "loadingButton",
     ) {
-        Text(text = "Next")
+        Text(text = stringResource(id = R.string.finances_builder_intro_button))
     }
 }
 
@@ -105,7 +170,11 @@ private fun IntroSideEffects(
 @Composable
 @ThemedPreview
 private fun BuilderIntroScreenPreview() {
-    BuilderIntroPage(
-        onNext = {},
-    )
+    PreviewTheme {
+        BuilderIntroScreen(
+            snackbarHostState = SnackbarHostState(),
+            uiState = BuilderIntroUiState(),
+            onClickNext = {},
+        )
+    }
 }

@@ -7,11 +7,11 @@ import androidx.compose.ui.tooling.preview.Preview
  * Annotation to be used os a [Preview] to show the screen in both light and dark mode.
  */
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true,
 )
 annotation class ThemedPreview

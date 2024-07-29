@@ -107,7 +107,7 @@ internal class BudgetBuilderStepUiStateTest {
             arguments(
                 SeasonalExpensesStep,
                 Loaded.Header(
-                    title = R.string.finances_builder_seasonal_expenses_title,
+                    title = R.string.finances_builder_step_seasonal_expenses_title,
                     description = R.string.finances_builder_seasonal_expenses_subheader,
                 ),
             ),
