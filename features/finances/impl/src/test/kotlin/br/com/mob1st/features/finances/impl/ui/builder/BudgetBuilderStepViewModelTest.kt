@@ -62,7 +62,7 @@ class BudgetBuilderStepViewModelTest {
         val viewModel = viewModel(testScheduler)
         val expected = Empty
         // When
-        viewModel.uiStateOutput.test {
+        viewModel.uiState.test {
             // Then
             assertEquals(expected, awaitItem())
         }
@@ -89,7 +89,7 @@ class BudgetBuilderStepViewModelTest {
             snackbar = CommonErrorSnackbarState(failure),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumables = viewModel.consumableUiState.testIn(backgroundScope)
             assertEquals(expected, receiveConsumables.awaitItem())
         }
@@ -103,7 +103,7 @@ class BudgetBuilderStepViewModelTest {
             dialog = BudgetBuilderStepDialog.EnterName(),
         )
         turbineScope {
-            viewModel.uiStateOutput.testIn(backgroundScope).skipItems(1)
+            viewModel.uiState.testIn(backgroundScope).skipItems(1)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.addNewCategory()
             assertEquals(expected, receiveConsumable.awaitItem())
@@ -127,7 +127,7 @@ class BudgetBuilderStepViewModelTest {
             ),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.selectManuallyAddedItem(randomIndex)
             assertEquals(expected, receiveConsumable.awaitItem())
@@ -151,7 +151,7 @@ class BudgetBuilderStepViewModelTest {
             ),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.selectSuggestedItem(randomIndex)
             assertEquals(expected, receiveConsumable.awaitItem())
@@ -174,7 +174,7 @@ class BudgetBuilderStepViewModelTest {
             ),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.addNewCategory()
             assertEquals(expectedWhenSelectCategory, receiveConsumable.awaitItem())
@@ -193,7 +193,7 @@ class BudgetBuilderStepViewModelTest {
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.submitCategoryName()
             assertEquals(expected, receiveConsumable.awaitItem())
@@ -214,7 +214,7 @@ class BudgetBuilderStepViewModelTest {
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.selectSuggestedItem(1)
             assertEquals(expected, receiveConsumable.awaitItem())
@@ -235,7 +235,7 @@ class BudgetBuilderStepViewModelTest {
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.selectManuallyAddedItem(2)
             assertEquals(expected, receiveConsumable.awaitItem())
@@ -258,7 +258,7 @@ class BudgetBuilderStepViewModelTest {
         val viewModel = viewModel(testScheduler)
         val expected = BudgetBuilderStepConsumables(route = nextRoute)
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.next()
             assertEquals(expected, receiveConsumable.awaitItem())
@@ -276,7 +276,7 @@ class BudgetBuilderStepViewModelTest {
             snackbar = BudgetBuilderStepSnackbar.NotAllowedToProceed(1),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.next()
             assertEquals(expected, receiveConsumable.awaitItem())
@@ -291,7 +291,7 @@ class BudgetBuilderStepViewModelTest {
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.next()
             assertEquals(expected, receiveConsumable.awaitItem())
@@ -306,7 +306,7 @@ class BudgetBuilderStepViewModelTest {
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.selectManuallyAddedItem(0)
             assertEquals(expected, receiveConsumable.awaitItem())
@@ -321,7 +321,7 @@ class BudgetBuilderStepViewModelTest {
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
         turbineScope {
-            viewModel.uiStateOutput.drop(1).testIn(backgroundScope)
+            viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
             viewModel.selectSuggestedItem(0)
             assertEquals(expected, receiveConsumable.awaitItem())

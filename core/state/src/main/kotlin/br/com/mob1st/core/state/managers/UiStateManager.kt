@@ -1,11 +1,11 @@
-package br.com.mob1st.core.state.contracts
+package br.com.mob1st.core.state.managers
 
 import kotlinx.coroutines.flow.StateFlow
 
 /**
  * A common interface for ViewModels expose the ui state in a standard way.
  */
-interface UiStateOutputManager<T> {
+interface UiStateManager<T> {
     /**
      * The current state of the UI.
      *
@@ -13,5 +13,5 @@ interface UiStateOutputManager<T> {
      * This data class should represent the entire state of the UI, including side effects such as error messages and
      * navigation actions.
      */
-    val uiStateOutput: StateFlow<T>
+    val uiState: StateFlow<T>
 }

@@ -70,7 +70,6 @@ fun <T> Flow<T>.catchIn(errorHandler: ErrorHandler): Flow<T> = map { Result.succ
 
 /**
  * Catches errors in a [Flow] and handles them with the [ErrorHandler].
- * @param T the type of the [Flow].
  * @param block the block to be executed that can throw an exception.
  * @return the [Flow] with the error handling.
  */

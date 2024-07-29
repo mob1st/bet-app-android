@@ -143,7 +143,6 @@ junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "ju
 junit5-vintage = "org.junit.vintage:junit-vintage-engine:5.11.0-M2"
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
-kotlinfixture = "com.appmattus.fixture:fixture:1.2.0"
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # classpath plugins
@@ -166,10 +165,10 @@ unittest-kotlin = [
     "kotest-runner",
     "kotest-property",
     "kotest-assertions",
+    "kotest-arbs",
     "mockk-kotlin",
     "kotlin-reflection",
     "kotlin-test",
-    "kotlinfixture",
     "turbine"
 ]
 unittest-android = [
@@ -181,7 +180,6 @@ unittest-android = [
     "mockk-agent",
     "kotlin-reflection",
     "kotlin-test",
-    "kotlinfixture",
     "junit5-api",
     "junit5-engine",
     "junit5-params",

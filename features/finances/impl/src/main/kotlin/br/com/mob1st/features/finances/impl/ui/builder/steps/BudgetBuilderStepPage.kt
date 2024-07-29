@@ -35,7 +35,7 @@ fun BudgetBuilderStepPage(
     val viewModel = koinViewModel<BudgetBuilderStepViewModel> {
         parametersOf(step)
     }
-    val uiState by viewModel.uiStateOutput.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val consumables by viewModel.consumableUiState.collectAsStateWithLifecycle()
     CategoryBuilderStepScreen(
         uiState = uiState,

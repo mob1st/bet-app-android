@@ -1,11 +1,10 @@
 package br.com.mob1st.features.finances.impl.ui.navgraph
 
+import androidx.compose.material3.Text
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import br.com.mob1st.core.design.motion.transition.target
-import br.com.mob1st.features.finances.impl.ui.tabs.CashFlowTabPage
-import br.com.mob1st.features.finances.impl.ui.tabs.CashFlowTarget
 import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
 import kotlinx.serialization.Serializable
 
@@ -18,12 +17,10 @@ internal object FinancesNavGraphImpl : FinancesNavGraph {
         onClickClose: () -> Unit,
     ) {
         navigation<Root>(
-            startDestination = CashFlowTarget.MainTab,
+            startDestination = "main",
         ) {
-            target<CashFlowTarget.MainTab> {
-                CashFlowTabPage(
-                    onClickClose = onClickClose,
-                )
+            composable("main") {
+                Text(text = "Main")
             }
         }
     }

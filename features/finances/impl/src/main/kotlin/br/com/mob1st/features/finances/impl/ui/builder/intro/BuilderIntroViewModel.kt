@@ -3,9 +3,9 @@ package br.com.mob1st.features.finances.impl.ui.builder.intro
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mob1st.core.androidx.flows.stateInWhileSubscribed
-import br.com.mob1st.core.state.contracts.UiStateOutputManager
 import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.core.state.managers.ConsumableManager
+import br.com.mob1st.core.state.managers.UiStateManager
 import br.com.mob1st.core.state.managers.launchIn
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.usecases.StartBuilderStepUseCase
@@ -21,7 +21,7 @@ internal class BuilderIntroViewModel private constructor(
     private val router: BuilderRouter,
     private val consumableDelegate: ConsumableDelegate<BuilderIntroConsumables>,
 ) : ViewModel(),
-    UiStateOutputManager<BuilderIntroUiState>,
+    UiStateManager<BuilderIntroUiState>,
     ConsumableManager<BuilderIntroConsumables> by consumableDelegate {
     constructor(
         startBuilderStep: StartBuilderStepUseCase,
@@ -37,10 +37,13 @@ internal class BuilderIntroViewModel private constructor(
         handleError(it)
     }
 
-    override val uiStateOutput: StateFlow<BuilderIntroUiState> = isLoadingState.map {
+    override val uiState: StateFlow<BuilderIntroUiState> = isLoadingState.map {
         BuilderIntroUiState(it)
     }.stateInWhileSubscribed(viewModelScope, BuilderIntroUiState(false))
 
+    /**
+     * Starts the builder flow triggering the navigation to the first step.
+     */
     fun start() = launchIn(errorHandler) {
         isLoadingState.value = true
         val step = BudgetBuilder.firstStep()

@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.atoms.theme.UiContrast
-import br.com.mob1st.features.dev.impl.DevSettingsNavRoot
 import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
 import org.koin.compose.koinInject
@@ -35,10 +34,6 @@ internal fun NavigationGraph(activity: ComponentActivity) {
         navController = navController,
         startDestination = budgetBuilderNavGraph.root,
     ) {
-        DevSettingsNavRoot.graph(
-            navController = navController,
-            onBack = { activity.finish() },
-        )
         financesNavGraph.graph(
             navController = navController,
             onClickClose = { activity.finish() },

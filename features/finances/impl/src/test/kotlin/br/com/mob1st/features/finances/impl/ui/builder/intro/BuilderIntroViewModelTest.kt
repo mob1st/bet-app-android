@@ -37,7 +37,7 @@ internal class BuilderIntroViewModelTest {
     fun `WHEN get initial state THEN assert loading is false`() = runTest {
         val viewModel = initViewModel()
         turbineScope {
-            val receiveUiState = viewModel.uiStateOutput.testIn(backgroundScope)
+            val receiveUiState = viewModel.uiState.testIn(backgroundScope)
             val receiveConsumables = viewModel.consumableUiState.testIn(backgroundScope)
             assertEquals(
                 BuilderIntroUiState(false),
@@ -58,7 +58,7 @@ internal class BuilderIntroViewModelTest {
         }
         val viewModel = initViewModel()
         viewModel.start()
-        viewModel.uiStateOutput.test {
+        viewModel.uiState.test {
             val state = awaitItem()
             assertTrue(state.isLoading)
         }
@@ -70,7 +70,7 @@ internal class BuilderIntroViewModelTest {
         val viewModel = initViewModel()
         viewModel.start()
         turbineScope {
-            val receiveUiState = viewModel.uiStateOutput.testIn(backgroundScope)
+            val receiveUiState = viewModel.uiState.testIn(backgroundScope)
             val receiveConsumables = viewModel.consumableUiState.testIn(backgroundScope)
             assertEquals(
                 BuilderIntroUiState(false),
@@ -91,7 +91,7 @@ internal class BuilderIntroViewModelTest {
         val viewModel = initViewModel()
         viewModel.start()
         turbineScope {
-            val receiveUiState = viewModel.uiStateOutput.testIn(backgroundScope)
+            val receiveUiState = viewModel.uiState.testIn(backgroundScope)
             val receiveConsumables = viewModel.consumableUiState.testIn(backgroundScope)
             assertEquals(
                 BuilderIntroUiState(false),

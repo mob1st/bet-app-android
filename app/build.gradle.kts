@@ -115,9 +115,6 @@ dependencies {
     implementation(projects.core.design)
     implementation(projects.core.database)
     implementation(projects.core.kotlinx)
-    implementation(projects.features.dev.impl)
-    implementation(projects.features.home.impl)
-    implementation(projects.features.onboarding.impl)
     implementation(projects.features.finances.impl)
     implementation(projects.features.utils)
 
