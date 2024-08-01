@@ -42,7 +42,9 @@ fun BuilderIntroPage(
         SnackbarHostState()
     }
     BuilderIntroScreen(
-        snackbarHostState = snackbarHostState,
+        snackbarHostState = remember {
+            SnackbarHostState()
+        },
         uiState = uiState,
         onClickNext = viewModel::start,
     )

@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
-import br.com.mob1st.features.finances.impl.ui.builder.completion.BuilderCompletionPage
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroPage
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
@@ -38,9 +37,6 @@ object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
                     onNext = navController::navigate,
                     onBack = navController::navigateUp,
                 )
-            }
-            composable<BuilderRoute.Completion> {
-                BuilderCompletionPage(onComplete = onComplete)
             }
         }
     }

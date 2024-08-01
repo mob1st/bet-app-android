@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
-import java.nio.file.Files
 
 /**
  * Concrete implementation of the [CategorySuggestionRepository] interface.
@@ -31,17 +30,19 @@ internal class CategorySuggestionsRepositoryImpl(
         step: BuilderNextAction.Step,
     ): Flow<List<CategorySuggestion>> = flow {
         val list = suggestionListPerStep[step]
-        val suggestions = list.mapNotNull(::map)
+        val suggestions = list.mapNotNull {
+            map(it)
+        }
         emit(suggestions)
     }.flowOn(default)
 
-    private fun map(suggestion: String): CategorySuggestion? {
+    private suspend fun map(suggestion: String): CategorySuggestion? {
         val name = stringIdGetter.getString(suggestion)
-        val imageFile = assetsGetter["icons/$suggestion.svg"]
-        return if (name != null && Files.exists(imageFile.toPath())) {
+        val imagePath = assetsGetter.get("icons/$suggestion.svg")
+        return if (name != null && imagePath != null) {
             CategorySuggestion(
                 name = name,
-                image = Uri(imageFile.absolutePath),
+                image = Uri(imagePath),
             )
         } else {
             Timber.w("Could not map suggestion $suggestion")

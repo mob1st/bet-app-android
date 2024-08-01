@@ -24,10 +24,12 @@ class LauncherActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             KoinContext {
-                CompositionLocalProvider(LocalAnalyticsReporter provides analyticsReporter) {
+                CompositionLocalProvider(
+                    LocalAnalyticsReporter provides analyticsReporter,
+                ) {
                     UiContrast {
                         TwoCentsTheme {
-                            NavigationGraph(this)
+                            NavigationGraph()
                         }
                     }
                 }
@@ -37,7 +39,7 @@ class LauncherActivity : ComponentActivity() {
 }
 
 @Composable
-internal fun NavigationGraph(activity: ComponentActivity) {
+internal fun NavigationGraph() {
     val navController = rememberNavController()
     val financesNavGraph = koinInject<FinancesNavGraph>()
     val budgetBuilderNavGraph = koinInject<BudgetBuilderNavGraph>()
@@ -47,7 +49,7 @@ internal fun NavigationGraph(activity: ComponentActivity) {
     ) {
         financesNavGraph.graph(
             navController = navController,
-            onClickClose = { activity.finish() },
+            onClickClose = { },
         )
         budgetBuilderNavGraph.graph(
             navController,

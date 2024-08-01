@@ -8,12 +8,12 @@ import br.com.mob1st.core.design.atoms.colors.material.families.TwoCentsColorExt
  * Provides access to a [TwoCentsColorExtension] inside a Composable scope.
  */
 val LocalExtensionsColorFamilies = compositionLocalOf<TwoCentsColorExtension> {
-    error("No BackgroundColorFamily provided")
+    error("No LocalExtensionsColorFamilies provided")
 }
 
 /**
  * Provides access to a [MaterialColorFamilies] inside a Composable scope.
  */
 val LocalMaterialColorFamilies = compositionLocalOf<MaterialColorFamilies> {
-    error("No BackgroundColorFamily provided")
+    error("No LocalMaterialColorFamilies provided")
 }

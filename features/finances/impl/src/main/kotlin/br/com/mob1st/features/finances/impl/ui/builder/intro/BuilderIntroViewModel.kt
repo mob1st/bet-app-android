@@ -32,7 +32,7 @@ internal class BuilderIntroViewModel(
         BuilderIntroUiState(it)
     }.stateInWhileSubscribed(
         viewModelScope,
-        BuilderIntroUiState(isLoadingState.value),
+        BuilderIntroUiState(false),
     )
 
     /**

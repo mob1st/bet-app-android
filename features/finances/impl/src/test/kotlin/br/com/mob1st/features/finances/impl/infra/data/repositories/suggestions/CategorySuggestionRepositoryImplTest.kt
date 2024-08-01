@@ -10,6 +10,7 @@ import br.com.mob1st.tests.featuresutils.TestTimberTree
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.next
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,9 +21,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.io.TempDir
 import timber.log.Timber
-import java.io.File
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -54,104 +53,72 @@ class CategorySuggestionRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN an invalid name WHEN get by step THEN assert invalid is skipped And warning is logged`(
-        @TempDir tempDir: File,
-    ) = runTest {
+    fun `GIVEN an invalid name WHEN get by step THEN assert invalid is skipped And warning is logged`() = runTest {
         // Given
         val step = Arb.bind<BuilderNextAction.Step>().next()
-        val validFile = tempDir.resolve("valid.svg").apply {
-            createNewFile()
-        }
-        val invalidFile = tempDir.resolve("invalid.svg").apply {
-            createNewFile()
-        }
 
-        every { suggestionListPerStep[step] } returns listOf("valid", "invalid")
-        givenSuggestion("valid", "valid", validFile)
-        givenSuggestion("invalid", null, invalidFile)
+        every { suggestionListPerStep[step] } returns listOf("valid_id", "invalid_id")
+        givenSuggestion("valid_id", "valid", "valid.svg")
+        givenSuggestion("invalid_id", null, "invalid.svg")
 
         // When
         val actual = repository.getByStep(step).first()
 
         // Then
-        val expected = CategorySuggestion(name = "valid", image = Uri(validFile.absolutePath))
+        val expected = CategorySuggestion(name = "valid", image = Uri("valid.svg"))
         assertEquals(listOf(expected), actual)
         assertTrue(timberTree.logs[0].isWarning)
     }
 
     @Test
-    fun `GIVEN a non existent file WHEN get by step THEN assert suggestion is skipped And warning is logged`(
-        @TempDir tempDir: File,
-    ) = runTest {
+    fun `GIVEN a non existent file WHEN get by step THEN assert suggestion is skipped And warning is logged`() = runTest {
         // Given
         val step = Arb.bind<BuilderNextAction.Step>().next()
-        val existentFile = tempDir.resolve("existent.svg").apply {
-            createNewFile()
-        }
-        val nonExistentFile = tempDir.resolve("non_existent.svg")
 
-        every { suggestionListPerStep[step] } returns listOf("existent", "non_existent")
-        givenSuggestion("existent", "existent", existentFile)
-        givenSuggestion("non_existent", "non_existent", nonExistentFile)
+        every { suggestionListPerStep[step] } returns listOf("valid_id", "invalid_id")
+        givenSuggestion("valid_id", "valid", "valid.svg")
+        givenSuggestion("invalid_id", "invalid", null)
 
         // When
         val actual = repository.getByStep(step).first()
 
         // Then
-        val expected = CategorySuggestion(name = "existent", image = Uri(existentFile.absolutePath))
+        val expected = CategorySuggestion(name = "valid", image = Uri("valid.svg"))
         assertEquals(listOf(expected), actual)
         assertTrue(timberTree.logs[0].isWarning)
     }
 
     @Test
-    fun `GIVEN a non existent file And a invalid res id WHEN get by step THEN assert suggestion is skipped And warning is logged`(
-        @TempDir tempDir: File,
-    ) = runTest {
+    fun `GIVEN a non existent file And a invalid res id WHEN get by step THEN assert suggestion is skipped And warning is logged`() = runTest {
         // Given
         val step = Arb.bind<BuilderNextAction.Step>().next()
-        val nonExistent = tempDir.resolve("persisted.svg").apply {
-            createNewFile()
-        }
-        val invalidFile = tempDir.resolve("skipped.svg")
-
-        every { suggestionListPerStep[step] } returns listOf("persisted", "skipped")
-        givenSuggestion("persisted", "persisted", nonExistent)
-        givenSuggestion("skipped", null, invalidFile)
+        every { suggestionListPerStep[step] } returns listOf("valid_id", "invalid_id")
+        givenSuggestion("valid_id", "valid", "valid.svg")
+        givenSuggestion("invalid_id", null, null)
 
         // When
         val actual = repository.getByStep(step).first()
 
         // Then
-        val expected = CategorySuggestion(name = "persisted", image = Uri(nonExistent.absolutePath))
+        val expected = CategorySuggestion(name = "valid", image = Uri("valid.svg"))
         assertEquals(listOf(expected), actual)
         assertTrue(timberTree.logs[0].isWarning)
     }
 
     @Test
-    fun `GIVEN a valid file And a valid name WHEN get by step THEN assert suggestions are returned And no log happens`(
-        @TempDir tempDir: File,
-    ) = runTest {
+    fun `GIVEN a valid file And a valid name WHEN get by step THEN assert suggestions are returned And no log happens`() = runTest {
         // Given
         val step = Arb.bind<BuilderNextAction.Step>().next()
-        val file1 = tempDir.resolve("file1.svg").apply {
-            createNewFile()
-        }
-        val file2 = tempDir.resolve("file2.svg").apply {
-            createNewFile()
-        }
-        val name1 = "name1"
-        val name2 = "name2"
-
-        every { suggestionListPerStep[step] } returns listOf("id1", "id2")
-        givenSuggestion("id1", name1, file1)
-        givenSuggestion("id2", name2, file2)
+        every { suggestionListPerStep[step] } returns listOf("valid_id1", "valid_id2")
+        givenSuggestion("valid_id1", "valid1", "valid1.svg")
+        givenSuggestion("valid_id2", "valid2", "valid2.svg")
 
         // When
         val actual = repository.getByStep(step).first()
 
         // Then
-        val expected1 = CategorySuggestion(name = name1, image = Uri(file1.absolutePath))
-        val expected2 = CategorySuggestion(name = name2, image = Uri(file2.absolutePath))
+        val expected1 = CategorySuggestion(name = "valid1", image = Uri("valid1.svg"))
+        val expected2 = CategorySuggestion(name = "valid2", image = Uri("valid2.svg"))
         assertEquals(listOf(expected1, expected2), actual)
         assertTrue(timberTree.logs.isEmpty())
     }
@@ -159,9 +126,9 @@ class CategorySuggestionRepositoryImplTest {
     private fun givenSuggestion(
         id: String,
         name: String?,
-        file: File,
+        file: String?,
     ) {
         every { stringIdGetter.getString(id) } returns name
-        every { assetsGetter["icons/$id.svg"] } returns file
+        coEvery { assetsGetter.get("icons/$id.svg") } returns file
     }
 }

@@ -3,6 +3,7 @@ package br.com.mob1st.features.finances.impl.ui.utils.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -14,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import br.com.mob1st.core.androidx.compose.ComposableFunction
+import androidx.compose.ui.unit.dp
 import br.com.mob1st.core.design.molecules.icons.LeadingIcon
 import br.com.mob1st.core.design.organisms.lists.selectableItem
 import br.com.mob1st.core.design.utils.PreviewTheme
@@ -31,7 +32,7 @@ fun CategorySectionItem(
     state: CategorySectionItemState,
     onSelect: () -> Unit,
 ) {
-    val decoratedSupportingContent: ComposableFunction? =
+    val decoratedSupportingContent: @Composable (() -> Unit)? =
         state.recurrences?.let { text ->
             {
                 ProvideTextStyle(value = CategoryListItemDefaults.bottomTextStyle) {
@@ -85,7 +86,9 @@ private fun Icon(
         combination = colorCombination,
     ) {
         AsyncImage(
-            modifier = Modifier.background(Color.Transparent),
+            modifier = Modifier
+                .background(Color.Transparent)
+                .size(40.dp),
             model = icon.image.value,
             contentDescription = null,
             colorFilter = ColorFilter.tint(color = LocalContentColor.current),

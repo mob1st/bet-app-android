@@ -38,7 +38,7 @@ fun UiContrast(content: @Composable () -> Unit) {
     }
 
     CompositionLocalProvider(LocalUiContrast provides uiContrast) {
-        TwoCentsTheme(content)
+        content()
     }
 
     UiContrastEffect {

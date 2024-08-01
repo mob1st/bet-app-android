@@ -1,6 +1,6 @@
 [versions]
 compose-compiler = '1.5.13'
-compose = '1.6.8'
+compose = '1.7.0-beta06'
 kotlin = "1.9.23"
 koin = "3.5.0"
 koin-ksp = "1.1.1"
