@@ -20,7 +20,6 @@ import br.com.mob1st.core.design.atoms.icons.SeasonalExpensesIcon
 import br.com.mob1st.core.design.atoms.icons.VariableExpensesIcon
 import br.com.mob1st.core.design.molecules.icons.IconScale
 import br.com.mob1st.core.design.molecules.icons.LeadingIcon
-import br.com.mob1st.core.design.molecules.loading.Loading
 import br.com.mob1st.core.design.templates.FeatureSummaryScaffold
 import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
@@ -72,7 +71,7 @@ private fun BuilderIntroScreen(
         onClickButton = onClickNext,
         titleContent = { Text(stringResource(id = R.string.finances_builder_intro_header)) },
         subtitleContent = { Text(stringResource(id = R.string.finances_builder_intro_subheader)) },
-        buttonContent = { IntroButtonContent(isLoading = uiState.isLoading) },
+        buttonContent = { Text(text = stringResource(id = R.string.finances_builder_intro_button)) },
     ) {
         IntroScaffoldContent()
     }
@@ -137,16 +136,6 @@ private fun BuilderSummaryItem(
         headlineContent = { Text(text = stringResource(id = title)) },
         supportingContent = { Text(text = stringResource(id = description)) },
     )
-}
-
-@Composable
-private fun IntroButtonContent(isLoading: Boolean) {
-    Loading(
-        isLoading = isLoading,
-        crossfadeLabel = "loadingButton",
-    ) {
-        Text(text = stringResource(id = R.string.finances_builder_intro_button))
-    }
 }
 
 @Composable

@@ -17,7 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.androidx.compose.NavigationSideEffect
 import br.com.mob1st.core.androidx.compose.SnackbarSideEffect
 import br.com.mob1st.core.design.atoms.spacing.Spacings
-import br.com.mob1st.core.design.molecules.loading.Loading
+import br.com.mob1st.core.design.molecules.loading.CrossfadeLoading
 import br.com.mob1st.core.design.organisms.section.section
 import br.com.mob1st.core.design.templates.FeatureStepScaffold
 import br.com.mob1st.core.design.utils.PreviewTheme
@@ -216,7 +216,7 @@ private fun BuilderStepsSideEffects(
 
 @Composable
 private fun StepButton(isLoading: Boolean) {
-    Loading(isLoading = isLoading, crossfadeLabel = "loadingButton") {
+    CrossfadeLoading(isLoading = isLoading, crossfadeLabel = "loadingButton") {
         Text(stringResource(id = R.string.finances_commons_button_next))
     }
 }
