@@ -3,6 +3,7 @@ package br.com.mob1st.core.design.templates
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,7 +45,7 @@ fun FeatureSummaryScaffold(
     onClickButton: () -> Unit = {},
     titleContent: @Composable () -> Unit,
     subtitleContent: @Composable () -> Unit,
-    buttonContent: @Composable (() -> Unit),
+    buttonContent: @Composable RowScope.() -> Unit,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val titleScrollBehavior = TitleDefaults.scrollBehavior

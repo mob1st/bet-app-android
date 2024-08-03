@@ -37,7 +37,7 @@ internal interface CategoriesRepository {
     fun countByIsExpenseAndRecurrencesType(
         isExpense: Boolean,
         recurrenceType: RecurrenceType,
-    ): Long
+    ): Flow<Long>
 
     /**
      * Bulk inserts the given [categories].

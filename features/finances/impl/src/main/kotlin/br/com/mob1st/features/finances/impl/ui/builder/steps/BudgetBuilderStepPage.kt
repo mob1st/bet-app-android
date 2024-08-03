@@ -85,29 +85,28 @@ private fun CategoryBuilderStepScreen(
     onSubmitCategoryName: () -> Unit,
     onBack: () -> Unit,
 ) {
-    if (uiState !is BudgetBuilderStepUiState.Loaded) {
-        return
-    }
     FeatureStepScaffold(
         snackbarHostState = snackbarHostState,
         isButtonExpanded = true,
         onClickBack = onBack,
         onClickNext = onClickNext,
         titleContent = {
-            Text(text = stringResource(id = uiState.header.title))
-        },
-        buttonContent = {
-            StepButton(isLoading = uiState.isLoadingNext)
+            Text(text = "Title")
         },
         subtitleContent = {
-            Text(text = stringResource(id = uiState.header.description))
+            Text(text = "Subtitle")
+        },
+        buttonContent = {
+            StepButton(isLoading = false)
         },
     ) {
-        BudgetBuilderScreenContent(
-            uiState = uiState,
-            onSelectManualCategory = onSelectManualCategory,
-            onSelectSuggestion = onSelectSuggestion,
-        )
+        if (uiState is BudgetBuilderStepUiState.Loaded) {
+            BudgetBuilderScreenContent(
+                uiState = uiState,
+                onSelectManualCategory = onSelectManualCategory,
+                onSelectSuggestion = onSelectSuggestion,
+            )
+        }
         BudgetBuilderDialog(
             dialog = consumables.dialog,
             onType = onTypeCategoryName,

@@ -20,9 +20,11 @@ import br.com.mob1st.core.design.atoms.motion.StandardEasingSet
  * Composable navigation destination that slides in horizontally.
  */
 inline fun <reified T : Any> NavGraphBuilder.slide(
+    route: String,
     deepLinks: List<NavDeepLink> = emptyList(),
     noinline content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
-) = composable<T>(
+) = composable(
+    route = route,
     deepLinks = deepLinks,
     enterTransition = {
         slideInHorizontally(towards = AnimatedContentTransitionScope.SlideDirection.Start)

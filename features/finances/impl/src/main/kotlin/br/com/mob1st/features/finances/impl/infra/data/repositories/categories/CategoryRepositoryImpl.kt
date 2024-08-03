@@ -36,13 +36,16 @@ internal class CategoryRepositoryImpl(
             }
     }
 
-    override fun countByIsExpenseAndRecurrencesType(isExpense: Boolean, recurrenceType: RecurrenceType): Long {
+    override fun countByIsExpenseAndRecurrencesType(
+        isExpense: Boolean,
+        recurrenceType: RecurrenceType,
+    ): Flow<Long> {
         return db.categoriesQueries
             .countCategoriesByRecurrenceType(
                 is_expense = isExpense,
                 recurrence_type = RecurrenceColumns.rawTypeFrom(recurrenceType),
             )
-            .executeAsOne()
+            .asFlowSingle(io) { it }
     }
 
     override fun getById(id: Category.Id): Flow<Category> {

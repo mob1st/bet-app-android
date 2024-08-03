@@ -27,7 +27,7 @@ internal class StartBuilderStepUseCase(
         val count = categoriesRepository.countByIsExpenseAndRecurrencesType(
             isExpense = step.isExpense,
             recurrenceType = step.type,
-        )
+        ).first()
         if (count == 0L) {
             val suggestions = categorySuggestionRepository.getByStep(step).first()
             val categories = suggestions.map { suggestion ->

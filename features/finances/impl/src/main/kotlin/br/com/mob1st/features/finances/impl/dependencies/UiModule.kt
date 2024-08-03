@@ -25,6 +25,7 @@ internal val builderModule = module {
             consumableDelegate = BuilderIntroViewModel.consumableDelegate(),
             router = get(),
             startBuilderStep = get(),
+            default = get(),
         )
     }
     viewModel { params ->

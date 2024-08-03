@@ -3,6 +3,7 @@ package br.com.mob1st.features.finances.impl.ui.builder.intro
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mob1st.core.androidx.viewmodels.launchIn
+import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.coroutines.stateInWhileSubscribed
 import br.com.mob1st.core.state.managers.AsyncLoadingState
 import br.com.mob1st.core.state.managers.ConsumableDelegate
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.update
 
 internal class BuilderIntroViewModel(
     private val consumableDelegate: ConsumableDelegate<BuilderIntroConsumables>,
+    private val default: DefaultCoroutineDispatcher,
     private val router: BuilderRouter,
     private val startBuilderStep: StartBuilderStepUseCase,
 ) : ViewModel(),
@@ -38,7 +40,7 @@ internal class BuilderIntroViewModel(
     /**
      * Starts the builder flow triggering the navigation to the first step.
      */
-    fun start() = launchIn(errorHandler) {
+    fun start() = launchIn(default + errorHandler) {
         val step = BudgetBuilder.firstStep()
         isLoadingState.trigger {
             startBuilderStep(step)

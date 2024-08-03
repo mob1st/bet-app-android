@@ -16,6 +16,7 @@ interface BudgetBuilderNavGraph {
     context(NavGraphBuilder)
     fun graph(
         navController: NavController,
+        slideDistance: Int,
         onComplete: () -> Unit,
     )
 

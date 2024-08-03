@@ -21,7 +21,7 @@ junit5-plugin = "1.10.0.0"
 junit5 = "5.10.2"
 coroutines = "1.8.1"
 turbine = "1.1.0"
-navigation = "2.8.0-beta06"
+navigation = "2.7.7"
 coil = "2.6.0"
 # Do not update this version unless the minimum version of the Android SDK.
 # This is the SQLite JDBC driver used by the Android SDK 26.
