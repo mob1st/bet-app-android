@@ -32,7 +32,7 @@ sealed interface BuilderNavRoute : NavRoute {
             FixedExpenses,
             VariableExpenses,
             SeasonalExpenses,
-            FixedIncomes
+            FixedIncomes,
         }
     }
 
