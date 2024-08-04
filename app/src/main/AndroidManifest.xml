@@ -24,7 +24,7 @@
             android:value="false" />
 
         <activity
-            android:name=".features.launch.presentation.LauncherActivity"
+            android:name=".features.launch.presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
