@@ -1,11 +1,18 @@
 package br.com.mob1st.features.finances.impl.ui.navgraph
 
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import br.com.mob1st.core.design.atoms.motion.materialSharedAxisXIn
-import br.com.mob1st.core.design.atoms.motion.materialSharedAxisXOut
+import br.com.mob1st.core.design.molecules.transitions.BackAndForward
+import br.com.mob1st.core.design.molecules.transitions.TopLevel
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroPage
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
@@ -17,7 +24,6 @@ object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
     context(NavGraphBuilder)
     override fun graph(
         navController: NavController,
-        slideDistance: Int,
         onComplete: () -> Unit,
     ) {
         navigation(
@@ -27,13 +33,16 @@ object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
             composable(
                 route = BuilderRoute.Intro.toString(),
                 enterTransition = {
-                    null
+                    TopLevel.enter()
                 },
                 exitTransition = {
-                    materialSharedAxisXOut(true, slideDistance)
+                    BackAndForward(this, SlideDirection.Start).exit()
                 },
                 popEnterTransition = {
-                    materialSharedAxisXIn(false, slideDistance)
+                    BackAndForward(this, SlideDirection.End).enter()
+                },
+                popExitTransition = {
+                    TopLevel.exit()
                 },
             ) {
                 BuilderIntroPage(
@@ -47,10 +56,16 @@ object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
                 route = "/step",
                 // typeMap = mapOf(typeOf<BuilderRoute.Step.Type>() to BuilderStepNavType),
                 enterTransition = {
-                    materialSharedAxisXIn(true, slideDistance)
+                    BackAndForward(this, SlideDirection.Start).enter()
+                },
+                exitTransition = {
+                    TopLevel.exit()
                 },
                 popExitTransition = {
-                    materialSharedAxisXOut(false, slideDistance)
+                    BackAndForward(this, SlideDirection.End).exit()
+                },
+                popEnterTransition = {
+                    TopLevel.enter()
                 },
             ) { navBackStackEntry ->
                 // val router = koinInject<BuilderRouter>()
@@ -58,9 +73,28 @@ object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
                 // val step = router.from(route)
                 BudgetBuilderStepPage(
                     step = VariableExpensesStep,
-                    onNext = {},
+                    onNext = { navController.navigate(BuilderRoute.Intro.toString()) },
                     onBack = navController::navigateUp,
                 )
+            }
+
+            composable(
+                "c",
+                enterTransition = {
+                    TopLevel.enter()
+                },
+                popExitTransition = {
+                    TopLevel.exit()
+                },
+            ) {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(text = "Finish")
+                    }
+                }
             }
         }
     }

@@ -108,9 +108,9 @@ internal class BudgetBuilderStepViewModel(
      */
     fun next() = launchIn(errorHandler) {
         val uiState = checkIs<Loaded>(uiState.value)
-        isLoadingState.trigger {
-            proceedBuilder(uiState.builder)
-        }
+//        isLoadingState.trigger {
+//            proceedBuilder(uiState.builder)
+//        }
         consumableDelegate.update {
             it.copy(route = router.to(uiState.builder.next))
         }

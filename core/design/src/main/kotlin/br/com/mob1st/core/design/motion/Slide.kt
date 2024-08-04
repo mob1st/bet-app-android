@@ -12,7 +12,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import br.com.mob1st.core.design.atoms.motion.Duration
+import br.com.mob1st.core.design.atoms.motion.DurationSet
 import br.com.mob1st.core.design.atoms.motion.EmphasizedEasingSet
 import br.com.mob1st.core.design.atoms.motion.StandardEasingSet
 
@@ -52,12 +52,12 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.slideInHorizontally(
         towards = towards,
         animationSpec = tween(
             easing = EmphasizedEasingSet.decelerate,
-            durationMillis = Duration.medium.four,
+            durationMillis = DurationSet.medium.x4,
         ),
     ) + fadeIn(
         animationSpec = tween(
-            durationMillis = Duration.medium.one,
-            delayMillis = Duration.short.two,
+            durationMillis = DurationSet.medium.x1,
+            delayMillis = DurationSet.short.x2,
             easing = StandardEasingSet.decelerate,
         ),
     )
@@ -73,13 +73,13 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.slideOutHorizontally(
     return slideOutOfContainer(
         towards = towards,
         animationSpec = tween(
-            durationMillis = Duration.short.four,
+            durationMillis = DurationSet.short.x4,
             easing = EmphasizedEasingSet.accelerate,
         ),
     ) + fadeOut(
         animationSpec = tween(
-            durationMillis = Duration.short.four,
-            delayMillis = Duration.short.one,
+            durationMillis = DurationSet.short.x4,
+            delayMillis = DurationSet.short.x1,
             easing = StandardEasingSet.accelerate,
         ),
     )
