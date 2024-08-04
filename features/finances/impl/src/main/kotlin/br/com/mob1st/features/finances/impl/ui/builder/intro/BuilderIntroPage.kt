@@ -29,14 +29,14 @@ import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.features.finances.impl.R
+import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.events.builderIntroScreenViewEvent
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun BuilderIntroPage(
-    onNext: (BuilderRoute) -> Unit,
+    onNext: (BuilderNextAction.Step) -> Unit,
 ) {
     val viewModel = koinViewModel<BuilderIntroViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -56,7 +56,7 @@ fun BuilderIntroPage(
         snackbarHostState = snackbarHostState,
         onNavigate = {
             onNext(it)
-            viewModel.consume(BuilderIntroConsumables.nullableRoute)
+            viewModel.consume(BuilderIntroConsumables.nullableStep)
         },
         onDismissSnackbar = {
             viewModel.consume(BuilderIntroConsumables.nullableSnackbar)
@@ -146,12 +146,12 @@ private fun BuilderSummaryItem(
 private fun IntroSideEffects(
     consumables: BuilderIntroConsumables,
     snackbarHostState: SnackbarHostState,
-    onNavigate: (BuilderRoute) -> Unit,
+    onNavigate: (BuilderNextAction.Step) -> Unit,
     onDismissSnackbar: () -> Unit,
 ) {
     TrackEventSideEffect(event = AnalyticsEvent.builderIntroScreenViewEvent())
     NavigationSideEffect(
-        target = consumables.route,
+        target = consumables.step,
         onNavigate = onNavigate,
     )
     SnackbarSideEffect(

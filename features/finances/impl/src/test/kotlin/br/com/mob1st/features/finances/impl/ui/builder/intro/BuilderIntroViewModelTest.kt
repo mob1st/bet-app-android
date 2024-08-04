@@ -5,7 +5,7 @@ import app.cash.turbine.turbineScope
 import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.usecases.StartBuilderStepUseCase
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
@@ -88,7 +88,7 @@ internal class BuilderIntroViewModelTest {
     @Test
     fun `GIVEN a initial action WHEN start THEN assert first step is used And router send it`() = runTest {
         val step = BudgetBuilder.firstStep()
-        val route = Arb.bind<BuilderRoute>().next()
+        val route = Arb.bind<BuilderNavRoute>().next()
         every { router.to(step) } returns route
         val viewModel = initViewModel()
         viewModel.start()

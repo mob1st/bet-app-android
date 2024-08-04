@@ -11,7 +11,6 @@ import br.com.mob1st.core.state.managers.ConsumableManager
 import br.com.mob1st.core.state.managers.UiStateManager
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.usecases.StartBuilderStepUseCase
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.utils.errors.commonErrorHandler
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.update
 internal class BuilderIntroViewModel(
     private val consumableDelegate: ConsumableDelegate<BuilderIntroConsumables>,
     private val default: DefaultCoroutineDispatcher,
-    private val router: BuilderRouter,
     private val startBuilderStep: StartBuilderStepUseCase,
 ) : ViewModel(),
     UiStateManager<BuilderIntroUiState>,
@@ -46,7 +44,7 @@ internal class BuilderIntroViewModel(
             startBuilderStep(step)
         }
         consumableDelegate.update {
-            it.copy(route = router.to(step))
+            it.copy(step = step)
         }
     }
 

@@ -10,7 +10,7 @@ import br.com.mob1st.core.kotlinx.structures.Identifiable
  */
 data class BudgetBuilder(
     override val id: BuilderNextAction.Step,
-    private val categories: List<Category>,
+    val categories: List<Category>,
 ) : Identifiable<BuilderNextAction.Step> {
     /**
      * Nests the [id] property to provide access to the next builder action.

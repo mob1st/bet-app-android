@@ -26,7 +26,6 @@ import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.events.builderStepScreenView
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItem
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
@@ -35,7 +34,7 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun BudgetBuilderStepPage(
     step: BuilderNextAction.Step,
-    onNext: (BuilderRoute) -> Unit,
+    onNext: (BuilderNextAction) -> Unit,
     onBack: () -> Unit,
 ) {
     Icons.Filled.Check
@@ -67,7 +66,7 @@ fun BudgetBuilderStepPage(
         onDismissSnackbar = { viewModel.consume(BudgetBuilderStepConsumables.nullableSnackbar) },
         onNavigate = {
             onNext(it)
-            viewModel.consume(BudgetBuilderStepConsumables.nullableRoute)
+            viewModel.consume(BudgetBuilderStepConsumables.nullableAction)
         },
     )
 }
@@ -75,7 +74,7 @@ fun BudgetBuilderStepPage(
 @Composable
 private fun CategoryBuilderStepScreen(
     snackbarHostState: SnackbarHostState,
-    uiState: BudgetBuilderStepUiState,
+    uiState: BudgetBuilderStepUiState.Loaded,
     consumables: BudgetBuilderStepConsumables,
     onSelectManualCategory: (position: Int) -> Unit,
     onSelectSuggestion: (position: Int) -> Unit,
@@ -91,26 +90,20 @@ private fun CategoryBuilderStepScreen(
         onClickBack = onBack,
         onClickNext = onClickNext,
         titleContent = {
-            if (uiState is BudgetBuilderStepUiState.Loaded) {
-                Text(text = stringResource(uiState.header.title))
-            }
+            Text(text = stringResource(uiState.header.title))
         },
         subtitleContent = {
-            if (uiState is BudgetBuilderStepUiState.Loaded) {
-                Text(text = stringResource(uiState.header.description))
-            }
+            Text(text = stringResource(uiState.header.description))
         },
         buttonContent = {
             StepButton(isLoading = false)
         },
     ) {
-        if (uiState is BudgetBuilderStepUiState.Loaded) {
-            BudgetBuilderScreenContent(
-                uiState = uiState,
-                onSelectManualCategory = onSelectManualCategory,
-                onSelectSuggestion = onSelectSuggestion,
-            )
-        }
+        BudgetBuilderScreenContent(
+            uiState = uiState,
+            onSelectManualCategory = onSelectManualCategory,
+            onSelectSuggestion = onSelectSuggestion,
+        )
         BudgetBuilderDialog(
             dialog = consumables.dialog,
             onType = onTypeCategoryName,
@@ -202,7 +195,7 @@ private fun BuilderStepsSideEffects(
     consumables: BudgetBuilderStepConsumables,
     snackbarHostState: SnackbarHostState,
     onDismissSnackbar: () -> Unit,
-    onNavigate: (BuilderRoute) -> Unit,
+    onNavigate: (BuilderNextAction) -> Unit,
 ) {
     TrackEventSideEffect(event = AnalyticsEvent.builderStepScreenView(step))
     SnackbarSideEffect(
@@ -212,7 +205,7 @@ private fun BuilderStepsSideEffects(
         onPerformAction = {},
     )
     NavigationSideEffect(
-        target = consumables.route,
+        target = consumables.action,
         onNavigate = onNavigate,
     )
 }

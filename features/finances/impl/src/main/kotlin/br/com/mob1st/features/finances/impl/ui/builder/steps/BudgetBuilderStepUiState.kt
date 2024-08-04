@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
+import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
@@ -33,6 +34,15 @@ internal sealed interface BudgetBuilderStepUiState {
         val builder: BudgetBuilder,
         val isLoadingNext: Boolean = false,
     ) : BudgetBuilderStepUiState {
+        constructor(step: BuilderNextAction.Step) : this(
+            builder = BudgetBuilder(step, emptyList()),
+        )
+
+        /**
+         * Indicates if the categories have been loaded.
+         */
+        val hasLoaded: Boolean = builder.categories.isNotEmpty()
+
         val header: Header = when (builder.id) {
             FixedExpensesStep -> Header(
                 title = R.string.finances_builder_fixed_expenses_header,

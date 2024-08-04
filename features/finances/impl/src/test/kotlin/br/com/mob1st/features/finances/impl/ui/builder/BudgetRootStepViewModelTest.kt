@@ -10,7 +10,7 @@ import br.com.mob1st.features.finances.impl.domain.usecases.GetBudgetBuilderForS
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
 import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.values.category
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepDialog
@@ -246,7 +246,7 @@ class BudgetRootStepViewModelTest {
     @Test
     fun `GIVEN a state with enough items WHEN proceed to next step THEN assert navigation to next step`() = runTest {
         val currentStep = Arb.bind<BuilderNextAction.Step>().next()
-        val nextRoute = Arb.bind<BuilderRoute>().next()
+        val nextRoute = Arb.bind<BuilderNavRoute>().next()
         val budgetBuilder = Arb.budgetBuilder().map {
             it.copy(
                 id = currentStep,

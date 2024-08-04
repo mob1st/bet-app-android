@@ -5,10 +5,10 @@ import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute.Step.Type.FixedExpenses
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute.Step.Type.FixedIncomes
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute.Step.Type.SeasonalExpenses
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute.Step.Type.VariableExpenses
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Type.FixedExpenses
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Type.FixedIncomes
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Type.SeasonalExpenses
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Type.VariableExpenses
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
@@ -19,7 +19,7 @@ class RootRouterTest {
     @MethodSource("sendActionSource")
     fun `GIVEN a action WHEN send THEN return the next route`(
         action: BuilderNextAction,
-        expected: BuilderRoute,
+        expected: BuilderNavRoute,
     ) {
         val actual = BuilderRouter.to(action)
         assertEquals(expected, actual)
@@ -28,7 +28,7 @@ class RootRouterTest {
     @ParameterizedTest
     @MethodSource("receiveRouteSource")
     fun `GIVEN a route WHEN receive THEN return the next action`(
-        route: BuilderRoute.Step,
+        route: BuilderNavRoute.Step,
         expected: BuilderNextAction.Step,
     ) {
         val actual = BuilderRouter.from(route)
@@ -40,42 +40,42 @@ class RootRouterTest {
         fun sendActionSource() = listOf(
             arguments(
                 FixedExpensesStep,
-                BuilderRoute.Step(FixedExpenses),
+                BuilderNavRoute.Step(FixedExpenses),
             ),
             arguments(
                 VariableExpensesStep,
-                BuilderRoute.Step(VariableExpenses),
+                BuilderNavRoute.Step(VariableExpenses),
             ),
             arguments(
                 SeasonalExpensesStep,
-                BuilderRoute.Step(SeasonalExpenses),
+                BuilderNavRoute.Step(SeasonalExpenses),
             ),
             arguments(
                 FixedIncomesStep,
-                BuilderRoute.Step(FixedIncomes),
+                BuilderNavRoute.Step(FixedIncomes),
             ),
             arguments(
                 BuilderNextAction.Complete,
-                BuilderRoute.Completion,
+                BuilderNavRoute.Completion,
             ),
         )
 
         @JvmStatic
         fun receiveRouteSource() = listOf(
             arguments(
-                BuilderRoute.Step(FixedExpenses),
+                BuilderNavRoute.Step(FixedExpenses),
                 FixedExpensesStep,
             ),
             arguments(
-                BuilderRoute.Step(VariableExpenses),
+                BuilderNavRoute.Step(VariableExpenses),
                 VariableExpensesStep,
             ),
             arguments(
-                BuilderRoute.Step(SeasonalExpenses),
+                BuilderNavRoute.Step(SeasonalExpenses),
                 SeasonalExpensesStep,
             ),
             arguments(
-                BuilderRoute.Step(FixedIncomes),
+                BuilderNavRoute.Step(FixedIncomes),
                 FixedIncomesStep,
             ),
         )

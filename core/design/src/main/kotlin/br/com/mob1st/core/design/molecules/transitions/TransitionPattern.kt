@@ -7,7 +7,7 @@ import androidx.compose.animation.ExitTransition
  * A pattern of transitions to be applied during navigation between screens.
  * @see [https://m3.material.io/styles/motion/transitions/transition-patterns]
  */
-sealed interface NavTransitionPattern {
+sealed interface TransitionPattern {
     /**
      * The enter transition to be applied when navigating to a new screen.
      * @return [EnterTransition] to be applied on the enter transition.

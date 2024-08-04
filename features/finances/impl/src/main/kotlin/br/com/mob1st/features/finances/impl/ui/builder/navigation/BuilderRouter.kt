@@ -5,46 +5,44 @@ import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute.Step.Type.FixedExpenses
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute.Step.Type.FixedIncomes
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute.Step.Type.SeasonalExpenses
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute.Step.Type.VariableExpenses
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Completion
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step
 
 /**
  * The router for the budget builder feature flow.
  * It intermediates the navigation events sent from ViewModel, typicically domain structures, into routes that can be
  * navigated by the UI.
  */
-interface BuilderRouter {
+internal interface BuilderRouter {
     /**
      * Sends the given [action] to the router, returning the next route to navigate.
      * @param action The next action to be performed.
-     * @return The next route to navigate.
+     * @return The next event navigation to be consumed by the UI.
      */
-    fun to(action: BuilderNextAction): BuilderRoute
+    fun to(action: BuilderNextAction): BuilderNavRoute
 
     /**
      * Receives the given [route] from the router, returning the next action to be performed.
      */
-    fun from(route: BuilderRoute.Step): BuilderNextAction.Step
+    fun from(route: Step): BuilderNextAction.Step
 
     companion object : BuilderRouter {
-        override fun to(action: BuilderNextAction): BuilderRoute {
+        override fun to(action: BuilderNextAction): BuilderNavRoute {
             return when (action) {
-                FixedExpensesStep -> BuilderRoute.Step(FixedExpenses)
-                FixedIncomesStep -> BuilderRoute.Step(FixedIncomes)
-                SeasonalExpensesStep -> BuilderRoute.Step(SeasonalExpenses)
-                VariableExpensesStep -> BuilderRoute.Step(VariableExpenses)
-                BuilderNextAction.Complete -> BuilderRoute.Completion
+                BuilderNextAction.Complete -> Completion
+                FixedExpensesStep -> Step(Step.Id.FixedExpenses)
+                FixedIncomesStep -> Step(Step.Id.FixedIncomes)
+                SeasonalExpensesStep -> Step(Step.Id.SeasonalExpenses)
+                VariableExpensesStep -> Step(Step.Id.VariableExpenses)
             }
         }
 
-        override fun from(route: BuilderRoute.Step): BuilderNextAction.Step {
-            return when (route.type) {
-                FixedExpenses -> FixedExpensesStep
-                FixedIncomes -> FixedIncomesStep
-                SeasonalExpenses -> SeasonalExpensesStep
-                VariableExpenses -> VariableExpensesStep
+        override fun from(route: Step): BuilderNextAction.Step {
+            return when (route.id) {
+                Step.Id.FixedExpenses -> FixedExpensesStep
+                Step.Id.VariableExpenses -> VariableExpensesStep
+                Step.Id.SeasonalExpenses -> SeasonalExpensesStep
+                Step.Id.FixedIncomes -> FixedIncomesStep
             }
         }
     }

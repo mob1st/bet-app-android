@@ -15,8 +15,9 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import br.com.mob1st.core.design.molecules.transitions.BackAndForward
 import br.com.mob1st.core.design.molecules.transitions.TopLevel
+import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroPage
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavType
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepPage
@@ -24,79 +25,110 @@ import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
 import org.koin.compose.koinInject
 import kotlin.reflect.typeOf
 
-object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
+internal class BudgetBuilderNavGraphImpl(
+    private val router: BuilderRouter,
+) : BudgetBuilderNavGraph {
     context(NavGraphBuilder)
     override fun graph(
         navController: NavController,
         onComplete: () -> Unit,
     ) {
         navigation<BudgetBuilderNavGraph.Root>(
-            startDestination = BuilderRoute.Intro,
+            startDestination = BuilderNavRoute.Intro,
         ) {
-            composable<BuilderRoute.Intro>(
-                enterTransition = {
-                    TopLevel.enter()
-                },
-                exitTransition = {
-                    BackAndForward(this, SlideDirection.Start).exit()
-                },
-                popEnterTransition = {
-                    BackAndForward(this, SlideDirection.End).enter()
-                },
-                popExitTransition = {
-                    TopLevel.exit()
-                },
-            ) {
-                BuilderIntroPage(onNext = navController::navigate)
+            intro {
+                val route = router.to(it)
+                navController.navigate(route)
             }
-            composable<BuilderRoute.Step>(
-                typeMap = mapOf(typeOf<BuilderRoute.Step.Type>() to BuilderStepNavType),
-                enterTransition = {
-                    BackAndForward(this, SlideDirection.Start).enter()
+            step(
+                onNext = {
+                    val route = router.to(it)
+                    navController.navigate(route)
                 },
-                exitTransition = {
-                    BackAndForward(this, SlideDirection.Start).exit()
-                },
-                popExitTransition = {
-                    BackAndForward(this, SlideDirection.End).exit()
-                },
-                popEnterTransition = {
-                    BackAndForward(this, SlideDirection.End).enter()
-                },
-            ) { navBackStackEntry ->
-                val router = koinInject<BuilderRouter>()
-                val route = navBackStackEntry.toRoute<BuilderRoute.Step>()
-                val step = router.from(route)
-                BudgetBuilderStepPage(
-                    step = step,
-                    onNext = navController::navigate,
-                    onBack = navController::navigateUp,
-                )
+                onBack = navController::navigateUp,
+            )
+            completion {
+                navController.navigate(BuilderNavRoute.Intro)
             }
+        }
+    }
+}
 
-            composable<BuilderRoute.Completion>(
-                enterTransition = {
-                    BackAndForward(this, SlideDirection.Start).enter()
-                },
-                exitTransition = {
-                    TopLevel.exit()
-                },
-                popEnterTransition = {
-                    TopLevel.enter()
-                },
-                popExitTransition = {
-                    BackAndForward(this, SlideDirection.End).exit()
-                },
+private fun NavGraphBuilder.intro(
+    onNext: (BuilderNextAction.Step) -> Unit,
+) {
+    composable<BuilderNavRoute.Intro>(
+        enterTransition = {
+            TopLevel.enter()
+        },
+        exitTransition = {
+            BackAndForward(this, SlideDirection.Start).exit()
+        },
+        popEnterTransition = {
+            BackAndForward(this, SlideDirection.End).enter()
+        },
+        popExitTransition = {
+            TopLevel.exit()
+        },
+    ) {
+        BuilderIntroPage(onNext = onNext)
+    }
+}
+
+private fun NavGraphBuilder.step(
+    onNext: (BuilderNextAction) -> Unit,
+    onBack: () -> Unit,
+) {
+    composable<BuilderNavRoute.Step>(
+        typeMap = mapOf(typeOf<BuilderNavRoute.Step.Id>() to BuilderStepNavType),
+        enterTransition = {
+            BackAndForward(this, SlideDirection.Start).enter()
+        },
+        exitTransition = {
+            BackAndForward(this, SlideDirection.Start).exit()
+        },
+        popExitTransition = {
+            BackAndForward(this, SlideDirection.End).exit()
+        },
+        popEnterTransition = {
+            BackAndForward(this, SlideDirection.End).enter()
+        },
+    ) { navBackStackEntry ->
+        val router = koinInject<BuilderRouter>()
+        val route = navBackStackEntry.toRoute<BuilderNavRoute.Step>()
+        val step = router.from(route)
+        BudgetBuilderStepPage(
+            step = step,
+            onNext = onNext,
+            onBack = onBack,
+        )
+    }
+}
+
+private fun NavGraphBuilder.completion(
+    onComplete: () -> Unit,
+) {
+    composable<BuilderNavRoute.Completion>(
+        enterTransition = {
+            BackAndForward(this, SlideDirection.Start).enter()
+        },
+        exitTransition = {
+            TopLevel.exit()
+        },
+        popEnterTransition = {
+            TopLevel.enter()
+        },
+        popExitTransition = {
+            BackAndForward(this, SlideDirection.End).exit()
+        },
+    ) {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
             ) {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Button(onClick = { navController.navigate(BuilderRoute.Intro) }) {
-                            Text(text = "Finish")
-                        }
-                    }
+                Button(onClick = onComplete) {
+                    Text(text = "Finish")
                 }
             }
         }

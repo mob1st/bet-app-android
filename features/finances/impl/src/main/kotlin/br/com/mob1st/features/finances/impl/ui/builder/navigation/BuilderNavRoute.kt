@@ -1,7 +1,7 @@
 package br.com.mob1st.features.finances.impl.ui.builder.navigation
 
-import br.com.mob1st.core.design.motion.transition.NavRoute
-import br.com.mob1st.core.design.motion.transition.TransitionPattern
+import br.com.mob1st.core.design.molecules.transitions.NavRoute
+import br.com.mob1st.core.design.molecules.transitions.PatternKey
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import kotlinx.serialization.Serializable
 
@@ -9,42 +9,39 @@ import kotlinx.serialization.Serializable
  * All routes for the builder step navigation.
  * New screens should be added here and use the [Serializable] annotation to support type safe navigation.
  */
-sealed interface BuilderRoute : NavRoute {
+sealed interface BuilderNavRoute : NavRoute {
     /**
      * The intro screen for the builder.
      */
     @Serializable
-    data object Intro : BuilderRoute {
-        override fun pattern(): TransitionPattern = TransitionPattern.TopLevel
+    data object Intro : BuilderNavRoute {
+        override fun enteringPattern(): PatternKey = PatternKey.TopLevel
     }
 
     /**
      * All the screen steps during the builder flow.
-     * @property type Indicates which step is the specific screen.
+     * @property id Indicates which step is the specific screen.
      */
     @Serializable
     data class Step(
-        val type: Type,
-    ) : BuilderRoute {
-        /**
-         * The type of the step.
-         */
-        enum class Type {
+        val id: Id,
+    ) : BuilderNavRoute {
+        override fun enteringPattern() = PatternKey.BackAndForward
+
+        enum class Id {
             FixedExpenses,
             VariableExpenses,
             SeasonalExpenses,
-            FixedIncomes,
+            FixedIncomes
         }
-
-        override fun pattern(): TransitionPattern = TransitionPattern.Slide
     }
 
     /**
      * The completion screen for the builder.
      */
     @Serializable
-    data object Completion : BuilderRoute {
-        override fun pattern(): TransitionPattern = TransitionPattern.Slide
+    data object Completion : BuilderNavRoute {
+        override fun enteringPattern(): PatternKey = PatternKey.TopLevel
     }
 
     /**
@@ -56,6 +53,6 @@ sealed interface BuilderRoute : NavRoute {
          * @param action The next action to be performed.
          * @return The new route.
          */
-        fun create(action: BuilderNextAction): BuilderRoute
+        fun create(action: BuilderNextAction): BuilderNavRoute
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import br.com.mob1st.core.design.atoms.motion.EmphasizedEasingSet
 import br.com.mob1st.core.design.atoms.motion.StandardEasingSet
+import kotlin.math.E
 import kotlin.math.PI
 
 /**
@@ -18,7 +19,7 @@ import kotlin.math.PI
 class BackAndForward(
     private val scope: AnimatedContentTransitionScope<*>,
     private val towards: SlideDirection,
-) : NavTransitionPattern {
+) : TransitionPattern {
     override fun enter(): EnterTransition = with(scope) {
         val durationForTransition = DurationForTransition.Enter
         slideIntoContainer(
@@ -55,5 +56,5 @@ class BackAndForward(
         )
     }
 
-    private fun offset(value: Int): Int = (value * PI).toInt()
+    private fun offset(value: Int): Int = (value * PI / E).toInt()
 }

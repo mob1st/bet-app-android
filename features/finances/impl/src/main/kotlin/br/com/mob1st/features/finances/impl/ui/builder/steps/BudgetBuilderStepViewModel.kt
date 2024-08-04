@@ -16,8 +16,6 @@ import br.com.mob1st.core.state.managers.catching
 import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.usecases.GetBudgetBuilderForStepUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
-import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Empty
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +26,6 @@ import kotlinx.coroutines.flow.update
 internal class BudgetBuilderStepViewModel(
     private val default: DefaultCoroutineDispatcher,
     private val consumableDelegate: ConsumableDelegate<BudgetBuilderStepConsumables>,
-    private val router: BuilderRouter,
     private val step: BuilderNextAction.Step,
     private val getCategoryBuilder: GetBudgetBuilderForStepUseCase,
     private val proceedBuilder: ProceedBuilderUseCase,
@@ -41,11 +38,11 @@ internal class BudgetBuilderStepViewModel(
     private val isLoadingState = AsyncLoadingState()
 
     override val consumableUiState: StateFlow<BudgetBuilderStepConsumables> = consumableDelegate.asStateFlow()
-    override val uiState: StateFlow<BudgetBuilderStepUiState> =
+    override val uiState: StateFlow<Loaded> =
         initState()
             .catchIn(errorHandler)
             .flowOn(default)
-            .stateInWhileSubscribed(viewModelScope, Empty)
+            .stateInWhileSubscribed(viewModelScope, Loaded(step))
 
     private fun initState() = combine(
         getCategoryBuilder[step],
@@ -112,7 +109,7 @@ internal class BudgetBuilderStepViewModel(
             proceedBuilder(uiState.builder)
         }
         consumableDelegate.update {
-            it.copy(route = router.to(uiState.builder.next))
+            it.copy(action = uiState.builder.next)
         }
     }
 

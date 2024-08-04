@@ -11,9 +11,9 @@ import br.com.mob1st.core.design.organisms.snack.SnackbarState
 import br.com.mob1st.core.design.organisms.snack.snackbar
 import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.features.finances.impl.R
+import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
 import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 
@@ -28,7 +28,7 @@ import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 @optics
 data class BudgetBuilderStepConsumables(
     val dialog: BudgetBuilderStepDialog? = null,
-    val route: BuilderRoute? = null,
+    val action: BuilderNextAction? = null,
     val navEvent: BudgetBuilderStepNavEvent? = null,
     val snackbar: SnackbarState? = null,
 ) {
