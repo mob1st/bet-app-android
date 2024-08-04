@@ -9,6 +9,11 @@ import androidx.compose.animation.scaleIn
 import br.com.mob1st.core.design.atoms.motion.EmphasizedEasingSet
 import br.com.mob1st.core.design.atoms.motion.StandardEasingSet
 
+/**
+ * This pattern is used to navigate between top-level destinations of an app, like tapping a destination in a
+ * Navigation bar.
+ * @see [https://m3.material.io/styles/motion/transitions/transition-patterns#8327d206-2a7d-423a-abf0-2be86130535b]
+ */
 data object TopLevel : NavTransitionPattern {
     private const val SCALE = 0.90f
 

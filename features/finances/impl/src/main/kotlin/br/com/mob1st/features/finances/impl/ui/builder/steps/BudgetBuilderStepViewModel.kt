@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 
 internal class BudgetBuilderStepViewModel(
-    default: DefaultCoroutineDispatcher,
+    private val default: DefaultCoroutineDispatcher,
     private val consumableDelegate: ConsumableDelegate<BudgetBuilderStepConsumables>,
     private val router: BuilderRouter,
     private val step: BuilderNextAction.Step,
@@ -106,11 +106,11 @@ internal class BudgetBuilderStepViewModel(
     /**
      * Proceeds to the next step of the builder.
      */
-    fun next() = launchIn(errorHandler) {
+    fun next() = launchIn(default + errorHandler) {
         val uiState = checkIs<Loaded>(uiState.value)
-//        isLoadingState.trigger {
-//            proceedBuilder(uiState.builder)
-//        }
+        isLoadingState.trigger {
+            proceedBuilder(uiState.builder)
+        }
         consumableDelegate.update {
             it.copy(route = router.to(uiState.builder.next))
         }

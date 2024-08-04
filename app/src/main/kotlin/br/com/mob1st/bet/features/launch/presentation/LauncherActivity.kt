@@ -50,7 +50,7 @@ internal fun NavigationGraph() {
     val budgetBuilderNavGraph = koinInject<BudgetBuilderNavGraph>()
     NavHost(
         navController = navController,
-        startDestination = BudgetBuilderNavGraph.Root.toString(),
+        startDestination = BudgetBuilderNavGraph.Root,
     ) {
         financesNavGraph.graph(
             navController = navController,

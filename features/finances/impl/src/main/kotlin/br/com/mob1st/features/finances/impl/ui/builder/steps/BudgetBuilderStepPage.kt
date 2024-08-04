@@ -91,10 +91,14 @@ private fun CategoryBuilderStepScreen(
         onClickBack = onBack,
         onClickNext = onClickNext,
         titleContent = {
-            Text(text = "Title")
+            if (uiState is BudgetBuilderStepUiState.Loaded) {
+                Text(text = stringResource(uiState.header.title))
+            }
         },
         subtitleContent = {
-            Text(text = "Subtitle")
+            if (uiState is BudgetBuilderStepUiState.Loaded) {
+                Text(text = stringResource(uiState.header.description))
+            }
         },
         buttonContent = {
             StepButton(isLoading = false)

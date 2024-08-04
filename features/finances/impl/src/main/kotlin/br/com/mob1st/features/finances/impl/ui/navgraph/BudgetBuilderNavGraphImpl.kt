@@ -3,6 +3,7 @@ package br.com.mob1st.features.finances.impl.ui.navgraph
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
@@ -11,14 +12,17 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import br.com.mob1st.core.design.molecules.transitions.BackAndForward
 import br.com.mob1st.core.design.molecules.transitions.TopLevel
-import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroPage
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRoute
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavType
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepPage
 import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
-import timber.log.Timber
+import org.koin.compose.koinInject
+import kotlin.reflect.typeOf
 
 object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
     context(NavGraphBuilder)
@@ -26,12 +30,10 @@ object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
         navController: NavController,
         onComplete: () -> Unit,
     ) {
-        navigation(
-            route = BudgetBuilderNavGraph.Root.toString(),
-            startDestination = BuilderRoute.Intro.toString(),
+        navigation<BudgetBuilderNavGraph.Root>(
+            startDestination = BuilderRoute.Intro,
         ) {
-            composable(
-                route = BuilderRoute.Intro.toString(),
+            composable<BuilderRoute.Intro>(
                 enterTransition = {
                     TopLevel.enter()
                 },
@@ -45,46 +47,45 @@ object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
                     TopLevel.exit()
                 },
             ) {
-                BuilderIntroPage(
-                    onNext = {
-                        Timber.d("ptest navigation")
-                        navController.navigate("/step")
-                    },
+                BuilderIntroPage(onNext = navController::navigate)
+            }
+            composable<BuilderRoute.Step>(
+                typeMap = mapOf(typeOf<BuilderRoute.Step.Type>() to BuilderStepNavType),
+                enterTransition = {
+                    BackAndForward(this, SlideDirection.Start).enter()
+                },
+                exitTransition = {
+                    BackAndForward(this, SlideDirection.Start).exit()
+                },
+                popExitTransition = {
+                    BackAndForward(this, SlideDirection.End).exit()
+                },
+                popEnterTransition = {
+                    BackAndForward(this, SlideDirection.End).enter()
+                },
+            ) { navBackStackEntry ->
+                val router = koinInject<BuilderRouter>()
+                val route = navBackStackEntry.toRoute<BuilderRoute.Step>()
+                val step = router.from(route)
+                BudgetBuilderStepPage(
+                    step = step,
+                    onNext = navController::navigate,
+                    onBack = navController::navigateUp,
                 )
             }
-            composable(
-                route = "/step",
-                // typeMap = mapOf(typeOf<BuilderRoute.Step.Type>() to BuilderStepNavType),
+
+            composable<BuilderRoute.Completion>(
                 enterTransition = {
                     BackAndForward(this, SlideDirection.Start).enter()
                 },
                 exitTransition = {
                     TopLevel.exit()
                 },
-                popExitTransition = {
-                    BackAndForward(this, SlideDirection.End).exit()
-                },
                 popEnterTransition = {
                     TopLevel.enter()
                 },
-            ) { navBackStackEntry ->
-                // val router = koinInject<BuilderRouter>()
-                // val route = navBackStackEntry.toRoute<BuilderRoute.Step>()
-                // val step = router.from(route)
-                BudgetBuilderStepPage(
-                    step = VariableExpensesStep,
-                    onNext = { navController.navigate(BuilderRoute.Intro.toString()) },
-                    onBack = navController::navigateUp,
-                )
-            }
-
-            composable(
-                "c",
-                enterTransition = {
-                    TopLevel.enter()
-                },
                 popExitTransition = {
-                    TopLevel.exit()
+                    BackAndForward(this, SlideDirection.End).exit()
                 },
             ) {
                 Surface(modifier = Modifier.fillMaxSize()) {
@@ -92,7 +93,9 @@ object BudgetBuilderNavGraphImpl : BudgetBuilderNavGraph {
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        Text(text = "Finish")
+                        Button(onClick = { navController.navigate(BuilderRoute.Intro) }) {
+                            Text(text = "Finish")
+                        }
                     }
                 }
             }
