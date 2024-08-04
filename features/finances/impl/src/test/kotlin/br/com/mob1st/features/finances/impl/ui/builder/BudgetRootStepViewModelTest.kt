@@ -57,7 +57,7 @@ class BudgetRootStepViewModelTest {
     fun `WHEN get initial ui state THEN assert it's correct`() = runTest {
         val step = Arb.bind<BuilderNextAction.Step>().next()
         every { getCategoryBuilder[any()] } returns emptyFlow()
-        val viewModel = viewModel(testScheduler)
+        val viewModel = viewModel(testScheduler, step = step)
         val expected = BudgetBuilderStepUiState.Loaded(step = step)
         // When
         viewModel.uiState.test {
