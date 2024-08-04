@@ -66,7 +66,7 @@ internal fun NavigationGraph() {
         budgetBuilderNavGraph.graph(
             navController,
             onComplete = {
-                /* go to home */
+                // go to home
             },
         )
     }
