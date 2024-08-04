@@ -5,10 +5,10 @@ import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Type.FixedExpenses
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Type.FixedIncomes
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Type.SeasonalExpenses
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Type.VariableExpenses
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Id.FixedExpenses
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Id.FixedIncomes
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Id.SeasonalExpenses
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step.Id.VariableExpenses
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
@@ -56,7 +56,7 @@ class RootRouterTest {
             ),
             arguments(
                 BuilderNextAction.Complete,
-                BuilderNavRoute.Completion,
+                BuilderNavRoute.Completion(),
             ),
         )
 

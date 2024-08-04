@@ -10,13 +10,11 @@ import br.com.mob1st.features.finances.impl.domain.usecases.GetBudgetBuilderForS
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
 import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.values.category
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepDialog
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepSnackbar
-import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Empty
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepViewModel
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
@@ -48,20 +46,19 @@ import org.junit.jupiter.api.extension.ExtendWith
 class BudgetRootStepViewModelTest {
     private lateinit var getCategoryBuilder: GetBudgetBuilderForStepUseCase
     private lateinit var proceedBuilder: ProceedBuilderUseCase
-    private lateinit var router: BuilderRouter
 
     @BeforeEach
     fun setUp() {
         getCategoryBuilder = mockk()
         proceedBuilder = mockk()
-        router = mockk()
     }
 
     @Test
     fun `WHEN get initial ui state THEN assert it's correct`() = runTest {
+        val step = Arb.bind<BuilderNextAction.Step>().next()
         every { getCategoryBuilder[any()] } returns emptyFlow()
         val viewModel = viewModel(testScheduler)
-        val expected = Empty
+        val expected = BudgetBuilderStepUiState.Loaded(step = step)
         // When
         viewModel.uiState.test {
             // Then
@@ -246,7 +243,6 @@ class BudgetRootStepViewModelTest {
     @Test
     fun `GIVEN a state with enough items WHEN proceed to next step THEN assert navigation to next step`() = runTest {
         val currentStep = Arb.bind<BuilderNextAction.Step>().next()
-        val nextRoute = Arb.bind<BuilderNavRoute>().next()
         val budgetBuilder = Arb.budgetBuilder().map {
             it.copy(
                 id = currentStep,
@@ -255,9 +251,8 @@ class BudgetRootStepViewModelTest {
         }.next()
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
         coEvery { proceedBuilder(budgetBuilder) } returns Unit
-        every { router.to(currentStep.next) } returns nextRoute
         val viewModel = viewModel(testScheduler)
-        val expected = BudgetBuilderStepConsumables(route = nextRoute)
+        val expected = BudgetBuilderStepConsumables(action = currentStep.next)
         turbineScope {
             viewModel.uiState.drop(1).testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
@@ -337,12 +332,12 @@ class BudgetRootStepViewModelTest {
 
     private fun viewModel(
         scheduler: TestCoroutineScheduler,
+        step: BuilderNextAction.Step = Arb.bind<BuilderNextAction.Step>().next(),
     ) = BudgetBuilderStepViewModel(
-        step = Arb.bind<BuilderNextAction.Step>().next(),
+        step = step,
         consumableDelegate = ConsumableDelegate(BudgetBuilderStepConsumables()),
         getCategoryBuilder = getCategoryBuilder,
         proceedBuilder = proceedBuilder,
-        router = router,
         default = DefaultCoroutineDispatcher(
             UnconfinedTestDispatcher(scheduler),
         ),

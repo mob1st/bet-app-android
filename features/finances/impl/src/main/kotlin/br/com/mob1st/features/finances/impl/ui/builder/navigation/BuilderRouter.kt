@@ -29,7 +29,7 @@ internal interface BuilderRouter {
     companion object : BuilderRouter {
         override fun to(action: BuilderNextAction): BuilderNavRoute {
             return when (action) {
-                BuilderNextAction.Complete -> Completion
+                BuilderNextAction.Complete -> Completion()
                 FixedExpensesStep -> Step(Step.Id.FixedExpenses)
                 FixedIncomesStep -> Step(Step.Id.FixedIncomes)
                 SeasonalExpensesStep -> Step(Step.Id.SeasonalExpenses)

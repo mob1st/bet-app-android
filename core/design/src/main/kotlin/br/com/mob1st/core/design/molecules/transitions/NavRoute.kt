@@ -1,11 +1,10 @@
 package br.com.mob1st.core.design.molecules.transitions
 
 interface NavRoute {
-    fun enteringPattern(): PatternKey
+    val enteringPatternKey: PatternKey
 }
 
-sealed interface PatternKey {
-    data object BackAndForward : PatternKey
-
-    data object TopLevel : PatternKey
+enum class PatternKey {
+    BackAndForward,
+    TopLevel,
 }

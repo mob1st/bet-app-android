@@ -47,7 +47,7 @@ class StartBuilderStepUseCaseTest {
                 step.isExpense,
                 step.type,
             )
-        } returns 1L
+        } returns flowOf(1L)
 
         // When
         useCase(step)
@@ -68,7 +68,7 @@ class StartBuilderStepUseCaseTest {
                 step.isExpense,
                 step.type,
             )
-        } returns 0L
+        } returns flowOf(0L)
         every { categorySuggestionRepository.getByStep(step) } returns flowOf(suggestions)
         every { categoryFactory.create(eq(step), any()) } answers {
             Arb.category().next()

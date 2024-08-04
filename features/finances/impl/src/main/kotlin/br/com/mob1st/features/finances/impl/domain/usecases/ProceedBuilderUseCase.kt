@@ -23,7 +23,7 @@ internal class ProceedBuilderUseCase(
      */
     suspend operator fun invoke(builder: BudgetBuilder) {
         val remainingInputs = builder.calculateRemainingInputs()
-        if (remainingInputs != 100) {
+        if (remainingInputs == 0) {
             if (builder.next is BuilderNextAction.Step) {
                 startBuilderStepUseCase(builder.next)
             }

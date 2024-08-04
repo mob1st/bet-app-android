@@ -24,6 +24,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -122,7 +123,7 @@ internal class CategoryRepositoryImplTest {
         val actual = repository.countByIsExpenseAndRecurrencesType(
             isExpense = isExpense,
             recurrenceType = type,
-        )
+        ).first()
         assertEquals(1, actual)
     }
 

@@ -38,11 +38,6 @@ internal sealed interface BudgetBuilderStepUiState {
             builder = BudgetBuilder(step, emptyList()),
         )
 
-        /**
-         * Indicates if the categories have been loaded.
-         */
-        val hasLoaded: Boolean = builder.categories.isNotEmpty()
-
         val header: Header = when (builder.id) {
             FixedExpensesStep -> Header(
                 title = R.string.finances_builder_fixed_expenses_header,

@@ -2,21 +2,18 @@ package br.com.mob1st.features.finances.impl.ui.builder.intro
 
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
+import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.usecases.StartBuilderStepUseCase
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.tests.featuresutils.MainDispatcherTestExtension
-import io.kotest.property.Arb
-import io.kotest.property.arbitrary.bind
-import io.kotest.property.arbitrary.next
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,12 +24,10 @@ import kotlin.test.assertTrue
 @ExtendWith(MainDispatcherTestExtension::class)
 internal class BuilderIntroViewModelTest {
     private lateinit var startBuilderStep: StartBuilderStepUseCase
-    private lateinit var router: BuilderRouter
 
     @BeforeEach
     fun setUp() {
         startBuilderStep = mockk(relaxed = true)
-        router = mockk()
     }
 
     @Test
@@ -88,8 +83,6 @@ internal class BuilderIntroViewModelTest {
     @Test
     fun `GIVEN a initial action WHEN start THEN assert first step is used And router send it`() = runTest {
         val step = BudgetBuilder.firstStep()
-        val route = Arb.bind<BuilderNavRoute>().next()
-        every { router.to(step) } returns route
         val viewModel = initViewModel()
         viewModel.start()
         turbineScope {
@@ -100,15 +93,16 @@ internal class BuilderIntroViewModelTest {
                 receiveUiState.awaitItem(),
             )
             assertEquals(
-                BuilderIntroConsumables(route = route),
+                BuilderIntroConsumables(step = step),
                 receiveConsumables.awaitItem(),
             )
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun initViewModel() = BuilderIntroViewModel(
         startBuilderStep = startBuilderStep,
-        router = router,
+        default = DefaultCoroutineDispatcher(UnconfinedTestDispatcher()),
         consumableDelegate = ConsumableDelegate(BuilderIntroConsumables()),
     )
 }

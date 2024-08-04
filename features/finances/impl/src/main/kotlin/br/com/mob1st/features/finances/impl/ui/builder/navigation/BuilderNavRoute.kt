@@ -14,9 +14,9 @@ sealed interface BuilderNavRoute : NavRoute {
      * The intro screen for the builder.
      */
     @Serializable
-    data object Intro : BuilderNavRoute {
-        override fun enteringPattern(): PatternKey = PatternKey.TopLevel
-    }
+    data class Intro(
+        override val enteringPatternKey: PatternKey = PatternKey.TopLevel,
+    ) : BuilderNavRoute
 
     /**
      * All the screen steps during the builder flow.
@@ -25,9 +25,8 @@ sealed interface BuilderNavRoute : NavRoute {
     @Serializable
     data class Step(
         val id: Id,
+        override val enteringPatternKey: PatternKey = PatternKey.BackAndForward,
     ) : BuilderNavRoute {
-        override fun enteringPattern() = PatternKey.BackAndForward
-
         enum class Id {
             FixedExpenses,
             VariableExpenses,
@@ -40,9 +39,9 @@ sealed interface BuilderNavRoute : NavRoute {
      * The completion screen for the builder.
      */
     @Serializable
-    data object Completion : BuilderNavRoute {
-        override fun enteringPattern(): PatternKey = PatternKey.TopLevel
-    }
+    data class Completion(
+        override val enteringPatternKey: PatternKey = PatternKey.BackAndForward,
+    ) : BuilderNavRoute
 
     /**
      * The factory to create the routes.
