@@ -33,7 +33,7 @@ import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun BuilderIntroPage(
+internal fun BuilderIntroPage(
     onNext: (BuilderNextAction.Step) -> Unit,
 ) {
     val viewModel = koinViewModel<BuilderIntroViewModel>()

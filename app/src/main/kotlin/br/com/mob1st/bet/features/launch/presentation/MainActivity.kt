@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import br.com.mob1st.core.androidx.compose.LocalActivity
 import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.atoms.theme.UiContrast
+import br.com.mob1st.core.design.utils.LocalLocale
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
                 CompositionLocalProvider(
                     LocalAnalyticsReporter provides analyticsReporter,
                     LocalActivity provides this,
+                    LocalLocale provides resources.configuration.locales[0],
                 ) {
                     App()
                 }

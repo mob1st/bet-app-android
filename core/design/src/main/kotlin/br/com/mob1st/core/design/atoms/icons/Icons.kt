@@ -53,7 +53,7 @@ fun SetupBudgetIcon(
 @Composable
 fun FixedExpensesIcon(
     modifier: Modifier = Modifier,
-    contentDescription: String?,
+    contentDescription: String? = null,
 ) {
     Icon(
         painter = painterResource(id = R.drawable.ic_finances_fixed_expenses),
@@ -65,7 +65,7 @@ fun FixedExpensesIcon(
 @Composable
 fun FixedIncomeIcon(
     modifier: Modifier = Modifier,
-    contentDescription: String?,
+    contentDescription: String? = null,
 ) {
     Icon(
         painter = painterResource(id = R.drawable.ic_finances_incomes),
@@ -77,7 +77,7 @@ fun FixedIncomeIcon(
 @Composable
 fun VariableExpensesIcon(
     modifier: Modifier = Modifier,
-    contentDescription: String?,
+    contentDescription: String? = null,
 ) {
     Icon(
         painter = painterResource(id = R.drawable.ic_finances_variable_expenses),
@@ -89,7 +89,7 @@ fun VariableExpensesIcon(
 @Composable
 fun SeasonalExpensesIcon(
     modifier: Modifier = Modifier,
-    contentDescription: String?,
+    contentDescription: String? = null,
 ) {
     Icon(
         painter = painterResource(id = R.drawable.ic_finances_seasonal_expenses),
@@ -99,56 +99,75 @@ fun SeasonalExpensesIcon(
 }
 
 @Composable
+fun Delete(
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_delete),
+        modifier = modifier,
+        contentDescription = contentDescription,
+    )
+}
+
+@Composable
+fun Calendar(
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_calendar_day),
+        modifier = modifier,
+        contentDescription = contentDescription,
+    )
+}
+
+@Composable
+fun Undo(
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_undo),
+        modifier = modifier,
+        contentDescription = contentDescription,
+    )
+}
+
+@Composable
 @ThemedPreview
 private fun IconsPreview() {
+    val iconSize = 24.dp
     PreviewTheme {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(40.dp),
         ) {
             item {
-                GridItem {
-                    BackIcon(modifier = Modifier.size(24.dp))
-                }
+                GridItem { BackIcon(modifier = Modifier.size(iconSize)) }
             }
             item {
-                GridItem {
-                    CheckIcon(
-                        modifier = Modifier.size(24.dp),
-                        contentDescription = "Finish",
-                    )
-                }
+                GridItem { CheckIcon(modifier = Modifier.size(iconSize)) }
             }
             item {
-                GridItem {
-                    FixedExpensesIcon(
-                        modifier = Modifier.size(24.dp),
-                        contentDescription = "Fixed expenses",
-                    )
-                }
+                GridItem { FixedExpensesIcon(modifier = Modifier.size(iconSize)) }
             }
             item {
-                GridItem {
-                    FixedIncomeIcon(
-                        modifier = Modifier.size(24.dp),
-                        contentDescription = "Fixed income",
-                    )
-                }
+                GridItem { FixedIncomeIcon(modifier = Modifier.size(iconSize)) }
             }
             item {
-                GridItem {
-                    VariableExpensesIcon(
-                        modifier = Modifier.size(24.dp),
-                        contentDescription = "Variable expenses",
-                    )
-                }
+                GridItem { VariableExpensesIcon(modifier = Modifier.size(iconSize)) }
             }
             item {
-                GridItem {
-                    SetupBudgetIcon(
-                        modifier = Modifier.size(24.dp),
-                        contentDescription = "Seasonal expenses",
-                    )
-                }
+                GridItem { SetupBudgetIcon(modifier = Modifier.size(iconSize)) }
+            }
+            item {
+                GridItem { Undo(modifier = Modifier.size(iconSize)) }
+            }
+            item {
+                GridItem { Delete(modifier = Modifier.size(iconSize)) }
+            }
+            item {
+                GridItem { Calendar(modifier = Modifier.size(iconSize)) }
             }
         }
     }

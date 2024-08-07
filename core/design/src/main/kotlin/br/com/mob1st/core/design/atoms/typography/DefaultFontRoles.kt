@@ -79,8 +79,8 @@ data object DefaultFontRoles : Material3Roles {
         ),
         large = scale.style(
             fontFamily = notoSans,
-            fontWeight = FontWeight.Bold,
-            sizePower = 1,
+            fontWeight = FontWeight.Medium,
+            sizePower = 2,
         ),
     )
 

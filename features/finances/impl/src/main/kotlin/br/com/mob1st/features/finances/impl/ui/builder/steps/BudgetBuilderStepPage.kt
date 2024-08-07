@@ -33,7 +33,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun BudgetBuilderStepPage(
+internal fun BudgetBuilderStepPage(
     step: BuilderNextAction.Step,
     onNext: (BuilderNextAction) -> Unit,
     onBack: () -> Unit,
