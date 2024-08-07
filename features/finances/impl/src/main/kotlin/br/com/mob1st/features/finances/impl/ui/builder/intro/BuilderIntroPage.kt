@@ -19,9 +19,9 @@ import br.com.mob1st.core.design.atoms.icons.FixedIncomeIcon
 import br.com.mob1st.core.design.atoms.icons.SeasonalExpensesIcon
 import br.com.mob1st.core.design.atoms.icons.SetupBudgetIcon
 import br.com.mob1st.core.design.atoms.icons.VariableExpensesIcon
-import br.com.mob1st.core.design.molecules.buttons.PrimaryButton
 import br.com.mob1st.core.design.molecules.icons.IconScale
 import br.com.mob1st.core.design.molecules.icons.LeadingIcon
+import br.com.mob1st.core.design.organisms.buttons.PrimaryButton
 import br.com.mob1st.core.design.templates.FeatureSummaryScaffold
 import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
