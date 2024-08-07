@@ -3,14 +3,12 @@ package br.com.mob1st.core.design.templates
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
@@ -31,21 +29,18 @@ import br.com.mob1st.core.design.utils.ThemedPreview
  * Template for the entry point of a feature, used to provide context about the steps that will be
  * taken in the feature.
  * @param snackbarHostState Displays the snackbar in this Scaffold.
- * @param onClickButton The action to be performed when the button is clicked.
  * @param titleContent The title of the screen.
  * @param subtitleContent The subtitle of the screen.
- * @param buttonContent The content to be presented in the button. The button itself is already placed, this is the
- * content (text, icon, etc) that will be displayed inside the button.
+ * @param buttonContent The content to be presented in the button.
  * @param content The content of the screen.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeatureSummaryScaffold(
     snackbarHostState: SnackbarHostState,
-    onClickButton: () -> Unit = {},
     titleContent: @Composable () -> Unit,
     subtitleContent: @Composable () -> Unit,
-    buttonContent: @Composable RowScope.() -> Unit,
+    buttonContent: @Composable () -> Unit,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val titleScrollBehavior = TitleDefaults.scrollBehavior
@@ -60,9 +55,7 @@ fun FeatureSummaryScaffold(
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = onClickButton) {
-                buttonContent()
-            }
+            buttonContent()
         },
         snackbarHost = {
             SnackbarHost(snackbarHostState)

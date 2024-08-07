@@ -1,130 +1,89 @@
 package br.com.mob1st.core.design.molecules.buttons
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.mob1st.core.design.atoms.theme.LocalPane
-import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
+import br.com.mob1st.core.design.atoms.icons.CheckIcon
+import br.com.mob1st.core.design.molecules.loading.CrossfadeLoading
+import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 
-@Composable
-fun Button(
-    style: ButtonStyle = LocalButtonStyle.current,
-    enabled: Boolean = true,
-    onClick: () -> Unit,
-    content: @Composable RowScope.() -> Unit,
-) {
-    when (style) {
-        ButtonStyle.Primary -> PrimaryButton(
-            enabled = enabled,
-            onClick = onClick,
-            content = content,
-        )
-
-        ButtonStyle.Secondary -> SecondaryButton(
-            enabled = enabled,
-            onClick = onClick,
-            content = content,
-        )
-
-        ButtonStyle.Textual -> TextButton(
-            enabled = enabled,
-            onClick = onClick,
-            content = content,
-        )
-    }
-}
-
+/**
+ * A button for the most prominent actions in a screen.
+ * It's a handy function to use the [ExtendedFloatingActionButton] with a predefined style.
+ * It supports expanded and loading states.
+ * In case [isLoading] is true, the button will show a loading indicator instead of the icon.
+ * In case [isExpanded] is false, the button will hide the text and let only the icon be shown.
+ * @param modifier the modifier for the button.
+ * @param isLoading if the button is in a loading state.
+ * @param isExpanded if the button should be expanded.
+ * @param onClick the action to be executed when the button is clicked.
+ * @param icon the icon to be shown in the button.
+ * @param text the text to be shown in the button.
+ * @see [ExtendedFloatingActionButton]
+ */
 @Composable
 fun PrimaryButton(
-    enabled: Boolean = true,
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
+    isExpanded: Boolean = true,
     onClick: () -> Unit,
-    content: @Composable RowScope.() -> Unit,
+    icon: @Composable () -> Unit,
+    text: @Composable () -> Unit,
 ) {
-    androidx.compose.material3.Button(
-        modifier = Modifier.fillMaxWidth(),
-        enabled = enabled,
-        onClick = onClick,
-        content = content,
-    )
-}
-
-@Composable
-fun SecondaryButton(
-    enabled: Boolean = true,
-    onClick: () -> Unit,
-    content: @Composable RowScope.() -> Unit,
-) {
-    OutlinedButton(
-        modifier = Modifier.fillMaxWidth(),
-        enabled = enabled,
-        content = content,
+    ExtendedFloatingActionButton(
+        modifier = modifier.wrapContentSize(),
+        expanded = isExpanded,
+        icon = {
+            IconSlot(isLoading = isLoading, icon = icon)
+        },
+        text = text,
         onClick = onClick,
     )
 }
 
 @Composable
-fun TextButton(
-    enabled: Boolean = true,
-    onClick: () -> Unit,
-    content: @Composable RowScope.() -> Unit,
+private fun IconSlot(
+    isLoading: Boolean,
+    icon: @Composable () -> Unit,
 ) {
-    androidx.compose.material3.TextButton(
-        enabled = enabled,
-        content = content,
-        onClick = onClick,
-    )
-}
-
-object ButtonDefaults {
-    /**
-     * The default width for the button.
-     * It excludes the [TextButton] style.
-     */
-    val width @Composable get() = LocalPane.current.columns(4)
-}
-
-/**
- * Provides the current [ButtonStyle] applied in the composition tree.
- */
-val LocalButtonStyle = compositionLocalOf {
-    ButtonStyle.Primary
+    Box(
+        modifier = Modifier.size(ButtonDefaults.iconSize),
+        contentAlignment = Alignment.Center,
+    ) {
+        CrossfadeLoading(
+            isLoading = isLoading,
+        ) {
+            icon()
+        }
+    }
 }
 
 /**
  * The style to be used in the [Button] function.
  */
-enum class ButtonStyle {
+object ButtonDefaults {
     /**
-     * The primary button style should be used for the most important action.
+     * The default size for the icons in the buttons.
      */
-    Primary,
-
-    /**
-     * The secondary button style should be used for the less important action.
-     */
-    Secondary,
-
-    /**
-     * The tertiary button style should be used for the least important action.
-     */
-    Textual,
+    val iconSize = 18.dp
 }
 
 @Composable
 @ThemedPreview
 private fun ButtonsPreview() {
-    TwoCentsTheme {
+    PreviewTheme {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -135,15 +94,13 @@ private fun ButtonsPreview() {
             ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            PrimaryButton(onClick = { /*TODO*/ }) {
-                Text(text = "Primary Button")
-            }
-            SecondaryButton(onClick = { /*TODO*/ }) {
-                Text(text = "Secondary Button")
-            }
-            TextButton(onClick = { /*TODO*/ }) {
-                Text(text = "Text Button")
-            }
+            PrimaryButton(
+                onClick = { },
+                icon = {
+                    CheckIcon(contentDescription = null)
+                },
+                text = { Text(text = "Confirm") },
+            )
         }
     }
 }

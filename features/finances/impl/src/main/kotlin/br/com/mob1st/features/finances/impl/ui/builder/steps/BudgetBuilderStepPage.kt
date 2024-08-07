@@ -16,8 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.androidx.compose.NavigationSideEffect
 import br.com.mob1st.core.androidx.compose.SnackbarSideEffect
+import br.com.mob1st.core.design.atoms.icons.CheckIcon
 import br.com.mob1st.core.design.atoms.spacing.Spacings
-import br.com.mob1st.core.design.molecules.loading.CrossfadeLoading
+import br.com.mob1st.core.design.molecules.buttons.PrimaryButton
 import br.com.mob1st.core.design.organisms.section.section
 import br.com.mob1st.core.design.templates.FeatureStepScaffold
 import br.com.mob1st.core.design.utils.PreviewTheme
@@ -88,7 +89,6 @@ private fun CategoryBuilderStepScreen(
         snackbarHostState = snackbarHostState,
         isButtonExpanded = true,
         onClickBack = onBack,
-        onClickNext = onClickNext,
         titleContent = {
             Text(text = stringResource(uiState.header.title))
         },
@@ -96,7 +96,12 @@ private fun CategoryBuilderStepScreen(
             Text(text = stringResource(uiState.header.description))
         },
         buttonContent = {
-            StepButton(isLoading = false)
+            PrimaryButton(
+                isLoading = uiState.isLoadingNext,
+                onClick = onClickNext,
+                icon = { CheckIcon() },
+                text = { Text(stringResource(id = R.string.finances_commons_button_next)) },
+            )
         },
     ) {
         BudgetBuilderScreenContent(
@@ -208,13 +213,6 @@ private fun BuilderStepsSideEffects(
         target = consumables.action,
         onNavigate = onNavigate,
     )
-}
-
-@Composable
-private fun StepButton(isLoading: Boolean) {
-    CrossfadeLoading(isLoading = isLoading, crossfadeLabel = "loadingButton") {
-        Text(stringResource(id = R.string.finances_commons_button_next))
-    }
 }
 
 @Composable

@@ -2,15 +2,12 @@ package br.com.mob1st.features.finances.impl.ui.builder.intro
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.androidx.compose.NavigationSideEffect
@@ -20,10 +17,11 @@ import br.com.mob1st.core.design.atoms.colors.material.families.ColorCombination
 import br.com.mob1st.core.design.atoms.icons.FixedExpensesIcon
 import br.com.mob1st.core.design.atoms.icons.FixedIncomeIcon
 import br.com.mob1st.core.design.atoms.icons.SeasonalExpensesIcon
+import br.com.mob1st.core.design.atoms.icons.SetupBudgetIcon
 import br.com.mob1st.core.design.atoms.icons.VariableExpensesIcon
+import br.com.mob1st.core.design.molecules.buttons.PrimaryButton
 import br.com.mob1st.core.design.molecules.icons.IconScale
 import br.com.mob1st.core.design.molecules.icons.LeadingIcon
-import br.com.mob1st.core.design.molecules.loading.CrossfadeLoading
 import br.com.mob1st.core.design.templates.FeatureSummaryScaffold
 import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
@@ -72,10 +70,16 @@ private fun BuilderIntroScreen(
 ) {
     FeatureSummaryScaffold(
         snackbarHostState = snackbarHostState,
-        onClickButton = onClickNext,
         titleContent = { Text(stringResource(id = R.string.finances_builder_intro_header)) },
         subtitleContent = { Text(stringResource(id = R.string.finances_builder_intro_subheader)) },
-        buttonContent = { ButtonContent(isLoading = uiState.isLoading) },
+        buttonContent = {
+            PrimaryButton(
+                onClick = onClickNext,
+                isLoading = uiState.isLoading,
+                icon = { SetupBudgetIcon() },
+                text = { Text(text = stringResource(id = R.string.finances_builder_intro_button)) },
+            )
+        },
     ) {
         IntroScaffoldContent()
     }
@@ -160,17 +164,6 @@ private fun IntroSideEffects(
         onDismiss = onDismissSnackbar,
         onPerformAction = {},
     )
-}
-
-@Composable
-private fun RowScope.ButtonContent(isLoading: Boolean) {
-    CrossfadeLoading(
-        modifier = Modifier.align(Alignment.CenterVertically),
-        isLoading = isLoading,
-        crossfadeLabel = "loadingButton",
-    ) {
-        Text(text = stringResource(id = R.string.finances_builder_intro_button))
-    }
 }
 
 @Composable

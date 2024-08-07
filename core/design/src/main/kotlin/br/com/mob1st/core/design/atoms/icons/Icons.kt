@@ -29,10 +29,22 @@ fun BackIcon(
 @Composable
 fun CheckIcon(
     modifier: Modifier = Modifier,
-    contentDescription: String?,
+    contentDescription: String? = null,
 ) {
     Icon(
         painter = painterResource(id = R.drawable.ic_check),
+        modifier = modifier,
+        contentDescription = contentDescription,
+    )
+}
+
+@Composable
+fun SetupBudgetIcon(
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_finances_setup_budget),
         modifier = modifier,
         contentDescription = contentDescription,
     )
@@ -127,6 +139,14 @@ private fun IconsPreview() {
                     VariableExpensesIcon(
                         modifier = Modifier.size(24.dp),
                         contentDescription = "Variable expenses",
+                    )
+                }
+            }
+            item {
+                GridItem {
+                    SetupBudgetIcon(
+                        modifier = Modifier.size(24.dp),
+                        contentDescription = "Seasonal expenses",
                     )
                 }
             }

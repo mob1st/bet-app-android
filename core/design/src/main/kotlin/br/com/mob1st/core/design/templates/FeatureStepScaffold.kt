@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -20,10 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import br.com.mob1st.core.design.R
-import br.com.mob1st.core.design.atoms.icons.CheckIcon
 import br.com.mob1st.core.design.atoms.spacing.Spacings
 import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.organisms.header.SecondaryTitle
@@ -36,11 +30,9 @@ import br.com.mob1st.core.design.utils.ThemedPreview
  * @param snackbarHostState Displays the snackbar in this Scaffold.
  * @param isButtonExpanded Whether the button should be expanded or not.
  * @param onClickBack The action to be performed when the back button is clicked.
- * @param onClickNext The action to be performed when the next button is clicked.
  * @param titleContent The title of the screen.
  * @param subtitleContent The subtitle of the screen.
- * @param buttonContent The content to be presented in the button. The button itself is already placed, this is the
- * content (text, icon, etc) that will be displayed inside the button.
+ * @param buttonContent The content to be presented in the button.
  * @param content The content of the screen.
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,7 +41,6 @@ fun FeatureStepScaffold(
     snackbarHostState: SnackbarHostState,
     isButtonExpanded: Boolean,
     onClickBack: () -> Unit,
-    onClickNext: () -> Unit,
     titleContent: @Composable () -> Unit,
     subtitleContent: @Composable () -> Unit,
     buttonContent: @Composable () -> Unit,
@@ -69,17 +60,7 @@ fun FeatureStepScaffold(
         },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                expanded = isButtonExpanded,
-                text = { buttonContent() },
-                icon = {
-                    CheckIcon(
-                        modifier = Modifier.size(16.dp),
-                        contentDescription = stringResource(R.string.core_design_back_button_content_description),
-                    )
-                },
-                onClick = onClickNext,
-            )
+            buttonContent()
         },
         snackbarHost = {
             SnackbarHost(snackbarHostState)
@@ -110,7 +91,6 @@ private fun FeatureStepScaffoldPreview() {
     TwoCentsTheme {
         FeatureStepScaffold(
             onClickBack = {},
-            onClickNext = {},
             snackbarHostState = remember { SnackbarHostState() },
             isButtonExpanded = false,
             titleContent = {
