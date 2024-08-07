@@ -1,4 +1,4 @@
-package br.com.mob1st.core.design.molecules.buttons
+package br.com.mob1st.core.design.organisms.buttons
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

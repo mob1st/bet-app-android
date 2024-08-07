@@ -1,4 +1,4 @@
-package br.com.mob1st.core.design.molecules.buttons
+package br.com.mob1st.core.design.organisms.buttons
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.IconButton

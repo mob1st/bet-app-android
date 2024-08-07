@@ -7,7 +7,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import br.com.mob1st.core.design.molecules.buttons.TopBackButton
+import br.com.mob1st.core.design.organisms.buttons.TopBackButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

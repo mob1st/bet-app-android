@@ -18,7 +18,7 @@ import br.com.mob1st.core.androidx.compose.NavigationSideEffect
 import br.com.mob1st.core.androidx.compose.SnackbarSideEffect
 import br.com.mob1st.core.design.atoms.icons.CheckIcon
 import br.com.mob1st.core.design.atoms.spacing.Spacings
-import br.com.mob1st.core.design.molecules.buttons.PrimaryButton
+import br.com.mob1st.core.design.organisms.buttons.PrimaryButton
 import br.com.mob1st.core.design.organisms.section.section
 import br.com.mob1st.core.design.templates.FeatureStepScaffold
 import br.com.mob1st.core.design.utils.PreviewTheme
