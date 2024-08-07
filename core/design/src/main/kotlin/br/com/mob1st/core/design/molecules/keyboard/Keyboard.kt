@@ -1,4 +1,4 @@
-package br.com.mob1st.core.design.organisms.keyboard
+package br.com.mob1st.core.design.molecules.keyboard
 
 import android.icu.text.DecimalFormatSymbols
 import androidx.annotation.FloatRange
