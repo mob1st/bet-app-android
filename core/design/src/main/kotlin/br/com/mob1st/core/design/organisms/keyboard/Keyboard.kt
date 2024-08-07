@@ -49,14 +49,14 @@ fun Keyboard(
 ) {
     BoxWithConstraints {
         val height = remember(maxWidth) {
-            maxWidth - (Spacings.x1 * 4) - (KeyboardDefaults.spacing * 3)
+            maxWidth - (Spacings.x1 * 2) - (KeyboardDefaults.spacing * 3)
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(height)
                 .background(MaterialTheme.colorScheme.background)
-                .padding(Spacings.x1),
+                .padding(horizontal = Spacings.x1),
             horizontalArrangement = Arrangement.spacedBy(KeyboardDefaults.spacing),
         ) {
             KeyboardColumn {
