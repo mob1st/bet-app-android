@@ -1,8 +1,8 @@
 package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
-import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoriesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -14,7 +14,7 @@ internal class GetBudgetBuilderForStepUseCase(
     private val categoryRepository: CategoriesRepository,
 ) {
     operator fun get(
-        step: BuilderNextAction.Step,
+        step: BudgetBuilderAction.Step,
     ): Flow<BudgetBuilder> {
         return categoryRepository.getByIsExpenseAndRecurrencesType(
             isExpense = step.isExpense,

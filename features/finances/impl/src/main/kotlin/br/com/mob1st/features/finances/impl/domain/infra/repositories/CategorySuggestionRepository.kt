@@ -1,6 +1,6 @@
-package br.com.mob1st.features.finances.impl.domain.repositories
+package br.com.mob1st.features.finances.impl.domain.infra.repositories
 
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import kotlinx.coroutines.flow.Flow
 
@@ -17,6 +17,6 @@ internal interface CategorySuggestionRepository {
      * @see CategoriesRepository to check how to execute write operations in the categories.
      */
     fun getByStep(
-        step: BuilderNextAction.Step,
+        step: BudgetBuilderAction.Step,
     ): Flow<List<CategorySuggestion>>
 }

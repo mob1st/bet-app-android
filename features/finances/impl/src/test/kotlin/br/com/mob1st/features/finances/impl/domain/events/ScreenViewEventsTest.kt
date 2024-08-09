@@ -1,7 +1,7 @@
 package br.com.mob1st.features.finances.impl.domain.events
 
 import br.com.mob1st.core.observability.events.AnalyticsEvent
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
@@ -16,7 +16,7 @@ class ScreenViewEventsTest {
     @ParameterizedTest
     @MethodSource("builderStepToEventSource")
     fun `GIVEN a step WHEN create screen view event THEN return the correct event key`(
-        step: BuilderNextAction.Step,
+        step: BudgetBuilderAction.Step,
         expectedEventKey: String,
     ) {
         val actual = AnalyticsEvent.builderStepScreenView(step)

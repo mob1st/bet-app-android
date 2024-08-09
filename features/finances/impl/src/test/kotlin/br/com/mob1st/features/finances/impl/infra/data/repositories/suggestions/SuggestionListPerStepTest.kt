@@ -1,6 +1,6 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource
 class SuggestionListPerStepTest {
     @ParameterizedTest
     @MethodSource("stepPerSuggestionSource")
-    fun `GIVEN a step WHEN get THEN assert suggestions`(step: BuilderNextAction.Step, suggestions: List<String>) {
+    fun `GIVEN a step WHEN get THEN assert suggestions`(step: BudgetBuilderAction.Step, suggestions: List<String>) {
         val suggestionListPerStep = SuggestionListPerStep()
         val result = suggestionListPerStep[step]
         assert(result.containsAll(suggestions))

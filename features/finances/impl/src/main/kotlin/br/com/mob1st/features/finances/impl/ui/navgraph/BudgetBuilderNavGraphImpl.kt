@@ -33,21 +33,13 @@ internal class BudgetBuilderNavGraphImpl(
         ) {
             route<BuilderNavRoute.Intro> {
                 BuilderIntroPage(
-                    onNext = {
-                        val route = router.to(it)
-                        navController.navigate(route)
-                    },
+                    onNext = { navEvent -> navController.navigate(router.route(navEvent)) },
                 )
             }
-            route<BuilderNavRoute.Step>(
-                typeMap = mapOf(typeOf<BuilderNavRoute.Step.Id>() to BuilderStepNavType),
-            ) {
-                val route = it.toRoute<BuilderNavRoute.Step>()
+            route<BuilderNavRoute.Step>(typeMap = stepTypeMap) { navEntry ->
                 BudgetBuilderStepPage(
-                    step = router.from(route),
-                    onNext = { action ->
-                        navController.navigate(router.to(action))
-                    },
+                    step = router.receive(navEntry.toRoute<BuilderNavRoute.Step>()),
+                    onNext = { navEvent -> navController.navigate(router.route(navEvent)) },
                     onBack = navController::navigateUp,
                 )
             }
@@ -55,6 +47,10 @@ internal class BudgetBuilderNavGraphImpl(
         completion {
             navController.navigate(BuilderNavRoute.Intro())
         }
+    }
+
+    private companion object {
+        private val stepTypeMap = mapOf(typeOf<BuilderNavRoute.Step.Id>() to BuilderStepNavType)
     }
 }
 

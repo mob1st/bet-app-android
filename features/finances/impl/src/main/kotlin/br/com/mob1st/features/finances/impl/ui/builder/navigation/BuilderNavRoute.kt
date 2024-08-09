@@ -2,7 +2,7 @@ package br.com.mob1st.features.finances.impl.ui.builder.navigation
 
 import br.com.mob1st.core.design.molecules.transitions.NavRoute
 import br.com.mob1st.core.design.molecules.transitions.PatternKey
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import kotlinx.serialization.Serializable
 
 /**
@@ -52,6 +52,6 @@ sealed interface BuilderNavRoute : NavRoute {
          * @param action The next action to be performed.
          * @return The new route.
          */
-        fun create(action: BuilderNextAction): BuilderNavRoute
+        fun create(action: BudgetBuilderAction): BuilderNavRoute
     }
 }

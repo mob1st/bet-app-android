@@ -9,9 +9,9 @@ import br.com.mob1st.core.kotlinx.structures.Identifiable
  * @property categories The list of categories to be presented to the user.
  */
 data class BudgetBuilder(
-    override val id: BuilderNextAction.Step,
+    override val id: BudgetBuilderAction.Step,
     val categories: List<Category>,
-) : Identifiable<BuilderNextAction.Step> {
+) : Identifiable<BudgetBuilderAction.Step> {
     /**
      * Nests the [id] property to provide access to the next builder action.
      */
@@ -51,6 +51,6 @@ data class BudgetBuilder(
         /**
          * Returns the first step of the category builder.
          */
-        fun firstStep(): BuilderNextAction.Step = VariableExpensesStep
+        fun firstStep(): BudgetBuilderAction.Step = VariableExpensesStep
     }
 }

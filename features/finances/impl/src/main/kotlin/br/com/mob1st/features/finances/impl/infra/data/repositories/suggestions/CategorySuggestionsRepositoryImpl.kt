@@ -4,9 +4,9 @@ import br.com.mob1st.core.androidx.assets.AssetsGetter
 import br.com.mob1st.core.androidx.resources.StringIdGetter
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.structures.Uri
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
-import br.com.mob1st.features.finances.impl.domain.repositories.CategorySuggestionRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategorySuggestionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -27,7 +27,7 @@ internal class CategorySuggestionsRepositoryImpl(
     private val suggestionListPerStep: SuggestionListPerStep,
 ) : CategorySuggestionRepository {
     override fun getByStep(
-        step: BuilderNextAction.Step,
+        step: BudgetBuilderAction.Step,
     ): Flow<List<CategorySuggestion>> = flow {
         val list = suggestionListPerStep[step]
         val suggestions = list.mapNotNull {

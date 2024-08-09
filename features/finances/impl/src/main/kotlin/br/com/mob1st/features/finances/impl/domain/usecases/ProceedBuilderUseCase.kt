@@ -4,7 +4,7 @@ import br.com.mob1st.core.observability.debug.Debuggable
 import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 
 /**
  * Enables the user to proceed in the budget builder until its completion.
@@ -19,12 +19,12 @@ internal class ProceedBuilderUseCase(
      * If not enough category inputs was added, it throws a [NotEnoughInputsException].
      * @param builder The current state of the budget builder.
      * @throws NotEnoughInputsException If there are not enough inputs to proceed to the next step.
-     * @see [BuilderNextAction.Step.minimumRequiredToProceed]
+     * @see [BudgetBuilderAction.Step.minimumRequiredToProceed]
      */
     suspend operator fun invoke(builder: BudgetBuilder) {
         val remainingInputs = builder.calculateRemainingInputs()
-        if (remainingInputs != 100) {
-            if (builder.next is BuilderNextAction.Step) {
+        if (remainingInputs == 0) {
+            if (builder.next is BudgetBuilderAction.Step) {
                 startBuilderStepUseCase(builder.next)
             }
         } else {
@@ -45,7 +45,7 @@ internal class ProceedBuilderUseCase(
      * @return The event to be tracked.
      */
     private fun AnalyticsEvent.Companion.notEnoughItemsToComplete(
-        step: BuilderNextAction.Step,
+        step: BudgetBuilderAction.Step,
         remainingInputs: Int,
     ) = AnalyticsEvent(
         "not_enough_items_to_complete",

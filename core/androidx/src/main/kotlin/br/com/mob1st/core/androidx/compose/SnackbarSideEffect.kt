@@ -22,7 +22,7 @@ fun SnackbarSideEffect(
     snackbarHostState: SnackbarHostState,
     snackbarVisuals: SnackbarVisuals?,
     onDismiss: () -> Unit,
-    onPerformAction: () -> Unit,
+    onPerformAction: () -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
     val currentOnDismiss by rememberUpdatedState(newValue = onDismiss)

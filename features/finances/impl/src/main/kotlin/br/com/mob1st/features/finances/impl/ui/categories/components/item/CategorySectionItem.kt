@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.ui.utils.components
+package br.com.mob1st.features.finances.impl.ui.categories.components.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

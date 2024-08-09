@@ -9,11 +9,11 @@ class RootNextActionStepTest {
     @ParameterizedTest
     @MethodSource("stepSource")
     fun `GIVEN a step WHEN get next THEN assert is expected`(
-        step: BuilderNextAction.Step,
+        step: BudgetBuilderAction.Step,
         expectedIsExpense: Boolean,
         expectedMinimumRequiredToProceed: Int,
         expectedType: RecurrenceType,
-        expectedNext: BuilderNextAction,
+        expectedNext: BudgetBuilderAction,
     ) {
         assertEquals(
             expectedIsExpense,
@@ -62,7 +62,7 @@ class RootNextActionStepTest {
                 false,
                 0,
                 RecurrenceType.Fixed,
-                BuilderNextAction.Complete,
+                BudgetBuilderAction.Complete,
             ),
         )
     }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalTextStyle
@@ -40,14 +41,20 @@ import kotlin.math.E
 
 /**
  * The keyboard for currency input used in the app.
+ * @param modifier The modifier to be applied to the keyboard.
  * @param onClickKey The callback to be called when a key is clicked.
  * @see Key to check the available keys.
  */
 @Composable
 fun Keyboard(
+    modifier: Modifier = Modifier,
     onClickKey: (key: Key) -> Unit,
 ) {
-    BoxWithConstraints {
+    BoxWithConstraints(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+    ) {
         val height = remember(maxWidth) {
             maxWidth - (Spacings.x1 * 2) - (KeyboardDefaults.spacing * 3)
         }

@@ -2,7 +2,7 @@ package br.com.mob1st.features.finances.impl.ui.builder
 
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
@@ -10,7 +10,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.values.category
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
-import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.categories.components.item.CategorySectionItemState
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.chunked
 import io.kotest.property.arbitrary.map
@@ -64,7 +64,7 @@ internal class BudgetBuilderStepUiStateTest {
     @ParameterizedTest
     @MethodSource("headerSource")
     fun `GIVEN a builder WHEN get header THEN assert header is correct`(
-        step: BuilderNextAction.Step,
+        step: BudgetBuilderAction.Step,
         expectedHeader: Loaded.Header,
     ) {
         // When

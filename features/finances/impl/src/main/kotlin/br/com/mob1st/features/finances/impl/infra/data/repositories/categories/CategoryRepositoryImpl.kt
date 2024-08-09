@@ -7,7 +7,7 @@ import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.finances.impl.TwoCentsDb
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
-import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoriesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 

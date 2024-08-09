@@ -4,7 +4,7 @@ import br.com.mob1st.core.androidx.assets.AssetsGetter
 import br.com.mob1st.core.androidx.resources.StringIdGetter
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.structures.Uri
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.tests.featuresutils.TestTimberTree
 import io.kotest.property.Arb
@@ -55,7 +55,7 @@ class CategorySuggestionRepositoryImplTest {
     @Test
     fun `GIVEN an invalid name WHEN get by step THEN assert invalid is skipped And warning is logged`() = runTest {
         // Given
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
 
         every { suggestionListPerStep[step] } returns listOf("valid_id", "invalid_id")
         givenSuggestion("valid_id", "valid", "valid.svg")
@@ -73,7 +73,7 @@ class CategorySuggestionRepositoryImplTest {
     @Test
     fun `GIVEN a non existent file WHEN get by step THEN assert suggestion is skipped And warning is logged`() = runTest {
         // Given
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
 
         every { suggestionListPerStep[step] } returns listOf("valid_id", "invalid_id")
         givenSuggestion("valid_id", "valid", "valid.svg")
@@ -91,7 +91,7 @@ class CategorySuggestionRepositoryImplTest {
     @Test
     fun `GIVEN a non existent file And a invalid res id WHEN get by step THEN assert suggestion is skipped And warning is logged`() = runTest {
         // Given
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
         every { suggestionListPerStep[step] } returns listOf("valid_id", "invalid_id")
         givenSuggestion("valid_id", "valid", "valid.svg")
         givenSuggestion("invalid_id", null, null)
@@ -108,7 +108,7 @@ class CategorySuggestionRepositoryImplTest {
     @Test
     fun `GIVEN a valid file And a valid name WHEN get by step THEN assert suggestions are returned And no log happens`() = runTest {
         // Given
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
         every { suggestionListPerStep[step] } returns listOf("valid_id1", "valid_id2")
         givenSuggestion("valid_id1", "valid1", "valid1.svg")
         givenSuggestion("valid_id2", "valid2", "valid2.svg")

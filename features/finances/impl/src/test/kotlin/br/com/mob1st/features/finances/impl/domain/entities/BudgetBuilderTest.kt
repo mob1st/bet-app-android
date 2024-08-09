@@ -17,7 +17,7 @@ import kotlin.test.assertTrue
 class BudgetBuilderTest {
     @Test
     fun `GIVEN a step And enough inputs WHEN calculate remaining items THEN assert difference`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
             categories = categories(
@@ -30,7 +30,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step And more than enough inputs WHEN calculate remaining items THEN assert difference`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
         val builder = BudgetBuilder(
             id = step,
             categories = categories(
@@ -43,7 +43,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step And not enough categories WHEN get calculate remaining items THEN assert the difference`() {
-        val step = Arb.bind<BuilderNextAction.Step>().filter { it.minimumRequiredToProceed > 0 }.next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().filter { it.minimumRequiredToProceed > 0 }.next()
         val builder = BudgetBuilder(
             id = step,
             categories = categories(
@@ -68,7 +68,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step and only suggestions WHEN create budget builder THEN assert partition is done`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
         val suggestions = Arb.category().map {
             it.copy(isSuggested = true)
         }.chunked(5..10).next()
@@ -80,7 +80,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step and only manually added categories WHEN create budget builder THEN assert partition is done`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
         val manuallyAdded = Arb.category().map {
             it.copy(isSuggested = false)
         }.chunked(5..10).next()
@@ -92,7 +92,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step and both manually added and suggested categories WHEN create budget builder THEN assert partition is done`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
         val categories = Arb.category().chunked(5..10).next()
         val expectedManuallyAdded = categories.filter { !it.isSuggested }
         val expectedSuggestions = categories.filter { it.isSuggested }
@@ -104,7 +104,7 @@ class BudgetBuilderTest {
 
     @Test
     fun `GIVEN a step and no categories WHEN create budget builder THEN assert partition is done`() {
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
         val actual = BudgetBuilder(step, emptyList())
         assertEquals(step, actual.id)
         assertTrue(actual.manuallyAdded.isEmpty())

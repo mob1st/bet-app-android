@@ -18,7 +18,7 @@ internal val uiModule
     }
 
 internal val builderModule = module {
-    factory { BuilderRouter } bind BuilderRouter::class
+    factory { BuilderRouter }
     factory { BudgetBuilderNavGraphImpl(get()) } bind BudgetBuilderNavGraph::class
     viewModel {
         BuilderIntroViewModel(

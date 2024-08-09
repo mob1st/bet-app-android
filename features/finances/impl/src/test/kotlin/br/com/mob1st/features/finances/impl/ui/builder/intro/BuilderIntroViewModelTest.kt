@@ -93,7 +93,7 @@ internal class BuilderIntroViewModelTest {
                 receiveUiState.awaitItem(),
             )
             assertEquals(
-                BuilderIntroConsumables(step = step),
+                BuilderIntroConsumables(navEvent = BuilderIntroNextStepNavEvent(step)),
                 receiveConsumables.awaitItem(),
             )
         }

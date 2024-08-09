@@ -16,9 +16,9 @@ class AsyncLoadingState(
      * Triggers the given [block] and sets the value to true while the block is running.
      * The [value] is set again to false at the end of the block execution, even if an exception is thrown.
      */
-    suspend fun trigger(block: suspend () -> Unit) {
+    suspend fun <T> trigger(block: suspend () -> T): T {
         value = true
-        try {
+        return try {
             block()
         } finally {
             value = false

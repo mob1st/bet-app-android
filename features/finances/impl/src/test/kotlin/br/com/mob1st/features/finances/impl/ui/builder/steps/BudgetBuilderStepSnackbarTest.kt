@@ -14,7 +14,7 @@ class BudgetBuilderStepSnackbarTest {
 
     @Test
     fun `GIVEN a single remaining item WHEN get snackbar message THEN assert it use singular`() {
-        val snackbarState = BudgetBuilderStepSnackbar.NotAllowedToProceed(1)
+        val snackbarState = BuilderStepNotAllowedSnackbar(1)
         composeRule.setContent {
             val visuals = snackbarState.resolve()
             assertEquals(
@@ -26,7 +26,7 @@ class BudgetBuilderStepSnackbarTest {
 
     @Test
     fun `GIVEN multiple remaining items WHEN get snackbar message THEN assert it use plural`() {
-        val snackbarState = BudgetBuilderStepSnackbar.NotAllowedToProceed(2)
+        val snackbarState = BuilderStepNotAllowedSnackbar(2)
         composeRule.setContent {
             val visuals = snackbarState.resolve()
             assertEquals(

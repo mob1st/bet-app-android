@@ -3,7 +3,7 @@ package br.com.mob1st.features.finances.impl.domain.values
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
@@ -106,11 +106,11 @@ fun Arb.Companion.budgetBuilder(): Arb<BudgetBuilder> {
 }
 
 /**
- * Generates a valid [BuilderNextAction] instance
+ * Generates a valid [BudgetBuilderAction] instance
  */
-fun Arb.Companion.builderNextAction(): Arb<BuilderNextAction> {
-    return arbitrary { BuilderNextAction.Complete }.merge(
-        Arb.bind<BuilderNextAction.Step>(),
+fun Arb.Companion.builderNextAction(): Arb<BudgetBuilderAction> {
+    return arbitrary { BudgetBuilderAction.Complete }.merge(
+        Arb.bind<BudgetBuilderAction.Step>(),
     )
 }
 

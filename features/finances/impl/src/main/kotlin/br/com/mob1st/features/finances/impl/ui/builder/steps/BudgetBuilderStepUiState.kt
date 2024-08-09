@@ -4,12 +4,12 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
-import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.categories.components.item.CategorySectionItemState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
@@ -20,12 +20,6 @@ import kotlinx.collections.immutable.toPersistentList
 @Immutable
 internal sealed interface BudgetBuilderStepUiState {
     /**
-     * The initial UI state for the category builder screen.
-     */
-    @Immutable
-    data object Empty : BudgetBuilderStepUiState
-
-    /**
      * The root UI state for the category builder screen.
      * @property builder The category builder. It's loaded from the domain layer and the initial value is null.
      */
@@ -34,7 +28,7 @@ internal sealed interface BudgetBuilderStepUiState {
         val builder: BudgetBuilder,
         val isLoadingNext: Boolean = false,
     ) : BudgetBuilderStepUiState {
-        constructor(step: BuilderNextAction.Step) : this(
+        constructor(step: BudgetBuilderAction.Step) : this(
             builder = BudgetBuilder(step, emptyList()),
         )
 

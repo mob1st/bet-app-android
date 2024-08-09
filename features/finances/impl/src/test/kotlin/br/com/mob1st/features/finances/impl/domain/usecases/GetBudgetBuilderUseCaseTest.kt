@@ -2,9 +2,9 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 
 import app.cash.turbine.test
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoriesRepository
 import br.com.mob1st.features.finances.impl.domain.values.category
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
@@ -35,7 +35,7 @@ class GetBudgetBuilderUseCaseTest {
     fun `GIVEN multiple list of suggestions And categories WHEN get category builder THEN verify screen view event is logged only once`() = runTest {
         // Given
         val categoriesFlow = MutableSharedFlow<List<Category>>()
-        val step = Arb.bind<BuilderNextAction.Step>().next()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
 
         every {
             categoryRepository.getByIsExpenseAndRecurrencesType(

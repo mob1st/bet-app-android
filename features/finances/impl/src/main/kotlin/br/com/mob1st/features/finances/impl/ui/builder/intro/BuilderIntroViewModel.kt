@@ -44,7 +44,7 @@ internal class BuilderIntroViewModel(
             startBuilderStep(step)
         }
         consumableDelegate.update {
-            it.copy(step = step)
+            it.navigateToStep(step)
         }
     }
 

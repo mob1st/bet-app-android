@@ -4,11 +4,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -25,17 +24,19 @@ import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.features.finances.impl.R
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.events.builderStepScreenView
-import br.com.mob1st.features.finances.impl.ui.utils.components.CategorySectionItem
+import br.com.mob1st.features.finances.impl.ui.categories.components.dialog.CategoryNameDialog
+import br.com.mob1st.features.finances.impl.ui.categories.components.item.CategorySectionItem
+import br.com.mob1st.features.finances.impl.ui.categories.components.sheet.CategoryBottomSheet
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 internal fun BudgetBuilderStepPage(
-    step: BuilderNextAction.Step,
-    onNext: (BuilderNextAction) -> Unit,
+    step: BudgetBuilderAction.Step,
+    onNext: (BuilderStepConsumables.NavEvent) -> Unit,
     onBack: () -> Unit,
 ) {
     Icons.Filled.Check
@@ -56,7 +57,8 @@ internal fun BudgetBuilderStepPage(
         onClickNext = viewModel::next,
         onTypeCategoryName = viewModel::typeCategoryName,
         onSubmitCategoryName = viewModel::submitCategoryName,
-        onDismissCategoryName = { viewModel.consume(BudgetBuilderStepConsumables.nullableDialog) },
+        onDismissDialog = { viewModel.consume(BuilderStepConsumables.nullableDialog) },
+        onDismissBottomSheet = { viewModel.consume(BuilderStepConsumables.nullableSheet) },
         onBack = onBack,
     )
 
@@ -64,25 +66,27 @@ internal fun BudgetBuilderStepPage(
         step = step,
         consumables = consumables,
         snackbarHostState = snackbarHostState,
-        onDismissSnackbar = { viewModel.consume(BudgetBuilderStepConsumables.nullableSnackbar) },
+        onDismissSnackbar = { viewModel.consume(BuilderStepConsumables.nullableSnackbar) },
         onNavigate = {
             onNext(it)
-            viewModel.consume(BudgetBuilderStepConsumables.nullableAction)
+            viewModel.consume(BuilderStepConsumables.nullableNavEvent)
         },
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CategoryBuilderStepScreen(
     snackbarHostState: SnackbarHostState,
     uiState: BudgetBuilderStepUiState.Loaded,
-    consumables: BudgetBuilderStepConsumables,
+    consumables: BuilderStepConsumables,
     onSelectManualCategory: (position: Int) -> Unit,
     onSelectSuggestion: (position: Int) -> Unit,
     onClickNext: () -> Unit,
-    onDismissCategoryName: () -> Unit,
+    onDismissDialog: () -> Unit,
     onTypeCategoryName: (name: String) -> Unit,
     onSubmitCategoryName: () -> Unit,
+    onDismissBottomSheet: () -> Unit,
     onBack: () -> Unit,
 ) {
     FeatureStepScaffold(
@@ -109,11 +113,16 @@ private fun CategoryBuilderStepScreen(
             onSelectManualCategory = onSelectManualCategory,
             onSelectSuggestion = onSelectSuggestion,
         )
-        BudgetBuilderDialog(
+        Dialog(
             dialog = consumables.dialog,
+            onDismiss = onDismissDialog,
             onType = onTypeCategoryName,
-            onDismiss = onDismissCategoryName,
-            onSubmit = onSubmitCategoryName,
+            onClickSubmit = onSubmitCategoryName,
+        )
+        BottomSheet(
+            sheet = consumables.sheet,
+            snackbarHostState = snackbarHostState,
+            onDismiss = onDismissBottomSheet,
         )
     }
 }
@@ -158,49 +167,12 @@ private fun BudgetBuilderScreenContent(
 }
 
 @Composable
-private fun BudgetBuilderDialog(
-    dialog: BudgetBuilderStepDialog?,
-    onType: (text: String) -> Unit,
-    onDismiss: () -> Unit,
-    onSubmit: () -> Unit,
-) {
-    if (dialog !is BudgetBuilderStepDialog.EnterName) {
-        return
-    }
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(text = stringResource(id = R.string.finances_builder_commons_dialog_title))
-        },
-        text = {
-            OutlinedTextField(
-                value = dialog.name,
-                onValueChange = onType,
-                label = {
-                    Text(text = stringResource(id = R.string.finances_builder_commons_suggestions_dialog_input_hint))
-                },
-            )
-        },
-        confirmButton = {
-            TextButton(enabled = dialog.isSubmitEnabled, onClick = onSubmit) {
-                Text(text = stringResource(id = R.string.finances_builder_commons_dialog_submit_button))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(id = android.R.string.cancel))
-            }
-        },
-    )
-}
-
-@Composable
 private fun BuilderStepsSideEffects(
-    step: BuilderNextAction.Step,
-    consumables: BudgetBuilderStepConsumables,
+    step: BudgetBuilderAction.Step,
+    consumables: BuilderStepConsumables,
     snackbarHostState: SnackbarHostState,
     onDismissSnackbar: () -> Unit,
-    onNavigate: (BuilderNextAction) -> Unit,
+    onNavigate: (BuilderStepConsumables.NavEvent) -> Unit,
 ) {
     TrackEventSideEffect(event = AnalyticsEvent.builderStepScreenView(step))
     SnackbarSideEffect(
@@ -210,9 +182,47 @@ private fun BuilderStepsSideEffects(
         onPerformAction = {},
     )
     NavigationSideEffect(
-        target = consumables.action,
+        target = consumables.navEvent,
         onNavigate = onNavigate,
     )
+}
+
+@Composable
+private fun Dialog(
+    dialog: BuilderStepConsumables.Dialog?,
+    onDismiss: () -> Unit,
+    onType: (String) -> Unit,
+    onClickSubmit: () -> Unit,
+) {
+    when (dialog) {
+        is BuilderStepNameDialog -> CategoryNameDialog(
+            state = dialog.state,
+            onType = onType,
+            onClickSubmit = onClickSubmit,
+            onDismiss = onDismiss,
+        )
+
+        null -> {}
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun BottomSheet(
+    sheet: BuilderStepConsumables.Sheet?,
+    snackbarHostState: SnackbarHostState,
+    onDismiss: () -> Unit,
+) {
+    when (sheet) {
+        is BuilderStepCategorySheet -> CategoryBottomSheet(
+            snackbarHostState = snackbarHostState,
+            sheetState = rememberModalBottomSheetState(),
+            intent = sheet.intent,
+            onDismiss = onDismiss,
+        )
+
+        null -> {}
+    }
 }
 
 @Composable
@@ -228,7 +238,8 @@ private fun CategoryBuilderPagePreview() {
             onClickNext = {},
             onTypeCategoryName = {},
             onSubmitCategoryName = {},
-            onDismissCategoryName = {},
+            onDismissDialog = {},
+            onDismissBottomSheet = {},
             onBack = {},
         )
     }

@@ -1,6 +1,6 @@
 package br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions
 
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
@@ -15,7 +15,7 @@ internal fun interface SuggestionListPerStep {
      * @param step The step of the builder.
      * @return The list of suggestions identifiers.
      */
-    operator fun get(step: BuilderNextAction.Step): List<String>
+    operator fun get(step: BudgetBuilderAction.Step): List<String>
 }
 
 /**

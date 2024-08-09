@@ -1,7 +1,7 @@
 package br.com.mob1st.features.finances.impl.dependencies
 
-import br.com.mob1st.features.finances.impl.domain.repositories.CategoriesRepository
-import br.com.mob1st.features.finances.impl.domain.repositories.CategorySuggestionRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoriesRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategorySuggestionRepository
 import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.CategoriesDataMap
 import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.CategoryRepositoryImpl
 import br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions.CategorySuggestionsRepositoryImpl

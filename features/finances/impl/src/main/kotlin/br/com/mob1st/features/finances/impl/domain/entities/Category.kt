@@ -4,7 +4,6 @@ import br.com.mob1st.core.kotlinx.structures.Identifiable
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.core.kotlinx.structures.Uri
-import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 
 /**
  * Represents a category of expenses or incomes.
@@ -17,9 +16,9 @@ import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
  */
 data class Category(
     override val id: Id = Id(),
+    val amount: Money = Money.Zero,
     val name: String,
     val image: Uri,
-    val amount: Money,
     val isExpense: Boolean,
     val recurrences: Recurrences,
     val isSuggested: Boolean,
@@ -32,46 +31,4 @@ data class Category(
      */
     @JvmInline
     value class Id(override val value: Long = 0) : RowId
-
-    /**
-     * Creates a new category instance.
-     */
-    interface Factory {
-        /**
-         * Creates a new category from the given [suggestion].
-         * It's a useful for the user to create a category from a predefined set of suggestions.
-         * @param step The step in the budget builder where the category is being created. It's useful to understand if
-         * the category is an expense or an income, and also to define its default recurrences.
-         * @param suggestion The suggestion to create the category from.
-         * @return The created category.
-         */
-        fun create(
-            step: BuilderNextAction.Step,
-            suggestion: CategorySuggestion,
-        ): Category
-    }
-
-    companion object : Factory {
-        override fun create(
-            step: BuilderNextAction.Step,
-            suggestion: CategorySuggestion,
-        ): Category {
-            return Category(
-                name = suggestion.name,
-                image = suggestion.image,
-                amount = Money.Zero,
-                isExpense = step.isExpense,
-                recurrences = step.type.toDefaultRecurrences(),
-                isSuggested = true,
-            )
-        }
-    }
-}
-
-private fun RecurrenceType.toDefaultRecurrences(): Recurrences {
-    return when (this) {
-        RecurrenceType.Fixed -> Recurrences.Fixed(DayOfMonth(1))
-        RecurrenceType.Variable -> Recurrences.Variable
-        RecurrenceType.Seasonal -> Recurrences.Seasonal(emptyList())
-    }
 }

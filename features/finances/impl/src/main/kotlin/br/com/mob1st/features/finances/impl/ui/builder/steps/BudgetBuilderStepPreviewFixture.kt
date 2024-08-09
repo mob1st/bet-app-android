@@ -50,5 +50,5 @@ internal object BudgetBuilderStepPreviewFixture {
             ),
         ),
     )
-    val consumables = BudgetBuilderStepConsumables()
+    val consumables = BuilderStepConsumables()
 }

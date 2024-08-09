@@ -1,49 +1,57 @@
 package br.com.mob1st.features.finances.impl.ui.builder.navigation
 
-import br.com.mob1st.features.finances.impl.domain.entities.BuilderNextAction
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Completion
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute.Step
+import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroConsumables
+import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroNextStepNavEvent
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepConsumables
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavEvent
 
 /**
  * The router for the budget builder feature flow.
- * It intermediates the navigation events sent from ViewModel, typicically domain structures, into routes that can be
- * navigated by the UI.
+ * It intermediates the navigation events sent from ViewModels and maps it to routes that can be navigated by the UI.
+ * Also, it has capabilities to extract the routes parameters to domain specific data, that can be used as arguments by
+ * screens.
  */
-internal interface BuilderRouter {
+internal object BuilderRouter {
     /**
-     * Sends the given [action] to the router, returning the next route to navigate.
-     * @param action The next action to be performed.
+     * Navigates from the intro screen to a [BuilderNavRoute].
+     * @param navEvent The navigation event to be consumed.
      * @return The next event navigation to be consumed by the UI.
      */
-    fun to(action: BuilderNextAction): BuilderNavRoute
+    fun route(navEvent: BuilderIntroConsumables.NavEvent): BuilderNavRoute = when (navEvent) {
+        is BuilderIntroNextStepNavEvent -> route(navEvent.step)
+    }
+
+    /**
+     * Navigates from the step screen to a [BuilderNavRoute].
+     * @param navEvent The navigation event to be consumed.
+     * @return The next event navigation to be consumed by the UI.
+     */
+    fun route(navEvent: BuilderStepConsumables.NavEvent): BuilderNavRoute = when (navEvent) {
+        is BuilderStepNextNavEvent -> route(navEvent.next)
+    }
 
     /**
      * Receives the given [route] from the router, returning the next action to be performed.
      */
-    fun from(route: Step): BuilderNextAction.Step
+    fun receive(route: BuilderNavRoute.Step): BudgetBuilderAction.Step = when (route.id) {
+        BuilderNavRoute.Step.Id.FixedExpenses -> FixedExpensesStep
+        BuilderNavRoute.Step.Id.VariableExpenses -> VariableExpensesStep
+        BuilderNavRoute.Step.Id.SeasonalExpenses -> SeasonalExpensesStep
+        BuilderNavRoute.Step.Id.FixedIncomes -> FixedIncomesStep
+    }
 
-    companion object : BuilderRouter {
-        override fun to(action: BuilderNextAction): BuilderNavRoute {
-            return when (action) {
-                BuilderNextAction.Complete -> Completion()
-                FixedExpensesStep -> Step(Step.Id.FixedExpenses)
-                FixedIncomesStep -> Step(Step.Id.FixedIncomes)
-                SeasonalExpensesStep -> Step(Step.Id.SeasonalExpenses)
-                VariableExpensesStep -> Step(Step.Id.VariableExpenses)
-            }
-        }
-
-        override fun from(route: Step): BuilderNextAction.Step {
-            return when (route.id) {
-                Step.Id.FixedExpenses -> FixedExpensesStep
-                Step.Id.VariableExpenses -> VariableExpensesStep
-                Step.Id.SeasonalExpenses -> SeasonalExpensesStep
-                Step.Id.FixedIncomes -> FixedIncomesStep
-            }
+    private fun route(action: BudgetBuilderAction): BuilderNavRoute {
+        return when (action) {
+            BudgetBuilderAction.Complete -> BuilderNavRoute.Completion()
+            FixedExpensesStep -> BuilderNavRoute.Step(BuilderNavRoute.Step.Id.FixedExpenses)
+            FixedIncomesStep -> BuilderNavRoute.Step(BuilderNavRoute.Step.Id.FixedIncomes)
+            SeasonalExpensesStep -> BuilderNavRoute.Step(BuilderNavRoute.Step.Id.SeasonalExpenses)
+            VariableExpensesStep -> BuilderNavRoute.Step(BuilderNavRoute.Step.Id.VariableExpenses)
         }
     }
 }

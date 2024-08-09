@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.navigation.NavType
 
 /**
- * Navigation type for [BuilderNavEvent.Step].
+ * Navigation type for [BuilderNavRoute.Step.Id].
  */
 internal object BuilderStepNavType : NavType<BuilderNavRoute.Step.Id>(false) {
     override fun get(bundle: Bundle, key: String): BuilderNavRoute.Step.Id {

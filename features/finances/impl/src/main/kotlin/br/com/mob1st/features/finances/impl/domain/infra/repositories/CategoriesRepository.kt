@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.domain.repositories
+package br.com.mob1st.features.finances.impl.domain.infra.repositories
 
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
