@@ -28,23 +28,28 @@ fun AnalyticsEvent.Companion.builderStepScreenView(
  */
 fun AnalyticsEvent.Companion.builderIntroScreenViewEvent() = screenView("builder_intro")
 
+/**
+ * Creates the screen event related to the category detail sheet
+ * @param intent the intent to create the event for.
+ * @return the screen view event.
+ */
 fun AnalyticsEvent.Companion.categoryScreenViewEvent(
     intent: GetCategoryIntent,
 ): AnalyticsEvent {
-    val params = when (intent) {
+    val specificParams = when (intent) {
         is GetCategoryIntent.Create -> mapOf(
             "intent" to "create",
-            "isSuggested" to false,
             "name" to intent.name,
-            "isExpense" to intent.isExpense,
-            "recurrenceType" to intent.type,
         )
 
         is GetCategoryIntent.Edit -> mapOf(
             "intent" to "edit",
-            "id" to intent.id,
-            "isSuggested" to false,
+            "isSuggested" to intent.isSuggested,
         )
     }
-    return screenView("category", params)
+    val defaultParams = mapOf(
+        "type" to intent.type.name,
+        "isExpense" to intent.isExpense,
+    )
+    return screenView("category", specificParams + defaultParams)
 }

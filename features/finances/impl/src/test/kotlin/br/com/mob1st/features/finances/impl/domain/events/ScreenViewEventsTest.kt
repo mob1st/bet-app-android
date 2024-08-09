@@ -41,6 +41,11 @@ class ScreenViewEventsTest {
         )
     }
 
+    fun test() {
+        // test sheet event
+        assert(false)
+    }
+
     companion object {
         @JvmStatic
         fun builderStepToEventSource() = listOf(

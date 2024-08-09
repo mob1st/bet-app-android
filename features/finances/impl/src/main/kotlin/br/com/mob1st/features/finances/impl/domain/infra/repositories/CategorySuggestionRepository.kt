@@ -14,7 +14,7 @@ internal interface CategorySuggestionRepository {
      * will be triggered in the flow.
      * @param step The step of the category builder.
      * @return A flow of the suggestions.
-     * @see CategoriesRepository to check how to execute write operations in the categories.
+     * @see CategoryRepository to check how to execute write operations in the categories.
      */
     fun getByStep(
         step: BudgetBuilderAction.Step,

@@ -2,6 +2,7 @@ package br.com.mob1st.features.finances.impl.domain.values
 
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.Uri
+import br.com.mob1st.features.finances.impl.domain.entities.Asset
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
@@ -120,5 +121,14 @@ fun Arb.Companion.builderNextAction(): Arb<BudgetBuilderAction> {
 fun Arb.Companion.categorySuggestion(): Arb<CategorySuggestion> {
     return Arb.bind {
         bind(CategorySuggestion::image to uri())
+    }
+}
+
+/**
+ * Generates a valid [Asset] instance
+ */
+fun Arb.Companion.asset(): Arb<Asset> {
+    return Arb.bind {
+        bind(Asset::uri to uri())
     }
 }

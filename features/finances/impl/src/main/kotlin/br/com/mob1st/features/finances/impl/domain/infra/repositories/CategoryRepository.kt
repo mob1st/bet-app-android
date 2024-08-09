@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * Repository for the Categories aggregate.
  */
-internal interface CategoriesRepository {
+internal interface CategoryRepository {
     /**
      * Return a single category by its [id].
      * @param id The id of the category.

@@ -3,17 +3,17 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.toDefaultRecurrences
-import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoriesRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategorySuggestionRepository
 import kotlinx.coroutines.flow.first
 
 /**
  * Starts the builder step by preloading the categories if suggestions if needed.
- * @param categoriesRepository The repository to store the categories.
+ * @param categoryRepository The repository to store the categories.
  * @param categorySuggestionRepository The repository that provides the suggestions to be transformed into categories.
  */
 internal class StartBuilderStepUseCase(
-    private val categoriesRepository: CategoriesRepository,
+    private val categoryRepository: CategoryRepository,
     private val categorySuggestionRepository: CategorySuggestionRepository,
 ) {
     /**
@@ -23,7 +23,7 @@ internal class StartBuilderStepUseCase(
     suspend operator fun invoke(
         step: BudgetBuilderAction.Step,
     ) {
-        val count = categoriesRepository.countByIsExpenseAndRecurrencesType(
+        val count = categoryRepository.countByIsExpenseAndRecurrencesType(
             isExpense = step.isExpense,
             recurrenceType = step.type,
         ).first()
@@ -38,7 +38,7 @@ internal class StartBuilderStepUseCase(
                     isExpense = step.isExpense,
                 )
             }
-            categoriesRepository.addAll(categories)
+            categoryRepository.addAll(categories)
         }
     }
 }

@@ -13,7 +13,7 @@ class CategoryStateHandle(
         savedStateHandle.getStateFlow<String?>(NAME_KEY, null),
         savedStateHandle.getStateFlow<Money?>(AMOUNT_KEY, null),
         savedStateHandle.getStateFlow<Recurrences?>(RECURRENCES_KEY, null),
-        savedStateHandle.getStateFlow<Uri?>(IMAGE_KEY, Uri("")),
+        savedStateHandle.getStateFlow<Uri?>(IMAGE_KEY, null),
     ) { name, amount, recurrences, image ->
         CategoryEntry(
             name = name,

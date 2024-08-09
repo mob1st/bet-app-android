@@ -7,12 +7,12 @@ import br.com.mob1st.core.kotlinx.coroutines.IoCoroutineDispatcher
 import br.com.mob1st.features.finances.impl.TwoCentsDb
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
-import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoriesRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 /**
- * Concrete implementation of the [CategoriesRepository] interface.
+ * Concrete implementation of the [CategoryRepository] interface.
  * @property io The IO dispatcher.
  * @property db The SqlDelight database instance.
  * @property categoriesDataMap Maps the queries that return categories to the domain entities.
@@ -21,7 +21,7 @@ internal class CategoryRepositoryImpl(
     private val io: IoCoroutineDispatcher,
     private val db: TwoCentsDb,
     private val categoriesDataMap: CategoriesDataMap,
-) : CategoriesRepository {
+) : CategoryRepository {
     override fun getByIsExpenseAndRecurrencesType(
         isExpense: Boolean,
         recurrenceType: RecurrenceType,

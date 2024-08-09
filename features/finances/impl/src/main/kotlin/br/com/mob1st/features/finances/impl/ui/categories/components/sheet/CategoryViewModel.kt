@@ -28,10 +28,10 @@ internal class CategoryViewModel(
     UiStateManager<CategoryDetailState>,
     ConsumableManager<CategoryDetailConsumables> by consumableDelegate {
     override val uiState: StateFlow<CategoryDetailState> = getCategoryDetail[intent]
-        .map(::CategoryDetailState)
+        .map { CategoryDetailState.Loaded(it) }
         .stateInWhileSubscribed(
             viewModelScope,
-            CategoryDetailState(),
+            CategoryDetailState.Loading,
         )
 
     private val errorHandler = consumableDelegate.commonErrorHandler {
@@ -61,9 +61,12 @@ internal class CategoryViewModel(
     }
 
     fun submit() = launchIn(default + errorHandler) {
-        val category = checkNotNull(uiState.value.category)
+        val uiState = uiState.value
+        if (uiState !is CategoryDetailState.Loaded) {
+            return@launchIn
+        }
         asyncLoadingState.trigger {
-            setCategory(category)
+            setCategory(uiState.category)
         }
     }
 

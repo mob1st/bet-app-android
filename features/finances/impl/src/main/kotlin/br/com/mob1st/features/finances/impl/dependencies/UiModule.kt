@@ -3,6 +3,8 @@ package br.com.mob1st.features.finances.impl.dependencies
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroViewModel
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepViewModel
+import br.com.mob1st.features.finances.impl.ui.categories.components.sheet.CategoryStateHandle
+import br.com.mob1st.features.finances.impl.ui.categories.components.sheet.CategoryViewModel
 import br.com.mob1st.features.finances.impl.ui.navgraph.BudgetBuilderNavGraphImpl
 import br.com.mob1st.features.finances.impl.ui.navgraph.FinancesNavGraphImpl
 import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
@@ -34,6 +36,16 @@ internal val builderModule = module {
             step = params.get(),
             getCategoryBuilder = get(),
             proceedBuilder = get(),
+        )
+    }
+    viewModel { params ->
+        CategoryViewModel(
+            default = get(),
+            consumableDelegate = CategoryViewModel.consumableDelegate(),
+            intent = params.get(),
+            getCategoryDetail = get(),
+            setCategory = get(),
+            categoryStateHandle = CategoryStateHandle(get()),
         )
     }
 }

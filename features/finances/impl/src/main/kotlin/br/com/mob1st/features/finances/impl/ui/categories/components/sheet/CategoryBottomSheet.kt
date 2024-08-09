@@ -3,8 +3,10 @@
 package br.com.mob1st.features.finances.impl.ui.categories.components.sheet
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.androidx.compose.SnackbarSideEffect
-import br.com.mob1st.core.design.atoms.properties.texts.LocalizedText
 import br.com.mob1st.core.design.molecules.keyboard.Key
 import br.com.mob1st.core.design.molecules.keyboard.Keyboard
 import br.com.mob1st.core.design.utils.PreviewTheme
@@ -71,9 +72,9 @@ private fun ColumnScope.CategoryBottomSheetContent(
 ) {
     Header(
         modifier = Modifier
-            .weight(1f)
-            .align(Alignment.CenterHorizontally),
-        uiState.amount,
+            .fillMaxWidth()
+            .weight(1f),
+        uiState = uiState,
     )
     Keyboard(onClickKey = onClickKey)
 }
@@ -81,15 +82,30 @@ private fun ColumnScope.CategoryBottomSheetContent(
 @Composable
 private fun Header(
     modifier: Modifier,
-    amount: LocalizedText,
+    uiState: CategoryDetailState,
+) {
+    Box(modifier = modifier) {
+        when (uiState) {
+            is CategoryDetailState.Loaded -> {
+                LoadedHeader(uiState = uiState)
+            }
+
+            CategoryDetailState.Loading -> {}
+        }
+    }
+}
+
+@Composable
+private fun LoadedHeader(
+    uiState: CategoryDetailState.Loaded,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = amount.resolve(),
+            text = uiState.amount.resolve(),
             style = MaterialTheme.typography.displaySmall,
         )
     }
@@ -124,7 +140,7 @@ private fun CategoryBottomSheetContentPreview() {
     PreviewTheme {
         Column {
             CategoryBottomSheetContent(
-                uiState = CategoryDetailState(
+                uiState = CategoryDetailState.Loaded(
                     category = CategoryFixtures.category,
                 ),
                 onClickKey = {},

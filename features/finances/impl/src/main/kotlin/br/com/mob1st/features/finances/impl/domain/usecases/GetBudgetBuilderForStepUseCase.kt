@@ -2,7 +2,7 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
-import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoriesRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
  * @param categoryRepository The repository to fetch the categories.
  */
 internal class GetBudgetBuilderForStepUseCase(
-    private val categoryRepository: CategoriesRepository,
+    private val categoryRepository: CategoryRepository,
 ) {
     operator fun get(
         step: BudgetBuilderAction.Step,

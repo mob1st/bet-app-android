@@ -1,7 +1,9 @@
 package br.com.mob1st.features.finances.impl.dependencies
 
-import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoriesRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.AssetRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategorySuggestionRepository
+import br.com.mob1st.features.finances.impl.infra.data.repositories.assets.AssetRepositoryImpl
 import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.CategoriesDataMap
 import br.com.mob1st.features.finances.impl.infra.data.repositories.categories.CategoryRepositoryImpl
 import br.com.mob1st.features.finances.impl.infra.data.repositories.suggestions.CategorySuggestionsRepositoryImpl
@@ -24,6 +26,7 @@ private val repositoriesModule = module {
     }
     factory { SuggestionListPerStep() }
     single { CategoriesDataMap } bind CategoriesDataMap::class
-    factoryOf(::CategoryRepositoryImpl) bind CategoriesRepository::class
+    factoryOf(::CategoryRepositoryImpl) bind CategoryRepository::class
     factoryOf(::CategorySuggestionsRepositoryImpl) bind CategorySuggestionRepository::class
+    factoryOf(::AssetRepositoryImpl) bind AssetRepository::class
 }

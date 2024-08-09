@@ -3,7 +3,7 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.toDefaultRecurrences
-import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoriesRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategorySuggestionRepository
 import br.com.mob1st.features.finances.impl.domain.values.categorySuggestion
 import io.kotest.property.Arb
@@ -24,15 +24,15 @@ import kotlin.test.assertEquals
 
 class StartBuilderStepUseCaseTest {
     private lateinit var useCase: StartBuilderStepUseCase
-    private lateinit var categoriesRepository: CategoriesRepository
+    private lateinit var categoryRepository: CategoryRepository
     private lateinit var categorySuggestionRepository: CategorySuggestionRepository
 
     @BeforeEach
     fun setUp() {
-        categoriesRepository = mockk()
+        categoryRepository = mockk()
         categorySuggestionRepository = mockk()
         useCase = StartBuilderStepUseCase(
-            categoriesRepository = categoriesRepository,
+            categoryRepository = categoryRepository,
             categorySuggestionRepository = categorySuggestionRepository,
         )
     }
@@ -42,7 +42,7 @@ class StartBuilderStepUseCaseTest {
         // Given
         val step = Arb.bind<BudgetBuilderAction.Step>().next()
         every {
-            categoriesRepository.countByIsExpenseAndRecurrencesType(
+            categoryRepository.countByIsExpenseAndRecurrencesType(
                 step.isExpense,
                 step.type,
             )
@@ -53,7 +53,7 @@ class StartBuilderStepUseCaseTest {
 
         // Then
         verify(exactly = 0) { categorySuggestionRepository.getByStep(any()) }
-        coVerify(exactly = 0) { categoriesRepository.addAll(any()) }
+        coVerify(exactly = 0) { categoryRepository.addAll(any()) }
     }
 
     @Test
@@ -63,13 +63,13 @@ class StartBuilderStepUseCaseTest {
         val suggestions = Arb.categorySuggestion().chunked(1..3).next()
         val slot = slot<List<Category>>()
         every {
-            categoriesRepository.countByIsExpenseAndRecurrencesType(
+            categoryRepository.countByIsExpenseAndRecurrencesType(
                 step.isExpense,
                 step.type,
             )
         } returns flowOf(0L)
         every { categorySuggestionRepository.getByStep(step) } returns flowOf(suggestions)
-        coEvery { categoriesRepository.addAll(capture(slot)) } returns Unit
+        coEvery { categoryRepository.addAll(capture(slot)) } returns Unit
 
         // When
         useCase(step)
@@ -85,6 +85,6 @@ class StartBuilderStepUseCaseTest {
         assertEquals(expected, slot.captured)
         // Then
         verify(exactly = 1) { categorySuggestionRepository.getByStep(step) }
-        coVerify(exactly = 1) { categoriesRepository.addAll(slot.captured) }
+        coVerify(exactly = 1) { categoryRepository.addAll(slot.captured) }
     }
 }
