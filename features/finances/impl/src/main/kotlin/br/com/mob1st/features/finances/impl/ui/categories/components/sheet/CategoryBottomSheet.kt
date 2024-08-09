@@ -5,15 +5,15 @@ package br.com.mob1st.features.finances.impl.ui.categories.components.sheet
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,7 +35,6 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun CategoryBottomSheet(
     snackbarHostState: SnackbarHostState,
-    sheetState: SheetState,
     intent: GetCategoryIntent,
     onDismiss: () -> Unit,
 ) {
@@ -44,6 +43,7 @@ fun CategoryBottomSheet(
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val consumables by viewModel.consumableUiState.collectAsStateWithLifecycle()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
@@ -66,17 +66,21 @@ fun CategoryBottomSheet(
 }
 
 @Composable
-private fun ColumnScope.CategoryBottomSheetContent(
+private fun CategoryBottomSheetContent(
     uiState: CategoryDetailState,
     onClickKey: (Key) -> Unit,
 ) {
-    Header(
-        modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f),
-        uiState = uiState,
-    )
-    Keyboard(onClickKey = onClickKey)
+    Column(
+        modifier = Modifier.fillMaxHeight(0.95f),
+    ) {
+        Header(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            uiState = uiState,
+        )
+        Keyboard(onClickKey = onClickKey)
+    }
 }
 
 @Composable
@@ -138,13 +142,11 @@ private fun CategoryBottomSheetSideEffects(
 @ThemedPreview
 private fun CategoryBottomSheetContentPreview() {
     PreviewTheme {
-        Column {
-            CategoryBottomSheetContent(
-                uiState = CategoryDetailState.Loaded(
-                    category = CategoryFixtures.category,
-                ),
-                onClickKey = {},
-            )
-        }
+        CategoryBottomSheetContent(
+            uiState = CategoryDetailState.Loaded(
+                category = CategoryFixtures.category,
+            ),
+            onClickKey = {},
+        )
     }
 }

@@ -16,6 +16,7 @@ import br.com.mob1st.features.finances.impl.domain.usecases.SetCategoryUseCase
 import br.com.mob1st.features.utils.errors.commonErrorHandler
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 internal class CategoryViewModel(
     private val default: DefaultCoroutineDispatcher,
@@ -38,6 +39,10 @@ internal class CategoryViewModel(
         copy(commonErrorSnackbarState = it)
     }
     private val asyncLoadingState = AsyncLoadingState()
+
+    init {
+        Timber.d("ptest init ${this.hashCode()}")
+    }
 
     fun type(number: Int) = launchIn(errorHandler) {
     }
@@ -68,6 +73,11 @@ internal class CategoryViewModel(
         asyncLoadingState.trigger {
             setCategory(uiState.category)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.d("ptest onCleared ${this.hashCode()}")
     }
 
     companion object {
