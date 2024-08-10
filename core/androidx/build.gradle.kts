@@ -19,9 +19,10 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlin.datetime)
-    implementation(libs.timber)
     implementation(libs.datastore.preferences)
+    implementation(libs.kotlin.datetime)
+    implementation(libs.kotlin.serialization.json)
+    implementation(libs.timber)
     implementation(libs.bundles.android)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.lifecycle)

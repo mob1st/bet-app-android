@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import br.com.mob1st.core.androidx.compose.LocalActivity
+import br.com.mob1st.core.androidx.navigation.ModalBottomSheetLayout
+import br.com.mob1st.core.androidx.navigation.rememberBottomSheetNavigator
 import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.atoms.theme.UiContrast
 import br.com.mob1st.core.design.utils.LocalLocale
@@ -45,31 +48,35 @@ class MainActivity : ComponentActivity() {
 private fun App() {
     UiContrast {
         TwoCentsTheme {
-            Surface {
-                NavigationGraph()
-            }
+            NavigationGraph()
         }
     }
 }
 
 @Composable
 internal fun NavigationGraph() {
-    val navController = rememberNavController()
+    val bottomSheetNavigator = rememberBottomSheetNavigator()
+    val navController = rememberNavController(bottomSheetNavigator)
     val financesNavGraph = koinInject<FinancesNavGraph>()
     val budgetBuilderNavGraph = koinInject<BudgetBuilderNavGraph>()
-    NavHost(
-        navController = navController,
-        startDestination = BudgetBuilderNavGraph.Root,
+    ModalBottomSheetLayout(
+        modifier = Modifier.fillMaxSize(),
+        bottomSheetNavigator = bottomSheetNavigator,
     ) {
-        financesNavGraph.graph(
+        NavHost(
             navController = navController,
-            onClickClose = { },
-        )
-        budgetBuilderNavGraph.graph(
-            navController,
-            onComplete = {
-                // go to home
-            },
-        )
+            startDestination = BudgetBuilderNavGraph.Root,
+        ) {
+            financesNavGraph.graph(
+                navController = navController,
+                onClickClose = { },
+            )
+            budgetBuilderNavGraph.graph(
+                navController,
+                onComplete = {
+                    // go to home
+                },
+            )
+        }
     }
 }

@@ -36,20 +36,5 @@ fun AnalyticsEvent.Companion.builderIntroScreenViewEvent() = screenView("builder
 fun AnalyticsEvent.Companion.categoryScreenViewEvent(
     intent: GetCategoryIntent,
 ): AnalyticsEvent {
-    val specificParams = when (intent) {
-        is GetCategoryIntent.Create -> mapOf(
-            "intent" to "create",
-            "name" to intent.name,
-        )
-
-        is GetCategoryIntent.Edit -> mapOf(
-            "intent" to "edit",
-            "isSuggested" to intent.isSuggested,
-        )
-    }
-    val defaultParams = mapOf(
-        "type" to intent.type.name,
-        "isExpense" to intent.isExpense,
-    )
-    return screenView("category", specificParams + defaultParams)
+    return screenView("category")
 }

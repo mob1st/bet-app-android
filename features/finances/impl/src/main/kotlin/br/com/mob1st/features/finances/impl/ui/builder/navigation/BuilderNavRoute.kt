@@ -3,6 +3,7 @@ package br.com.mob1st.features.finances.impl.ui.builder.navigation
 import br.com.mob1st.core.design.molecules.transitions.NavRoute
 import br.com.mob1st.core.design.molecules.transitions.PatternKey
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
+import br.com.mob1st.features.finances.impl.ui.category.components.sheet.Args
 import kotlinx.serialization.Serializable
 
 /**
@@ -40,7 +41,13 @@ sealed interface BuilderNavRoute : NavRoute {
      */
     @Serializable
     data class Completion(
-        override val enteringPatternKey: PatternKey = PatternKey.BackAndForward,
+        override val enteringPatternKey: PatternKey = PatternKey.BottomSheet,
+    ) : BuilderNavRoute
+
+    @Serializable
+    data class CategoryDetail(
+        override val enteringPatternKey: PatternKey = PatternKey.BottomSheet,
+        val args: Args,
     ) : BuilderNavRoute
 
     /**

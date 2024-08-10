@@ -11,12 +11,20 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
+import br.com.mob1st.core.androidx.navigation.bottomSheet
+import br.com.mob1st.core.androidx.navigation.jsonParcelableType
+import br.com.mob1st.core.design.molecules.transitions.PatternKey
+import br.com.mob1st.core.design.molecules.transitions.PatternKeyNavType
 import br.com.mob1st.core.design.molecules.transitions.route
+import br.com.mob1st.features.finances.impl.domain.entities.Category
+import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroPage
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderNavRoute
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderRouter
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavType
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepPage
+import br.com.mob1st.features.finances.impl.ui.category.components.sheet.Args
+import br.com.mob1st.features.finances.impl.ui.category.detail.CategoryDetailPage
 import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
 import kotlin.reflect.typeOf
 
@@ -43,9 +51,26 @@ internal class BudgetBuilderNavGraphImpl(
                     onBack = navController::navigateUp,
                 )
             }
-        }
-        completion {
-            navController.navigate(BuilderNavRoute.Intro())
+            bottomSheet<BuilderNavRoute.CategoryDetail>(
+                typeMap = mapOf(
+                    typeOf<Args>() to jsonParcelableType<Args>(),
+                    typeOf<PatternKey>() to PatternKeyNavType,
+                ),
+            ) {
+                val route = it.toRoute<BuilderNavRoute.CategoryDetail>()
+                val intent = when {
+                    route.args.name != null -> GetCategoryIntent.Create(route.args.name)
+                    route.args.id != null -> GetCategoryIntent.Edit(Category.Id(route.args.id))
+                    else -> error("Invalid route")
+                }
+                CategoryDetailPage(
+                    intent = intent,
+                    onSubmit = navController::navigateUp,
+                )
+            }
+            completion {
+                navController.navigate(BuilderNavRoute.Intro())
+            }
         }
     }
 

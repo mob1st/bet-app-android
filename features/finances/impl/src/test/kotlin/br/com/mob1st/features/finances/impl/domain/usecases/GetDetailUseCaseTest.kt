@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class GetCategoryDetailUseCaseTest {
+class GetDetailUseCaseTest {
     private lateinit var useCase: GetCategoryDetailUseCase
     private lateinit var categoryRepository: CategoryRepository
     private lateinit var assetRepository: AssetRepository

@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.ui.categories.components.sheet
+package br.com.mob1st.features.finances.impl.ui.category.detail
 
 import androidx.lifecycle.SavedStateHandle
 import br.com.mob1st.core.kotlinx.structures.Money

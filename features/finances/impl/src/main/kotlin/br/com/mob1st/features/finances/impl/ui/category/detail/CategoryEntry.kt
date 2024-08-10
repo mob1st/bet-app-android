@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.ui.categories.components.sheet
+package br.com.mob1st.features.finances.impl.ui.category.detail
 
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.Uri

@@ -14,8 +14,8 @@ import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
-import br.com.mob1st.features.finances.impl.ui.categories.components.dialog.CategoryNameDialogState
-import br.com.mob1st.features.finances.impl.ui.categories.components.item.CategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialogState
+import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 
 /**
@@ -58,13 +58,11 @@ data class BuilderStepConsumables(
         step: BudgetBuilderAction.Step,
         item: CategorySectionItemState,
     ) = copy {
-        BuilderStepConsumables.sheet set BuilderStepCategorySheet(
-            GetCategoryIntent.Edit(
+        BuilderStepConsumables.navEvent set BuilderStepCategoryDetailNavEvent(
+            intent = GetCategoryIntent.Edit(
                 id = item.category.id,
-                isExpense = step.isExpense,
-                type = step.type,
-                isSuggested = item.category.isSuggested,
             ),
+            step = step,
         )
     }
 
@@ -99,8 +97,6 @@ data class BuilderStepConsumables(
         BuilderStepConsumables.sheet set BuilderStepCategorySheet(
             intent = GetCategoryIntent.Create(
                 name = dialog.state.name,
-                isExpense = step.isExpense,
-                type = step.type,
             ),
         )
         BuilderStepConsumables.nullableDialog set null
@@ -169,6 +165,18 @@ internal data class BuilderStepNotAllowedSnackbar(val remaining: Int) : Snackbar
  * Navigation event triggered when when the current step is submitted.
  * @property next The next step to navigate to.
  */
+@Immutable
 internal data class BuilderStepNextNavEvent(
     val next: BudgetBuilderAction,
+) : BuilderStepConsumables.NavEvent
+
+/**
+ * Navigation event that opens the category detail screen.
+ * @property intent The intent to get the category.
+ * @property step The current step.
+ */
+@Immutable
+internal data class BuilderStepCategoryDetailNavEvent(
+    val intent: GetCategoryIntent,
+    val step: BudgetBuilderAction.Step,
 ) : BuilderStepConsumables.NavEvent

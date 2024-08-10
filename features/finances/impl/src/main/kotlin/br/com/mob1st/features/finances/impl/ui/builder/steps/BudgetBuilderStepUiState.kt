@@ -9,7 +9,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
-import br.com.mob1st.features.finances.impl.ui.categories.components.item.CategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList

@@ -67,6 +67,7 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.transition(
             BackAndForward(this, towards)
         }
 
+        PatternKey.BottomSheet -> null
         null -> null
     }
 }

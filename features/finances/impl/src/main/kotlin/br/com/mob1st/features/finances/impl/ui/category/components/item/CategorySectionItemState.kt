@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.ui.categories.components.item
+package br.com.mob1st.features.finances.impl.ui.category.components.item
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.colors.BackgroundContainerCombination

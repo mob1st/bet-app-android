@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.ui.categories.components.dialog
+package br.com.mob1st.features.finances.impl.ui.category.components.dialog
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.OutlinedTextField

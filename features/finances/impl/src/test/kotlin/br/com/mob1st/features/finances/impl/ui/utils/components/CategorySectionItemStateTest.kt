@@ -13,7 +13,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.values.category
 import br.com.mob1st.features.finances.impl.domain.values.fixedRecurrences
 import br.com.mob1st.features.finances.impl.domain.values.seasonalRecurrences
-import br.com.mob1st.features.finances.impl.ui.categories.components.item.CategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
 import br.com.mob1st.features.finances.impl.ui.utils.texts.FixedRecurrencesLocalizedText
 import br.com.mob1st.features.finances.impl.ui.utils.texts.MoneyLocalizedText
 import br.com.mob1st.features.finances.impl.ui.utils.texts.SeasonalRecurrencesLocalizedText

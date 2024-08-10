@@ -1,6 +1,6 @@
 package br.com.mob1st.features.finances.impl.ui.builder.steps
 
-import br.com.mob1st.features.finances.impl.ui.categories.components.dialog.CategoryNameDialogState
+import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialogState
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFalse

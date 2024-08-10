@@ -10,7 +10,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.values.category
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
-import br.com.mob1st.features.finances.impl.ui.categories.components.item.CategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.chunked
 import io.kotest.property.arbitrary.map

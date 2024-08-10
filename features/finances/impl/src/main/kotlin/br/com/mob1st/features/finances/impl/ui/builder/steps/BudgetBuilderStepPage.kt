@@ -25,9 +25,9 @@ import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.events.builderStepScreenView
-import br.com.mob1st.features.finances.impl.ui.categories.components.dialog.CategoryNameDialog
-import br.com.mob1st.features.finances.impl.ui.categories.components.item.CategorySectionItem
-import br.com.mob1st.features.finances.impl.ui.categories.components.sheet.CategoryBottomSheet
+import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialog
+import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItem
+import br.com.mob1st.features.finances.impl.ui.category.components.sheet.CategoryBottomSheet
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -57,7 +57,9 @@ internal fun BudgetBuilderStepPage(
         onTypeCategoryName = viewModel::typeCategoryName,
         onSubmitCategoryName = viewModel::submitCategoryName,
         onDismissDialog = { viewModel.consume(BuilderStepConsumables.nullableDialog) },
-        onDismissBottomSheet = { viewModel.consume(BuilderStepConsumables.nullableSheet) },
+        onDismissBottomSheet = {
+            viewModel.consume(BuilderStepConsumables.nullableSheet)
+        },
         onBack = onBack,
     )
 
@@ -73,7 +75,6 @@ internal fun BudgetBuilderStepPage(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CategoryBuilderStepScreen(
     snackbarHostState: SnackbarHostState,
@@ -120,7 +121,6 @@ private fun CategoryBuilderStepScreen(
         )
         BottomSheet(
             sheet = consumables.sheet,
-            snackbarHostState = snackbarHostState,
             onDismiss = onDismissBottomSheet,
         )
     }
@@ -209,15 +209,12 @@ private fun Dialog(
 @Composable
 private fun BottomSheet(
     sheet: BuilderStepConsumables.Sheet?,
-    snackbarHostState: SnackbarHostState,
     onDismiss: () -> Unit,
 ) {
     when (sheet) {
-        is BuilderStepCategorySheet -> CategoryBottomSheet(
-            snackbarHostState = snackbarHostState,
-            intent = sheet.intent,
-            onDismiss = onDismiss,
-        )
+        is BuilderStepCategorySheet -> {
+            CategoryBottomSheet(intent = sheet.intent, onDismiss = onDismiss)
+        }
 
         null -> {}
     }

@@ -3,7 +3,6 @@ package br.com.mob1st.core.androidx.parcelables
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.lifecycle.SavedStateHandle
 
 /**
  * Gets a [Parcelable] from the [Bundle] using the [key].
@@ -19,12 +18,3 @@ inline fun <reified T : Parcelable> Bundle.getParcelableAs(key: String): T? =
         @Suppress("DEPRECATION")
         getParcelable(key) as? T
     }
-
-inline fun <reified T : Parcelable> SavedStateHandle.getStateProviderParcelable(
-    providerKey: String,
-    bundleKey: String,
-    defaultValue: T,
-): T {
-    val value = get<Bundle>(providerKey) ?: Bundle()
-    return value.getParcelableAs<T>(bundleKey) ?: defaultValue
-}

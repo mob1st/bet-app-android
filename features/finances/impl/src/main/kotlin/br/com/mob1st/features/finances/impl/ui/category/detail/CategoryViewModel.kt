@@ -1,10 +1,11 @@
-package br.com.mob1st.features.finances.impl.ui.categories.components.sheet
+package br.com.mob1st.features.finances.impl.ui.category.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mob1st.core.androidx.viewmodels.launchIn
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.coroutines.stateInWhileSubscribed
+import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.core.state.managers.AsyncLoadingState
 import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.core.state.managers.ConsumableManager
@@ -16,6 +17,7 @@ import br.com.mob1st.features.finances.impl.domain.usecases.SetCategoryUseCase
 import br.com.mob1st.features.utils.errors.commonErrorHandler
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import timber.log.Timber
 
 internal class CategoryViewModel(
@@ -41,22 +43,33 @@ internal class CategoryViewModel(
     private val asyncLoadingState = AsyncLoadingState()
 
     init {
-        Timber.d("ptest init ${this.hashCode()}")
+        Timber.d("ptest init viewmodel ${hashCode()}")
     }
 
     fun type(number: Int) = launchIn(errorHandler) {
     }
 
-    fun openCalendar() {
+    fun openCalendar() = errorHandler.catching {
+        val uiState = checkIs<CategoryDetailState.Loaded>(uiState.value)
+        consumableDelegate.update {
+            it.copy(
+                dialog = CategoryCalendarDialog(
+                    uiState.category.recurrences,
+                ),
+            )
+        }
     }
 
     fun submitCalendar() {
+        Timber.d("ptest submit calendar")
     }
 
     fun deleteNumber() {
+        Timber.d("ptest delete number")
     }
 
     fun deleteCategory() {
+        Timber.d("ptest delete category")
     }
 
     fun decimal() = errorHandler.catching {
@@ -73,11 +86,6 @@ internal class CategoryViewModel(
         asyncLoadingState.trigger {
             setCategory(uiState.category)
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Timber.d("ptest onCleared ${this.hashCode()}")
     }
 
     companion object {

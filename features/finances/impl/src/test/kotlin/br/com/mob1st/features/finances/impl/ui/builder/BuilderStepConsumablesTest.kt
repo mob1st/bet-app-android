@@ -9,7 +9,7 @@ import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategory
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNameDialog
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNotAllowedSnackbar
-import br.com.mob1st.features.finances.impl.ui.categories.components.item.CategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.features.utils.errors.toCommonError
 import io.kotest.property.Arb

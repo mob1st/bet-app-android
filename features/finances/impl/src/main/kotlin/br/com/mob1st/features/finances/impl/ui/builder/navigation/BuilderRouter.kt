@@ -3,12 +3,15 @@ package br.com.mob1st.features.finances.impl.ui.builder.navigation
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
+import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroNextStepNavEvent
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategoryDetailNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavEvent
+import br.com.mob1st.features.finances.impl.ui.category.components.sheet.Args
 
 /**
  * The router for the budget builder feature flow.
@@ -33,6 +36,12 @@ internal object BuilderRouter {
      */
     fun route(navEvent: BuilderStepConsumables.NavEvent): BuilderNavRoute = when (navEvent) {
         is BuilderStepNextNavEvent -> route(navEvent.next)
+        is BuilderStepCategoryDetailNavEvent -> BuilderNavRoute.CategoryDetail(
+            args = when (navEvent.intent) {
+                is GetCategoryIntent.Create -> Args(name = navEvent.intent.name)
+                is GetCategoryIntent.Edit -> Args(id = navEvent.intent.id.value)
+            },
+        )
     }
 
     /**
