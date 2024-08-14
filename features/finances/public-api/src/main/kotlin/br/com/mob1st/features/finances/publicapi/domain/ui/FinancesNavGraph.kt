@@ -1,6 +1,5 @@
 package br.com.mob1st.features.finances.publicapi.domain.ui
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import kotlinx.serialization.Serializable
 
@@ -11,13 +10,9 @@ import kotlinx.serialization.Serializable
 interface FinancesNavGraph {
     /**
      * Builds the navigation graph for the finances feature.
-     * @param onClickClose Callback to be called when the close button is clicked.
      */
     context(NavGraphBuilder)
-    fun graph(
-        navController: NavController,
-        onClickClose: () -> Unit,
-    )
+    fun graph()
 
     /**
      * The root of the navigation graph.

@@ -19,7 +19,7 @@ import org.koin.dsl.module
 
 internal val uiModule
     get() = module {
-        factory { FinancesNavGraphImpl } bind FinancesNavGraph::class
+        factoryOf(::FinancesNavGraphImpl) bind FinancesNavGraph::class
         includes(categoriesModule)
         includes(builderModule)
     }
@@ -51,8 +51,8 @@ internal val builderModule = module {
     }
     viewModel { params ->
         BudgetBuilderStepViewModel(
-            default = get(),
             consumableDelegate = BudgetBuilderStepViewModel.consumableDelegate(),
+            default = get(),
             step = params.get(),
             getCategoryBuilder = get(),
             proceedBuilder = get(),

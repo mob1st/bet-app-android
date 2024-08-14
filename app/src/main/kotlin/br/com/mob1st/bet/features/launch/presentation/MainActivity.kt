@@ -17,8 +17,6 @@ import br.com.mob1st.core.design.atoms.theme.TwoCentsTheme
 import br.com.mob1st.core.design.atoms.theme.UiContrast
 import br.com.mob1st.core.design.utils.LocalLocale
 import br.com.mob1st.core.observability.events.AnalyticsReporter
-import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
-import br.com.mob1st.features.finances.publicapi.domain.ui.CategoryNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
 import br.com.mob1st.features.utils.observability.LocalAnalyticsReporter
 import org.koin.android.ext.android.inject
@@ -64,30 +62,15 @@ internal fun NavigationGraph() {
             parametersOf(navController)
         },
     )
-    val budgetBuilderNavGraph = koinInject<BudgetBuilderNavGraph>(
-        parameters = {
-            parametersOf(navController)
-        },
-    )
-    val categoryNavGraph = koinInject<CategoryNavGraph>(
-        parameters = {
-            parametersOf(navController)
-        },
-    )
     ModalBottomSheetLayout(
         modifier = Modifier.fillMaxSize(),
         bottomSheetNavigator = bottomSheetNavigator,
     ) {
         NavHost(
             navController = navController,
-            startDestination = BudgetBuilderNavGraph.Root,
+            startDestination = FinancesNavGraph.Root,
         ) {
-            financesNavGraph.graph(
-                navController = navController,
-                onClickClose = { },
-            )
-            budgetBuilderNavGraph.graph()
-            categoryNavGraph.graph()
+            financesNavGraph.graph()
         }
     }
 }
