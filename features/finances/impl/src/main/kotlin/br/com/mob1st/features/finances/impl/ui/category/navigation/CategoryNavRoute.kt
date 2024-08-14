@@ -1,14 +1,31 @@
 package br.com.mob1st.features.finances.impl.ui.category.navigation
 
-import br.com.mob1st.core.design.molecules.transitions.NavRoute
-import br.com.mob1st.core.design.molecules.transitions.PatternKey
-import br.com.mob1st.features.finances.impl.ui.category.components.sheet.Args
+import android.os.Parcelable
+import br.com.mob1st.core.androidx.navigation.jsonParcelableType
+import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
+import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.WriteWith
 import kotlinx.serialization.Serializable
+import kotlin.reflect.typeOf
 
-sealed interface CategoryNavRoute : NavRoute {
+internal sealed interface CategoryNavRoute {
     @Serializable
     data class Detail(
-        override val enteringPatternKey: PatternKey? = null,
         val args: Args,
-    ) : CategoryNavRoute
+    ) : CategoryNavRoute {
+        @Parcelize
+        @Serializable
+        data class Args(
+            val intent: @WriteWith<GetCategoryIntentParceler> GetCategoryIntent,
+            val recurrenceType: RecurrenceType,
+            val isExpense: Boolean,
+        ) : Parcelable
+    }
+
+    companion object {
+        val navTypes = mapOf(
+            typeOf<Detail.Args>() to jsonParcelableType<Detail.Args>(),
+        )
+    }
 }

@@ -61,6 +61,7 @@ data class BuilderStepConsumables(
         BuilderStepConsumables.navEvent set BuilderStepCategoryDetailNavEvent(
             intent = GetCategoryIntent.Edit(
                 id = item.category.id,
+                name = item.category.name,
             ),
             step = step,
         )

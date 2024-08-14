@@ -30,6 +30,7 @@ dependencies {
     implementation(projects.core.kotlinx)
     implementation(projects.core.observability)
     implementation(projects.core.state)
+    implementation(projects.core.navigation.commons)
     implementation(projects.features.utils)
     implementation(libs.kotlin.coroutines.test)
     implementation(project(":features:finances:impl"))

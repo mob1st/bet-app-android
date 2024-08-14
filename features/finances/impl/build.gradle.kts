@@ -46,6 +46,7 @@ dependencies {
     implementation(projects.core.database)
     implementation(projects.core.design)
     implementation(projects.core.kotlinx)
+    implementation(projects.core.navigation.android)
     implementation(projects.core.observability)
     implementation(projects.core.state)
     implementation(libs.kotlin.serialization.json)

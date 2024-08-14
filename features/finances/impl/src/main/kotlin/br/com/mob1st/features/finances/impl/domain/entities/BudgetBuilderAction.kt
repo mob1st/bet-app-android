@@ -1,5 +1,7 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents the action that the user can take in the category builder.
  */
@@ -12,6 +14,7 @@ sealed interface BudgetBuilderAction {
     /**
      * A specific step in the category builder.
      */
+    @Serializable
     sealed interface Step : BudgetBuilderAction {
         /**
          * The minimum number of inputs required to proceed to the next step.
@@ -39,6 +42,7 @@ sealed interface BudgetBuilderAction {
  * The first step in the category builder.
  * It is used to add fixed expenses.
  */
+@Serializable
 data object FixedExpensesStep : BudgetBuilderAction.Step {
     private const val REQUIRED_INPUTS = 3
     override val minimumRequiredToProceed: Int = REQUIRED_INPUTS
@@ -51,6 +55,7 @@ data object FixedExpensesStep : BudgetBuilderAction.Step {
  * The second step in the category builder.
  * It is used to add variable expenses.
  */
+@Serializable
 data object VariableExpensesStep : BudgetBuilderAction.Step {
     private const val REQUIRED_INPUTS = 2
     override val minimumRequiredToProceed: Int = REQUIRED_INPUTS
@@ -63,6 +68,7 @@ data object VariableExpensesStep : BudgetBuilderAction.Step {
  * The third step in the category builder.
  * It is used to add seasonal expenses.
  */
+@Serializable
 data object SeasonalExpensesStep : BudgetBuilderAction.Step {
     override val minimumRequiredToProceed: Int = 0
     override val next: BudgetBuilderAction = FixedIncomesStep
@@ -74,6 +80,7 @@ data object SeasonalExpensesStep : BudgetBuilderAction.Step {
  * The fourth step in the category builder.
  * It is used to add fixed incomes.
  */
+@Serializable
 data object FixedIncomesStep : BudgetBuilderAction.Step {
     override val minimumRequiredToProceed: Int = 0
     override val next: BudgetBuilderAction = BudgetBuilderAction.Complete

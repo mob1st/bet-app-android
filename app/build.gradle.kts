@@ -115,6 +115,7 @@ dependencies {
     implementation(projects.core.design)
     implementation(projects.core.database)
     implementation(projects.core.kotlinx)
+    implementation(projects.core.navigation.android)
     implementation(projects.features.finances.impl)
     implementation(projects.features.utils)
 

@@ -1,7 +1,17 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
-sealed interface GetCategoryIntent {
-    data class Edit(val id: Category.Id) : GetCategoryIntent
+import kotlinx.serialization.Serializable
 
-    data class Create(val name: String) : GetCategoryIntent
+@Serializable
+sealed interface GetCategoryIntent {
+    val name: String
+
+    @Serializable
+    data class Edit(
+        val id: Category.Id,
+        override val name: String,
+    ) : GetCategoryIntent
+
+    @Serializable
+    data class Create(override val name: String) : GetCategoryIntent
 }

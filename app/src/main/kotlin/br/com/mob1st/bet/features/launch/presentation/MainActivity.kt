@@ -18,11 +18,13 @@ import br.com.mob1st.core.design.atoms.theme.UiContrast
 import br.com.mob1st.core.design.utils.LocalLocale
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.features.finances.publicapi.domain.ui.BudgetBuilderNavGraph
+import br.com.mob1st.features.finances.publicapi.domain.ui.CategoryNavGraph
 import br.com.mob1st.features.finances.publicapi.domain.ui.FinancesNavGraph
 import br.com.mob1st.features.utils.observability.LocalAnalyticsReporter
 import org.koin.android.ext.android.inject
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
     private val analyticsReporter by inject<AnalyticsReporter>()
@@ -57,8 +59,21 @@ private fun App() {
 internal fun NavigationGraph() {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     val navController = rememberNavController(bottomSheetNavigator)
-    val financesNavGraph = koinInject<FinancesNavGraph>()
-    val budgetBuilderNavGraph = koinInject<BudgetBuilderNavGraph>()
+    val financesNavGraph = koinInject<FinancesNavGraph>(
+        parameters = {
+            parametersOf(navController)
+        },
+    )
+    val budgetBuilderNavGraph = koinInject<BudgetBuilderNavGraph>(
+        parameters = {
+            parametersOf(navController)
+        },
+    )
+    val categoryNavGraph = koinInject<CategoryNavGraph>(
+        parameters = {
+            parametersOf(navController)
+        },
+    )
     ModalBottomSheetLayout(
         modifier = Modifier.fillMaxSize(),
         bottomSheetNavigator = bottomSheetNavigator,
@@ -71,12 +86,8 @@ internal fun NavigationGraph() {
                 navController = navController,
                 onClickClose = { },
             )
-            budgetBuilderNavGraph.graph(
-                navController,
-                onComplete = {
-                    // go to home
-                },
-            )
+            budgetBuilderNavGraph.graph()
+            categoryNavGraph.graph()
         }
     }
 }

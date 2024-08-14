@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +26,6 @@ import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.events.builderStepScreenView
 import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialog
 import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItem
-import br.com.mob1st.features.finances.impl.ui.category.components.sheet.CategoryBottomSheet
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -119,10 +117,6 @@ private fun CategoryBuilderStepScreen(
             onType = onTypeCategoryName,
             onClickSubmit = onSubmitCategoryName,
         )
-        BottomSheet(
-            sheet = consumables.sheet,
-            onDismiss = onDismissBottomSheet,
-        )
     }
 }
 
@@ -200,21 +194,6 @@ private fun Dialog(
             onClickSubmit = onClickSubmit,
             onDismiss = onDismiss,
         )
-
-        null -> {}
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun BottomSheet(
-    sheet: BuilderStepConsumables.Sheet?,
-    onDismiss: () -> Unit,
-) {
-    when (sheet) {
-        is BuilderStepCategorySheet -> {
-            CategoryBottomSheet(intent = sheet.intent, onDismiss = onDismiss)
-        }
 
         null -> {}
     }

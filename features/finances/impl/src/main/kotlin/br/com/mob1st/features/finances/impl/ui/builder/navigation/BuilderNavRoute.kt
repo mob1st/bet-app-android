@@ -3,14 +3,14 @@ package br.com.mob1st.features.finances.impl.ui.builder.navigation
 import br.com.mob1st.core.design.molecules.transitions.NavRoute
 import br.com.mob1st.core.design.molecules.transitions.PatternKey
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
-import br.com.mob1st.features.finances.impl.ui.category.components.sheet.Args
 import kotlinx.serialization.Serializable
+import kotlin.reflect.typeOf
 
 /**
  * All routes for the builder step navigation.
  * New screens should be added here and use the [Serializable] annotation to support type safe navigation.
  */
-sealed interface BuilderNavRoute : NavRoute {
+internal sealed interface BuilderNavRoute : NavRoute {
     /**
      * The intro screen for the builder.
      */
@@ -25,40 +25,21 @@ sealed interface BuilderNavRoute : NavRoute {
      */
     @Serializable
     data class Step(
-        val id: Id,
+        val id: BudgetBuilderAction.Step,
         override val enteringPatternKey: PatternKey = PatternKey.BackAndForward,
-    ) : BuilderNavRoute {
-        enum class Id {
-            FixedExpenses,
-            VariableExpenses,
-            SeasonalExpenses,
-            FixedIncomes,
-        }
-    }
+    ) : BuilderNavRoute
 
     /**
      * The completion screen for the builder.
      */
     @Serializable
     data class Completion(
-        override val enteringPatternKey: PatternKey = PatternKey.BottomSheet,
+        override val enteringPatternKey: PatternKey = PatternKey.BackAndForward,
     ) : BuilderNavRoute
 
-    @Serializable
-    data class CategoryDetail(
-        override val enteringPatternKey: PatternKey = PatternKey.BottomSheet,
-        val args: Args,
-    ) : BuilderNavRoute
-
-    /**
-     * The factory to create the routes.
-     */
-    interface Factory {
-        /**
-         * Creates a new route based on the given [action].
-         * @param action The next action to be performed.
-         * @return The new route.
-         */
-        fun create(action: BudgetBuilderAction): BuilderNavRoute
+    companion object {
+        val navType = mapOf(
+            typeOf<BudgetBuilderAction.Step>() to BuilderStepNavType,
+        )
     }
 }

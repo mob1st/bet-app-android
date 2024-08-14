@@ -24,5 +24,4 @@ interface NavRoute {
 enum class PatternKey {
     BackAndForward,
     TopLevel,
-    BottomSheet,
 }

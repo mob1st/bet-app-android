@@ -5,6 +5,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
+import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 
@@ -35,6 +36,16 @@ fun AnalyticsEvent.Companion.builderIntroScreenViewEvent() = screenView("builder
  */
 fun AnalyticsEvent.Companion.categoryScreenViewEvent(
     intent: GetCategoryIntent,
+    recurrenceType: RecurrenceType,
+    isExpense: Boolean,
 ): AnalyticsEvent {
-    return screenView("category")
+    val params = mutableMapOf<String, Any>()
+    when (intent) {
+        is GetCategoryIntent.Create -> params["intent"] = "create"
+        is GetCategoryIntent.Edit -> params["intent"] = "edit"
+    }
+    params["name"] = intent.name
+    params["recurrenceType"] = recurrenceType.name
+    params["isExpense"] = isExpense
+    return screenView("category", params)
 }

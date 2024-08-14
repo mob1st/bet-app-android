@@ -67,9 +67,7 @@ class BuilderStepConsumablesTest {
                 sheet = BuilderStepCategorySheet(
                     intent = GetCategoryIntent.Edit(
                         id = item.category.id,
-                        isExpense = step.isExpense,
-                        type = step.type,
-                        isSuggested = item.category.isSuggested,
+                        name = "oo",
                     ),
                 ),
             ),
@@ -110,8 +108,6 @@ class BuilderStepConsumablesTest {
                 sheet = BuilderStepCategorySheet(
                     intent = GetCategoryIntent.Create(
                         name = "Category Name",
-                        type = builder.id.type,
-                        isExpense = builder.id.isExpense,
                     ),
                 ),
             ),

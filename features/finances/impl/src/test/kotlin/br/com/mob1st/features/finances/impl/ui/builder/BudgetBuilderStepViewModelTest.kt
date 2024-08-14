@@ -126,9 +126,7 @@ class BudgetBuilderStepViewModelTest {
             sheet = BuilderStepCategorySheet(
                 intent = GetCategoryIntent.Edit(
                     id = builder.manuallyAdded[randomIndex].id,
-                    isSuggested = false,
-                    isExpense = builder.id.isExpense,
-                    type = builder.id.type,
+                    name = "joao",
                 ),
             ),
         )
@@ -155,9 +153,7 @@ class BudgetBuilderStepViewModelTest {
             sheet = BuilderStepCategorySheet(
                 intent = GetCategoryIntent.Edit(
                     id = budgetBuilder.suggestions[randomIndex].id,
-                    isSuggested = true,
-                    isExpense = budgetBuilder.id.isExpense,
-                    type = budgetBuilder.id.type,
+                    name = "joao",
                 ),
             ),
         )
@@ -184,8 +180,6 @@ class BudgetBuilderStepViewModelTest {
             sheet = BuilderStepCategorySheet(
                 intent = GetCategoryIntent.Create(
                     name = "a",
-                    isExpense = builder.id.isExpense,
-                    type = builder.id.type,
                 ),
             ),
         )

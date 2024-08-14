@@ -5,7 +5,6 @@ package br.com.mob1st.core.androidx.navigation
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
-import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,7 +33,7 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
 
 @Navigator.Name("bottomSheet")
-public class BottomSheetNavigator constructor(
+class BottomSheetNavigator(
     internal val sheetState: SheetState,
 ) : Navigator<BottomSheetNavigator.Destination>() {
     internal var sheetEnabled by mutableStateOf(false)
@@ -65,12 +64,6 @@ public class BottomSheetNavigator constructor(
         } else {
             MutableStateFlow(emptySet())
         }
-
-    /**
-     * Access properties of the [ModalBottomSheetLayout]'s [ModalBottomSheetState]
-     */
-    public val navigatorSheetState: BottomSheetNavigatorSheetState =
-        BottomSheetNavigatorSheetState(sheetState)
 
     /**
      * A [Composable] function that hosts the current sheet content. This should be set as
@@ -200,28 +193,8 @@ public class BottomSheetNavigator constructor(
      * [NavDestination] specific to [BottomSheetNavigator]
      */
     @NavDestination.ClassType(Composable::class)
-    public class Destination(
+    class Destination(
         navigator: BottomSheetNavigator,
         internal val content: @Composable (NavBackStackEntry) -> Unit,
     ) : NavDestination(navigator), FloatingWindow
-}
-
-public class BottomSheetNavigatorSheetState(private val sheetState: SheetState) {
-    /**
-     * @see SheetState.isVisible
-     */
-    public val isVisible: Boolean
-        get() = sheetState.isVisible
-
-    /**
-     * @see SheetState.currentValue
-     */
-    public val currentValue: SheetValue
-        get() = sheetState.currentValue
-
-    /**
-     * @see SheetState.targetValue
-     */
-    public val targetValue: SheetValue
-        get() = sheetState.targetValue
 }

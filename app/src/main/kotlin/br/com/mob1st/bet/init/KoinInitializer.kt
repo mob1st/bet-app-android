@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.startup.Initializer
 import br.com.mob1st.bet.di.coroutinesModule
 import br.com.mob1st.bet.di.databaseModule
+import br.com.mob1st.bet.di.navigationModule
 import br.com.mob1st.bet.di.serializationModule
 import br.com.mob1st.bet.di.systemModule
 import br.com.mob1st.features.finances.impl.dependencies.financesModule
@@ -39,5 +40,6 @@ private fun Context.createDependencyGraph() =
             serializationModule,
             financesModule,
             systemModule,
+            navigationModule,
         )
     }

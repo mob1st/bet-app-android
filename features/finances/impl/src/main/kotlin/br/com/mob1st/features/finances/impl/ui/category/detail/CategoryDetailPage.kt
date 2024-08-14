@@ -29,6 +29,7 @@ import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
+import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import br.com.mob1st.features.finances.impl.domain.events.categoryScreenViewEvent
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
@@ -37,6 +38,8 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun CategoryDetailPage(
     intent: GetCategoryIntent,
+    recurrenceType: RecurrenceType,
+    isExpense: Boolean,
     onSubmit: () -> Unit,
 ) {
     val viewModel = koinViewModel<CategoryViewModel>(
@@ -59,7 +62,9 @@ fun CategoryDetailPage(
     CategoryPageSideEffects(
         snackbarHostState = snackbarHostState,
         intent = intent,
-        isDone = uiState.isDone,
+        isExpense = isExpense,
+        recurrenceType = recurrenceType,
+        isSubmitted = uiState.isDone,
         consumables = consumables,
         onDismissSnackbar = {
             viewModel.consume(CategoryDetailConsumables.nullableCommonErrorSnackbarState)
@@ -175,13 +180,15 @@ private fun CategoryDialog(
 private fun CategoryPageSideEffects(
     snackbarHostState: SnackbarHostState,
     intent: GetCategoryIntent,
-    isDone: Boolean,
+    isSubmitted: Boolean,
+    isExpense: Boolean,
+    recurrenceType: RecurrenceType,
     consumables: CategoryDetailConsumables,
     onDismissSnackbar: () -> Unit,
     onSubmit: () -> Unit,
 ) {
-    LaunchedEffect(isDone) {
-        if (isDone) {
+    LaunchedEffect(isSubmitted) {
+        if (isSubmitted) {
             onSubmit()
         }
     }
@@ -191,7 +198,13 @@ private fun CategoryPageSideEffects(
         onDismiss = onDismissSnackbar,
         onPerformAction = {},
     )
-    TrackEventSideEffect(event = AnalyticsEvent.categoryScreenViewEvent(intent))
+    TrackEventSideEffect(
+        event = AnalyticsEvent.categoryScreenViewEvent(
+            intent = intent,
+            isExpense = isExpense,
+            recurrenceType = recurrenceType,
+        ),
+    )
 }
 
 private fun CategoryViewModel.onClickKey(key: Key) {

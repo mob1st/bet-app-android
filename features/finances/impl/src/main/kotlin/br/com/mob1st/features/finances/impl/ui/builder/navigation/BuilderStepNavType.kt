@@ -1,26 +1,41 @@
 package br.com.mob1st.features.finances.impl.ui.builder.navigation
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.NavType
+import br.com.mob1st.core.kotlinx.structures.biMapOf
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
+import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
+import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
+import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
+import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 
 /**
- * Navigation type for [BuilderNavRoute.Step.Id].
+ * Nav type for [BudgetBuilderAction.Step].
  */
-internal object BuilderStepNavType : NavType<BuilderNavRoute.Step.Id>(false) {
-    override fun get(bundle: Bundle, key: String): BuilderNavRoute.Step.Id {
-        val ordinal = bundle.getInt(key)
-        return BuilderNavRoute.Step.Id.entries[ordinal]
+internal object BuilderStepNavType : NavType<BudgetBuilderAction.Step>(false) {
+    private val stringTypeMap = biMapOf(
+        FixedExpensesStep to "FixedExpenses",
+        VariableExpensesStep to "VariableExpenses",
+        SeasonalExpensesStep to "SeasonalExpenses",
+        FixedIncomesStep to "FixedIncomes",
+    )
+
+    override fun get(bundle: Bundle, key: String): BudgetBuilderAction.Step {
+        val ordinal = bundle.getString(key)
+        return stringTypeMap.getRightValue(ordinal.orEmpty())
     }
 
-    override fun parseValue(value: String): BuilderNavRoute.Step.Id {
-        return BuilderNavRoute.Step.Id.valueOf(value)
+    override fun parseValue(value: String): BudgetBuilderAction.Step {
+        return stringTypeMap.getRightValue(value)
     }
 
-    override fun put(bundle: Bundle, key: String, value: BuilderNavRoute.Step.Id) {
-        bundle.putInt(key, value.ordinal)
+    override fun put(bundle: Bundle, key: String, value: BudgetBuilderAction.Step) {
+        bundle.putString(key, stringTypeMap.getLeftValue(value))
     }
 
-    override fun serializeAsValue(value: BuilderNavRoute.Step.Id): String {
-        return value.name
+    override fun serializeAsValue(value: BudgetBuilderAction.Step): String {
+        val string = stringTypeMap.getLeftValue(value)
+        return Uri.encode(string)
     }
 }

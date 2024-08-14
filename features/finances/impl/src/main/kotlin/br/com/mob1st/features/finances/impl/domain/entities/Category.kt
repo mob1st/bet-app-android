@@ -4,6 +4,7 @@ import br.com.mob1st.core.kotlinx.structures.Identifiable
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.RowId
 import br.com.mob1st.core.kotlinx.structures.Uri
+import kotlinx.serialization.Serializable
 
 /**
  * Represents a category of expenses or incomes.
@@ -30,5 +31,6 @@ data class Category(
      * @property value The value of the identifier.
      */
     @JvmInline
+    @Serializable
     value class Id(override val value: Long = 0) : RowId
 }
