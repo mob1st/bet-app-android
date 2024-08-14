@@ -6,18 +6,18 @@ import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
-import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
 import br.com.mob1st.features.finances.impl.domain.usecases.GetBudgetBuilderForStepUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
 import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.values.category
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepViewModel
-import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategorySheet
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategoryDetailNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNameDialog
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNotAllowedSnackbar
+import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.tests.featuresutils.MainDispatcherTestExtension
@@ -122,18 +122,21 @@ class BudgetBuilderStepViewModelTest {
         val randomIndex = builder.manuallyAdded.indices.random()
         every { getCategoryBuilder[any()] } returns flowOf(builder)
         val viewModel = viewModel(testScheduler, builder.id)
-        val expected = BuilderStepConsumables(
-            sheet = BuilderStepCategorySheet(
-                intent = GetCategoryIntent.Edit(
-                    id = builder.manuallyAdded[randomIndex].id,
-                    name = "joao",
-                ),
-            ),
-        )
         turbineScope {
-            viewModel.uiState.drop(1).testIn(backgroundScope)
+            val receiveUiState = viewModel.uiState.testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
+            val category = receiveUiState.awaitItem().manuallyAdded[randomIndex].category
             viewModel.selectManuallyAddedItem(randomIndex)
+            val expected = BuilderStepConsumables(
+                navEvent = BuilderStepCategoryDetailNavEvent(
+                    args = CategoryDetailArgs(
+                        intent = CategoryDetailArgs.Intent.Edit(category.id.value),
+                        name = category.name,
+                        isExpense = category.isExpense,
+                        recurrenceType = category.recurrences.asType(),
+                    ),
+                ),
+            )
             assertEquals(expected, receiveConsumable.awaitItem())
         }
     }
@@ -149,18 +152,22 @@ class BudgetBuilderStepViewModelTest {
         val randomIndex = budgetBuilder.suggestions.indices.random()
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
         val viewModel = viewModel(testScheduler, budgetBuilder.id)
-        val expected = BuilderStepConsumables(
-            sheet = BuilderStepCategorySheet(
-                intent = GetCategoryIntent.Edit(
-                    id = budgetBuilder.suggestions[randomIndex].id,
-                    name = "joao",
-                ),
-            ),
-        )
         turbineScope {
-            viewModel.uiState.drop(1).testIn(backgroundScope)
+            val receiveUiState = viewModel.uiState.testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
+            val category = receiveUiState.awaitItem().suggestions[randomIndex].category
             viewModel.selectSuggestedItem(randomIndex)
+
+            val expected = BuilderStepConsumables(
+                navEvent = BuilderStepCategoryDetailNavEvent(
+                    args = CategoryDetailArgs(
+                        intent = CategoryDetailArgs.Intent.Edit(category.id.value),
+                        name = category.name,
+                        isExpense = category.isExpense,
+                        recurrenceType = category.recurrences.asType(),
+                    ),
+                ),
+            )
             assertEquals(expected, receiveConsumable.awaitItem())
         }
     }
@@ -177,9 +184,12 @@ class BudgetBuilderStepViewModelTest {
             dialog = BuilderStepNameDialog("a"),
         )
         val expectedWhenSubmit = BuilderStepConsumables(
-            sheet = BuilderStepCategorySheet(
-                intent = GetCategoryIntent.Create(
+            navEvent = BuilderStepCategoryDetailNavEvent(
+                args = CategoryDetailArgs(
+                    intent = CategoryDetailArgs.Intent.Create,
                     name = "a",
+                    isExpense = builder.id.isExpense,
+                    recurrenceType = builder.id.type,
                 ),
             ),
         )

@@ -38,11 +38,7 @@ internal class BuilderCoordinator(
     fun navigate(event: BuilderStepConsumables.NavEvent) {
         when (event) {
             is BuilderStepCategoryDetailNavEvent -> {
-                categoryCoordinator.navigate(
-                    intent = event.intent,
-                    recurrenceType = event.step.type,
-                    isExpense = event.step.isExpense,
-                )
+                categoryCoordinator.navigate(event.args)
             }
 
             is BuilderStepNextNavEvent -> {

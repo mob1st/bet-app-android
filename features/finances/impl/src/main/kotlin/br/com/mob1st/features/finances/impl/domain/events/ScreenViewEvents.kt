@@ -4,17 +4,16 @@ import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
-import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
-import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
+import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
 
 /**
  * Creates the screen event related to a builder step.
  * @param step the step to create the event for.
  * @return the screen view event.
  */
-fun AnalyticsEvent.Companion.builderStepScreenView(
+internal fun AnalyticsEvent.Companion.builderStepScreenView(
     step: BudgetBuilderAction.Step,
 ) = when (step) {
     FixedExpensesStep -> screenView("builder_fixed_expenses")
@@ -27,25 +26,23 @@ fun AnalyticsEvent.Companion.builderStepScreenView(
  * Creates the screen event related to the builder intro screen.
  * @return the screen view event.
  */
-fun AnalyticsEvent.Companion.builderIntroScreenViewEvent() = screenView("builder_intro")
+internal fun AnalyticsEvent.Companion.builderIntroScreenViewEvent() = screenView("builder_intro")
 
 /**
  * Creates the screen event related to the category detail sheet
- * @param intent the intent to create the event for.
+ * @param args the arguments to create the event for.
  * @return the screen view event.
  */
-fun AnalyticsEvent.Companion.categoryScreenViewEvent(
-    intent: GetCategoryIntent,
-    recurrenceType: RecurrenceType,
-    isExpense: Boolean,
+internal fun AnalyticsEvent.Companion.categoryScreenViewEvent(
+    args: CategoryDetailArgs,
 ): AnalyticsEvent {
     val params = mutableMapOf<String, Any>()
-    when (intent) {
-        is GetCategoryIntent.Create -> params["intent"] = "create"
-        is GetCategoryIntent.Edit -> params["intent"] = "edit"
+    when (args.intent) {
+        is CategoryDetailArgs.Intent.Create -> params["intent"] = "create"
+        is CategoryDetailArgs.Intent.Edit -> params["intent"] = "edit"
     }
-    params["name"] = intent.name
-    params["recurrenceType"] = recurrenceType.name
-    params["isExpense"] = isExpense
+    params["name"] = args.name
+    params["recurrenceType"] = args.recurrenceType.name
+    params["isExpense"] = args.isExpense
     return screenView("category", params)
 }

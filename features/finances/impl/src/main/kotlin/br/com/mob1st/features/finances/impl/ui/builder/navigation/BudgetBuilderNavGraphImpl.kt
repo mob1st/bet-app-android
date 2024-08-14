@@ -24,9 +24,7 @@ internal class BudgetBuilderNavGraphImpl(
             startDestination = BuilderNavRoute.Intro(),
         ) {
             route<BuilderNavRoute.Intro> {
-                BuilderIntroPage(
-                    onNext = coordinator::navigate,
-                )
+                BuilderIntroPage(onNext = coordinator::navigate)
             }
             route<BuilderNavRoute.Step>(
                 typeMap = BuilderNavRoute.navType,

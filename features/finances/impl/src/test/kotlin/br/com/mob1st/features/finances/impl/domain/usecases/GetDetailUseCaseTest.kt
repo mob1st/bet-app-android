@@ -2,7 +2,7 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
-import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
+import br.com.mob1st.features.finances.impl.domain.entities.toDefaultRecurrences
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.AssetRepository
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
 import br.com.mob1st.features.finances.impl.domain.values.asset
@@ -52,8 +52,8 @@ class GetDetailUseCaseTest {
         val expected = Category(
             name = intent.name,
             image = assets.first().uri,
-            isExpense = true,
-            recurrences = Recurrences.Variable,
+            isExpense = intent.defaultValues.isExpense,
+            recurrences = intent.defaultValues.recurrenceType.toDefaultRecurrences(),
             isSuggested = false,
         )
         val actual = useCase[intent].first()

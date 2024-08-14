@@ -1,19 +1,17 @@
 package br.com.mob1st.features.finances.impl.ui.builder
 
-import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
-import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
 import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.values.category
-import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategorySheet
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategoryDetailNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNameDialog
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNotAllowedSnackbar
 import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.features.utils.errors.toCommonError
 import io.kotest.property.Arb
-import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.next
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -54,20 +52,21 @@ class BuilderStepConsumablesTest {
     @Test
     fun `GIVEN an list item to edit category WHEN select a manual item THEN navigate to the category edition screen`() {
         // Given
-        val step = Arb.bind<BudgetBuilderAction.Step>().next()
         val item = CategorySectionItemState(Arb.category().next())
         val builderStepConsumables = BuilderStepConsumables()
 
         // When
-        val result = builderStepConsumables.selectItem(step, item)
 
+        val result = builderStepConsumables.selectItem(item)
         // Then
         assertEquals(
             BuilderStepConsumables(
-                sheet = BuilderStepCategorySheet(
-                    intent = GetCategoryIntent.Edit(
-                        id = item.category.id,
-                        name = "oo",
+                navEvent = BuilderStepCategoryDetailNavEvent(
+                    args = CategoryDetailArgs(
+                        intent = CategoryDetailArgs.Intent.Edit(item.category.id.value),
+                        name = item.category.name,
+                        recurrenceType = item.category.recurrences.asType(),
+                        isExpense = item.category.isExpense,
                     ),
                 ),
             ),
@@ -105,9 +104,12 @@ class BuilderStepConsumablesTest {
         // Then
         assertEquals(
             BuilderStepConsumables(
-                sheet = BuilderStepCategorySheet(
-                    intent = GetCategoryIntent.Create(
+                navEvent = BuilderStepCategoryDetailNavEvent(
+                    args = CategoryDetailArgs(
+                        intent = CategoryDetailArgs.Intent.Create,
                         name = "Category Name",
+                        recurrenceType = builder.id.type,
+                        isExpense = builder.id.isExpense,
                     ),
                 ),
             ),

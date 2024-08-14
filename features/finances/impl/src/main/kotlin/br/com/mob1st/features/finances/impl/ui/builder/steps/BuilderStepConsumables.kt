@@ -12,10 +12,11 @@ import br.com.mob1st.core.design.organisms.snack.snackbar
 import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
-import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
+import br.com.mob1st.features.finances.impl.domain.entities.CategoryDefaultValues
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
 import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialogState
 import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
+import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 
 /**
@@ -30,7 +31,6 @@ import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 data class BuilderStepConsumables(
     val dialog: Dialog? = null,
     val navEvent: NavEvent? = null,
-    val sheet: Sheet? = null,
     val snackbar: SnackbarState? = null,
 ) {
     /**
@@ -55,15 +55,10 @@ data class BuilderStepConsumables(
      * @return The next consumable state.
      */
     fun selectItem(
-        step: BudgetBuilderAction.Step,
         item: CategorySectionItemState,
     ) = copy {
         BuilderStepConsumables.navEvent set BuilderStepCategoryDetailNavEvent(
-            intent = GetCategoryIntent.Edit(
-                id = item.category.id,
-                name = item.category.name,
-            ),
-            step = step,
+            args = CategoryDetailArgs(item.category),
         )
     }
 
@@ -95,9 +90,13 @@ data class BuilderStepConsumables(
      */
     fun submitCategoryName(step: BudgetBuilderAction.Step) = copy {
         val dialog = checkIs<BuilderStepNameDialog>(dialog)
-        BuilderStepConsumables.sheet set BuilderStepCategorySheet(
-            intent = GetCategoryIntent.Create(
+        BuilderStepConsumables.navEvent set BuilderStepCategoryDetailNavEvent(
+            args = CategoryDetailArgs(
                 name = dialog.state.name,
+                defaultValues = CategoryDefaultValues(
+                    isExpense = step.isExpense,
+                    recurrenceType = step.type,
+                ),
             ),
         )
         BuilderStepConsumables.nullableDialog set null
@@ -136,14 +135,6 @@ internal data class BuilderStepNameDialog(
 }
 
 /**
- * Opens the bottom sheet for the category detail screen.
- */
-@Immutable
-internal data class BuilderStepCategorySheet(
-    val intent: GetCategoryIntent,
-) : BuilderStepConsumables.Sheet
-
-/**
  * Snackbar to show when there are not enough suggestions to proceed to the next builder step.
  * @property remaining The remaining number of suggestions to be added before allowing the user to proceed.
  */
@@ -173,11 +164,9 @@ internal data class BuilderStepNextNavEvent(
 
 /**
  * Navigation event that opens the category detail screen.
- * @property intent The intent to get the category.
- * @property step The current step.
+ * @param args The arguments to pass to the detail screen.
  */
 @Immutable
 internal data class BuilderStepCategoryDetailNavEvent(
-    val intent: GetCategoryIntent,
-    val step: BudgetBuilderAction.Step,
+    val args: CategoryDetailArgs,
 ) : BuilderStepConsumables.NavEvent

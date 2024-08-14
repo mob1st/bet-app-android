@@ -2,7 +2,6 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
-import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import br.com.mob1st.features.finances.impl.domain.entities.toDefaultRecurrences
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.AssetRepository
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
@@ -21,8 +20,8 @@ internal class GetCategoryDetailUseCase(
                 Category(
                     name = intent.name,
                     image = asset.uri,
-                    isExpense = false,
-                    recurrences = RecurrenceType.Fixed.toDefaultRecurrences(),
+                    isExpense = intent.defaultValues.isExpense,
+                    recurrences = intent.defaultValues.recurrenceType.toDefaultRecurrences(),
                     isSuggested = false,
                 )
             }

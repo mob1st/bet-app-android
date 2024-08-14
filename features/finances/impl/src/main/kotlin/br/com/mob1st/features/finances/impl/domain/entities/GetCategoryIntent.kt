@@ -1,17 +1,25 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 sealed interface GetCategoryIntent {
     val name: String
 
-    @Serializable
     data class Edit(
         val id: Category.Id,
         override val name: String,
-    ) : GetCategoryIntent
+    ) : GetCategoryIntent {
+        constructor(category: Category) : this(
+            id = category.id,
+            name = category.name,
+        )
+    }
 
-    @Serializable
-    data class Create(override val name: String) : GetCategoryIntent
+    data class Create(
+        override val name: String,
+        val defaultValues: CategoryDefaultValues,
+    ) : GetCategoryIntent
 }
+
+data class CategoryDefaultValues(
+    val isExpense: Boolean,
+    val recurrenceType: RecurrenceType,
+)

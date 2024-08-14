@@ -28,22 +28,23 @@ import br.com.mob1st.core.design.molecules.keyboard.NumericKey
 import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.core.observability.events.AnalyticsEvent
-import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
 import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import br.com.mob1st.features.finances.impl.domain.events.categoryScreenViewEvent
+import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
+import br.com.mob1st.features.finances.impl.ui.category.navigation.toIntent
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun CategoryDetailPage(
-    intent: GetCategoryIntent,
+internal fun CategoryDetailPage(
+    args: CategoryDetailArgs,
     recurrenceType: RecurrenceType,
     isExpense: Boolean,
     onSubmit: () -> Unit,
 ) {
     val viewModel = koinViewModel<CategoryViewModel>(
-        parameters = { parametersOf(intent) },
+        parameters = { parametersOf(args.toIntent()) },
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val consumables by viewModel.consumableUiState.collectAsStateWithLifecycle()
@@ -61,9 +62,7 @@ fun CategoryDetailPage(
     )
     CategoryPageSideEffects(
         snackbarHostState = snackbarHostState,
-        intent = intent,
-        isExpense = isExpense,
-        recurrenceType = recurrenceType,
+        args = args,
         isSubmitted = uiState.isDone,
         consumables = consumables,
         onDismissSnackbar = {
@@ -179,11 +178,9 @@ private fun CategoryDialog(
 @Composable
 private fun CategoryPageSideEffects(
     snackbarHostState: SnackbarHostState,
-    intent: GetCategoryIntent,
-    isSubmitted: Boolean,
-    isExpense: Boolean,
-    recurrenceType: RecurrenceType,
+    args: CategoryDetailArgs,
     consumables: CategoryDetailConsumables,
+    isSubmitted: Boolean,
     onDismissSnackbar: () -> Unit,
     onSubmit: () -> Unit,
 ) {
@@ -199,11 +196,7 @@ private fun CategoryPageSideEffects(
         onPerformAction = {},
     )
     TrackEventSideEffect(
-        event = AnalyticsEvent.categoryScreenViewEvent(
-            intent = intent,
-            isExpense = isExpense,
-            recurrenceType = recurrenceType,
-        ),
+        event = AnalyticsEvent.categoryScreenViewEvent(args),
     )
 }
 

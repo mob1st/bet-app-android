@@ -55,9 +55,6 @@ internal fun BudgetBuilderStepPage(
         onTypeCategoryName = viewModel::typeCategoryName,
         onSubmitCategoryName = viewModel::submitCategoryName,
         onDismissDialog = { viewModel.consume(BuilderStepConsumables.nullableDialog) },
-        onDismissBottomSheet = {
-            viewModel.consume(BuilderStepConsumables.nullableSheet)
-        },
         onBack = onBack,
     )
 
@@ -84,7 +81,6 @@ private fun CategoryBuilderStepScreen(
     onDismissDialog: () -> Unit,
     onTypeCategoryName: (name: String) -> Unit,
     onSubmitCategoryName: () -> Unit,
-    onDismissBottomSheet: () -> Unit,
     onBack: () -> Unit,
 ) {
     FeatureStepScaffold(
@@ -213,7 +209,6 @@ private fun CategoryBuilderPagePreview() {
             onTypeCategoryName = {},
             onSubmitCategoryName = {},
             onDismissDialog = {},
-            onDismissBottomSheet = {},
             onBack = {},
         )
     }
