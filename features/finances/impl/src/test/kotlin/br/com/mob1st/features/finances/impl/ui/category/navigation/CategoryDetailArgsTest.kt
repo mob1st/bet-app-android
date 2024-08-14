@@ -1,9 +1,12 @@
 package br.com.mob1st.features.finances.impl.ui.category.navigation
 
+import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryDefaultValues
+import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
 import br.com.mob1st.features.finances.impl.domain.values.category
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
+import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.next
 import io.kotest.property.arbitrary.string
 import org.junit.jupiter.api.Test
@@ -43,6 +46,46 @@ class CategoryDetailArgsTest {
             name = name,
             isExpense = defaultValues.isExpense,
             recurrenceType = defaultValues.recurrenceType,
+        )
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `GIVEN a edit args WHEN map to domain intent THEN assert it is edit`() {
+        // Given
+        val intent = Arb.bind<CategoryDetailArgs.Intent.Edit>().next()
+        val args = Arb.bind<CategoryDetailArgs>().map {
+            it.copy(intent = intent)
+        }.next()
+
+        // When
+        val actual = args.toIntent()
+
+        // Then
+        val expected = GetCategoryIntent.Edit(
+            id = Category.Id(intent.id),
+            name = args.name,
+        )
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `GIVEN a create args WHEN map to domain intent THEN assert it is create`() {
+        // Given
+        val args = Arb.bind<CategoryDetailArgs>().map {
+            it.copy(intent = CategoryDetailArgs.Intent.Create)
+        }.next()
+
+        // When
+        val actual = args.toIntent()
+
+        // Then
+        val expected = GetCategoryIntent.Create(
+            name = args.name,
+            defaultValues = CategoryDefaultValues(
+                isExpense = args.isExpense,
+                recurrenceType = args.recurrenceType,
+            ),
         )
         assertEquals(expected, actual)
     }
