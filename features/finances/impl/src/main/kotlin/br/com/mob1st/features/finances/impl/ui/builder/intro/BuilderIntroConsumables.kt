@@ -17,7 +17,9 @@ data class BuilderIntroConsumables(
      * @return The next consumable state.
      */
     fun navigateToStep(step: BudgetBuilderAction.Step) =
-        copy(navEvent = BuilderIntroNextStepNavEvent(step))
+        copy(
+            navEvent = BuilderIntroNextStepNavEvent(step),
+        )
 
     /**
      * Navigation event triggered from the intro screen

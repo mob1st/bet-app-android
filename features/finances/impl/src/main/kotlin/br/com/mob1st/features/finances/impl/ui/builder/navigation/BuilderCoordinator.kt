@@ -26,7 +26,11 @@ internal class BuilderCoordinator(
     fun navigate(event: BuilderIntroConsumables.NavEvent) {
         when (event) {
             is BuilderIntroNextStepNavEvent -> {
-                navigate(BuilderNavRoute.Step(event.step))
+                navigate(
+                    BuilderNavRoute.Step(
+                        args = BuilderStepNavArgs.map.getRightValue(event.step),
+                    ),
+                )
             }
         }
     }
@@ -49,7 +53,10 @@ internal class BuilderCoordinator(
 
     private fun actionRoute(builderAction: BudgetBuilderAction): BuilderNavRoute {
         return when (builderAction) {
-            is BudgetBuilderAction.Step -> BuilderNavRoute.Step(builderAction)
+            is BudgetBuilderAction.Step -> BuilderNavRoute.Step(
+                args = BuilderStepNavArgs.map.getRightValue(builderAction),
+            )
+
             BudgetBuilderAction.Complete -> BuilderNavRoute.Completion()
         }
     }

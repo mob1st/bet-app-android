@@ -30,7 +30,7 @@ internal class BudgetBuilderNavGraphImpl(
                 typeMap = BuilderNavRoute.navType,
             ) { navEntry ->
                 BudgetBuilderStepPage(
-                    step = navEntry.toRoute<BuilderNavRoute.Step>().id,
+                    args = navEntry.toRoute<BuilderNavRoute.Step>().args,
                     onNext = coordinator::navigate,
                     onBack = coordinator::back,
                 )

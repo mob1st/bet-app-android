@@ -1,8 +1,8 @@
 package br.com.mob1st.features.finances.impl.ui.builder.navigation
 
+import androidx.navigation.NavType
 import br.com.mob1st.core.design.molecules.transitions.NavRoute
 import br.com.mob1st.core.design.molecules.transitions.PatternKey
-import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import kotlinx.serialization.Serializable
 import kotlin.reflect.typeOf
 
@@ -21,11 +21,11 @@ internal sealed interface BuilderNavRoute : NavRoute {
 
     /**
      * All the screen steps during the builder flow.
-     * @property id Indicates which step is the specific screen.
+     * @property args The arguments to pass to the step
      */
     @Serializable
     data class Step(
-        val id: BudgetBuilderAction.Step,
+        val args: BuilderStepNavArgs,
         override val enteringPatternKey: PatternKey = PatternKey.BackAndForward,
     ) : BuilderNavRoute
 
@@ -39,7 +39,7 @@ internal sealed interface BuilderNavRoute : NavRoute {
 
     companion object {
         val navType = mapOf(
-            typeOf<BudgetBuilderAction.Step>() to BuilderStepNavType,
+            typeOf<BuilderStepNavArgs>() to NavType.EnumType(BuilderStepNavArgs::class.java),
         )
     }
 }

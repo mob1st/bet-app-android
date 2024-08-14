@@ -28,16 +28,30 @@ class BuilderCoordinatorTest {
     @Test
     fun `GIVEN a next step WHEN navigate from intro THEN assert it goes to next step route`() {
         val event = Arb.bind<BuilderIntroNextStepNavEvent>().next()
+        val args = BuilderStepNavArgs.map.getRightValue(event.step)
         coordinator.navigate(event)
-        assertEquals(BuilderNavRoute.Step(event.step), navigationApi.routes.first())
+        assertEquals(
+            BuilderNavRoute.Step(args),
+            navigationApi.routes.first(),
+        )
     }
 
     @Test
     fun `GIVEN a next step WHEN navigate from step THEN assert it goes to the next step route`() {
         val next = Arb.bind<BudgetBuilderAction.Step>().next()
+        val args = BuilderStepNavArgs.map.getRightValue(next)
         coordinator.navigate(BuilderStepNextNavEvent(next))
         assertEquals(
-            BuilderNavRoute.Step(next),
+            BuilderNavRoute.Step(args),
+            navigationApi.routes.first(),
+        )
+    }
+
+    @Test
+    fun `GIVEN a complete builder action WHEN navigate from step THEN assert it goes to the completion route`() {
+        coordinator.navigate(BuilderStepNextNavEvent(BudgetBuilderAction.Complete))
+        assertEquals(
+            BuilderNavRoute.Completion(),
             navigationApi.routes.first(),
         )
     }

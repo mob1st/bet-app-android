@@ -24,7 +24,6 @@ import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
  * All the properties should be consumed by the UI layer to trigger the corresponding actions, setting them to null.
  * @property dialog The dialog that can be shown.
  * @property navEvent The navigation target that can be triggered.
- * @property sheet The sheet that can be shown.
  * @property snackbar The snackbar that can be shown.
  */
 @optics

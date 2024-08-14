@@ -1,11 +1,7 @@
 package br.com.mob1st.features.finances.impl.domain.events
 
 import br.com.mob1st.core.observability.events.AnalyticsEvent
-import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
-import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
-import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
-import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
-import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
 import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
@@ -22,10 +18,10 @@ internal class ScreenViewEventsTest {
     @ParameterizedTest
     @MethodSource("builderStepToEventSource")
     fun `GIVEN a step WHEN create screen view event THEN return the correct event key`(
-        step: BudgetBuilderAction.Step,
+        args: BuilderStepNavArgs,
         expectedEventKey: String,
     ) {
-        val actual = AnalyticsEvent.builderStepScreenView(step)
+        val actual = AnalyticsEvent.builderStepScreenView(args)
         assertEquals(
             AnalyticsEvent(
                 name = "screen_view",
@@ -71,19 +67,19 @@ internal class ScreenViewEventsTest {
         @JvmStatic
         fun builderStepToEventSource() = listOf(
             arguments(
-                FixedExpensesStep,
+                BuilderStepNavArgs.FixedExpensesStepArgs,
                 "builder_fixed_expenses",
             ),
             arguments(
-                VariableExpensesStep,
+                BuilderStepNavArgs.VariableExpensesStepArgs,
                 "builder_variable_expenses",
             ),
             arguments(
-                FixedIncomesStep,
+                BuilderStepNavArgs.FixedIncomesStepArgs,
                 "builder_fixed_incomes",
             ),
             arguments(
-                SeasonalExpensesStep,
+                BuilderStepNavArgs.SeasonalExpensesStepArgs,
                 "builder_seasonal_expenses",
             ),
         )

@@ -22,8 +22,8 @@ import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.features.finances.impl.R
-import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.events.builderStepScreenView
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
 import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialog
 import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItem
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
@@ -32,7 +32,7 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 internal fun BudgetBuilderStepPage(
-    step: BudgetBuilderAction.Step,
+    args: BuilderStepNavArgs,
     onNext: (BuilderStepConsumables.NavEvent) -> Unit,
     onBack: () -> Unit,
 ) {
@@ -41,7 +41,7 @@ internal fun BudgetBuilderStepPage(
         SnackbarHostState()
     }
     val viewModel = koinViewModel<BudgetBuilderStepViewModel> {
-        parametersOf(step)
+        parametersOf(BuilderStepNavArgs.map.getLeftValue(args))
     }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val consumables by viewModel.consumableUiState.collectAsStateWithLifecycle()
@@ -59,7 +59,7 @@ internal fun BudgetBuilderStepPage(
     )
 
     BuilderStepsSideEffects(
-        step = step,
+        args = args,
         consumables = consumables,
         snackbarHostState = snackbarHostState,
         onDismissSnackbar = { viewModel.consume(BuilderStepConsumables.nullableSnackbar) },
@@ -157,13 +157,13 @@ private fun BudgetBuilderScreenContent(
 
 @Composable
 private fun BuilderStepsSideEffects(
-    step: BudgetBuilderAction.Step,
+    args: BuilderStepNavArgs,
     consumables: BuilderStepConsumables,
     snackbarHostState: SnackbarHostState,
     onDismissSnackbar: () -> Unit,
     onNavigate: (BuilderStepConsumables.NavEvent) -> Unit,
 ) {
-    TrackEventSideEffect(event = AnalyticsEvent.builderStepScreenView(step))
+    TrackEventSideEffect(event = AnalyticsEvent.builderStepScreenView(args))
     SnackbarSideEffect(
         snackbarHostState = snackbarHostState,
         snackbarVisuals = consumables.snackbar?.resolve(),

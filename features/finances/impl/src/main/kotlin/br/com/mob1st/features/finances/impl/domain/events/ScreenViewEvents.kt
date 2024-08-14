@@ -1,11 +1,7 @@
 package br.com.mob1st.features.finances.impl.domain.events
 
 import br.com.mob1st.core.observability.events.AnalyticsEvent
-import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
-import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
-import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
-import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
-import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
 import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
 
 /**
@@ -14,12 +10,12 @@ import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetai
  * @return the screen view event.
  */
 internal fun AnalyticsEvent.Companion.builderStepScreenView(
-    step: BudgetBuilderAction.Step,
-) = when (step) {
-    FixedExpensesStep -> screenView("builder_fixed_expenses")
-    VariableExpensesStep -> screenView("builder_variable_expenses")
-    FixedIncomesStep -> screenView("builder_fixed_incomes")
-    SeasonalExpensesStep -> screenView("builder_seasonal_expenses")
+    args: BuilderStepNavArgs,
+) = when (args) {
+    BuilderStepNavArgs.FixedExpensesStepArgs -> screenView("builder_fixed_expenses")
+    BuilderStepNavArgs.VariableExpensesStepArgs -> screenView("builder_variable_expenses")
+    BuilderStepNavArgs.FixedIncomesStepArgs -> screenView("builder_fixed_incomes")
+    BuilderStepNavArgs.SeasonalExpensesStepArgs -> screenView("builder_seasonal_expenses")
 }
 
 /**
