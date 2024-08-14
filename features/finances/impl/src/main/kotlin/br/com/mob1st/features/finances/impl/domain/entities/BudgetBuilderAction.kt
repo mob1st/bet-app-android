@@ -1,7 +1,5 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
-import kotlinx.serialization.Serializable
-
 /**
  * Represents the action that the user can take in the category builder.
  */
@@ -76,7 +74,6 @@ data object SeasonalExpensesStep : BudgetBuilderAction.Step {
  * The fourth step in the category builder.
  * It is used to add fixed incomes.
  */
-@Serializable
 data object FixedIncomesStep : BudgetBuilderAction.Step {
     override val minimumRequiredToProceed: Int = 0
     override val next: BudgetBuilderAction = BudgetBuilderAction.Complete
