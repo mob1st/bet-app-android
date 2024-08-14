@@ -15,7 +15,7 @@ import kotlin.reflect.typeOf
 /**
  * Add a [composable] route to the [NavGraphBuilder] ensuring that the standard [TransitionPattern]s are applied.
  * @param T the type of the route to be added.
- * @param typeMap the map of [NavType]s to be used by the route. The [PatternKeyNavType] is added by default.
+ * @param typeMap the map of [NavType]s to be used by the route. The NavType for the [PatternKey] is added by default.
  * @param deepLinks the list of [NavDeepLink]s to be used by the route.
  * @param content the content to be displayed when the route is navigated to.
  */
@@ -25,7 +25,7 @@ inline fun <reified T : NavRoute> NavGraphBuilder.route(
     noinline content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
 ) {
     composable<T>(
-        typeMap = typeMap + mapOf(typeOf<PatternKey>() to PatternKeyNavType),
+        typeMap = typeMap + mapOf(typeOf<PatternKey>() to NavType.EnumType(PatternKey::class.java)),
         deepLinks = deepLinks,
         enterTransition = {
             transition(entry = targetState, isForward = true)?.enter()
@@ -55,7 +55,8 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.transition(
     isForward: Boolean,
 ): TransitionPattern? {
     val args = entry.arguments ?: bundleOf()
-    val patternKey = PatternKeyNavType[args, NavRoute::enteringPatternKey.name]
+    val navType = NavType.EnumType(PatternKey::class.java)
+    val patternKey = navType[args, NavRoute::enteringPatternKey.name]
     return when (patternKey) {
         PatternKey.TopLevel -> TopLevel
         PatternKey.BackAndForward -> {
