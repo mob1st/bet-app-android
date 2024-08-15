@@ -2,11 +2,11 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
-import br.com.mob1st.features.finances.impl.domain.entities.toDefaultRecurrences
+import br.com.mob1st.features.finances.impl.domain.fixtures.asset
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
+import br.com.mob1st.features.finances.impl.domain.fixtures.typeRecurrenceToRecurrences
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.AssetRepository
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
-import br.com.mob1st.features.finances.impl.domain.values.asset
-import br.com.mob1st.features.finances.impl.domain.values.category
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.chunked
@@ -53,7 +53,7 @@ class GetDetailUseCaseTest {
             name = intent.name,
             image = assets.first().uri,
             isExpense = intent.defaultValues.isExpense,
-            recurrences = intent.defaultValues.recurrenceType.toDefaultRecurrences(),
+            recurrences = typeRecurrenceToRecurrences.getLeftValue(intent.defaultValues.recurrenceType),
             isSuggested = false,
         )
         val actual = useCase[intent].first()

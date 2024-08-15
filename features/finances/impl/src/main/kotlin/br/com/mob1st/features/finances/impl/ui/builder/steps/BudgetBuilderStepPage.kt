@@ -41,7 +41,7 @@ internal fun BudgetBuilderStepPage(
         SnackbarHostState()
     }
     val viewModel = koinViewModel<BudgetBuilderStepViewModel> {
-        parametersOf(BuilderStepNavArgs.map.getLeftValue(args))
+        parametersOf(args)
     }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val consumables by viewModel.consumableUiState.collectAsStateWithLifecycle()

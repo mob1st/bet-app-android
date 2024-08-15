@@ -5,6 +5,10 @@ import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.core.observability.events.AnalyticsReporter
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
+import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
+import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
+import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
+import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 
 /**
  * Enables the user to proceed in the budget builder until its completion.
@@ -21,12 +25,14 @@ internal class ProceedBuilderUseCase(
      * @throws NotEnoughInputsException If there are not enough inputs to proceed to the next step.
      * @see [BudgetBuilderAction.Step.minimumRequiredToProceed]
      */
-    suspend operator fun invoke(builder: BudgetBuilder) {
+    suspend operator fun invoke(builder: BudgetBuilder): BudgetBuilderAction {
         val remainingInputs = builder.calculateRemainingInputs()
         if (remainingInputs == 0) {
-            if (builder.next is BudgetBuilderAction.Step) {
-                startBuilderStepUseCase(builder.next)
+            val next = builder.next()
+            if (next is BudgetBuilderAction.Step) {
+                startBuilderStepUseCase(next)
             }
+            return next
         } else {
             analyticsReporter.report(
                 AnalyticsEvent.notEnoughItemsToComplete(
@@ -54,6 +60,15 @@ internal class ProceedBuilderUseCase(
             "remainingItems" to remainingInputs,
         ),
     )
+
+    private fun BudgetBuilder.next(): BudgetBuilderAction {
+        return when (id) {
+            FixedExpensesStep -> SeasonalExpensesStep
+            FixedIncomesStep -> BudgetBuilderAction.Complete
+            SeasonalExpensesStep -> FixedIncomesStep
+            VariableExpensesStep -> FixedExpensesStep
+        }
+    }
 
     /**
      * Represents an error that occurs when the user tries to move to the next step in the category builder but there

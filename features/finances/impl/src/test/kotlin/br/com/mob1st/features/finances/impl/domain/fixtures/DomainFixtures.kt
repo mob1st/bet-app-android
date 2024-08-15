@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.domain.values
+package br.com.mob1st.features.finances.impl.domain.fixtures
 
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.Uri
@@ -8,6 +8,8 @@ import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
+import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import br.com.mob1st.features.finances.impl.infra.data.fixtures.rowId
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.arbitrary

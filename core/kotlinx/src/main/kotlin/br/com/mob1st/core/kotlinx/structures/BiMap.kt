@@ -59,3 +59,8 @@ fun <L, R> biMapOf(vararg pairs: Pair<L, R>): BiMap<L, R> {
     }
     return BiMap(leftToRight, rightToLeft)
 }
+
+fun <L, R> List<Pair<L, R>>.toBiMap(): BiMap<L, R> {
+    val array = toTypedArray()
+    return biMapOf(*array)
+}

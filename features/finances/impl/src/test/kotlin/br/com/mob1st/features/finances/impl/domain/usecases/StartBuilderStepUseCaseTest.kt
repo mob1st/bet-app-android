@@ -2,10 +2,10 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
-import br.com.mob1st.features.finances.impl.domain.entities.toDefaultRecurrences
+import br.com.mob1st.features.finances.impl.domain.fixtures.categorySuggestion
+import br.com.mob1st.features.finances.impl.domain.fixtures.typeRecurrenceToRecurrences
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategorySuggestionRepository
-import br.com.mob1st.features.finances.impl.domain.values.categorySuggestion
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.chunked
@@ -78,7 +78,7 @@ class StartBuilderStepUseCaseTest {
                 isSuggested = true,
                 name = suggestion.name,
                 image = suggestion.image,
-                recurrences = step.type.toDefaultRecurrences(),
+                recurrences = typeRecurrenceToRecurrences.getLeftValue(step.type),
                 isExpense = step.isExpense,
             )
         }

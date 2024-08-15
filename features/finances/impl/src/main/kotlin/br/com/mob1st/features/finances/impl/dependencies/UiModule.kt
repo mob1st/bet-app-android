@@ -53,7 +53,7 @@ internal val builderModule = module {
         BudgetBuilderStepViewModel(
             consumableDelegate = BudgetBuilderStepViewModel.consumableDelegate(),
             default = get(),
-            step = params.get(),
+            args = params.get(),
             getCategoryBuilder = get(),
             proceedBuilder = get(),
         )

@@ -19,11 +19,6 @@ sealed interface BudgetBuilderAction {
         val minimumRequiredToProceed: Int
 
         /**
-         * The next action in the category builder.
-         */
-        val next: BudgetBuilderAction
-
-        /**
          * Whether the categories in this step are expenses or incomes.
          */
         val isExpense: Boolean
@@ -42,7 +37,6 @@ sealed interface BudgetBuilderAction {
 data object FixedExpensesStep : BudgetBuilderAction.Step {
     private const val REQUIRED_INPUTS = 3
     override val minimumRequiredToProceed: Int = REQUIRED_INPUTS
-    override val next: BudgetBuilderAction = SeasonalExpensesStep
     override val type: RecurrenceType = RecurrenceType.Fixed
     override val isExpense: Boolean = true
 }
@@ -54,7 +48,6 @@ data object FixedExpensesStep : BudgetBuilderAction.Step {
 data object VariableExpensesStep : BudgetBuilderAction.Step {
     private const val REQUIRED_INPUTS = 2
     override val minimumRequiredToProceed: Int = REQUIRED_INPUTS
-    override val next: BudgetBuilderAction = FixedExpensesStep
     override val type: RecurrenceType = RecurrenceType.Variable
     override val isExpense: Boolean = true
 }
@@ -65,7 +58,6 @@ data object VariableExpensesStep : BudgetBuilderAction.Step {
  */
 data object SeasonalExpensesStep : BudgetBuilderAction.Step {
     override val minimumRequiredToProceed: Int = 0
-    override val next: BudgetBuilderAction = FixedIncomesStep
     override val type: RecurrenceType = RecurrenceType.Seasonal
     override val isExpense: Boolean = true
 }
@@ -76,7 +68,6 @@ data object SeasonalExpensesStep : BudgetBuilderAction.Step {
  */
 data object FixedIncomesStep : BudgetBuilderAction.Step {
     override val minimumRequiredToProceed: Int = 0
-    override val next: BudgetBuilderAction = BudgetBuilderAction.Complete
     override val type: RecurrenceType = RecurrenceType.Fixed
     override val isExpense: Boolean = false
 }

@@ -1,8 +1,8 @@
 package br.com.mob1st.features.finances.impl.ui.builder.navigation
 
-import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroNextStepNavEvent
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderCompleteNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategoryDetailNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavEvent
@@ -25,13 +25,9 @@ internal class BuilderCoordinator(
      */
     fun navigate(event: BuilderIntroConsumables.NavEvent) {
         when (event) {
-            is BuilderIntroNextStepNavEvent -> {
-                navigate(
-                    BuilderNavRoute.Step(
-                        args = BuilderStepNavArgs.map.getRightValue(event.step),
-                    ),
-                )
-            }
+            is BuilderIntroNextStepNavEvent -> navigate(
+                BuilderNavRoute.Step(args = event.step),
+            )
         }
     }
 
@@ -41,23 +37,15 @@ internal class BuilderCoordinator(
      */
     fun navigate(event: BuilderStepConsumables.NavEvent) {
         when (event) {
-            is BuilderStepCategoryDetailNavEvent -> {
-                categoryCoordinator.navigate(event.args)
-            }
+            is BuilderStepCategoryDetailNavEvent -> categoryCoordinator.navigate(event.args)
 
-            is BuilderStepNextNavEvent -> {
-                navigate(actionRoute(event.next))
-            }
-        }
-    }
-
-    private fun actionRoute(builderAction: BudgetBuilderAction): BuilderNavRoute {
-        return when (builderAction) {
-            is BudgetBuilderAction.Step -> BuilderNavRoute.Step(
-                args = BuilderStepNavArgs.map.getRightValue(builderAction),
+            is BuilderStepNextNavEvent -> navigate(
+                BuilderNavRoute.Step(
+                    args = event.next,
+                ),
             )
 
-            BudgetBuilderAction.Complete -> BuilderNavRoute.Completion()
+            BuilderCompleteNavEvent -> navigate(BuilderNavRoute.Completion())
         }
     }
 }

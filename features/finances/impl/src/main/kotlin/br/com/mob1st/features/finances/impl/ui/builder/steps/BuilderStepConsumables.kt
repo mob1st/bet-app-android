@@ -14,6 +14,7 @@ import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryDefaultValues
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
 import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialogState
 import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
 import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
@@ -101,15 +102,21 @@ data class BuilderStepConsumables(
         BuilderStepConsumables.nullableDialog set null
     }
 
+    fun navigateToNext(action: BudgetBuilderAction): BuilderStepConsumables {
+        return copy(
+            navEvent = when (action) {
+                BudgetBuilderAction.Complete -> BuilderCompleteNavEvent
+                is BudgetBuilderAction.Step -> BuilderStepNextNavEvent(
+                    BuilderStepNavArgs.fromStep(action),
+                )
+            },
+        )
+    }
+
     /**
      * UI state for the category builder screen.
      */
     sealed interface Dialog
-
-    /**
-     * UI state to display bottom sheets
-     */
-    sealed interface Sheet
 
     /**
      * Navigation event for step screen
@@ -158,8 +165,11 @@ internal data class BuilderStepNotAllowedSnackbar(val remaining: Int) : Snackbar
  */
 @Immutable
 internal data class BuilderStepNextNavEvent(
-    val next: BudgetBuilderAction,
+    val next: BuilderStepNavArgs,
 ) : BuilderStepConsumables.NavEvent
+
+@Immutable
+internal data object BuilderCompleteNavEvent : BuilderStepConsumables.NavEvent
 
 /**
  * Navigation event that opens the category detail screen.

@@ -3,7 +3,7 @@ package br.com.mob1st.features.finances.impl.ui.category.navigation
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryDefaultValues
 import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
-import br.com.mob1st.features.finances.impl.domain.values.category
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.map

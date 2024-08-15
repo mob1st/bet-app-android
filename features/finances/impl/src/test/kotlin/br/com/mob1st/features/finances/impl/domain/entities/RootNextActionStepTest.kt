@@ -27,10 +27,6 @@ class RootNextActionStepTest {
             expectedType,
             step.type,
         )
-        assertEquals(
-            expectedNext,
-            step.next,
-        )
     }
 
     companion object {

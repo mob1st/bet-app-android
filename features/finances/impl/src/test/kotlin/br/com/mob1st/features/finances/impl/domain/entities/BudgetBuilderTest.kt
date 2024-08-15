@@ -1,9 +1,8 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
-import br.com.mob1st.features.finances.impl.domain.values.category
-import br.com.mob1st.features.finances.impl.domain.values.money
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
+import br.com.mob1st.features.finances.impl.domain.fixtures.money
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.chunked
@@ -58,12 +57,6 @@ class BudgetBuilderTest {
     fun `WHEN get the first step THEN assert it is fixed expense`() {
         val actual = BudgetBuilder.firstStep()
         assertEquals(VariableExpensesStep, actual)
-    }
-
-    @Test
-    fun `GIVEN a step WHEN get next THEN assert it is expected`() {
-        val builder = Arb.budgetBuilder().next()
-        assertEquals(builder.id.next, builder.next)
     }
 
     @Test

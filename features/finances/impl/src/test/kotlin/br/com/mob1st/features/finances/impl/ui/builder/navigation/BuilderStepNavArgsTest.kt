@@ -17,7 +17,7 @@ class BuilderStepNavArgsTest {
         step: BudgetBuilderAction.Step,
         expected: BuilderStepNavArgs,
     ) {
-        val actual = BuilderStepNavArgs.map.getRightValue(step)
+        val actual = BuilderStepNavArgs.fromStep(step)
         assertEquals(
             expected,
             actual,
@@ -30,7 +30,7 @@ class BuilderStepNavArgsTest {
         expected: BudgetBuilderAction.Step,
         args: BuilderStepNavArgs,
     ) {
-        val actual = BuilderStepNavArgs.map.getLeftValue(args)
+        val actual = args.toStep()
         assertEquals(
             expected,
             actual,

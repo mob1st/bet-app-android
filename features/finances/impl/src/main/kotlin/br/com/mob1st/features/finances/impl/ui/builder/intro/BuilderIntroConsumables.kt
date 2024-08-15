@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import arrow.optics.optics
 import br.com.mob1st.core.design.organisms.snack.SnackbarState
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
 
 @optics
 @Immutable
@@ -18,7 +19,9 @@ data class BuilderIntroConsumables(
      */
     fun navigateToStep(step: BudgetBuilderAction.Step) =
         copy(
-            navEvent = BuilderIntroNextStepNavEvent(step),
+            navEvent = BuilderIntroNextStepNavEvent(
+                BuilderStepNavArgs.fromStep(step),
+            ),
         )
 
     /**
@@ -38,5 +41,5 @@ data class BuilderIntroConsumables(
  */
 @Immutable
 internal data class BuilderIntroNextStepNavEvent(
-    val step: BudgetBuilderAction.Step,
+    val step: BuilderStepNavArgs,
 ) : BuilderIntroConsumables.NavEvent

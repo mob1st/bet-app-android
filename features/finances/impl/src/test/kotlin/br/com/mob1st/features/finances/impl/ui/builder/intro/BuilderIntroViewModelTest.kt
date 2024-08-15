@@ -6,6 +6,7 @@ import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.usecases.StartBuilderStepUseCase
+import br.com.mob1st.features.finances.impl.ui.fixtures.builderStepToNavArgsMap
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.tests.featuresutils.MainDispatcherTestExtension
@@ -93,7 +94,9 @@ internal class BuilderIntroViewModelTest {
                 receiveUiState.awaitItem(),
             )
             assertEquals(
-                BuilderIntroConsumables(navEvent = BuilderIntroNextStepNavEvent(step)),
+                BuilderIntroConsumables(
+                    navEvent = BuilderIntroNextStepNavEvent(builderStepToNavArgsMap.getRightValue(step)),
+                ),
                 receiveConsumables.awaitItem(),
             )
         }

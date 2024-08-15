@@ -13,11 +13,6 @@ data class BudgetBuilder(
     val categories: List<Category>,
 ) : Identifiable<BudgetBuilderAction.Step> {
     /**
-     * Nests the [id] property to provide access to the next builder action.
-     */
-    val next = id.next
-
-    /**
      * The categories that were manually added by the user.
      */
     val manuallyAdded: List<Category>

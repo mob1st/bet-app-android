@@ -1,17 +1,22 @@
 package br.com.mob1st.features.finances.impl.ui.builder
 
+import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
+import br.com.mob1st.features.finances.impl.domain.fixtures.budgetBuilder
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
-import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
-import br.com.mob1st.features.finances.impl.domain.values.category
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderCompleteNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategoryDetailNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepConsumables
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNameDialog
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNotAllowedSnackbar
 import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
 import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
+import br.com.mob1st.features.finances.impl.ui.fixtures.builderStepToNavArgsMap
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.features.utils.errors.toCommonError
 import io.kotest.property.Arb
+import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.next
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -130,5 +135,32 @@ class BuilderStepConsumablesTest {
             BuilderStepConsumables(dialog = BuilderStepNameDialog()),
             result,
         )
+    }
+
+    @Test
+    fun `GIVEN a next step WHEN navigate to next THEN assert event is next step`() {
+        val consumables = BuilderStepConsumables()
+        val step = Arb.bind<BudgetBuilderAction.Step>().next()
+        val actual = consumables.navigateToNext(
+            action = step,
+        )
+        val expected = BuilderStepConsumables(
+            navEvent = BuilderStepNextNavEvent(
+                next = builderStepToNavArgsMap.getRightValue(step),
+            ),
+        )
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `GIVEN a complete builder WHEN navigate to next THEN assert event is complete`() {
+        val consumables = BuilderStepConsumables()
+        val actual = consumables.navigateToNext(
+            action = BudgetBuilderAction.Complete,
+        )
+        val expected = BuilderStepConsumables(
+            navEvent = BuilderCompleteNavEvent,
+        )
+        assertEquals(expected, actual)
     }
 }

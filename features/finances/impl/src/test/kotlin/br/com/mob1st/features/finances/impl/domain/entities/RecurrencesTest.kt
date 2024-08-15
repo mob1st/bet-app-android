@@ -1,9 +1,9 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
+import br.com.mob1st.features.finances.impl.domain.fixtures.fixedRecurrences
+import br.com.mob1st.features.finances.impl.domain.fixtures.seasonalRecurrences
+import br.com.mob1st.features.finances.impl.domain.fixtures.variableRecurrences
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.values.fixedRecurrences
-import br.com.mob1st.features.finances.impl.domain.values.seasonalRecurrences
-import br.com.mob1st.features.finances.impl.domain.values.variableRecurrences
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.next
 import org.junit.jupiter.params.ParameterizedTest

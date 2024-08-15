@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
-import br.com.mob1st.features.finances.impl.domain.values.category
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.chunked

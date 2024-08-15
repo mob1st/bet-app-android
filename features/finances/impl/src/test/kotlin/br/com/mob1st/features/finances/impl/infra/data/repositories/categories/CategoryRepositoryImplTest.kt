@@ -7,9 +7,9 @@ import br.com.mob1st.features.finances.impl.TwoCentsDb
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
-import br.com.mob1st.features.finances.impl.domain.values.category
 import br.com.mob1st.features.finances.impl.infra.data.fixtures.categories
 import br.com.mob1st.features.finances.impl.infra.data.fixtures.recurrenceColumns
 import br.com.mob1st.features.finances.impl.utils.testTwoCentsDb

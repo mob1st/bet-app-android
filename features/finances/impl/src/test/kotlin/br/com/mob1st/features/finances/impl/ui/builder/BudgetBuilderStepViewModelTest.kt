@@ -6,10 +6,11 @@ import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.state.managers.ConsumableDelegate
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
+import br.com.mob1st.features.finances.impl.domain.fixtures.budgetBuilder
+import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.usecases.GetBudgetBuilderForStepUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
-import br.com.mob1st.features.finances.impl.domain.values.budgetBuilder
-import br.com.mob1st.features.finances.impl.domain.values.category
+import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepViewModel
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategoryDetailNavEvent
@@ -18,12 +19,14 @@ import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNameDial
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNotAllowedSnackbar
 import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
+import br.com.mob1st.features.finances.impl.ui.fixtures.builderStepToNavArgsMap
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.tests.featuresutils.MainDispatcherTestExtension
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.chunked
+import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.filter
 import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.next
@@ -57,10 +60,10 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `WHEN get initial ui state THEN assert it's correct`() = runTest {
-        val step = Arb.bind<BudgetBuilderAction.Step>().next()
+        val step = Arb.enum<BuilderStepNavArgs>().next()
         every { getCategoryBuilder[any()] } returns emptyFlow()
-        val viewModel = viewModel(testScheduler, step = step)
-        val expected = BudgetBuilderStepUiState.Loaded(step = step)
+        val viewModel = viewModel(testScheduler, args = step)
+        val expected = BudgetBuilderStepUiState.Loaded(step = builderStepToNavArgsMap.getLeftValue(step))
         // When
         viewModel.uiState.test {
             // Then
@@ -70,8 +73,10 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `WHEN get initial consumables THEN assert it's expected`() = runTest {
-        every { getCategoryBuilder[any()] } returns flowOf(Arb.budgetBuilder().next())
-        val viewModel = viewModel(testScheduler, Arb.bind<BudgetBuilderAction.Step>().next())
+        val args = Arb.enum<BuilderStepNavArgs>().next()
+        val builder = givenBudgetBuilder(args)
+        every { getCategoryBuilder[any()] } returns flowOf(builder)
+        val viewModel = viewModel(testScheduler, args)
         val expected = BuilderStepConsumables()
         // When
         viewModel.consumableUiState.test {
@@ -84,7 +89,7 @@ class BudgetBuilderStepViewModelTest {
     fun `GIVEN a failure in the get WHEN get initial state THEN assert error snackbar is shown`() = runTest {
         val failure = Throwable("failed")
         every { getCategoryBuilder[any()] } returns flow { throw failure }
-        val viewModel = viewModel(testScheduler, Arb.bind<BudgetBuilderAction.Step>().next())
+        val viewModel = viewModel(testScheduler, Arb.enum<BuilderStepNavArgs>().next())
         val expected = BuilderStepConsumables(
             snackbar = CommonErrorSnackbarState(failure),
         )
@@ -97,9 +102,10 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `GIVEN a state WHEN click to add item THEN assert navigation to add category`() = runTest {
-        val builder = Arb.budgetBuilder().next()
+        val args = Arb.enum<BuilderStepNavArgs>().next()
+        val builder = givenBudgetBuilder(args)
         every { getCategoryBuilder[any()] } returns flowOf(builder)
-        val viewModel = viewModel(testScheduler, builder.id)
+        val viewModel = viewModel(testScheduler, args)
         val expected = BuilderStepConsumables(
             dialog = BuilderStepNameDialog(),
         )
@@ -116,12 +122,13 @@ class BudgetBuilderStepViewModelTest {
         val categories = Arb.category().chunked(1..10).filter { list ->
             list.any { !it.isSuggested }
         }.next()
-        val builder = givenBudgetBuilder { builder ->
+        val args = Arb.enum<BuilderStepNavArgs>().next()
+        val builder = givenBudgetBuilder(args) { builder ->
             builder.copy(categories = categories)
         }
         val randomIndex = builder.manuallyAdded.indices.random()
         every { getCategoryBuilder[any()] } returns flowOf(builder)
-        val viewModel = viewModel(testScheduler, builder.id)
+        val viewModel = viewModel(testScheduler, args)
         turbineScope {
             val receiveUiState = viewModel.uiState.testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
@@ -146,12 +153,13 @@ class BudgetBuilderStepViewModelTest {
         val categories = Arb.category().chunked(1..10).filter { list ->
             list.any { it.isSuggested }
         }.next()
-        val budgetBuilder = givenBudgetBuilder {
+        val args = Arb.enum<BuilderStepNavArgs>().next()
+        val budgetBuilder = givenBudgetBuilder(args) {
             it.copy(categories = categories)
         }
         val randomIndex = budgetBuilder.suggestions.indices.random()
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
-        val viewModel = viewModel(testScheduler, budgetBuilder.id)
+        val viewModel = viewModel(testScheduler, args)
         turbineScope {
             val receiveUiState = viewModel.uiState.testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
@@ -174,9 +182,10 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `GIVEN a state WHEN enter category name THEN assert navigation to add category with name`() = runTest {
-        val builder = Arb.budgetBuilder().next()
+        val args = Arb.enum<BuilderStepNavArgs>().next()
+        val builder = givenBudgetBuilder(args)
         every { getCategoryBuilder[any()] } returns flowOf(builder)
-        val viewModel = viewModel(testScheduler, builder.id)
+        val viewModel = viewModel(testScheduler, args)
         val expectedWhenSelectCategory = BuilderStepConsumables(
             dialog = BuilderStepNameDialog(),
         )
@@ -207,9 +216,10 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `GIVEN a state WHEN submit category name before enter name THEN assert error is shown`() = runTest {
-        val builder = Arb.budgetBuilder().next()
+        val args = Arb.enum<BuilderStepNavArgs>().next()
+        val builder = givenBudgetBuilder(args)
         every { getCategoryBuilder[any()] } returns flowOf(builder)
-        val viewModel = viewModel(testScheduler, builder.id)
+        val viewModel = viewModel(testScheduler, args)
         val expected = BuilderStepConsumables(
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
@@ -226,11 +236,12 @@ class BudgetBuilderStepViewModelTest {
         val suggestion = Arb.category().map {
             it.copy(isSuggested = true)
         }.next()
-        val budgetBuilder = givenBudgetBuilder {
+        val args = Arb.enum<BuilderStepNavArgs>().next()
+        val budgetBuilder = givenBudgetBuilder(args) {
             it.copy(categories = listOf(suggestion))
         }
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
-        val viewModel = viewModel(testScheduler, budgetBuilder.id)
+        val viewModel = viewModel(testScheduler, args)
         val expected = BuilderStepConsumables(
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
@@ -244,14 +255,15 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `GIVEN a state with 1 manual category WHEN select wrong category index THEN assert error is shown`() = runTest {
+        val args = Arb.enum<BuilderStepNavArgs>().next()
         val manuallyAdded = Arb.category().map {
             it.copy(isSuggested = false)
         }.next()
-        val budgetBuilder = givenBudgetBuilder {
+        val budgetBuilder = givenBudgetBuilder(args) {
             it.copy(categories = listOf(manuallyAdded))
         }
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
-        val viewModel = viewModel(testScheduler, budgetBuilder.id)
+        val viewModel = viewModel(testScheduler, args)
         val expected = BuilderStepConsumables(
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
@@ -266,17 +278,21 @@ class BudgetBuilderStepViewModelTest {
     @Test
     fun `GIVEN a state with enough items WHEN proceed to next step THEN assert navigation to next step`() = runTest {
         val currentStep = Arb.bind<BudgetBuilderAction.Step>().next()
-        val budgetBuilder = Arb.budgetBuilder().map {
+        val nextStep = Arb.bind<BudgetBuilderAction.Step>().next()
+        val args = Arb.enum<BuilderStepNavArgs>().next()
+        val budgetBuilder = givenBudgetBuilder(args) {
             it.copy(
                 id = currentStep,
                 categories = Arb.category().chunked(5..10).next(),
             )
-        }.next()
+        }
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
-        coEvery { proceedBuilder(budgetBuilder) } returns Unit
-        val viewModel = viewModel(testScheduler, budgetBuilder.id)
+        coEvery { proceedBuilder(budgetBuilder) } returns nextStep
+        val viewModel = viewModel(testScheduler, args)
         val expected = BuilderStepConsumables(
-            navEvent = BuilderStepNextNavEvent(currentStep.next),
+            navEvent = BuilderStepNextNavEvent(
+                next = builderStepToNavArgsMap.getRightValue(nextStep),
+            ),
         )
         turbineScope {
             viewModel.uiState.drop(1).testIn(backgroundScope)
@@ -288,11 +304,12 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `GIVEN a state with not enough items WHEN proceed to next step THEN assert error is shown`() = runTest {
-        val budgetBuilder = Arb.budgetBuilder().next()
+        val args = Arb.enum<BuilderStepNavArgs>().next()
+        val budgetBuilder = givenBudgetBuilder(args)
         every { getCategoryBuilder[any()] } returns flowOf(budgetBuilder)
         coEvery { proceedBuilder(budgetBuilder) } throws ProceedBuilderUseCase.NotEnoughInputsException(1)
 
-        val viewModel = viewModel(testScheduler, budgetBuilder.id)
+        val viewModel = viewModel(testScheduler, args)
         val expected = BuilderStepConsumables(
             snackbar = BuilderStepNotAllowedSnackbar(1),
         )
@@ -306,8 +323,9 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `GIVEN an empty state WHEN try to proceed THEN assert an error is shown`() = runTest {
+        val args = Arb.enum<BuilderStepNavArgs>().next()
         every { getCategoryBuilder[any()] } returns emptyFlow()
-        val viewModel = viewModel(testScheduler, Arb.bind<BudgetBuilderAction.Step>().next())
+        val viewModel = viewModel(testScheduler, args)
         val expected = BuilderStepConsumables(
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
@@ -321,8 +339,9 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `GIVEN an empty state WHEN select manual item THEN assert error is shown`() = runTest {
+        val args = Arb.enum<BuilderStepNavArgs>().next()
         every { getCategoryBuilder[any()] } returns emptyFlow()
-        val viewModel = viewModel(testScheduler, Arb.bind<BudgetBuilderAction.Step>().next())
+        val viewModel = viewModel(testScheduler, args)
         val expected = BuilderStepConsumables(
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
@@ -336,8 +355,9 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `GIVEN an empty state WHEN select suggested item THEN assert error is shown`() = runTest {
+        val args = Arb.enum<BuilderStepNavArgs>().next()
         every { getCategoryBuilder[any()] } returns emptyFlow()
-        val viewModel = viewModel(testScheduler, Arb.bind<BudgetBuilderAction.Step>().next())
+        val viewModel = viewModel(testScheduler, args)
         val expected = BuilderStepConsumables(
             snackbar = CommonErrorSnackbarState(CommonError.Unknown),
         )
@@ -349,17 +369,22 @@ class BudgetBuilderStepViewModelTest {
         }
     }
 
-    private fun givenBudgetBuilder(block: (BudgetBuilder) -> BudgetBuilder): BudgetBuilder {
+    private fun givenBudgetBuilder(
+        args: BuilderStepNavArgs,
+        block: (BudgetBuilder) -> BudgetBuilder = { it },
+    ): BudgetBuilder {
         return Arb.budgetBuilder().map {
-            block(it)
+            block(
+                it.copy(id = builderStepToNavArgsMap.getLeftValue(args)),
+            )
         }.next()
     }
 
     private fun viewModel(
         scheduler: TestCoroutineScheduler,
-        step: BudgetBuilderAction.Step,
+        args: BuilderStepNavArgs,
     ) = BudgetBuilderStepViewModel(
-        step = step,
+        args = args,
         consumableDelegate = ConsumableDelegate(BuilderStepConsumables()),
         getCategoryBuilder = getCategoryBuilder,
         proceedBuilder = proceedBuilder,

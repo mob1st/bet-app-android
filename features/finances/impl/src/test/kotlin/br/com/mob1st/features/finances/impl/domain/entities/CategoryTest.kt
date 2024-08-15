@@ -1,8 +1,8 @@
 package br.com.mob1st.features.finances.impl.domain.entities
 
 import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.features.finances.impl.domain.values.recurrences
-import br.com.mob1st.features.finances.impl.domain.values.uri
+import br.com.mob1st.features.finances.impl.domain.fixtures.recurrences
+import br.com.mob1st.features.finances.impl.domain.fixtures.uri
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.map
