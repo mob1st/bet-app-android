@@ -15,7 +15,7 @@ internal class CategoryCoordinator(
      * Navigates to the category detail screen.
      * @param args The arguments to pass to the detail screen.
      */
-    fun navigate(args: CategoryDetailArgs) {
+    fun toDetail(args: CategoryDetailArgs) {
         val route = CategoryNavRoute.Detail(args = args)
         navigate(route)
     }

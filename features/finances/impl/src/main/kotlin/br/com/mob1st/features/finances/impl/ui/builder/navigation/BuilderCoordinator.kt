@@ -9,6 +9,7 @@ import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavE
 import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryCoordinator
 import br.com.mob1st.twocents.core.navigation.Coordinator
 import br.com.mob1st.twocents.core.navigation.NativeNavigationApi
+import timber.log.Timber
 
 /**
  * Coordinates the navigation for the budget builder feature flow.
@@ -23,7 +24,7 @@ internal class BuilderCoordinator(
      * Navigates from the intro screen to the next step.
      * @param event The event that triggered the navigation.
      */
-    fun navigate(event: BuilderIntroConsumables.NavEvent) {
+    fun toStep(event: BuilderIntroConsumables.NavEvent) {
         when (event) {
             is BuilderIntroNextStepNavEvent -> navigate(
                 BuilderNavRoute.Step(args = event.step),
@@ -35,9 +36,9 @@ internal class BuilderCoordinator(
      * Navigates from the step screen to the next step or the category detail screen.
      * @param event The event that triggered the navigation.
      */
-    fun navigate(event: BuilderStepConsumables.NavEvent) {
+    fun toNext(event: BuilderStepConsumables.NavEvent) {
         when (event) {
-            is BuilderStepCategoryDetailNavEvent -> categoryCoordinator.navigate(event.args)
+            is BuilderStepCategoryDetailNavEvent -> categoryCoordinator.toDetail(event.args)
 
             is BuilderStepNextNavEvent -> navigate(
                 BuilderNavRoute.Step(
@@ -47,5 +48,9 @@ internal class BuilderCoordinator(
 
             BuilderCompleteNavEvent -> navigate(BuilderNavRoute.Completion())
         }
+    }
+
+    fun complete() {
+        Timber.d("Complete")
     }
 }

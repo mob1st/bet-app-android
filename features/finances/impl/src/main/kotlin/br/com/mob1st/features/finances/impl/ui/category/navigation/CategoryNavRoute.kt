@@ -7,9 +7,7 @@ import kotlin.reflect.typeOf
 
 internal sealed interface CategoryNavRoute {
     @Serializable
-    data class Detail(
-        val args: CategoryDetailArgs,
-    ) : CategoryNavRoute
+    data class Detail(val args: CategoryDetailArgs) : CategoryNavRoute
 
     companion object {
         val navTypes = mapOf(

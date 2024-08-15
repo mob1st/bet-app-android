@@ -14,30 +14,49 @@ import kotlin.reflect.typeOf
 
 /**
  * Add a [composable] route to the [NavGraphBuilder] ensuring that the standard [TransitionPattern]s are applied.
+ * It uses the default parameters of entering/exiting and pop-entering/pop-exiting transitions, connecting the two
+ * routes with the [TransitionPattern]s.
  * @param T the type of the route to be added.
  * @param typeMap the map of [NavType]s to be used by the route. The NavType for the [PatternKey] is added by default.
  * @param deepLinks the list of [NavDeepLink]s to be used by the route.
  * @param content the content to be displayed when the route is navigated to.
  */
-inline fun <reified T : NavRoute> NavGraphBuilder.route(
+inline fun <reified T : TransitionedRoute> NavGraphBuilder.transitioned(
     typeMap: Map<KType, @JvmSuppressWildcards NavType<*>> = emptyMap(),
     deepLinks: List<NavDeepLink> = emptyList(),
     noinline content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
 ) {
+    val navType = NavType.EnumType(PatternKey::class.java)
     composable<T>(
-        typeMap = typeMap + mapOf(typeOf<PatternKey>() to NavType.EnumType(PatternKey::class.java)),
+        typeMap = typeMap + mapOf(typeOf<PatternKey>() to navType),
         deepLinks = deepLinks,
         enterTransition = {
-            transition(entry = targetState, isForward = true)?.enter()
+            transition(
+                navType = navType,
+                entry = targetState,
+                isForward = true
+            )?.enter()
         },
         exitTransition = {
-            transition(entry = targetState, isForward = true)?.exit()
+            transition(
+                navType = navType,
+                entry = targetState,
+                isForward = true
+            )?.exit()
         },
         popEnterTransition = {
-            transition(entry = initialState, isForward = false)?.enter()
+            transition(
+                navType = navType,
+                entry = initialState,
+                isForward = false
+            )?.enter()
         },
         popExitTransition = {
-            transition(entry = initialState, isForward = false)?.exit()
+            transition(
+                navType = navType,
+                entry = initialState,
+                isForward = false
+            )?.exit()
         },
         content = content,
     )
@@ -51,12 +70,12 @@ inline fun <reified T : NavRoute> NavGraphBuilder.route(
  * @return the [TransitionPattern] to be applied during the navigation event.
  */
 fun AnimatedContentTransitionScope<NavBackStackEntry>.transition(
+    navType: NavType<PatternKey>,
     entry: NavBackStackEntry,
     isForward: Boolean,
 ): TransitionPattern? {
     val args = entry.arguments ?: bundleOf()
-    val navType = NavType.EnumType(PatternKey::class.java)
-    val patternKey = navType[args, NavRoute::enteringPatternKey.name]
+    val patternKey = navType[args, TransitionedRoute::enteringPatternKey.name]
     return when (patternKey) {
         PatternKey.TopLevel -> TopLevel
         PatternKey.BackAndForward -> {
