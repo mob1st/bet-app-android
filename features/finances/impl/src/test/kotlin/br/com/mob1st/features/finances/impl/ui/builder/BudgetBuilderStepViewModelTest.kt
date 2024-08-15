@@ -10,7 +10,6 @@ import br.com.mob1st.features.finances.impl.domain.fixtures.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.usecases.GetBudgetBuilderForStepUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepViewModel
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategoryDetailNavEvent
@@ -18,9 +17,10 @@ import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepConsumab
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepLoadedBody
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepLoadingBody
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNameDialog
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNavArgs
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNotAllowedSnackbar
-import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
+import br.com.mob1st.features.finances.impl.ui.category.detail.CategoryDetailArgs
 import br.com.mob1st.features.finances.impl.ui.fixtures.builderStepToNavArgsMap
 import br.com.mob1st.features.utils.errors.CommonError
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState

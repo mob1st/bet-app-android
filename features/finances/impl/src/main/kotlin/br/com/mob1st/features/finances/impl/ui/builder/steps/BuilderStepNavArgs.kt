@@ -1,4 +1,4 @@
-package br.com.mob1st.features.finances.impl.ui.builder.navigation
+package br.com.mob1st.features.finances.impl.ui.builder.steps
 
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep

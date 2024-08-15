@@ -21,8 +21,6 @@ internal class CategoryNavGraphImpl(
             val route = entry.toRoute<CategoryNavRoute.Detail>()
             CategoryDetailPage(
                 args = route.args,
-                isExpense = route.args.isExpense,
-                recurrenceType = route.args.recurrenceType,
                 onSubmit = coordinator::back,
             )
         }

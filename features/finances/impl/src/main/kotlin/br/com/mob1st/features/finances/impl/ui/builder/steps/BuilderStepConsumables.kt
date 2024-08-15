@@ -14,10 +14,9 @@ import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryDefaultValues
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
 import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialogState
 import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
-import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
+import br.com.mob1st.features.finances.impl.ui.category.detail.CategoryDetailArgs
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 
 /**

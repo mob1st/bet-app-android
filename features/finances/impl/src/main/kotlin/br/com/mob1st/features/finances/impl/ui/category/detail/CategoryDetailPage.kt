@@ -28,10 +28,7 @@ import br.com.mob1st.core.design.molecules.keyboard.NumericKey
 import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.core.observability.events.AnalyticsEvent
-import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
 import br.com.mob1st.features.finances.impl.domain.events.categoryScreenViewEvent
-import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
-import br.com.mob1st.features.finances.impl.ui.category.navigation.toIntent
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -39,8 +36,6 @@ import org.koin.core.parameter.parametersOf
 @Composable
 internal fun CategoryDetailPage(
     args: CategoryDetailArgs,
-    recurrenceType: RecurrenceType,
-    isExpense: Boolean,
     onSubmit: () -> Unit,
 ) {
     val viewModel = koinViewModel<CategoryViewModel>(

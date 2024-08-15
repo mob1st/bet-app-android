@@ -1,5 +1,6 @@
 package br.com.mob1st.features.finances.impl.ui.category.navigation
 
+import br.com.mob1st.features.finances.impl.ui.category.detail.CategoryDetailArgs
 import br.com.mob1st.twocents.core.navigation.Coordinator
 import br.com.mob1st.twocents.core.navigation.NativeNavigationApi
 

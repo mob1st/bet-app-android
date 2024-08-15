@@ -5,7 +5,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
 import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNavArgs
 
 val builderStepToNavArgsMap = BuilderStepNavArgs.entries.map { args ->
     args to when (args) {

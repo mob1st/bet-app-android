@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import arrow.optics.optics
 import br.com.mob1st.core.design.organisms.snack.SnackbarState
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNavArgs
 
 @optics
 @Immutable

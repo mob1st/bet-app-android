@@ -2,6 +2,7 @@ package br.com.mob1st.features.finances.impl.ui.builder.navigation
 
 import br.com.mob1st.features.finances.impl.ui.builder.intro.BuilderIntroNextStepNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderCompleteNavEvent
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNavArgs
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavEvent
 import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryCoordinator
 import br.com.mob1st.tests.featuresutils.FakeNavigationApi

@@ -11,7 +11,7 @@ import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNameDial
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNotAllowedSnackbar
 import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
-import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
+import br.com.mob1st.features.finances.impl.ui.category.detail.CategoryDetailArgs
 import br.com.mob1st.features.finances.impl.ui.fixtures.builderStepToNavArgsMap
 import br.com.mob1st.features.utils.errors.CommonErrorSnackbarState
 import br.com.mob1st.features.utils.errors.toCommonError

@@ -1,8 +1,8 @@
 package br.com.mob1st.features.finances.impl.domain.events
 
 import br.com.mob1st.core.observability.events.AnalyticsEvent
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
-import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNavArgs
+import br.com.mob1st.features.finances.impl.ui.category.detail.CategoryDetailArgs
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.long

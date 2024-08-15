@@ -3,6 +3,7 @@ package br.com.mob1st.features.finances.impl.ui.builder.navigation
 import androidx.navigation.NavType
 import br.com.mob1st.core.design.molecules.transitions.NavRoute
 import br.com.mob1st.core.design.molecules.transitions.PatternKey
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNavArgs
 import kotlinx.serialization.Serializable
 import kotlin.reflect.typeOf
 

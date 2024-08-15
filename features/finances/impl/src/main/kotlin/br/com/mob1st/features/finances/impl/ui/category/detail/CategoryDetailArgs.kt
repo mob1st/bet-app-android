@@ -1,11 +1,11 @@
-package br.com.mob1st.features.finances.impl.ui.category.navigation
+package br.com.mob1st.features.finances.impl.ui.category.detail
 
 import android.os.Parcelable
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryDefaultValues
 import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
 import br.com.mob1st.features.finances.impl.domain.entities.RecurrenceType
-import br.com.mob1st.features.finances.impl.ui.category.navigation.CategoryDetailArgs.Intent
+import br.com.mob1st.features.finances.impl.ui.category.detail.CategoryDetailArgs.Intent
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 

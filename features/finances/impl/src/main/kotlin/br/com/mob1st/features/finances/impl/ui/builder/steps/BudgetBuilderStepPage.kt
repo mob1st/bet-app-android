@@ -26,7 +26,6 @@ import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.core.observability.events.AnalyticsEvent
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.events.builderStepScreenView
-import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
 import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialog
 import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItem
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect

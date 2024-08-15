@@ -4,6 +4,8 @@ import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryDefaultValues
 import br.com.mob1st.features.finances.impl.domain.entities.GetCategoryIntent
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
+import br.com.mob1st.features.finances.impl.ui.category.detail.CategoryDetailArgs
+import br.com.mob1st.features.finances.impl.ui.category.detail.toIntent
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
 import io.kotest.property.arbitrary.map
