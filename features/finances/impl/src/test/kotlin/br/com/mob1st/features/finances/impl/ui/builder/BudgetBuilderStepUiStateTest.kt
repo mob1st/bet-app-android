@@ -1,7 +1,6 @@
 package br.com.mob1st.features.finances.impl.ui.builder
 
 import br.com.mob1st.features.finances.impl.R
-import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.FixedExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.FixedIncomesStep
@@ -9,9 +8,12 @@ import br.com.mob1st.features.finances.impl.domain.entities.SeasonalExpensesStep
 import br.com.mob1st.features.finances.impl.domain.entities.VariableExpensesStep
 import br.com.mob1st.features.finances.impl.domain.fixtures.budgetBuilder
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
-import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepHeader
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepLoadedBody
 import br.com.mob1st.features.finances.impl.ui.category.components.item.CategorySectionItemState
 import io.kotest.property.Arb
+import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.chunked
 import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.next
@@ -48,32 +50,48 @@ internal class BudgetBuilderStepUiStateTest {
             ),
         )
         // When
-        val budgetBuilderStepUiState = Loaded(budgetBuilder)
-
+        val isLoading = Arb.boolean().next()
+        val budgetBuilderStepUiState = BudgetBuilderStepUiState(budgetBuilder, isLoading)
+        val actual = budgetBuilderStepUiState.body as BuilderStepLoadedBody
         // Then
         assertEquals(
             expectedManuallyAdded,
-            budgetBuilderStepUiState.manuallyAdded,
+            actual.manuallyAdded,
         )
         assertEquals(
             expectedSuggestions,
-            budgetBuilderStepUiState.suggestions,
+            actual.suggestions,
         )
+        assertEquals(
+            isLoading,
+            budgetBuilderStepUiState.isLoadingNext,
+        )
+    }
+
+    @ParameterizedTest
+    @MethodSource("headerSource")
+    fun `GIVEN a step WHEN get header THEN assert header is correct`(
+        step: BudgetBuilderAction.Step,
+        expectedHeader: BuilderStepHeader,
+    ) {
+        // When
+        val header = BudgetBuilderStepUiState(step).header
+
+        // Then
+        assertEquals(expectedHeader, header)
     }
 
     @ParameterizedTest
     @MethodSource("headerSource")
     fun `GIVEN a builder WHEN get header THEN assert header is correct`(
         step: BudgetBuilderAction.Step,
-        expectedHeader: Loaded.Header,
+        expectedHeader: BuilderStepHeader,
     ) {
-        // When
-        val header = Loaded(
-            BudgetBuilder(step, emptyList()),
-        ).header
-
-        // Then
-        assertEquals(expectedHeader, header)
+        val builder = Arb.budgetBuilder().next().copy(
+            id = step,
+        )
+        val actual = BudgetBuilderStepUiState(builder, Arb.boolean().next())
+        assertEquals(expectedHeader, actual.header)
     }
 
     private fun fixtureCategory(isSuggested: Boolean) = Arb.category().map {
@@ -85,28 +103,28 @@ internal class BudgetBuilderStepUiStateTest {
         fun headerSource() = listOf(
             arguments(
                 FixedExpensesStep,
-                Loaded.Header(
+                BuilderStepHeader(
                     title = R.string.finances_builder_fixed_expenses_header,
                     description = R.string.finances_builder_fixed_expenses_subheader,
                 ),
             ),
             arguments(
                 FixedIncomesStep,
-                Loaded.Header(
+                BuilderStepHeader(
                     title = R.string.finances_builder_fixed_incomes_header,
                     description = R.string.finances_builder_fixed_incomes_subheader,
                 ),
             ),
             arguments(
                 VariableExpensesStep,
-                Loaded.Header(
+                BuilderStepHeader(
                     title = R.string.finances_builder_variable_expenses_header,
                     description = R.string.finances_builder_variable_expenses_subheader,
                 ),
             ),
             arguments(
                 SeasonalExpensesStep,
-                Loaded.Header(
+                BuilderStepHeader(
                     title = R.string.finances_builder_step_seasonal_expenses_title,
                     description = R.string.finances_builder_seasonal_expenses_subheader,
                 ),

@@ -15,6 +15,8 @@ import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUi
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepViewModel
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepCategoryDetailNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepConsumables
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepLoadedBody
+import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepLoadingBody
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNameDialog
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNextNavEvent
 import br.com.mob1st.features.finances.impl.ui.builder.steps.BuilderStepNotAllowedSnackbar
@@ -60,10 +62,11 @@ class BudgetBuilderStepViewModelTest {
 
     @Test
     fun `WHEN get initial ui state THEN assert it's correct`() = runTest {
-        val step = Arb.enum<BuilderStepNavArgs>().next()
+        val args = Arb.enum<BuilderStepNavArgs>().next()
         every { getCategoryBuilder[any()] } returns emptyFlow()
-        val viewModel = viewModel(testScheduler, args = step)
-        val expected = BudgetBuilderStepUiState.Loaded(step = builderStepToNavArgsMap.getLeftValue(step))
+        val viewModel = viewModel(testScheduler, args = args)
+        val step = builderStepToNavArgsMap.getLeftValue(args)
+        val expected = BudgetBuilderStepUiState(step = step, isLoadingNext = false, body = BuilderStepLoadingBody)
         // When
         viewModel.uiState.test {
             // Then
@@ -132,7 +135,8 @@ class BudgetBuilderStepViewModelTest {
         turbineScope {
             val receiveUiState = viewModel.uiState.testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
-            val category = receiveUiState.awaitItem().manuallyAdded[randomIndex].category
+            val body = receiveUiState.awaitItem().body as BuilderStepLoadedBody
+            val category = body.manuallyAdded[randomIndex].category
             viewModel.selectManuallyAddedItem(randomIndex)
             val expected = BuilderStepConsumables(
                 navEvent = BuilderStepCategoryDetailNavEvent(
@@ -163,7 +167,8 @@ class BudgetBuilderStepViewModelTest {
         turbineScope {
             val receiveUiState = viewModel.uiState.testIn(backgroundScope)
             val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
-            val category = receiveUiState.awaitItem().suggestions[randomIndex].category
+            val body = receiveUiState.awaitItem().body as BuilderStepLoadedBody
+            val category = body.suggestions[randomIndex].category
             viewModel.selectSuggestedItem(randomIndex)
 
             val expected = BuilderStepConsumables(
@@ -322,18 +327,15 @@ class BudgetBuilderStepViewModelTest {
     }
 
     @Test
-    fun `GIVEN an empty state WHEN try to proceed THEN assert an error is shown`() = runTest {
+    fun `GIVEN an empty state WHEN try to proceed THEN assert nothing happens`() = runTest {
         val args = Arb.enum<BuilderStepNavArgs>().next()
         every { getCategoryBuilder[any()] } returns emptyFlow()
         val viewModel = viewModel(testScheduler, args)
-        val expected = BuilderStepConsumables(
-            snackbar = CommonErrorSnackbarState(CommonError.Unknown),
-        )
         turbineScope {
             viewModel.uiState.drop(1).testIn(backgroundScope)
-            val receiveConsumable = viewModel.consumableUiState.drop(1).testIn(backgroundScope)
+            val receiveConsumable = viewModel.consumableUiState.testIn(backgroundScope)
             viewModel.next()
-            assertEquals(expected, receiveConsumable.awaitItem())
+            assertEquals(BuilderStepConsumables(), receiveConsumable.awaitItem())
         }
     }
 

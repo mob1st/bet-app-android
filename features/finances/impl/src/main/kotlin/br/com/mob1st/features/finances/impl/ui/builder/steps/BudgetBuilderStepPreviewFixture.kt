@@ -10,7 +10,7 @@ import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 
 @Suppress("MagicNumber")
 internal object BudgetBuilderStepPreviewFixture {
-    private val category1 = Category(
+    val category1 = Category(
         id = Category.Id(43),
         name = "Category 1",
         amount = Money(48558),
@@ -40,7 +40,7 @@ internal object BudgetBuilderStepPreviewFixture {
         image = Uri("file:///android_asset/icons/finances_builder_suggestions_item_back_to_school_supplies.svg"),
     )
 
-    val uiState = BudgetBuilderStepUiState.Loaded(
+    val uiState = BudgetBuilderStepUiState(
         builder = BudgetBuilder(
             id = FixedIncomesStep,
             categories = listOf(
@@ -49,6 +49,7 @@ internal object BudgetBuilderStepPreviewFixture {
                 category3,
             ),
         ),
+        isLoadingNext = false,
     )
     val consumables = BuilderStepConsumables()
 }

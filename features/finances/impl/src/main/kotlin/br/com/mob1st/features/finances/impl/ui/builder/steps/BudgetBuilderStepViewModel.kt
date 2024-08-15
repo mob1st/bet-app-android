@@ -16,7 +16,6 @@ import br.com.mob1st.core.state.managers.catching
 import br.com.mob1st.features.finances.impl.domain.usecases.GetBudgetBuilderForStepUseCase
 import br.com.mob1st.features.finances.impl.domain.usecases.ProceedBuilderUseCase
 import br.com.mob1st.features.finances.impl.ui.builder.navigation.BuilderStepNavArgs
-import br.com.mob1st.features.finances.impl.ui.builder.steps.BudgetBuilderStepUiState.Loaded
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -36,22 +35,22 @@ internal class BudgetBuilderStepViewModel(
         handleError(it)
     }
     private val isLoadingState = AsyncLoadingState()
+    private val step = args.toStep()
 
     override val consumableUiState: StateFlow<BuilderStepConsumables> = consumableDelegate.asStateFlow()
-    override val uiState: StateFlow<Loaded> =
-        initState(args)
+    override val uiState: StateFlow<BudgetBuilderStepUiState> =
+        initState()
             .catchIn(errorHandler)
             .flowOn(default)
             .stateInWhileSubscribed(
                 viewModelScope,
-                // TODO replace to empty
-                Loaded(args.toStep()),
+                BudgetBuilderStepUiState(step),
             )
 
-    private fun initState(args: BuilderStepNavArgs) = combine(
-        getCategoryBuilder[args.toStep()],
+    private fun initState() = combine(
+        getCategoryBuilder[step],
         isLoadingState,
-        transform = ::Loaded,
+        transform = ::BudgetBuilderStepUiState,
     )
 
     /**
@@ -59,7 +58,7 @@ internal class BudgetBuilderStepViewModel(
      * @param position The position of the selected item.
      */
     fun selectManuallyAddedItem(position: Int) = errorHandler.catching {
-        val uiState = checkIs<Loaded>(uiState.value)
+        val uiState = checkIs<BuilderStepLoadedBody>(uiState.value.body)
         consumableDelegate.update {
             it.selectItem(uiState.manuallyAdded[position])
         }
@@ -70,7 +69,7 @@ internal class BudgetBuilderStepViewModel(
      * @param position The position of the selected item.
      */
     fun selectSuggestedItem(position: Int) = errorHandler.catching {
-        val uiState = checkIs<Loaded>(uiState.value)
+        val uiState = checkIs<BuilderStepLoadedBody>(uiState.value.body)
         consumableDelegate.update {
             it.selectItem(uiState.suggestions[position])
         }
@@ -99,7 +98,7 @@ internal class BudgetBuilderStepViewModel(
      * Submits the category name to be added to the manually added categories.
      */
     fun submitCategoryName() = errorHandler.catching {
-        val uiState = checkIs<Loaded>(uiState.value)
+        val uiState = checkIs<BuilderStepLoadedBody>(uiState.value.body)
         consumableDelegate.update {
             it.submitCategoryName(uiState.builder.id)
         }
@@ -109,9 +108,10 @@ internal class BudgetBuilderStepViewModel(
      * Proceeds to the next step of the builder.
      */
     fun next() = launchIn(default + errorHandler) {
-        val uiState = checkIs<Loaded>(uiState.value)
+        val body = uiState.value.body
+        if (body !is BuilderStepLoadedBody) return@launchIn
         val next = isLoadingState.trigger {
-            proceedBuilder(uiState.builder)
+            proceedBuilder(body.builder)
         }
         consumableDelegate.update {
             it.navigateToNext(next)

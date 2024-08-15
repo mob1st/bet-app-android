@@ -101,7 +101,7 @@ private fun Icon(
 private fun CategorySectionItemPreview() {
     PreviewTheme {
         CategorySectionItem(
-            state = BudgetBuilderStepPreviewFixture.uiState.manuallyAdded.first(),
+            state = CategorySectionItemState(BudgetBuilderStepPreviewFixture.category1),
             onSelect = {},
         )
     }

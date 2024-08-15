@@ -1,14 +1,17 @@
 package br.com.mob1st.features.finances.impl.ui.builder.steps
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.androidx.compose.NavigationSideEffect
@@ -36,7 +39,6 @@ internal fun BudgetBuilderStepPage(
     onNext: (BuilderStepConsumables.NavEvent) -> Unit,
     onBack: () -> Unit,
 ) {
-    Icons.Filled.Check
     val snackbarHostState = remember {
         SnackbarHostState()
     }
@@ -73,7 +75,7 @@ internal fun BudgetBuilderStepPage(
 @Composable
 private fun CategoryBuilderStepScreen(
     snackbarHostState: SnackbarHostState,
-    uiState: BudgetBuilderStepUiState.Loaded,
+    uiState: BudgetBuilderStepUiState,
     consumables: BuilderStepConsumables,
     onSelectManualCategory: (position: Int) -> Unit,
     onSelectSuggestion: (position: Int) -> Unit,
@@ -103,7 +105,7 @@ private fun CategoryBuilderStepScreen(
         },
     ) {
         BudgetBuilderScreenContent(
-            uiState = uiState,
+            body = uiState.body,
             onSelectManualCategory = onSelectManualCategory,
             onSelectSuggestion = onSelectSuggestion,
         )
@@ -118,7 +120,32 @@ private fun CategoryBuilderStepScreen(
 
 @Composable
 private fun BudgetBuilderScreenContent(
-    uiState: BudgetBuilderStepUiState.Loaded,
+    body: BudgetBuilderStepUiState.Body,
+    onSelectManualCategory: (position: Int) -> Unit,
+    onSelectSuggestion: (position: Int) -> Unit,
+) {
+    when (body) {
+        is BuilderStepLoadedBody -> LoadedBody(
+            body = body,
+            onSelectManualCategory = onSelectManualCategory,
+            onSelectSuggestion = onSelectSuggestion,
+        )
+
+        BuilderStepLoadingBody -> LoadingBody()
+    }
+}
+
+@Composable
+private fun LoadingBody() {
+    // TODO add placholders
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+private fun LoadedBody(
+    body: BuilderStepLoadedBody,
     onSelectManualCategory: (position: Int) -> Unit,
     onSelectSuggestion: (position: Int) -> Unit,
 ) {
@@ -126,7 +153,7 @@ private fun BudgetBuilderScreenContent(
         contentPadding = PaddingValues(bottom = Spacings.x16 * 2),
     ) {
         section(
-            items = uiState.manuallyAdded,
+            items = body.manuallyAdded,
             key = { it.key },
             titleContent = {
                 Text(text = stringResource(id = R.string.finances_builder_commons_custom_section_headline))
@@ -140,7 +167,7 @@ private fun BudgetBuilderScreenContent(
         )
 
         section(
-            items = uiState.suggestions,
+            items = body.suggestions,
             key = { it.key },
             titleContent = {
                 Text(text = stringResource(id = R.string.finances_builder_commons_suggestions_section_headline))

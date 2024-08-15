@@ -102,6 +102,11 @@ data class BuilderStepConsumables(
         BuilderStepConsumables.nullableDialog set null
     }
 
+    /**
+     * Navigates to the next step based on the given action.
+     * @param action The action to navigate to the next step.
+     * @return The next consumable state.
+     */
     fun navigateToNext(action: BudgetBuilderAction): BuilderStepConsumables {
         return copy(
             navEvent = when (action) {
