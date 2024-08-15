@@ -9,7 +9,7 @@ import arrow.optics.copy
 import arrow.optics.optics
 import br.com.mob1st.core.design.organisms.snack.SnackbarState
 import br.com.mob1st.core.design.organisms.snack.snackbar
-import br.com.mob1st.core.kotlinx.errors.checkIs
+import br.com.mob1st.core.kotlinx.checks.checkIs
 import br.com.mob1st.features.finances.impl.R
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryDefaultValues

@@ -31,7 +31,7 @@ private val categoriesModule = module {
         CategoryViewModel(
             default = get(),
             consumableDelegate = CategoryViewModel.consumableDelegate(),
-            intent = params.get(),
+            args = params.get(),
             getCategoryDetail = get(),
             setCategory = get(),
             categoryStateHandle = CategoryStateHandle(get()),

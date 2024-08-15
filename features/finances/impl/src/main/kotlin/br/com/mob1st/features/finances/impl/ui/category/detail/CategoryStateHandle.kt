@@ -1,48 +1,40 @@
 package br.com.mob1st.features.finances.impl.ui.category.detail
 
 import androidx.lifecycle.SavedStateHandle
-import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.kotlinx.structures.Uri
-import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import kotlinx.coroutines.flow.combine
+import br.com.mob1st.features.finances.impl.domain.entities.Category
+import kotlinx.coroutines.flow.StateFlow
 
+/**
+ * Wrapper on top of [SavedStateHandle] to persist a [CategoryEntry] in the state across process death and retain the
+ * changes made by the user in the Category before submitting it.
+ * @param savedStateHandle [SavedStateHandle] to persist the state.
+ */
 class CategoryStateHandle(
     private val savedStateHandle: SavedStateHandle,
 ) {
-    val entry = combine(
-        savedStateHandle.getStateFlow<String?>(NAME_KEY, null),
-        savedStateHandle.getStateFlow<Money?>(AMOUNT_KEY, null),
-        savedStateHandle.getStateFlow<Recurrences?>(RECURRENCES_KEY, null),
-        savedStateHandle.getStateFlow<Uri?>(IMAGE_KEY, null),
-    ) { name, amount, recurrences, image ->
-        CategoryEntry(
-            name = name,
-            amount = amount,
-            recurrences = recurrences,
-            image = image,
-        )
-    }
+    /**
+     * Returns a [CategoryEntry] from the state. The given [category] is used to provide the initial values for the
+     * entry.
+     * It will emit an item everytime a new [CategoryEntry] is set through [update].
+     * @param category The [Category] to provide the initial values for the entry.
+     * @return A [StateFlow] with the [CategoryEntry] from the state.
+     * @see update
+     */
+    fun entry(category: Category): StateFlow<CategoryEntry> = savedStateHandle.getStateFlow(
+        ENTRY_KEY,
+        CategoryEntry(category),
+    )
 
-    fun setName(name: String) {
-        savedStateHandle[NAME_KEY] = name
-    }
-
-    fun setAmount(amount: Money) {
-        savedStateHandle[AMOUNT_KEY] = amount
-    }
-
-    fun setRecurrences(recurrences: Recurrences) {
-        savedStateHandle[RECURRENCES_KEY] = recurrences
-    }
-
-    fun setImage(image: Uri) {
-        savedStateHandle[IMAGE_KEY] = image
+    /**
+     * Writes the given [categoryEntry] to the state bundle to persist it across process death.
+     * It will trigger a new emission in the [entry] flow.
+     * @param categoryEntry The [CategoryEntry] to persist.
+     */
+    fun update(categoryEntry: CategoryEntry) {
+        savedStateHandle[ENTRY_KEY] = categoryEntry
     }
 
     companion object {
-        private const val NAME_KEY = "name"
-        private const val AMOUNT_KEY = "amount"
-        private const val RECURRENCES_KEY = "recurrences"
-        private const val IMAGE_KEY = "image"
+        private const val ENTRY_KEY = "entry_key"
     }
 }

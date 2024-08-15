@@ -1,4 +1,4 @@
-package br.com.mob1st.core.kotlinx.errors
+package br.com.mob1st.core.kotlinx.checks
 
 /**
  * Checks if the value is not null and is of type [T].
@@ -10,4 +10,14 @@ inline fun <reified T> checkIs(value: Any?): T {
         "Expected non-null value of type ${T::class.java.name} but it was ${value?.javaClass?.name}"
     }
     return value
+}
+
+/**
+ * Invokes the given [block] if the this receiver is a type of [T]
+ * @param block The block to be invoked
+ */
+inline fun <reified T> Any.ifIs(block: (T) -> Unit) {
+    if (this is T) {
+        block(this)
+    }
 }

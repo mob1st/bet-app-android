@@ -13,6 +13,8 @@ value class Money(
      */
     operator fun plus(other: Money) = Money(cents + other.cents)
 
+    operator fun plus(other: Int) = Money(cents + other)
+
     /**
      * Subtracts two [Money] values generating a new one.
      */

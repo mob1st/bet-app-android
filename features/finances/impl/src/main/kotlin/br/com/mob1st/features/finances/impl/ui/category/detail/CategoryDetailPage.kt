@@ -39,7 +39,7 @@ internal fun CategoryDetailPage(
     onSubmit: () -> Unit,
 ) {
     val viewModel = koinViewModel<CategoryViewModel>(
-        parameters = { parametersOf(args.toIntent()) },
+        parameters = { parametersOf(args) },
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val consumables by viewModel.consumableUiState.collectAsStateWithLifecycle()
@@ -58,10 +58,10 @@ internal fun CategoryDetailPage(
     CategoryPageSideEffects(
         snackbarHostState = snackbarHostState,
         args = args,
-        isSubmitted = uiState.isDone,
+        isSubmitted = consumables.isSubmitted,
         consumables = consumables,
         onDismissSnackbar = {
-            viewModel.consume(CategoryDetailConsumables.nullableCommonErrorSnackbarState)
+            viewModel.consume(CategoryDetailConsumables.nullableSnackbarState)
         },
         onSubmit = onSubmit,
     )
@@ -69,7 +69,7 @@ internal fun CategoryDetailPage(
 
 @Composable
 private fun CategoryDetailPageScaffold(
-    uiState: CategoryDetailState,
+    uiState: CategoryDetailUiState,
     dialog: CategoryDetailConsumables.Dialog?,
     snackbarHostState: SnackbarHostState,
     onClickKey: (Key) -> Unit,
@@ -94,7 +94,7 @@ private fun CategoryDetailPageScaffold(
 @Composable
 private fun CategoryDetailPageContent(
     modifier: Modifier,
-    uiState: CategoryDetailState,
+    uiState: CategoryDetailUiState,
     dialog: CategoryDetailConsumables.Dialog?,
     onClickKey: (Key) -> Unit,
     onDismissDialog: () -> Unit,
@@ -117,22 +117,22 @@ private fun CategoryDetailPageContent(
 @Composable
 private fun Header(
     modifier: Modifier,
-    uiState: CategoryDetailState,
+    uiState: CategoryDetailUiState,
 ) {
     Box(modifier = modifier) {
         when (uiState) {
-            is CategoryDetailState.Loaded -> {
+            is CategoryDetailUiState.Loaded -> {
                 LoadedHeader(uiState = uiState)
             }
 
-            CategoryDetailState.Loading -> {}
+            CategoryDetailUiState.Loading -> {}
         }
     }
 }
 
 @Composable
 private fun LoadedHeader(
-    uiState: CategoryDetailState.Loaded,
+    uiState: CategoryDetailUiState.Loaded,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -186,7 +186,7 @@ private fun CategoryPageSideEffects(
     }
     SnackbarSideEffect(
         snackbarHostState = snackbarHostState,
-        snackbarVisuals = consumables.commonErrorSnackbarState?.resolve(),
+        snackbarVisuals = consumables.snackbarState?.resolve(),
         onDismiss = onDismissSnackbar,
         onPerformAction = {},
     )
@@ -211,8 +211,9 @@ private fun CategoryViewModel.onClickKey(key: Key) {
 private fun CategoryDetailScaffoldPreview() {
     PreviewTheme {
         CategoryDetailPageScaffold(
-            uiState = CategoryDetailState.Loaded(
+            uiState = CategoryDetailUiState.Loaded(
                 category = CategoryFixtures.category,
+                entry = CategoryEntry(CategoryFixtures.category),
             ),
             dialog = null,
             snackbarHostState = SnackbarHostState(),

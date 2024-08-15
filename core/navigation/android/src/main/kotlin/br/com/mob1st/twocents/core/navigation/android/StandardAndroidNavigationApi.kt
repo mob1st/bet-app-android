@@ -14,7 +14,7 @@ class StandardAndroidNavigationApi(
     }
 
     override fun back() {
-        navHostController.popBackStack(route = false, inclusive = false)
+        navHostController.popBackStack()
     }
 
     override fun up() {

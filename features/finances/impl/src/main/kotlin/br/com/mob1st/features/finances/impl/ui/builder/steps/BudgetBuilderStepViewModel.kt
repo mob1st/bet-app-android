@@ -3,9 +3,9 @@ package br.com.mob1st.features.finances.impl.ui.builder.steps
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mob1st.core.androidx.viewmodels.launchIn
+import br.com.mob1st.core.kotlinx.checks.checkIs
 import br.com.mob1st.core.kotlinx.coroutines.DefaultCoroutineDispatcher
 import br.com.mob1st.core.kotlinx.coroutines.stateInWhileSubscribed
-import br.com.mob1st.core.kotlinx.errors.checkIs
 import br.com.mob1st.core.state.extensions.errorHandler
 import br.com.mob1st.core.state.managers.AsyncLoadingState
 import br.com.mob1st.core.state.managers.ConsumableDelegate
