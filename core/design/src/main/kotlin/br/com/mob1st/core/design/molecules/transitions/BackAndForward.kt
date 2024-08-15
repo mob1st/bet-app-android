@@ -16,7 +16,7 @@ import kotlin.math.PI
  * Back and forward transitions for composable screens.
  * @see [https://m3.material.io/styles/motion/transitions/transition-patterns#df9c7d76-1454-47f3-ad1c-268a31f58bad]
  */
-class BackAndForward(
+internal class BackAndForward(
     private val scope: AnimatedContentTransitionScope<*>,
     private val towards: SlideDirection,
 ) : TransitionPattern {

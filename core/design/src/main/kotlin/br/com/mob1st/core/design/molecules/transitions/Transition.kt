@@ -34,28 +34,28 @@ inline fun <reified T : TransitionedRoute> NavGraphBuilder.transitioned(
             transition(
                 navType = navType,
                 entry = targetState,
-                isForward = true
+                isForward = true,
             )?.enter()
         },
         exitTransition = {
             transition(
                 navType = navType,
                 entry = targetState,
-                isForward = true
+                isForward = true,
             )?.exit()
         },
         popEnterTransition = {
             transition(
                 navType = navType,
                 entry = initialState,
-                isForward = false
+                isForward = false,
             )?.enter()
         },
         popExitTransition = {
             transition(
                 navType = navType,
                 entry = initialState,
-                isForward = false
+                isForward = false,
             )?.exit()
         },
         content = content,

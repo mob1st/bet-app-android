@@ -6,7 +6,7 @@ import br.com.mob1st.core.design.atoms.motion.DurationSet
  * Set of durations for transitions.
  * @property actual The actual duration for the transition.
  */
-class DurationForTransition private constructor(
+internal class DurationForTransition private constructor(
     val actual: Int,
 ) {
     /**

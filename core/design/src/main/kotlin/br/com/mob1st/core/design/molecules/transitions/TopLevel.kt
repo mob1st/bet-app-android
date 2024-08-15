@@ -14,7 +14,7 @@ import br.com.mob1st.core.design.atoms.motion.StandardEasingSet
  * Navigation bar.
  * @see [https://m3.material.io/styles/motion/transitions/transition-patterns#8327d206-2a7d-423a-abf0-2be86130535b]
  */
-data object TopLevel : TransitionPattern {
+internal data object TopLevel : TransitionPattern {
     private const val SCALE = 0.90f
 
     override fun enter(): EnterTransition {
