@@ -1,5 +1,6 @@
 package br.com.mob1st.core.androidx.navigation
 
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
@@ -21,12 +22,12 @@ import kotlin.reflect.KType
 @NavDestinationDsl
 class BottomSheetNavigatorDestinationBuilder : NavDestinationBuilder<BottomSheetNavigator.Destination> {
     private val bottomSheetNavigator: BottomSheetNavigator
-    private val content: @Composable (NavBackStackEntry) -> Unit
+    private val content: @Composable ColumnScope.(NavBackStackEntry) -> Unit
 
     constructor(
         navigator: BottomSheetNavigator,
         route: String,
-        content: @Composable (NavBackStackEntry) -> Unit,
+        content: @Composable ColumnScope.(NavBackStackEntry) -> Unit,
     ) : super(navigator, route) {
         this.bottomSheetNavigator = navigator
         this.content = content
@@ -36,7 +37,7 @@ class BottomSheetNavigatorDestinationBuilder : NavDestinationBuilder<BottomSheet
         navigator: BottomSheetNavigator,
         route: KClass<*>,
         typeMap: Map<KType, @JvmSuppressWildcards NavType<*>>,
-        content: @Composable (NavBackStackEntry) -> Unit,
+        content: @Composable ColumnScope.(NavBackStackEntry) -> Unit,
     ) : super(navigator, route, typeMap) {
         this.bottomSheetNavigator = navigator
         this.content = content
@@ -56,7 +57,7 @@ class BottomSheetNavigatorDestinationBuilder : NavDestinationBuilder<BottomSheet
 inline fun <reified T : Any> NavGraphBuilder.bottomSheet(
     typeMap: Map<KType, @JvmSuppressWildcards NavType<*>> = emptyMap(),
     deepLinks: List<NavDeepLink> = emptyList(),
-    noinline content: @Composable (backstackEntry: NavBackStackEntry) -> Unit,
+    noinline content: @Composable ColumnScope.(backstackEntry: NavBackStackEntry) -> Unit,
 ) {
     destination(
         BottomSheetNavigatorDestinationBuilder(

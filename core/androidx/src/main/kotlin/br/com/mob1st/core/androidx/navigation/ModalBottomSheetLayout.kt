@@ -1,8 +1,7 @@
 package br.com.mob1st.core.androidx.navigation
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
@@ -23,10 +22,13 @@ fun ModalBottomSheetLayout(
         ModalBottomSheet(
             onDismissRequest = bottomSheetNavigator.onDismissRequest,
             sheetState = bottomSheetNavigator.sheetState,
-        ) {
-            Box(modifier = Modifier.fillMaxHeight(0.95f)) {
-                bottomSheetNavigator.sheetContent()
-            }
-        }
+            content = {
+                Column(
+                    modifier = Modifier.fillMaxSize(0.95f),
+                ) {
+                    bottomSheetNavigator.sheetContent(this)
+                }
+            },
+        )
     }
 }

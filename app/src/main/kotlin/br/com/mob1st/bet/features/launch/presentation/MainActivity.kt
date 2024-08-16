@@ -62,7 +62,7 @@ internal fun NavigationGraph() {
     val navController = rememberNavController(bottomSheetNavigator)
     val financesNavGraph = koinInject<FinancesNavGraph>(
         parameters = {
-            parametersOf(navController)
+            parametersOf(navController, bottomSheetNavigator)
         },
     )
     ModalBottomSheetLayout(

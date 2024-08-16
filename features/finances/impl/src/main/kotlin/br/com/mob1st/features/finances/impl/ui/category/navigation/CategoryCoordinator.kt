@@ -1,5 +1,6 @@
 package br.com.mob1st.features.finances.impl.ui.category.navigation
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import br.com.mob1st.features.finances.impl.ui.category.detail.CategoryDetailArgs
 import br.com.mob1st.twocents.core.navigation.Coordinator
 import br.com.mob1st.twocents.core.navigation.NativeNavigationApi
@@ -10,6 +11,7 @@ import br.com.mob1st.twocents.core.navigation.NativeNavigationApi
  */
 internal class CategoryCoordinator(
     navigationApi: NativeNavigationApi,
+    // private val bottomSheetNavigator: BottomSheetNavigator,
 ) : Coordinator<CategoryNavRoute>(navigationApi) {
     /**
      * Navigates to the category detail screen.
@@ -18,5 +20,11 @@ internal class CategoryCoordinator(
     fun toDetail(args: CategoryDetailArgs) {
         val route = CategoryNavRoute.Detail(args = args)
         navigate(route)
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    suspend fun dismiss() {
+        // bottomSheetNavigator.sheetState.hide()
+        back()
     }
 }

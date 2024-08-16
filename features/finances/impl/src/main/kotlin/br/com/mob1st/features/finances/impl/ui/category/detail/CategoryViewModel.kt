@@ -114,6 +114,9 @@ internal class CategoryViewModel(
     fun submit() = launchIn(default + errorHandler) {
         uiState.value.ifIs<CategoryDetailUiState.Loaded> { state ->
             setCategory(state.merge())
+            consumableDelegate.update {
+                it.copy(isSubmitted = true)
+            }
         }
     }
 
