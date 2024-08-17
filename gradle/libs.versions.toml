@@ -170,7 +170,10 @@ unittest-kotlin = [
     "mockk-kotlin",
     "kotlin-reflection",
     "kotlin-test",
-    "turbine"
+    "turbine",
+    "junit5-api",
+    "junit5-engine",
+    "junit5-params",
 ]
 unittest-android = [
     "kotest-runner",

@@ -6,6 +6,7 @@ import br.com.mob1st.features.finances.impl.domain.fixtures.asset
 import br.com.mob1st.features.finances.impl.domain.fixtures.category
 import br.com.mob1st.features.finances.impl.domain.fixtures.typeRecurrenceToRecurrences
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.AssetRepository
+import br.com.mob1st.features.finances.impl.domain.infra.repositories.CalculatorPreferencesRepository
 import br.com.mob1st.features.finances.impl.domain.infra.repositories.CategoryRepository
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bind
@@ -26,12 +27,18 @@ class GetDetailUseCaseTest {
     private lateinit var useCase: GetCategoryDetailUseCase
     private lateinit var categoryRepository: CategoryRepository
     private lateinit var assetRepository: AssetRepository
+    private lateinit var calculatorPreferencesRepository: CalculatorPreferencesRepository
 
     @BeforeEach
     fun setUp() {
         categoryRepository = mockk()
         assetRepository = mockk()
-        useCase = GetCategoryDetailUseCase(categoryRepository, assetRepository)
+        calculatorPreferencesRepository = mockk()
+        useCase = GetCategoryDetailUseCase(
+            categoryRepository = categoryRepository,
+            calculatorPreferencesRepository = calculatorPreferencesRepository,
+            assetRepository = assetRepository,
+        )
     }
 
     @Test
@@ -41,7 +48,7 @@ class GetDetailUseCaseTest {
         val intent = Arb.bind<GetCategoryIntent.Create>().next()
         val actual = useCase[intent].first()
         val asset = assets.first()
-        assertEquals(asset.uri, actual.image)
+        assertEquals(asset.uri, actual.category.image)
     }
 
     @Test
@@ -57,7 +64,7 @@ class GetDetailUseCaseTest {
             isSuggested = false,
         )
         val actual = useCase[intent].first()
-        assertEquals(expected, actual)
+        assertEquals(expected, actual.category)
     }
 
     @Test
@@ -66,7 +73,7 @@ class GetDetailUseCaseTest {
         val category = Arb.category().map { it.copy(id = intent.id) }.next()
         every { categoryRepository.getById(intent.id) } returns flowOf(category)
         val actual = useCase[intent].first()
-        assertEquals(category, actual)
+        assertEquals(category, actual.category)
         verify(exactly = 0) {
             assetRepository.getByTag(any())
         }

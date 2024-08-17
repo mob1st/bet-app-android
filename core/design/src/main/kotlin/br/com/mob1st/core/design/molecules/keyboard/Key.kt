@@ -46,7 +46,7 @@ sealed interface FunctionKey : Key {
     /**
      * When clicked, it indicates the amount type should be undone and the original value should be restored.
      */
-    data object Undo : FunctionKey
+    data object IconPicker : FunctionKey
 
     /**
      * Removes the last character from the amount.

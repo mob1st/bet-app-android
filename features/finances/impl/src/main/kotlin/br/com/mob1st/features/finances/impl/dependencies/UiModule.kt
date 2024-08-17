@@ -34,6 +34,7 @@ private val categoriesModule = module {
             args = params.get(),
             getCategoryDetail = get(),
             setCategory = get(),
+            setPreferences = get(),
             categoryStateHandle = CategoryStateHandle(get()),
         )
     }

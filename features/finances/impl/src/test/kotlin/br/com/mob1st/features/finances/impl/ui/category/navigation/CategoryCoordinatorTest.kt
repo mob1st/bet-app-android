@@ -22,7 +22,7 @@ class CategoryCoordinatorTest {
     @Test
     fun `GIVEN a intent WHEN navigate THEN assert it goes to category detail`() {
         val args = Arb.bind<CategoryDetailArgs>().next()
-        coordinator.navigate(args)
+        coordinator.toDetail(args)
         val expected = CategoryNavRoute.Detail(args = args)
         assertEquals(expected, fakeNavigationApi.routes.first())
     }

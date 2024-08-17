@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFalse
 
-class CategoryNameDialogStateTest {
+class EditCategoryNameDialogStateTest {
     @Test
     fun `GIVEN only 2 characters WHEN check if button is enabled THEN returns false`() {
         val dialog = CategoryNameDialogState("ab")

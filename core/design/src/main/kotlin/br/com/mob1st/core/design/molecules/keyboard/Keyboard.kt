@@ -148,7 +148,7 @@ private fun ColumnScope.CalendarButton(onClickItem: (key: Key) -> Unit) {
 private fun ColumnScope.UndoButton(onClickItem: (key: Key) -> Unit) {
     BaseButton(
         combination = LocalExtensionsColorFamilies.current.variableExpenses.containerCombination,
-        onClick = { onClickItem(FunctionKey.Undo) },
+        onClick = { onClickItem(FunctionKey.IconPicker) },
     ) {
         Undo(contentDescription = stringResource(id = R.string.core_design_next_button_undo))
     }

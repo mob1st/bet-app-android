@@ -2,6 +2,7 @@ package br.com.mob1st.features.finances.impl.domain.values
 
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Month
 import kotlinx.datetime.plus
 import kotlinx.datetime.toJavaLocalDate
 import java.time.format.DateTimeFormatter
@@ -40,4 +41,9 @@ fun DayOfYear.formatOfPattern(
     val newDate = date.plus(value - 1, DateTimeUnit.DAY)
     val formatter = DateTimeFormatter.ofPattern(pattern, locale)
     return newDate.toJavaLocalDate().format(formatter)
+}
+
+fun DayOfYear.Companion.fromMonth(month: Month): DayOfYear {
+    val date = LocalDate(ARB_YEAR, month, 1)
+    return DayOfYear(date.dayOfYear)
 }

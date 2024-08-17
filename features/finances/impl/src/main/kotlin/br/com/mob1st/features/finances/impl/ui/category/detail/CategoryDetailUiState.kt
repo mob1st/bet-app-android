@@ -3,8 +3,16 @@ package br.com.mob1st.features.finances.impl.ui.category.detail
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.LocalizedText
 import br.com.mob1st.core.kotlinx.structures.Money
+import br.com.mob1st.core.kotlinx.structures.scaleDown
+import br.com.mob1st.core.kotlinx.structures.scaleUp
 import br.com.mob1st.features.finances.impl.domain.entities.Category
+import br.com.mob1st.features.finances.impl.domain.entities.CategoryDetail
+import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
+import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
+import br.com.mob1st.features.finances.impl.domain.values.fromMonth
 import br.com.mob1st.features.finances.impl.ui.utils.texts.MoneyLocalizedText
+import kotlinx.datetime.Month
 
 /**
  * Ui state for the category detail screen.
@@ -25,7 +33,7 @@ internal sealed interface CategoryDetailUiState {
      */
     @Immutable
     data class Loaded(
-        val category: Category,
+        val detail: CategoryDetail,
         val entry: CategoryEntry,
     ) : CategoryDetailUiState {
         /**
@@ -34,12 +42,16 @@ internal sealed interface CategoryDetailUiState {
         val amount: LocalizedText = MoneyLocalizedText(entry.amount)
 
         /**
+         * The name of the category.
+         */
+        val name: String = entry.name
+
+        /**
          * Append the given [number] as the minor unit of the amount.
          * @return A new [CategoryEntry] with the new amount.
          */
         fun appendNumber(number: Int): CategoryEntry {
-            val newValue = (entry.amount * DECIMAL_MULTIPLIER) + (number * Money.SCALE.toInt())
-            return entry.copy(amount = newValue)
+            return entry.copy(amount = entry.amount.scaleUp(number, detail.preferences.isCentsEnabled))
         }
 
         /**
@@ -48,32 +60,61 @@ internal sealed interface CategoryDetailUiState {
          * @return A new [CategoryEntry] with the erased amount.
          */
         fun erase(): CategoryEntry {
-            val currentValue = entry.amount.cents / Money.SCALE.toInt()
-            val newValue = currentValue / DECIMAL_MULTIPLIER
-            return entry.copy(amount = Money(newValue * Money.SCALE.toInt()))
+            return entry.copy(amount = entry.amount.scaleDown(detail.isCentsEnabled))
         }
 
         /**
-         * Reverts all entries returning it to it's initial state using the [category] as the base.
-         * @return A new [CategoryEntry] with the initial values.
+         * Toggles the decimal mode of the amount.
          */
-        fun undo(): CategoryEntry = CategoryEntry(category)
+        fun toggleDecimalMode(): Loaded {
+            val newSelection = !detail.isCentsEnabled
+            val newAmount = if (newSelection) {
+                entry.amount / Money.CENT_SCALE
+            } else {
+                entry.amount * Money.CENT_SCALE
+            }
+            return copy(
+                entry = CategoryEntry.amount.set(entry, newAmount),
+                detail = detail.setIsCentsEnabled(newSelection),
+            )
+        }
+
+        /**
+         * Submits the dialog to the [CategoryEntry] returning a new [CategoryEntry] with the updated values.
+         */
+        fun submitDialog(dialog: CategoryDetailConsumables.Dialog): CategoryEntry {
+            return when (dialog) {
+                is IconPickerDialog -> entry.copy(image = dialog.selected)
+                is EditCategoryNameDialog -> entry.copy(name = dialog.name)
+                is EditRecurrencesDialog.Fixed -> entry.copy(
+                    recurrences = Recurrences.Fixed(
+                        day = DayOfMonth.allDays[dialog.selected],
+                    ),
+                )
+
+                is EditRecurrencesDialog.Seasonal -> entry.copy(
+                    recurrences = Recurrences.Seasonal(
+                        daysOfYear = dialog.selected.map { index ->
+                            DayOfYear.fromMonth(Month.entries[index])
+                        },
+                    ),
+                )
+
+                VariableNotAllowEditionDialog -> entry
+            }
+        }
 
         /**
          * Merge the [entry] into the [category] returning a new [Category] with the updated values.
          * @return A new [Category] with the updated values.
          */
         fun merge(): Category {
-            return category.copy(
+            return detail.category.copy(
                 amount = entry.amount,
                 name = entry.name,
                 recurrences = entry.recurrences,
                 image = entry.image,
             )
         }
-    }
-
-    companion object {
-        private const val DECIMAL_MULTIPLIER = 10
     }
 }

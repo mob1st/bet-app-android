@@ -16,8 +16,8 @@ inline fun <reified T> checkIs(value: Any?): T {
  * Invokes the given [block] if the this receiver is a type of [T]
  * @param block The block to be invoked
  */
-inline fun <reified T> Any.ifIs(block: (T) -> Unit) {
-    if (this is T) {
-        block(this)
+inline fun <reified T> ifIs(any: Any, block: (T) -> Unit) {
+    if (any is T) {
+        block(any)
     }
 }

@@ -6,6 +6,7 @@ import br.com.mob1st.features.finances.impl.domain.entities.Asset
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilder
 import br.com.mob1st.features.finances.impl.domain.entities.BudgetBuilderAction
 import br.com.mob1st.features.finances.impl.domain.entities.Category
+import br.com.mob1st.features.finances.impl.domain.entities.CategoryDetail
 import br.com.mob1st.features.finances.impl.domain.entities.CategorySuggestion
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
@@ -22,6 +23,12 @@ import io.kotest.property.arbitrary.merge
 import io.kotest.property.arbitrary.next
 import io.kotest.property.arbs.domain
 import io.kotest.property.arbs.products.products
+
+fun Arb.Companion.categoryDetail(): Arb<CategoryDetail> {
+    return Arb.bind {
+        bind(CategoryDetail::category to category())
+    }
+}
 
 /**
  * Generates a valid category entity

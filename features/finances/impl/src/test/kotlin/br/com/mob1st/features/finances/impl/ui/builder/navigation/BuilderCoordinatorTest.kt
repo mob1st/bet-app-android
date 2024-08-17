@@ -30,7 +30,7 @@ class BuilderCoordinatorTest {
     @Test
     fun `GIVEN a next step WHEN navigate from intro THEN assert it goes to next step route`() {
         val event = Arb.bind<BuilderIntroNextStepNavEvent>().next()
-        coordinator.navigate(event)
+        coordinator.toStep(event)
         assertEquals(
             BuilderNavRoute.Step(event.step),
             navigationApi.routes.first(),
@@ -40,7 +40,7 @@ class BuilderCoordinatorTest {
     @Test
     fun `GIVEN a next step WHEN navigate from step THEN assert it goes to the next step route`() {
         val args = Arb.enum<BuilderStepNavArgs>().next()
-        coordinator.navigate(BuilderStepNextNavEvent(args))
+        coordinator.toNext(BuilderStepNextNavEvent(args))
         assertEquals(
             BuilderNavRoute.Step(args),
             navigationApi.routes.first(),
@@ -49,7 +49,7 @@ class BuilderCoordinatorTest {
 
     @Test
     fun `GIVEN a complete builder action WHEN navigate from step THEN assert it goes to the completion route`() {
-        coordinator.navigate(BuilderCompleteNavEvent)
+        coordinator.toNext(BuilderCompleteNavEvent)
         assertEquals(
             BuilderNavRoute.Completion(),
             navigationApi.routes.first(),

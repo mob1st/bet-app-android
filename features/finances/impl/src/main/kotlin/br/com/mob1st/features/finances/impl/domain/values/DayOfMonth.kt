@@ -8,7 +8,12 @@ value class DayOfMonth(val value: Int) {
         }
     }
 
+    override fun toString(): String {
+        return value.toString()
+    }
+
     companion object {
         private const val DAYS_IN_A_MONTH = 31
+        val allDays: List<DayOfMonth> = (1..DAYS_IN_A_MONTH).map { DayOfMonth(it) }
     }
 }

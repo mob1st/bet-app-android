@@ -38,5 +38,5 @@ private fun Money.toCurrencyString(
     locale: Locale,
 ): String {
     val numberFormat = NumberFormat.getCurrencyInstance(locale)
-    return numberFormat.format(cents / Money.SCALE)
+    return numberFormat.format(cents / Money.CENT_SCALE)
 }

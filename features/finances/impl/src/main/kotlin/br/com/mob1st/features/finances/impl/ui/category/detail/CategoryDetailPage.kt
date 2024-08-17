@@ -28,6 +28,8 @@ import br.com.mob1st.core.design.molecules.keyboard.NumericKey
 import br.com.mob1st.core.design.utils.PreviewTheme
 import br.com.mob1st.core.design.utils.ThemedPreview
 import br.com.mob1st.core.observability.events.AnalyticsEvent
+import br.com.mob1st.features.finances.impl.domain.entities.CalculatorPreferences
+import br.com.mob1st.features.finances.impl.domain.entities.CategoryDetail
 import br.com.mob1st.features.finances.impl.domain.events.categoryScreenViewEvent
 import br.com.mob1st.features.utils.observability.TrackEventSideEffect
 import org.koin.androidx.compose.koinViewModel
@@ -152,7 +154,7 @@ private fun CategoryDialog(
     onDismissDialog: () -> Unit,
 ) {
     when (dialog) {
-        is CategoryCalendarDialog -> {
+        is EditRecurrencesDialog -> {
             AlertDialog(
                 title = { Text(text = "Sample") },
                 text = { Text(text = "This is an example") },
@@ -165,7 +167,9 @@ private fun CategoryDialog(
             )
         }
 
-        is CategoryNameDialog -> {}
+        VariableNotAllowEditionDialog -> {}
+        is EditCategoryNameDialog -> {}
+        is IconPickerDialog -> {}
         null -> {}
     }
 }
@@ -198,9 +202,9 @@ private fun CategoryPageSideEffects(
 private fun CategoryViewModel.onClickKey(key: Key) {
     when (key) {
         is NumericKey -> type(key.number)
-        FunctionKey.Undo -> undo()
-        FunctionKey.Calendar -> openCalendar()
-        FunctionKey.Decimal -> decimal()
+        FunctionKey.IconPicker -> openIconPickerDialog()
+        FunctionKey.Calendar -> openCalendarDialog()
+        FunctionKey.Decimal -> toggleDecimal()
         FunctionKey.Delete -> deleteNumber()
         FunctionKey.Done -> submit()
     }
@@ -212,7 +216,10 @@ private fun CategoryDetailScaffoldPreview() {
     PreviewTheme {
         CategoryDetailPageScaffold(
             uiState = CategoryDetailUiState.Loaded(
-                category = CategoryFixtures.category,
+                detail = CategoryDetail(
+                    CategoryFixtures.category,
+                    CalculatorPreferences(isCentsEnabled = false),
+                ),
                 entry = CategoryEntry(CategoryFixtures.category),
             ),
             dialog = null,

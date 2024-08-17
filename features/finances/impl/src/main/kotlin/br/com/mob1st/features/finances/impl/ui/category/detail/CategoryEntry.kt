@@ -1,6 +1,7 @@
 package br.com.mob1st.features.finances.impl.ui.category.detail
 
 import android.os.Parcelable
+import arrow.optics.optics
 import br.com.mob1st.core.kotlinx.structures.Money
 import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.features.finances.impl.domain.entities.Category
@@ -20,6 +21,7 @@ import kotlinx.parcelize.WriteWith
  * @property image The image of the category.
  */
 @Parcelize
+@optics
 data class CategoryEntry(
     val name: String,
     val amount: @WriteWith<MoneyParceler> Money,
@@ -37,4 +39,9 @@ data class CategoryEntry(
         recurrences = category.recurrences,
         image = category.image,
     )
+
+    /**
+     * For [optics] to generate the companion object.
+     */
+    companion object
 }
