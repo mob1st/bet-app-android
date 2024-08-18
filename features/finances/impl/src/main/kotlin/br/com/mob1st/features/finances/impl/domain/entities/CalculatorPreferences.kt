@@ -8,8 +8,8 @@ data class CalculatorPreferences(
     fun toggleEditCents(): CalculatorPreferences = copy(isEditCentsEnabled = !isEditCentsEnabled)
 
     /**
-     * Toggles the amount between cents and dollars. If the [isEditCentsEnabled] is true, it will remove two decimal places,
-     * otherwise, it will add two decimal places to the given [amount].
+     * Toggles the amount between cents and dollars. If the [isEditCentsEnabled] is true, it will remove two decimal
+     * places, otherwise, it will add two decimal places to the given [amount].
      * @param amount The amount that will be used as reference to toggle.
      * @return The toggled amount.
      */
