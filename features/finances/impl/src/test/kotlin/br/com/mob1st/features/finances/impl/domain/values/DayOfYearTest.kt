@@ -1,12 +1,11 @@
 package br.com.mob1st.features.finances.impl.domain.values
 
+import kotlinx.datetime.Month
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.Locale
-import kotlin.test.Test
-import kotlin.test.assertFalse
 
 class DayOfYearTest {
     @ParameterizedTest
@@ -25,9 +24,31 @@ class DayOfYearTest {
         )
     }
 
-    @Test
-    fun test() {
-        assertFalse(true)
+    @ParameterizedTest
+    @MethodSource("monthToDaySource")
+    fun `GIVEN a month WHEN create the day of year from it THEN assert return`(
+        month: Month,
+        expectedDayOfYear: Int,
+    ) {
+        val dayOfYear = DayOfYear.fromMonth(month)
+        assertEquals(
+            expectedDayOfYear,
+            dayOfYear.value,
+        )
+    }
+
+    @ParameterizedTest
+    @MethodSource("dayOfYearToMonthIndexSource")
+    fun `GIVEN a day of year WHEN get selected month THEN assert it returns the index of the month this day belongs to`(
+        dayOfYear: Int,
+        expectedMonth: Int,
+    ) {
+        val subject = DayOfYear(dayOfYear)
+        val actual = subject.selectedMonth()
+        assertEquals(
+            expectedMonth,
+            actual,
+        )
     }
 
     companion object {
@@ -86,6 +107,82 @@ class DayOfYearTest {
             arguments(
                 365,
                 "31 Dec",
+            ),
+        )
+
+        @JvmStatic
+        fun monthToDaySource() = listOf(
+            arguments(
+                Month.JANUARY,
+                1,
+            ),
+            arguments(
+                Month.FEBRUARY,
+                32,
+            ),
+            arguments(
+                Month.MARCH,
+                60,
+            ),
+            arguments(
+                Month.APRIL,
+                91,
+            ),
+            arguments(
+                Month.MAY,
+                121,
+            ),
+            arguments(
+                Month.JUNE,
+                152,
+            ),
+            arguments(
+                Month.JULY,
+                182,
+            ),
+            arguments(
+                Month.AUGUST,
+                213,
+            ),
+            arguments(
+                Month.SEPTEMBER,
+                244,
+            ),
+            arguments(
+                Month.OCTOBER,
+                274,
+            ),
+            arguments(
+                Month.NOVEMBER,
+                305,
+            ),
+            arguments(
+                Month.DECEMBER,
+                335,
+            ),
+        )
+
+        @JvmStatic
+        fun dayOfYearToMonthIndexSource() = listOf(
+            arguments(
+                1,
+                0,
+            ),
+            arguments(
+                32,
+                1,
+            ),
+            arguments(
+                60,
+                2,
+            ),
+            arguments(
+                335,
+                11,
+            ),
+            arguments(
+                365,
+                11,
             ),
         )
     }
