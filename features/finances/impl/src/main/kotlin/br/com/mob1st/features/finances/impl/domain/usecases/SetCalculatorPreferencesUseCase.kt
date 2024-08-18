@@ -23,7 +23,7 @@ class SetCalculatorPreferencesUseCase(
     ) = AnalyticsEvent(
         name = "edit_calculator_preferences_sent",
         params = mapOf(
-            "is_cents_enabled" to preferences.isCentsEnabled,
+            "is_cents_enabled" to preferences.isEditCentsEnabled,
         ),
     )
 }

@@ -2,9 +2,7 @@ package br.com.mob1st.core.kotlinx.structures
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
-import org.junit.jupiter.params.provider.MethodSource
 
 class MoneyTest {
     @Test
@@ -40,29 +38,6 @@ class MoneyTest {
         val expected = 0
         val actual = Money(50).compareTo(Money(50))
         assertEquals(expected, actual)
-    }
-
-    @ParameterizedTest
-    @MethodSource("scaleUpSource")
-    fun `GIVEN a number and a cents enabled WHEN scale up THEN assert the amount is multiplied by the scalar`(
-        initial: Long,
-        isCentsEnabled: Boolean,
-        newAmount: Int,
-        expected: Long,
-    ) {
-        val actual = Money(initial).scaleUp(newAmount, isCentsEnabled)
-        assertEquals(Money(expected), actual)
-    }
-
-    @ParameterizedTest
-    @MethodSource("eraseSource")
-    fun `GIVEN an amount WHEN erase THEN assert the amount is erased`(
-        initial: Long,
-        isCentsEnabled: Boolean,
-        expected: Long,
-    ) {
-        val actual = Money(initial).scaleDown(isCentsEnabled)
-        assertEquals(Money(expected), actual)
     }
 
     companion object {

@@ -2,17 +2,10 @@ package br.com.mob1st.features.finances.impl.ui.category.detail
 
 import androidx.compose.runtime.Immutable
 import br.com.mob1st.core.design.atoms.properties.texts.LocalizedText
-import br.com.mob1st.core.kotlinx.structures.Money
-import br.com.mob1st.core.kotlinx.structures.scaleDown
-import br.com.mob1st.core.kotlinx.structures.scaleUp
 import br.com.mob1st.features.finances.impl.domain.entities.Category
 import br.com.mob1st.features.finances.impl.domain.entities.CategoryDetail
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
-import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
-import br.com.mob1st.features.finances.impl.domain.values.fromMonth
 import br.com.mob1st.features.finances.impl.ui.utils.texts.MoneyLocalizedText
-import kotlinx.datetime.Month
 
 /**
  * Ui state for the category detail screen.
@@ -51,7 +44,7 @@ internal sealed interface CategoryDetailUiState {
          * @return A new [CategoryEntry] with the new amount.
          */
         fun appendNumber(number: Int): CategoryEntry {
-            return entry.copy(amount = entry.amount.scaleUp(number, detail.preferences.isCentsEnabled))
+            return entry.copy(amount = detail.preferences.append(entry.amount, number))
         }
 
         /**
@@ -60,48 +53,36 @@ internal sealed interface CategoryDetailUiState {
          * @return A new [CategoryEntry] with the erased amount.
          */
         fun erase(): CategoryEntry {
-            return entry.copy(amount = entry.amount.scaleDown(detail.isCentsEnabled))
+            return entry.copy(amount = detail.preferences.erase(entry.amount))
         }
 
         /**
          * Toggles the decimal mode of the amount.
          */
         fun toggleDecimalMode(): Loaded {
-            val newSelection = !detail.isCentsEnabled
-            val newAmount = if (newSelection) {
-                entry.amount / Money.CENT_SCALE
-            } else {
-                entry.amount * Money.CENT_SCALE
-            }
+            val toggledPreferences = detail.preferences.toggleEditCents()
+            val newAmount = toggledPreferences.toggleAmount(entry.amount)
             return copy(
-                entry = CategoryEntry.amount.set(entry, newAmount),
-                detail = detail.setIsCentsEnabled(newSelection),
+                detail = detail.copy(preferences = toggledPreferences),
+                entry = entry.copy(amount = newAmount),
             )
         }
 
         /**
          * Submits the dialog to the [CategoryEntry] returning a new [CategoryEntry] with the updated values.
          */
-        fun submitDialog(dialog: CategoryDetailConsumables.Dialog): CategoryEntry {
-            return when (dialog) {
-                is IconPickerDialog -> entry.copy(image = dialog.selected)
-                is EditCategoryNameDialog -> entry.copy(name = dialog.name)
-                is EditRecurrencesDialog.Fixed -> entry.copy(
-                    recurrences = Recurrences.Fixed(
-                        day = DayOfMonth.allDays[dialog.selected],
-                    ),
-                )
+        fun submitDialog(dialog: CategoryDetailConsumables.Dialog): CategoryEntry = when (dialog) {
+            is IconPickerDialog -> entry.copy(image = dialog.selected)
+            is EditCategoryNameDialog -> entry.copy(name = dialog.name)
+            is EditRecurrencesDialog.Fixed -> entry.copy(
+                recurrences = Recurrences.Fixed.selectDay(dialog.selected),
+            )
 
-                is EditRecurrencesDialog.Seasonal -> entry.copy(
-                    recurrences = Recurrences.Seasonal(
-                        daysOfYear = dialog.selected.map { index ->
-                            DayOfYear.fromMonth(Month.entries[index])
-                        },
-                    ),
-                )
+            is EditRecurrencesDialog.Seasonal -> entry.copy(
+                recurrences = Recurrences.Seasonal.selectMonths(dialog.selected),
+            )
 
-                VariableNotAllowEditionDialog -> entry
-            }
+            VariableNotAllowEditionDialog -> entry
         }
 
         /**

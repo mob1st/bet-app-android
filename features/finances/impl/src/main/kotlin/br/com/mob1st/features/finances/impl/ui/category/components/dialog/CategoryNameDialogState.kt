@@ -1,12 +1,14 @@
 package br.com.mob1st.features.finances.impl.ui.category.components.dialog
 
 import androidx.compose.runtime.Immutable
+import arrow.optics.optics
 
 /**
  * The state of the category name dialog.
  * @property name The name of the category.
  */
 @Immutable
+@optics
 data class CategoryNameDialogState(
     val name: String = "",
 ) {

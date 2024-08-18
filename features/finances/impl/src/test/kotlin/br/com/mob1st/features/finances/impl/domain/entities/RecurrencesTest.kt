@@ -9,6 +9,7 @@ import io.kotest.property.arbitrary.next
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RecurrencesTest {
@@ -30,6 +31,13 @@ class RecurrencesTest {
     ) {
         val actual = type.toDefaultRecurrences()
         assertEquals(expectedRecurrences, actual)
+    }
+
+    @Test
+    fun test() {
+        assert(Recurrences.Fixed::class.simpleName == "Mamao") {
+            "test the companion object methods"
+        }
     }
 
     companion object {

@@ -47,3 +47,14 @@ fun DayOfYear.Companion.fromMonth(month: Month): DayOfYear {
     val date = LocalDate(ARB_YEAR, month, 1)
     return DayOfYear(date.dayOfYear)
 }
+
+/**
+ * Selects the month of the day of year.
+ * @return The index of the month.
+ */
+fun DayOfYear.selectedMonth(): Int {
+    return Month.entries.indexOfFirst { month ->
+        val date = LocalDate(ARB_YEAR, month, month.length(false))
+        date.dayOfYear >= value
+    }
+}

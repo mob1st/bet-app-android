@@ -12,12 +12,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.mob1st.core.androidx.compose.SnackbarSideEffect
@@ -53,6 +55,7 @@ internal fun CategoryDetailPage(
         dialog = consumables.dialog,
         snackbarHostState = snackbarHostState,
         onClickKey = viewModel::onClickKey,
+        onSubmitDialog = viewModel::submitDialog,
         onDismissDialog = {
             viewModel.consume(CategoryDetailConsumables.nullableDialog)
         },
@@ -75,6 +78,7 @@ private fun CategoryDetailPageScaffold(
     dialog: CategoryDetailConsumables.Dialog?,
     snackbarHostState: SnackbarHostState,
     onClickKey: (Key) -> Unit,
+    onSubmitDialog: () -> Unit,
     onDismissDialog: () -> Unit,
 ) {
     Scaffold(
@@ -88,6 +92,7 @@ private fun CategoryDetailPageScaffold(
             uiState = uiState,
             dialog = dialog,
             onClickKey = onClickKey,
+            onSubmitDialog = onSubmitDialog,
             onDismissDialog = onDismissDialog,
         )
     }
@@ -99,6 +104,7 @@ private fun CategoryDetailPageContent(
     uiState: CategoryDetailUiState,
     dialog: CategoryDetailConsumables.Dialog?,
     onClickKey: (Key) -> Unit,
+    onSubmitDialog: () -> Unit,
     onDismissDialog: () -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -112,7 +118,11 @@ private fun CategoryDetailPageContent(
                 onClickKey = onClickKey,
             )
         }
-        CategoryDialog(dialog = dialog, onDismissDialog)
+        CategoryDialog(
+            dialog = dialog,
+            onSubmit = onSubmitDialog,
+            onDismiss = onDismissDialog,
+        )
     }
 }
 
@@ -151,15 +161,20 @@ private fun LoadedHeader(
 @Composable
 private fun CategoryDialog(
     dialog: CategoryDetailConsumables.Dialog?,
-    onDismissDialog: () -> Unit,
+    onSubmit: () -> Unit,
+    onDismiss: () -> Unit,
 ) {
     when (dialog) {
         is EditRecurrencesDialog -> {
             AlertDialog(
                 title = { Text(text = "Sample") },
                 text = { Text(text = "This is an example") },
-                onDismissRequest = onDismissDialog,
-                confirmButton = { /*TODO*/ },
+                onDismissRequest = onDismiss,
+                confirmButton = {
+                    TextButton(onClick = onSubmit) {
+                        Text(stringResource(id = android.R.string.ok))
+                    }
+                },
                 properties = DialogProperties(
                     dismissOnBackPress = true,
                     dismissOnClickOutside = true,
@@ -218,13 +233,14 @@ private fun CategoryDetailScaffoldPreview() {
             uiState = CategoryDetailUiState.Loaded(
                 detail = CategoryDetail(
                     CategoryFixtures.category,
-                    CalculatorPreferences(isCentsEnabled = false),
+                    CalculatorPreferences(isEditCentsEnabled = false),
                 ),
                 entry = CategoryEntry(CategoryFixtures.category),
             ),
             dialog = null,
             snackbarHostState = SnackbarHostState(),
             onClickKey = {},
+            onSubmitDialog = {},
             onDismissDialog = {},
         )
     }

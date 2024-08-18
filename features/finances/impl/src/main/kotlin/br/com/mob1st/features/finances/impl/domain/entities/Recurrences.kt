@@ -2,6 +2,9 @@ package br.com.mob1st.features.finances.impl.domain.entities
 
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
+import br.com.mob1st.features.finances.impl.domain.values.fromMonth
+import br.com.mob1st.features.finances.impl.domain.values.selectedMonth
+import kotlinx.datetime.Month
 
 /**
  * The number of times an expense or income happens.
@@ -21,6 +24,16 @@ sealed interface Recurrences {
         val day: DayOfMonth,
     ) : Recurrences {
         override fun asType(): RecurrenceType = RecurrenceType.Fixed
+
+        companion object {
+            /**
+             * Selects the day of the month by the given [index].
+             * The day will be selected from the [DayOfMonth.allDays].
+             * @param index The index of the day of the month.
+             * @return The selected day.
+             */
+            fun selectDay(index: Int) = Fixed(DayOfMonth.allDays[index])
+        }
     }
 
     /**
@@ -40,6 +53,20 @@ sealed interface Recurrences {
         val daysOfYear: List<DayOfYear>,
     ) : Recurrences {
         override fun asType(): RecurrenceType = RecurrenceType.Seasonal
+
+        companion object {
+            /**
+             * Selects the months by the given [indexes]. The months will be selected from the [Month] enum.
+             * @param indexes The indexes of the months.
+             * @return The selected months.
+             * @see Month
+             */
+            fun selectMonths(indexes: List<Int>) = Seasonal(
+                daysOfYear = indexes.map { index ->
+                    DayOfYear.fromMonth(Month.entries[index])
+                },
+            )
+        }
     }
 }
 
@@ -61,5 +88,11 @@ internal fun RecurrenceType.toDefaultRecurrences(): Recurrences {
         RecurrenceType.Fixed -> Recurrences.Fixed(DayOfMonth(1))
         RecurrenceType.Variable -> Recurrences.Variable
         RecurrenceType.Seasonal -> Recurrences.Seasonal(emptyList())
+    }
+}
+
+internal fun Recurrences.Seasonal.selectMonths(): List<Int> {
+    return daysOfYear.map { dayOfYear ->
+        dayOfYear.selectedMonth()
     }
 }

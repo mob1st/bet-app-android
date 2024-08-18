@@ -4,12 +4,15 @@ import androidx.compose.runtime.Immutable
 import arrow.optics.optics
 import br.com.mob1st.core.design.atoms.properties.texts.LocalizedText
 import br.com.mob1st.core.design.organisms.snack.SnackbarState
+import br.com.mob1st.core.kotlinx.checks.checkIs
 import br.com.mob1st.core.kotlinx.structures.IndexSelectableState
 import br.com.mob1st.core.kotlinx.structures.MultiIndexSelectableState
 import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
+import br.com.mob1st.features.finances.impl.domain.entities.selectMonths
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialogState
+import br.com.mob1st.features.finances.impl.ui.category.components.dialog.name
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -45,7 +48,7 @@ data class CategoryDetailConsumables(
             )
 
             is Recurrences.Seasonal -> EditRecurrencesDialog.Seasonal(
-                persistentListOf(),
+                selected = recurrences.selectMonths().toImmutableList(),
             )
 
             Recurrences.Variable -> VariableNotAllowEditionDialog
@@ -76,13 +79,15 @@ data class CategoryDetailConsumables(
      * Sets the name of the category in the dialog.
      * @param name The new name to be set.
      * @return A new [CategoryDetailConsumables] with the dialog set.
+     * @throws IllegalStateException If the dialog is not a [EditCategoryNameDialog].
      */
     fun setName(
         name: String,
     ): CategoryDetailConsumables {
+        val dialog = checkIs<EditCategoryNameDialog>(dialog)
         return CategoryDetailConsumables.dialog.set(
             this,
-            EditCategoryNameDialog(name),
+            EditCategoryNameDialog.state.name.set(dialog, name),
         )
     }
 

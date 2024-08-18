@@ -72,7 +72,7 @@ internal class CategoryViewModel(
     }
 
     /**
-     * Displays the proper dialog for the current [CategoryDetailUiState.Loaded.category]
+     * Displays the proper dialog for the current recurrences in the [CategoryDetailUiState.Loaded.detail].
      * If the state is not [CategoryDetailUiState.Loaded] it does nothing.
      */
     fun openCalendarDialog() = ifIs<Loaded>(uiState.value) { uiState ->
