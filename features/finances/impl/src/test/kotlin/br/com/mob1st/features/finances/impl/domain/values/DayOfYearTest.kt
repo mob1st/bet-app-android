@@ -5,6 +5,8 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.Locale
+import kotlin.test.Test
+import kotlin.test.assertFalse
 
 class DayOfYearTest {
     @ParameterizedTest
@@ -21,6 +23,11 @@ class DayOfYearTest {
             expectedFormat,
             actual,
         )
+    }
+
+    @Test
+    fun test() {
+        assertFalse(true)
     }
 
     companion object {

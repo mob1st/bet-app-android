@@ -43,13 +43,18 @@ fun DayOfYear.formatOfPattern(
     return newDate.toJavaLocalDate().format(formatter)
 }
 
+/**
+ * Creates a [DayOfYear] picking the first day of the given [month] in a non-leap year.
+ * @param month The month to create the day of year.
+ * @return The day of year.
+ */
 fun DayOfYear.Companion.fromMonth(month: Month): DayOfYear {
     val date = LocalDate(ARB_YEAR, month, 1)
     return DayOfYear(date.dayOfYear)
 }
 
 /**
- * Selects the month of the day of year.
+ * Selects the month for the given day of year in a non-leap year.
  * @return The index of the month.
  */
 fun DayOfYear.selectedMonth(): Int {

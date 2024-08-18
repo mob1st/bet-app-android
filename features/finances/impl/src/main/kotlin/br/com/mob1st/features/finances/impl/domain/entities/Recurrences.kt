@@ -61,7 +61,7 @@ sealed interface Recurrences {
              * @return The selected months.
              * @see Month
              */
-            fun selectMonths(indexes: List<Int>) = Seasonal(
+            fun fromSelectedMonths(indexes: List<Int>) = Seasonal(
                 daysOfYear = indexes.map { index ->
                     DayOfYear.fromMonth(Month.entries[index])
                 },
@@ -91,7 +91,16 @@ internal fun RecurrenceType.toDefaultRecurrences(): Recurrences {
     }
 }
 
-internal fun Recurrences.Seasonal.selectMonths(): List<Int> {
+/**
+ * Get the list of indexes int he [Month] enum that represents the selected months.
+ * A selected months are defined by the [DayOfYear] and the month that it belongs to.
+ * Eg:
+ * - DayOfYear(1) -> January
+ * - DayOfYear(32) -> February
+ * - DayOfYear(365) -> December
+ * @return The list of indexes for the selected months.
+ */
+internal fun Recurrences.Seasonal.selectMonthsIndexes(): List<Int> {
     return daysOfYear.map { dayOfYear ->
         dayOfYear.selectedMonth()
     }

@@ -58,6 +58,7 @@ internal sealed interface CategoryDetailUiState {
 
         /**
          * Toggles the decimal mode of the amount.
+         * @return A new [Loaded] with the updated values.
          */
         fun toggleDecimalMode(): Loaded {
             val toggledPreferences = detail.preferences.toggleEditCents()
@@ -70,6 +71,8 @@ internal sealed interface CategoryDetailUiState {
 
         /**
          * Submits the dialog to the [CategoryEntry] returning a new [CategoryEntry] with the updated values.
+         * @param dialog The dialog to be submitted.
+         * @return A new [CategoryEntry] with the updated values.
          */
         fun submitDialog(dialog: CategoryDetailConsumables.Dialog): CategoryEntry = when (dialog) {
             is IconPickerDialog -> entry.copy(image = dialog.selected)
@@ -79,7 +82,7 @@ internal sealed interface CategoryDetailUiState {
             )
 
             is EditRecurrencesDialog.Seasonal -> entry.copy(
-                recurrences = Recurrences.Seasonal.selectMonths(dialog.selected),
+                recurrences = Recurrences.Seasonal.fromSelectedMonths(dialog.selected),
             )
 
             VariableNotAllowEditionDialog -> entry

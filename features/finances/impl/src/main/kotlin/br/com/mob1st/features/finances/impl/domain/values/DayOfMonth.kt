@@ -14,6 +14,10 @@ value class DayOfMonth(val value: Int) {
 
     companion object {
         private const val DAYS_IN_A_MONTH = 31
+
+        /**
+         * All days of the month.
+         */
         val allDays: List<DayOfMonth> = (1..DAYS_IN_A_MONTH).map { DayOfMonth(it) }
     }
 }

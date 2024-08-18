@@ -4,6 +4,7 @@ import br.com.mob1st.features.finances.impl.domain.fixtures.fixedRecurrences
 import br.com.mob1st.features.finances.impl.domain.fixtures.seasonalRecurrences
 import br.com.mob1st.features.finances.impl.domain.fixtures.variableRecurrences
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
+import br.com.mob1st.features.finances.impl.domain.values.DayOfYear
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.next
 import org.junit.jupiter.params.ParameterizedTest
@@ -33,11 +34,41 @@ class RecurrencesTest {
         assertEquals(expectedRecurrences, actual)
     }
 
+    @ParameterizedTest
+    @MethodSource("indexesPerDayOfMonthSource")
+    fun `GIVEN an index WHEN get the selected day of month THEN assert the day is expected`(
+        index: Int,
+        expectedDay: Int,
+    ) {
+        val expected = Recurrences.Fixed(DayOfMonth(expectedDay))
+        val actual = Recurrences.Fixed.selectDay(index)
+        assertEquals(expected, actual)
+    }
+
     @Test
-    fun test() {
-        assert(Recurrences.Fixed::class.simpleName == "Mamao") {
-            "test the companion object methods"
-        }
+    fun `GIVEN a list of indexes WHEN create seasonal recurrence from selected months THEN assert the days of year are expected`() {
+        val indexes = listOf(0, 1, 2)
+        val expected = Recurrences.Seasonal(
+            daysOfYear = listOf(
+                DayOfYear(1),
+                DayOfYear(32),
+                DayOfYear(60),
+            ),
+        )
+        val actual = Recurrences.Seasonal.fromSelectedMonths(indexes)
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `GIVEN days of year WHEN get selected months THEN assert months are expected`() {
+        val daysOfYear = listOf(
+            DayOfYear(1),
+            DayOfYear(32),
+            DayOfYear(365),
+        )
+        val expected = listOf(0, 1, 11)
+        val actual = Recurrences.Seasonal(daysOfYear).selectMonthsIndexes()
+        assertEquals(expected, actual)
     }
 
     companion object {
@@ -73,6 +104,13 @@ class RecurrencesTest {
                     daysOfYear = emptyList(),
                 ),
             ),
+        )
+
+        @JvmStatic
+        fun indexesPerDayOfMonthSource() = listOf(
+            arguments(0, 1),
+            arguments(1, 2),
+            arguments(30, 31),
         )
     }
 }

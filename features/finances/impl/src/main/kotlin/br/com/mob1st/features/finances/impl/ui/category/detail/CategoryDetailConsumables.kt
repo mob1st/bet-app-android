@@ -9,7 +9,7 @@ import br.com.mob1st.core.kotlinx.structures.IndexSelectableState
 import br.com.mob1st.core.kotlinx.structures.MultiIndexSelectableState
 import br.com.mob1st.core.kotlinx.structures.Uri
 import br.com.mob1st.features.finances.impl.domain.entities.Recurrences
-import br.com.mob1st.features.finances.impl.domain.entities.selectMonths
+import br.com.mob1st.features.finances.impl.domain.entities.selectMonthsIndexes
 import br.com.mob1st.features.finances.impl.domain.values.DayOfMonth
 import br.com.mob1st.features.finances.impl.ui.category.components.dialog.CategoryNameDialogState
 import br.com.mob1st.features.finances.impl.ui.category.components.dialog.name
@@ -48,7 +48,7 @@ data class CategoryDetailConsumables(
             )
 
             is Recurrences.Seasonal -> EditRecurrencesDialog.Seasonal(
-                selected = recurrences.selectMonths().toImmutableList(),
+                selected = recurrences.selectMonthsIndexes().toImmutableList(),
             )
 
             Recurrences.Variable -> VariableNotAllowEditionDialog
