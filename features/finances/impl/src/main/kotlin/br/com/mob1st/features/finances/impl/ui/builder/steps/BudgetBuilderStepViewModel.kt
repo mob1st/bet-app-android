@@ -36,7 +36,7 @@ internal class BudgetBuilderStepViewModel(
     private val isLoadingState = AsyncLoadingState()
     private val step = args.toStep()
 
-    override val consumableUiState: StateFlow<BuilderStepConsumables> = consumableDelegate.asStateFlow()
+    override val consumablesState: StateFlow<BuilderStepConsumables> = consumableDelegate.asStateFlow()
     override val uiState: StateFlow<BudgetBuilderStepUiState> =
         initState()
             .catchIn(errorHandler)

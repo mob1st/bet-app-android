@@ -45,7 +45,7 @@ internal fun BudgetBuilderStepPage(
         parametersOf(args)
     }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val consumables by viewModel.consumableUiState.collectAsStateWithLifecycle()
+    val consumables by viewModel.consumablesState.collectAsStateWithLifecycle()
     CategoryBuilderStepScreen(
         uiState = uiState,
         consumables = consumables,

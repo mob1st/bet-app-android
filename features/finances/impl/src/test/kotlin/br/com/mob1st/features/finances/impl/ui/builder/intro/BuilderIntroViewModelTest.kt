@@ -36,7 +36,7 @@ internal class BuilderIntroViewModelTest {
         val viewModel = initViewModel()
         turbineScope {
             val receiveUiState = viewModel.uiState.testIn(backgroundScope)
-            val receiveConsumables = viewModel.consumableUiState.testIn(backgroundScope)
+            val receiveConsumables = viewModel.consumablesState.testIn(backgroundScope)
             assertEquals(
                 BuilderIntroUiState(false),
                 receiveUiState.awaitItem(),
@@ -69,7 +69,7 @@ internal class BuilderIntroViewModelTest {
         viewModel.start()
         turbineScope {
             val receiveUiState = viewModel.uiState.testIn(backgroundScope)
-            val receiveConsumables = viewModel.consumableUiState.testIn(backgroundScope)
+            val receiveConsumables = viewModel.consumablesState.testIn(backgroundScope)
             assertEquals(
                 BuilderIntroUiState(false),
                 receiveUiState.awaitItem(),
@@ -88,7 +88,7 @@ internal class BuilderIntroViewModelTest {
         viewModel.start()
         turbineScope {
             val receiveUiState = viewModel.uiState.testIn(backgroundScope)
-            val receiveConsumables = viewModel.consumableUiState.testIn(backgroundScope)
+            val receiveConsumables = viewModel.consumablesState.testIn(backgroundScope)
             assertEquals(
                 BuilderIntroUiState(false),
                 receiveUiState.awaitItem(),

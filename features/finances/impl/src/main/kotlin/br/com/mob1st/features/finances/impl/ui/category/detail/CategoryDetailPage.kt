@@ -46,7 +46,7 @@ internal fun CategoryDetailPage(
         parameters = { parametersOf(args) },
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val consumables by viewModel.consumableUiState.collectAsStateWithLifecycle()
+    val consumables by viewModel.consumablesState.collectAsStateWithLifecycle()
     val snackbarHostState = remember {
         SnackbarHostState()
     }

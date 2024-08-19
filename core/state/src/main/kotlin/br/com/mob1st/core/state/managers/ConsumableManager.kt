@@ -16,7 +16,7 @@ interface ConsumableManager<State> {
     /**
      * The state flow that holds the consumable side effects.
      */
-    val consumableUiState: StateFlow<State>
+    val consumablesState: StateFlow<State>
 
     /**
      * Consumes the side effect of the given [lens].
@@ -38,7 +38,7 @@ class ConsumableDelegate<T : Any>(
     initialValue: T,
 ) : ConsumableManager<T>,
     MutableStateFlow<T> by MutableStateFlow(initialValue) {
-    override val consumableUiState: StateFlow<T> = asStateFlow()
+    override val consumablesState: StateFlow<T> = asStateFlow()
 
     override fun <Property> consume(lens: Lens<T, Property?>) {
         update {
