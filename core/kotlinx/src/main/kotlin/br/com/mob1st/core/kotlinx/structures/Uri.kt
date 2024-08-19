@@ -11,4 +11,8 @@ value class Uri(val value: String) {
             "The URI must not be blank."
         }
     }
+
+    override fun toString(): String {
+        return value
+    }
 }

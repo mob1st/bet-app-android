@@ -13,12 +13,12 @@ private typealias AndroidUri = android.net.Uri
 internal object UriParceler : Parceler<Uri> {
     override fun create(parcel: Parcel): Uri {
         val androidUri = checkNotNull(parcel.readParcelableAs<AndroidUri>())
-        val string = androidUri.toString()
+        val string = checkNotNull(androidUri.toString())
         return Uri(string)
     }
 
     override fun Uri.write(parcel: Parcel, flags: Int) {
-        val uri = AndroidUri.parse(this.toString())
+        val uri = AndroidUri.parse(this.value)
         parcel.writeParcelable(uri, flags)
     }
 }
