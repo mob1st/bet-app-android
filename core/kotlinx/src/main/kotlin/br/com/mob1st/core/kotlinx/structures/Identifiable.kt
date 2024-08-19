@@ -34,6 +34,13 @@ interface RowId : Comparable<RowId>, Serializable {
      */
     val value: Long
 
+    /**
+     * Checks if the identifier is valid.
+     * Some entities can be created at runtime and they don't have a valid identifier.
+     * In this case, usually the default value is zero.
+     */
+    fun isWritten() = value > 0
+
     override fun compareTo(other: RowId): Int {
         return value.compareTo(other.value)
     }

@@ -3,8 +3,9 @@ package br.com.mob1st.features.finances.impl.domain.usecases
 import org.junit.jupiter.api.Test
 
 class SetCategoryUseCaseTest {
+    private lateinit var useCase: SetCategoryUseCase
+
     @Test
-    fun test() {
-        assert(SetCategoryUseCase::class.equals(""))
+    fun `GIVEN a category WHEN update THEN`() {
     }
 }
