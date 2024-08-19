@@ -10,9 +10,7 @@ internal class SetCategoryUseCase(
     private val analyticsReporter: AnalyticsReporter,
     private val eventFactory: SetCategoryEventFactory,
 ) {
-    suspend operator fun invoke(
-        category: Category,
-    ) {
+    suspend operator fun invoke(category: Category) {
         if (category.id.isWritten()) {
             categoryRepository.set(category)
         } else {
